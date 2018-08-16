@@ -1,0 +1,31 @@
+.member-sidenav
+{
+	.member-sidenav-item
+	{
+		@include transition(0.2s);
+
+		.nav-link
+		{
+			@include transition(0.2s);
+			color: #fff;
+			opacity: 0.5;
+
+			img
+			{
+				@include transition(0.2s);
+				filter:opacity(60%);
+			}
+
+			&:hover, &.active
+			{
+				background-color: #0a0027;
+				opacity: 0.9;
+
+				img
+				{
+					filter:opacity(100%);
+				}
+			}
+		}
+	}
+}

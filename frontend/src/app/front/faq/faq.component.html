@@ -1,0 +1,180 @@
+<!-- <section class="page-section login-page">
+	<div class="container">
+		<div class="login-form-holder">
+			<div class="logo-holder">
+				<img src="/assets/img/lokal-logo.png" width="150">
+			</div>
+			<div class="responsive-width py-3">
+				
+				<form>
+					<div class="faq-forms">
+						
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</section> -->
+
+<section class="page-section login-page">
+	<div class="container">
+		<div class="logo-holder">
+			<img src="/assets/img/lokal-logo.png" width="150">
+		</div>
+		<div class="faq-forms p-2 mb-2">
+			<div class="row">
+				<div class="col-md-12 col-xs-12">
+					<div class="input-group">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text" id="basic-addon1">
+					    	<i class="fas fa-search"></i>
+				    	</span>
+					  </div>
+					  <input type="text" class="form-control" [(ngModel)]="search_box" (change)="getFaqs()" placeholder="Search frequently asked questions..." aria-label="Username" aria-describedby="basic-addon1">
+					</div>
+				</div>
+			</div>			
+		</div>
+		<div class="faq-forms p-4">
+			<div class="row p-4" *ngIf="faq_loading">
+				<div class="col-md-12 col-xs-12 text-center">
+					Loading...
+				</div>
+			</div>
+			<div class="row" *ngIf="!faq_loading">
+				<div class="col-md-4 col-xs-12">
+					<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+					  <a class="nav-link active d-flex justify-content-between align-items-center" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-all" role="tab" aria-controls="v-pills-home" aria-selected="true">
+					  	All
+    					<span class="badge badge-primary badge-pill">{{faq_counts.all}}</span>
+					  </a>
+					  <a class="nav-link  d-flex justify-content-between align-items-center" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-widthdraw" role="tab" aria-controls="v-pills-home" aria-selected="true">Withdraw
+						<span class="badge badge-primary badge-pill">{{faq_counts.withdraw}}</span>
+					  </a>
+					  <a class="nav-link  d-flex justify-content-between align-items-center" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-buycoin" role="tab" aria-controls="v-pills-profile" aria-selected="false">Buy Coin
+						<span class="badge badge-primary badge-pill">{{faq_counts.buy_coin}}</span>
+					  </a>
+					  <a class="nav-link  d-flex justify-content-between align-items-center" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-promotion" role="tab" aria-controls="v-pills-messages" aria-selected="false">Promotion
+						<span class="badge badge-primary badge-pill">{{faq_counts.promotion}}</span>
+					  </a>
+					  <a class="nav-link  d-flex justify-content-between align-items-center" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-purchasedbonus" role="tab" aria-controls="v-pills-settings" aria-selected="false">Purchased Bonus
+						<span class="badge badge-primary badge-pill">{{faq_counts.purchase_bonus}}</span>
+					  </a>
+					  <a class="nav-link  d-flex justify-content-between align-items-center" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-affiliatebonus" role="tab" aria-controls="v-pills-settings" aria-selected="false">Affiliate Bonus
+						<span class="badge badge-primary badge-pill">{{faq_counts.affiliate_bonus}}</span>
+					  </a>
+					  <a class="nav-link  d-flex justify-content-between align-items-center" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-others" role="tab" aria-controls="v-pills-settings" aria-selected="false">Others
+						<span class="badge badge-primary badge-pill">{{faq_counts.others}}</span>
+					  </a>
+					</div>
+				</div>
+				<div class="col-md-1 col-xs-12 px-0">
+					<div class="faq-divider"></div>
+				</div>
+				<div class="col-md-7 col-xs-12">
+					<div class="tab-content" id="v-pills-tabContent" style="max-height: 400px; overflow-y: auto;">
+					  <div class="tab-pane fade show active text-left" id="v-pills-all" role="tabpanel" aria-labelledby="v-pills-home-tab">
+					  	<!-- ALL FAQS -->
+						<ul class="list-group">
+						  <li class="list-group-item d-flex justify-content-center align-items-center" *ngIf="list.all == 0">
+						    No results found.
+						  </li>
+						  <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of list.all">
+						    {{item.faq_question}}
+						    <span class="badge badge-primary"><a href="javascript:void(0)" (click)="readQuestion(item.faq_id, read_faq)" class="nav-link text-light p-1 font-weight-light">Read</a></span>
+						  </li>
+						</ul>
+					  </div>
+					  <div class="tab-pane fade text-left" id="v-pills-widthdraw" role="tabpanel" aria-labelledby="v-pills-home-tab">
+					  	<!-- WITHDRAW FAQS -->
+					  	<ul class="list-group">
+					  		<li class="list-group-item d-flex justify-content-center align-items-center" *ngIf="list.withdraw == 0">
+						    No results found.
+						  </li>
+						  <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of list.withdraw">
+						    {{item.faq_question}}
+						    <span class="badge badge-primary"><a href="javascript:void(0)" (click)="readQuestion(item.faq_id, read_faq)" class="nav-link text-light p-1 font-weight-light">Read</a></span>
+						  </li>
+						</ul>
+					  </div>
+					  <div class="tab-pane fade text-left" id="v-pills-buycoin" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+					  	<!-- BUYCOIN FAQS -->
+					  	<ul class="list-group">
+					  		<li class="list-group-item d-flex justify-content-center align-items-center" *ngIf="list.buy_coin == 0">
+						    No results found.
+						  </li>
+						  <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of list.buy_coin">
+						    {{item.faq_question}}
+						    <span class="badge badge-primary"><a href="javascript:void(0)" (click)="readQuestion(item.faq_id, read_faq)" class="nav-link text-light p-1 font-weight-light">Read</a></span>
+						  </li>
+						</ul>
+					  </div>
+					  <div class="tab-pane fade text-left" id="v-pills-promotion" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+					  	<!-- PROMOTION FAQS -->
+					  	<ul class="list-group">
+					  		<li class="list-group-item d-flex justify-content-center align-items-center" *ngIf="list.promotion == 0">
+						    No results found.
+						  </li>
+						  <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of list.promotion">
+						    {{item.faq_question}}
+						    <span class="badge badge-primary"><a href="javascript:void(0)" (click)="readQuestion(item.faq_id, read_faq)" class="nav-link text-light p-1 font-weight-light">Read</a></span>
+						  </li>
+						</ul>
+					  </div>
+					  <div class="tab-pane fade text-left" id="v-pills-purchasedbonus" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+					  	<!-- PURCHASED BONUS FAQS -->
+					  	<ul class="list-group">
+					  		<li class="list-group-item d-flex justify-content-center align-items-center" *ngIf="list.purchase_bonus == 0">
+						    No results found.
+						  </li>
+						  <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of list.purchase_bonus">
+						    {{item.faq_question}}
+						    <span class="badge badge-primary"><a href="javascript:void(0)" (click)="readQuestion(item.faq_id, read_faq)" class="nav-link text-light p-1 font-weight-light">Read</a></span>
+						  </li>
+						</ul>
+					  </div>
+					  <div class="tab-pane fade text-left" id="v-pills-affiliatebonus" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+					  	<!-- AFFILIATE BONUS FAQS -->
+					  	<ul class="list-group">
+					  		<li class="list-group-item d-flex justify-content-center align-items-center" *ngIf="list.affiliate_bonus == 0">
+						    No results found.
+						  </li>
+						  <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of list.affiliate_bonus">
+						    {{item.faq_question}}
+						    <span class="badge badge-primary"><a href="javascript:void(0)" (click)="readQuestion(item.faq_id, read_faq)" class="nav-link text-light p-1 font-weight-light">Read</a></span>
+						  </li>
+						</ul>
+					  </div>
+					  <div class="tab-pane fade text-left" id="v-pills-others" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+					  	<!-- AFFILIATE BONUS FAQS -->
+					  	<ul class="list-group">
+					  		<li class="list-group-item d-flex justify-content-center align-items-center" *ngIf="list.others == 0">
+						    No results found.
+						  </li>
+						  <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of list.others">
+						    {{item.faq_question}}
+						    <span class="badge badge-primary"><a href="javascript:void(0)" (click)="readQuestion(item.faq_id, read_faq)" class="nav-link text-light p-1 font-weight-light">Read</a></span>
+						  </li>
+						</ul>
+					  </div>
+					</div>
+				</div>
+			</div>			
+		</div>
+	</div>
+</section>
+
+<ng-template #read_faq let-c="close" let-d="dismiss">
+	<div class="view_account_details">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">{{ data_focus.faq_question }}</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left color-lokal-x p-4">
+			<span class="faq_answer" id="faqAnswer" innerHTML="{{data_focus.faq_answer}}"></span>
+		</div>
+	</div>
+</ng-template>

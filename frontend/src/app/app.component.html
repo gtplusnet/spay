@@ -1,0 +1,6 @@
+<div class="cookie-holder" *ngIf="!isCookieAccepted()">
+	By continuing to browse, you consent to our use of cookies. You can read our Cookies Policy here.
+	<button class="cookie-btn ml-2" (click)="acceptCookie()">GOT IT</button>
+</div>
+<router-outlet></router-outlet>
+

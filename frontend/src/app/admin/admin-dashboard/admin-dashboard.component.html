@@ -1,0 +1,208 @@
+<h4 class="font-weight-light page-title-admin">
+	<i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+	<em><small></small></em>
+</h4>
+
+<div class="row">
+	<div class="col-lg-6 col-xs-12 p-1">
+		<a class="nav-link" [routerLink]="['/admin/member-list']">
+			<div class="alert alert-light p-2 my-border-light">
+				<div class="d-flex flex-row justify-content-center align-items-center h6 mb-0 text-center color-lokal-x ">
+					<small class="mx-2">
+						<h4 class="text-center mb-0">{{pending_member}}</h4>
+						Total Pending Member
+					</small>
+					<i class="fas fa-users mx-2 h1 mb-0"></i>
+				</div>
+			</div>
+		</a>
+	</div>
+	<div class="col-lg-6 col-xs-12 p-1">
+		<a class="nav-link" [routerLink]="['/admin/btc-transactions']">
+			<div class="alert alert-light p-2 my-border-light">
+				<div class="d-flex flex-row justify-content-center align-items-center h6 mb-0 text-center color-lokal-x">
+					<small class="mx-2">
+						<h4 class="text-center mb-0">{{total_stored_btc | number : '1.2-8'}}</h4>
+						Total Stored BTC
+					</small>
+					<i class="fab fa-bitcoin mx-2 h1 mb-0"></i>
+				</div>
+			</div>
+		</a>
+	</div>
+	<div class="col-lg-6 col-xs-12 p-1">
+		<a class="nav-link" [routerLink]="['/admin/eth-transactions']">
+			<div class="alert alert-light p-2 my-border-light">
+				<div class="d-flex flex-row justify-content-center align-items-center h6 mb-0 text-center color-lokal-x ">
+					<small class="mx-2">
+						<h4 class="text-center mb-0">{{total_stored_eth | number : '1.2-8'}}</h4>
+						Total Stored ETH
+					</small>
+					<i class="fab fa-ethereum mx-2 h1 mb-0"></i>
+				</div>
+			</div>
+		</a>
+	</div>
+	<div class="col-lg-6 col-xs-12 p-1">
+		<a class="nav-link" [routerLink]="['/admin/eth-transactions']">
+			<div class="alert alert-light p-2 my-border-light">
+				<div class="d-flex flex-row justify-content-center align-items-center h6 mb-0 text-center color-lokal-x ">
+					<small class="mx-2">
+						<h4 class="text-center mb-0">{{total_token_release | number : '1.2-8'}}</h4>
+						Total Tokens Released
+					</small>
+					<img src="/assets/img/lokal-mini.png" width="32" alt="">
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-12 col-xs-12 mb-2">
+		<div class="bg-lokal-x p-2 text-light">
+			<h6 class="mb-0"><i class="fas fa-users mr-2"></i>Recently Joined Members</h6>
+		</div>
+		<div class="bg-lokal-x-body my-border-light p-3">
+			<div class="row">
+				<div class="col-lg-12 col-xs-12 mb-2 admin-db">
+					<div class="table-responsive px-0">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Username</th>
+									<th>Email Verified</th>
+									<th>Join Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngIf="recent_join == ''">
+									<td colspan="8">
+										<div class="text-center">
+											<small class="font-weight-light">No data found.</small>
+										</div>
+									</td>
+								</tr>
+								<tr *ngFor="let data of recent_join">
+									<td>{{data.first_name}} {{data.last_name}}</td>
+									<td>{{data.username}}</td>
+									<td>{{data.email}}</td>
+									<td>{{data.created_at | date:'MM/dd/yyyy hh:mm:ss a'}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-12 col-xs-12 mb-2">
+		<div class="bg-lokal-x p-2 text-light">
+			<h6 class="mb-0"><i class="fab fa-bitcoin mr-2"></i>Recent Bitcoin Transactions</h6>
+		</div>
+		<div class="bg-lokal-x-body my-border-light p-3">
+			<div class="row">
+				<div class="col-lg-12 col-xs-12 mb-2 admin-db">
+					<div class="table-responsive">
+						<table class="table table-hover">
+							<caption class="bg-light m-0 p-0 py-2 px-1">
+								<pagination-controls class="my-pagination" (pageChange)="recent_btc = $event" id="recent_btc"></pagination-controls>
+							</caption>
+							<thead>
+								<tr>
+									<th>Request By</th>
+									<th>Amount Requested</th>
+									<th>Expected Payment</th>
+									<th>Status</th>
+									<th>Request Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngIf="recent_btc_transaction == ''">
+									<td colspan="8">
+										<div class="text-center">
+											<small class="font-weight-light">No Transaction found.</small>
+										</div>
+									</td>
+								</tr>
+								<tr *ngFor="let data of recent_btc_transaction | paginate: { itemsPerPage:15, currentPage: recent_btc, id: 'recent_btc' }">
+									<td>{{data.first_name}} {{data.last_name}}</td>
+									<td>{{data.amount_requested + " LOK"}}</td>
+									<td>{{data.expected_payment | number : '1.2-2'}}</td>
+									<td>
+										<span class="badge badge-secondary px-2" *ngIf="data.log_status == 'pending'">
+											Pending
+										</span>
+										<span class="badge badge-success px-2" *ngIf="data.log_status == 'accepted'">
+											Accepted
+										</span>
+										<span class="badge badge-danger px-2" *ngIf="data.log_status == 'canceled'">
+											Canceled
+										</span>
+									</td>
+									<td>{{data.log_time | date:'MM/dd/yyyy hh:mm:ss a'}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-12 col-xs-12 mb-2">
+		<div class="bg-lokal-x p-2 text-light">
+			<h6 class="mb-0"><i class="fab fa-ethereum mr-2"></i>Recent Ethereum Transactions</h6>
+		</div>
+		<div class="bg-lokal-x-body my-border-light p-3">
+			<div class="row">
+				<div class="col-lg-12 col-xs-12 mb-2 admin-db">
+					<div class="table-responsive">
+						<table class="table table-hover">
+							<caption class="bg-light m-0 p-0 py-2 px-1">
+								<pagination-controls class="my-pagination" (pageChange)="recent_eth = $event" id="recent_eth"></pagination-controls>
+							</caption>
+							<thead>
+								<tr>
+									<th>Request By</th>
+									<th>Amount Requested</th>
+									<th>Expected Payment</th>
+									<th>Status</th>
+									<th>Request Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngIf="recent_eth_transaction == ''">
+									<td colspan="8">
+										<div class="text-center">
+											<small class="font-weight-light">No Transaction found.</small>
+										</div>
+									</td>
+								</tr>
+								<tr *ngFor="let data of recent_eth_transaction | paginate: { itemsPerPage:15, currentPage: recent_eth, id: 'recent_eth' }">
+									<td>{{data.first_name}} {{data.last_name}}</td>
+									<td>{{data.amount_requested + " LOK"}}</td>
+									<td>{{data.expected_payment | number : '1.2-2'}}</td>
+									<td>
+										<span class="badge badge-secondary px-2" *ngIf="data.log_status == 'pending'">
+											Pending
+										</span>
+										<span class="badge badge-success px-2" *ngIf="data.log_status == 'accepted'">
+											Accepted
+										</span>
+										<span class="badge badge-danger px-2" *ngIf="data.log_status == 'canceled'">
+											Canceled
+										</span>
+									</td>
+									<td>{{data.log_time | date:'MM/dd/yyyy hh:mm:ss a'}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

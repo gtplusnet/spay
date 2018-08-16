@@ -1,0 +1,225 @@
+<h4 class="font-weight-light page-title-admin">
+	<i class="fab fa-bitcoin mr-2"></i>Bitcoin Transactions
+	<em><small></small></em>
+</h4>
+<div class="row mb-3">
+	<div class="col-lg-3 col-xs-12">
+		<div class="alert alert-light p-2 my-border-light">
+			<div class="d-flex flex-row justify-content-center align-items-center h6 mb-0 text-center color-lokal-x ">
+				<small class="mx-2">
+					<h4 class="text-center mb-0">{{ pending_transactions }}</h4>
+					Pending Transactions
+				</small>
+				<i class="fab fa-bitcoin mx-2 h1 mb-0"></i>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-xs-12">
+		
+	</div>
+
+	<div class="col-lg-2 col-xs-12">
+		<!-- spacer -->
+	</div>
+
+	<div class="col-lg-2 col-xs-12 px-1">
+		<button class="btn button-lokal-x btn-block my-1" (click)="loadTable()">
+			<small>
+				<i class="fas fa-sync mr-2"></i>REFRESH TABLE
+			</small>
+		</button>
+	</div>
+	<div class="col-lg-2 col-xs-12 px-1">
+		<div class="btn-group" dropdown placement="bottom right">
+		  <button id="button-basic" dropdownToggle type="button" class="btn button-lokal-x btn-block my-1 dropdown-toggle"
+		          aria-controls="dropdown-basic">
+		    <small>
+					<i class="fas fa-table mr-2"></i>EXPORT DATA <span class="caret"></span>
+			</small> 
+		  </button>
+		  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu  dropdown-menu-right"
+		      role="menu" aria-labelledby="button-basic">
+		    <li role="menuitem">
+		    	<a href="{{ rest.api_url }}/api/admin/excel/export_transaction_list?login_token={{rest.login_token}}&log_method=bitcoin&log_method_accepted=bitcoin accepted" class="dropdown-item">Export All Data</a>
+		    </li>
+		    <li role="menuitem">
+		    	<a href="{{ rest.api_url }}/api/admin/excel/export_transaction_list?login_token={{rest.login_token}}&account_name={{account_name}}&transaction_status={{transaction_status}}&transaction_date_from={{transaction_date_from}}&transaction_date_to={{transaction_date_to}}&log_method=bitcoin&log_method_accepted=bitcoin accepted&data=filtered" class="dropdown-item">Export Filtered Data</a>   
+		    </li>
+		  </ul>
+		</div>
+	</div>
+</div>
+<div class="row mb-3">
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Search by Account Name
+		</small>
+		<input type="text" name="account_name" (keyup)="loadTable()" [(ngModel)]="account_name" class="form-control form-control-sm input-lokal-x mb-1" placeholder="Account Name">
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Transaction Status
+		</small>
+		<select name="transaction_status" (change)="loadTable()" [(ngModel)]="transaction_status" id="" class="form-control form-control-sm input-lokal-x mb-1">
+			<option value="all">All</option>
+			<option value="pending">Pending</option>
+			<option value="accepted">Accepted</option>
+			<option value="canceled">Canceled</option>
+		</select>
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Transaction Date - <em class="font-weight-light">From</em>
+		</small>
+		<input type="date" name="transaction_date_from" (change)="loadTable()" [(ngModel)]="transaction_date_from" class="form-control form-control-sm input-lokal-x mb-1">
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Transaction Date - <em class="font-weight-light">To</em>
+		</small>
+		<input type="date" name="transaction_date_to" (change)="loadTable()" [(ngModel)]="transaction_date_to" class="form-control form-control-sm input-lokal-x mb-1">
+	</div>
+	
+</div>
+<div class="table-responsive px-0"  style="min-height: 300px;">
+	<table class="table member-table-x admin-db table-hover px-2">
+		<caption class="bg-light m-0 p-0 py-2 px-1" *ngIf="!table_loader">
+			<pagination-controls class="my-pagination" (pageChange)="page = $event"></pagination-controls>
+		</caption>
+		<thead>
+			<tr>
+				<th>ID#</th>
+				<th>T#</th>
+				<th>Requested By</th>
+				<th>Exchange Rate</th>
+				<th>Requested</th>
+				<th>Received</th>
+				<th>Status</th>
+				<th>Date</th>
+				<th>Time</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody *ngIf="table_loader">
+			<tr>
+				<td colspan="8">
+					<div class="row" >
+						<div class="col-lg-12 col-xs-12">
+							<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+								<div class="circle"></div>
+								<small class="text">LOADING TABLE...</small>
+							</div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+
+		<tbody *ngIf="!table_loader">
+			<tr *ngIf="_table == ''">
+				<td colspan="8">
+					<div class="text-center">
+						<small class="font-weight-light">No data found.</small>
+					</div>
+				</td>
+			</tr>
+			<tr *ngFor="let data of _table | paginate: { itemsPerPage:15, currentPage: page }">
+				<td>{{ data.automatic_cash_in_id }}</td>
+				<td>{{ data.member_log_id }}</td>
+				<td>{{ data.first_name }} {{ data.last_name }}</td>
+				<td>{{ data.exchange_rate | number:'1.2-8' }}</td>
+				<td>
+					{{ data.amount_requested }} SPAY
+					<small class="d-block">({{ (data.amount_requested*data.exchange_rate) - (data.amount_requested * (data.exchange_rate*(data.sale_stage_discount/100))) | number:'1.2-8'  }} BTC)</small>
+				</td>
+				<td *ngIf="data.log_status != 'accepted'">No data</td>
+				<td *ngIf="data.log_status == 'accepted'">
+					{{ data.log_amount | number:'1.2-8' }} SPAY
+					<small class="d-block">({{ data.amount_paid | number:'1.2-8'  }} BTC)</small>
+				</td>
+				<td>
+					<span class="badge badge-secondary px-2" *ngIf="data.log_status == 'pending'">
+						Pending
+					</span>
+					<span class="badge badge-success px-2" *ngIf="data.log_status == 'accepted'">
+						Accepted
+					</span>
+					<span class="badge badge-danger px-2" *ngIf="data.log_status == 'canceled'">
+						Canceled
+					</span>
+				</td>
+				<td>
+					{{ data.log_time | date:'MM/dd/yyyy'}}
+				</td>
+				<td>
+					{{ data.log_time | date:'hh:mm:ss a '}}
+				</td>
+				<td class="text-center">
+					<div class="btn-group" dropdown placement="bottom right">
+					  <button id="button-alignment" dropdownToggle type="button"
+					          class="btn button-lokal-x btn-block btn-sm dropdown-toggle" aria-controls="dropdown-alignment">
+					    <small>
+				      		<i class="fas fa-cog mr-2"></i>ACTIONS <span class="caret"></span>
+				      	</small> 
+					  </button>
+					  <ul id="dropdown-alignment" *dropdownMenu class="dropdown-menu dropdown-menu-right"
+					      role="menu" aria-labelledby="button-alignment">
+					    <li role="menuitem">
+					    	<a href="javascript:void" class="dropdown-item" (click)="viewTransactionDetails(data.automatic_cash_in_id, view_transaction_details)">Transaction Details</a>
+					    </li>
+					  </ul>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<ng-template #view_transaction_details let-c="close" let-d="dismiss">
+	<div class="view_account_details">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Transaction Details</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left color-lokal-x">
+			<div class=" p-3 row ">
+				<div class=" col-lg-6 col-xs-12">
+					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.first_name }} {{ data_focus.last_name }}</h4>
+					<small class="font-weight-bold mb-5">Requested By</small>  
+					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.amount_requested }} SPAY</h4>
+					<small class="font-weight-bold mb-5">Requested Token</small>  
+					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_status == 'accepted' ? data_focus.log_amount + " LOKAL" : 'No data' }}</h4>
+					<small class="font-weight-bold mb-5">Received Token</small>  
+					<h4 class="mb-0 font-weight-light mt-2">{{ (data_focus.amount_requested*data_focus.exchange_rate) - (data_focus.amount_requested * (data_focus.exchange_rate*(data_focus.sale_stage_discount/100))) | number:'1.2-8'  }} BTC</h4>
+					<small class="font-weight-bold mb-5">Expected Payment</small>   
+					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_status == 'accepted' ? data_focus.amount_paid + " BTC" : 'No data' }}</h4>
+					<small class="font-weight-bold mb-5">Amount Paid</small>
+				</div>
+				<div class="col-lg-6 col-xs-12">
+					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.exchange_rate | number:'1.2-8' }} (per token)</h4>
+					<small class="font-weight-bold mb-5">Exchange Rate</small>  
+					<h4 class="mb-0 font-weight-light mt-2">
+					<span class="badge badge-secondary px-2" *ngIf="data_focus.log_status == 'pending'">
+						Pending
+					</span>
+					<span class="badge badge-success px-2" *ngIf="data_focus.log_status == 'accepted'">
+						Accepted
+					</span>
+					<span class="badge badge-danger px-2" *ngIf="data_focus.log_status == 'canceled'">
+						Canceled
+					</span></h4>
+					<small class="font-weight-bold mb-5">Transaction Status</small>  
+					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_time | date:'MM/dd/yyyy hh:mm:ss a' }}</h4>
+					<small class="font-weight-bold mb-5">Date Requested</small>
+					<!-- <h4 class="mb-0 font-weight-light mt-2">{{ data_focus.created_at }}</h4>
+					<small class="font-weight-bold mb-5">Date Registered</small>   
+					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.create_ip_address }}</h4>
+					<small class="font-weight-bold mb-5">Create IP Address</small> -->
+				</div>
+			</div>
+
+		</div>
+	</div>
+</ng-template>

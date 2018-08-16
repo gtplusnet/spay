@@ -1,0 +1,315 @@
+<h4 class="font-weight-light page-title-admin mb-2">
+	<div class="row">
+		<div class="col-md-6">
+			<i class="far fa-calendar-alt mr-2"></i>Communication Board
+			<em><small></small></em>
+		</div>
+	</div>
+</h4>
+
+<div class="row mb-3">
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Search by Titles
+		</small>
+		<input type="text" (keyup)="loadTable()" [(ngModel)]="search_title" class="form-control form-control-sm input-lokal-x mb-1" placeholder="Title">
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Search by Careers
+		</small>
+		<select (change)="loadTable()" [(ngModel)]="search_careers" id="" class="form-control form-control-sm input-lokal-x mb-1">
+			<option value="">All</option>
+			<option value="Member">Member</option>
+			<option value="Community Manager">Community Manager</option>
+			<option value="Marketing Director">Marketing Director</option>
+			<option value="Advisor">Advisor</option>
+			<option value="Ambassador">Ambassador</option>
+		</select>
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Inserted Date - <em class="font-weight-light">From</em>
+		</small>
+		<input type="date" name="transaction_date_from" (change)="loadTable()" [(ngModel)]="search_inserted_date" class="form-control form-control-sm input-lokal-x mb-1">
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Inserted Date - <em class="font-weight-light">To</em>
+		</small>
+		<input type="date" name="transaction_date_from" (change)="loadTable()" [(ngModel)]="search_inserted_date_to" class="form-control form-control-sm input-lokal-x mb-1">
+	</div>
+</div>
+<div class="row mb-3">
+	<div class="col-lg-3 col-xs-12 px-2">
+		<button (click)="viewEventDetails(0,view_communication_board_add)" class="btn button-lokal-x btn-block my-1">
+			Add Event 
+		</button>
+	</div>
+</div>
+<div class="table-responsive px-0"  style="min-height: 300px;">
+	<table class="table member-table-x admin-db table-hover px-2">
+		<caption class="bg-light m-0 p-0 py-2 px-1" *ngIf="!table_loader">
+			<pagination-controls class="my-pagination" (pageChange)="page = $event"></pagination-controls>
+		</caption>
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Title</th>
+				<th>Subtitle</th>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th>Inserted Date</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody *ngIf="table_loader">
+			<tr>
+				<td colspan="8">
+					<div class="row" >
+						<div class="col-lg-12 col-xs-12">
+							<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+								<div class="circle"></div>
+								<small class="text">LOADING TABLE...</small>
+							</div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+		<tbody *ngIf="!table_loader">
+			<tr *ngIf="_table == ''">
+				<td colspan="8">
+					<div class="text-center">
+						<small class="font-weight-light">No data found.</small>
+					</div>
+				</td>
+			</tr>
+			<tr *ngFor="let data of _table | paginate: { itemsPerPage:15, currentPage: page }">
+				<td>{{ data.communication_board_id }}</td>
+				<td>{{ data.communication_board_title }}</td>
+				<td>{{ data.communication_board_subtitle}}</td>
+				<td>{{ data.communication_board_start_date }}</td>
+				<td>{{ data.communication_board_end_date }}</td>
+				<td>{{ data.insert_date }}</td>
+				<td class="text-center">
+					<!-- <div ngbDropdown placement="bottom-right">
+						<button class="btn button-lokal-x btn-block btn-sm" id="dropdownBasic1" ngbDropdownToggle>
+							<small>
+								<i class="fas fa-cog mr-2"></i>ACTIONS
+							</small>
+						</button>
+						<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+							<button class="dropdown-item" data-toggle="modal" data-target="#details" (click)="viewEventDetails(data.communication_board_id,view_communication_details)">Details</button>
+						</div>
+					</div> -->
+					<div class="btn-group" dropdown placement="bottom right">
+					  <button id="button-alignment" dropdownToggle type="button"
+					          class="btn button-lokal-x btn-block btn-sm dropdown-toggle" aria-controls="dropdown-alignment">
+					    <small>
+				      		<i class="fas fa-cog mr-2"></i>ACTIONS <span class="caret"></span>
+				      	</small> 
+					  </button>
+					  <ul id="dropdown-alignment" *dropdownMenu class="dropdown-menu dropdown-menu-right"
+					      role="menu" aria-labelledby="button-alignment">
+					    <li role="menuitem">
+					    	<a href="javascript:void" class="dropdown-item" (click)="viewEventDetails(data.communication_board_id,view_communication_details)">Details</a>
+					    </li>
+					  </ul>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<!--pop up-->
+<ng-template #view_communication_details let-c="close" let-d="dismiss">
+	<div class="view_account_details">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel"><i class="far fa-calendar-alt mr-2"></i>Communication Details</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left  color-lokal-x">
+			<div class="row">
+				<div class="col-lg-6 col-xs-12 px-2" *ngFor="let data of _list">
+					<input type="checkbox" [checked]="isChecked[data.member_position_name]" (click)="isSelected(data.member_position_name)" >
+					{{data.member_position_name}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-xs-12 px-2">
+					<small class="d-block font-weight-bold">
+						Title
+					</small>
+					<input [(ngModel)]="title" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng ng-valid ng-touched" placeholder="Title">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-xs-12 px-2">
+					<small class="d-block font-weight-bold">
+						Sub-Title
+					</small>
+					<input [(ngModel)]="subtitle" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng ng-valid ng-touched" placeholder="Sub-Title">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6 col-xs-12 px-2">
+					<small class="d-block font-weight-bold">
+						Start Date
+					</small>
+					<input [(ngModel)]="start_date" type="date" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng ng-valid ng-touched">
+				</div>
+				<div class="col-lg-6 col-xs-12 px-2">
+					<small class="d-block font-weight-bold">
+						End Date
+					</small>
+					<input [(ngModel)]="end_date" type="date" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng ng-valid ng-touched">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6 col-xs-12 px-2">
+					<small class="d-block font-weight-bold">
+						Thumbnail
+					</small>
+					<img [src]="url_thumbnail" height="200"> <br/>
+					<input type='file' (change)="onSelectFileThumbnail($event)">
+				</div>
+				<div class="col-lg-6 col-xs-12 px-2">
+					<small class="d-block font-weight-bold">
+						Banner
+					</small>
+					<img [src]="url_banner" style='width:100%;' height="140"> <br/>
+					<input type='file' (change)="onSelectFileBanner($event)">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-xs-12 px-2">
+					<small class="d-block font-weight-bold">
+						Description
+					</small>
+			 		<ck-editor name="editor1" [(ngModel)]="description" skin="moono-lisa" language="en"></ck-editor>
+			 	</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row" *ngIf="error_message != 'no-message'">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-danger">
+						<span>{{ error_message }}</span>
+					</div>
+				</div>
+			</div>
+			<div class="row" *ngIf="success_message != 'no-message'">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-success">
+						<span>{{ success_message }}</span>
+					</div>
+				</div>
+			</div>
+			<button (click)="onUpdate()" class="btn btn-success">
+			<small *ngIf="submitted">
+				<i class="fas fa-spinner button-loader"></i>
+			</small>
+			UPDATE</button>
+		</div>
+	</div>
+</ng-template>
+
+<!--pop up-->
+<ng-template #view_communication_board_add let-c="close" let-d="dismiss">
+	<div class="view_account_details">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel"><i class="far fa-calendar-alt mr-2"></i>Communication Details</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left  color-lokal-x">
+			<div class="row">
+				<div class="col-lg-6 col-xs-12 px-2" *ngFor="let data of _list">
+					<input type="checkbox"  (change)="isSelected(data.member_position_name)">
+					{{data.member_position_name}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-xs-12 px-2">
+					<small class="d-block font-weight-bold">
+						Title
+					</small>
+					<input [(ngModel)]="title" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng ng-valid ng-touched" placeholder="Title">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-xs-12 px-2">
+					<small class="d-block font-weight-bold">
+						Sub-Title
+					</small>
+					<input [(ngModel)]="subtitle" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng ng-valid ng-touched" placeholder="Sub-Title">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6 col-xs-12 px-2">
+					<small class="d-block font-weight-bold">
+						Start Date
+					</small>
+					<input [(ngModel)]="start_date" type="date" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng ng-valid ng-touched">
+				</div>
+				<div class="col-lg-6 col-xs-12 px-2">
+					<small class="d-block font-weight-bold">
+						End Date
+					</small>
+					<input [(ngModel)]="end_date" type="date" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng ng-valid ng-touched">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6 col-xs-12 px-2">
+					<small class="d-block font-weight-bold">
+						Thumbnail
+					</small>
+					<img [src]="url_thumbnail" height="200"> <br/>
+					<input type='file' (change)="onSelectFileThumbnail($event)">
+				</div>
+				<div class="col-lg-6 col-xs-12 px-2">
+					<small class="d-block font-weight-bold">
+						Banner
+					</small>
+					<img [src]="url_banner" style='width:100%;' height="200"> <br/>
+					<input type='file' (change)="onSelectFileBanner($event)">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-xs-12 px-2">
+					<small class="d-block font-weight-bold">
+						Description
+					</small>
+			 		<ck-editor name="editor1" [(ngModel)]="description" skin="moono-lisa" language="en"></ck-editor>
+			 	</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row" *ngIf="error_message != 'no-message'">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-danger">
+						<span>{{ error_message }}</span>
+					</div>
+				</div>
+			</div>
+			<div class="row" *ngIf="success_message != 'no-message'">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-success">
+						<span>{{ success_message }}</span>
+					</div>
+				</div>
+			</div>
+			<button (click)="onSubmit()" class="btn btn-success" disabled="{{submitted ? 'disabled' : ''}}">
+			<small *ngIf="submitted">
+				<i class="fas fa-spinner button-loader"></i>
+			</small>
+			SUBMIT
+			</button>
+		</div>
+	</div>
+</ng-template>

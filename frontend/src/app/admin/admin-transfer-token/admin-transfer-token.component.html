@@ -1,0 +1,263 @@
+<h4 class="font-weight-light page-title-admin">
+	<i class="fas fa-donate mr-2"></i>Transfer Token
+	<em><small></small></em>
+</h4>
+<div class="row mb-3">
+	<div class="col-lg-3 col-xs-12">
+		<div class="alert alert-light p-2">
+			<div class="d-flex flex-row justify-content-center align-items-center h6 mb-0 text-center">
+				<small class="mx-2">
+					<h4 class="text-center mb-0">{{count_total_tokens_transferred | number:'2.0-8'}}</h4>
+					Total Token Transferred
+				</small>
+				<i class="fas fa-donate mx-2 h1 mb-0"></i>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-xs-12">
+		
+	</div>
+
+	<div class="col-lg-2 col-xs-12">
+		<!-- spacer -->
+	</div>
+	<div class="col-lg-2 col-xs-12 px-1">
+		<button class="btn button-lokal-x btn-block my-1" (click)="loadManualTransfers()">
+			<small>
+				<i class="fas fa-sync mr-2"></i>REFRESH TABLE
+			</small>
+		</button>
+	</div>
+	<div class="col-lg-2 col-xs-12 px-1">
+			<div class="btn-group" dropdown placement="bottom right">
+			  <button id="button-basic" dropdownToggle type="button" class="btn button-lokal-x btn-block my-1 dropdown-toggle"
+			          aria-controls="dropdown-basic">
+			    <small>
+						<i class="fas fa-table mr-2"></i>EXPORT DATA <span class="caret"></span>
+				</small> 
+			  </button>
+			  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu  dropdown-menu-right"
+			      role="menu" aria-labelledby="button-basic">
+			    <li role="menuitem">
+			    	<a href="{{ rest.api_url }}/api/admin/excel/export_transfer_token?login_token={{rest.login_token}}" class="dropdown-item">Export All Data</a>
+			    </li>
+			    <li role="menuitem">
+			    	<a href="{{ rest.api_url }}/api/admin/excel/export_transfer_token?login_token={{rest.login_token}}&date_from={{ manual_transfer_params.date_from }}&date_to={{ manual_transfer_params.date_to }}&member_type={{ manual_transfer_params.member_type }}&data=filtered" class="dropdown-item">Export Filtered Data</a>   
+			    </li>
+			  </ul>
+			</div>
+	</div>
+</div>
+<div class="row ml-1 mb-3">
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Type of Member
+		</small>
+		<select class="form-control form-control-sm input-lokal-x mb-1" (change)="loadManualTransfers()" [(ngModel)]="manual_transfer_params.member_type">
+			<option value="all">All</option>
+			<option value=1>Member</option>
+			<option value=2>Marketing Director</option>
+			<option value=3>Community Director</option>
+			<option value=4>Ambassador</option>
+			<option value=5>Advisor</option>
+		</select>
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Date - <em class="font-weight-light">From</em>
+		</small>
+		<input type="date" (change)="loadManualTransfers()" [(ngModel)]="manual_transfer_params.date_from" class="form-control form-control-sm input-lokal-x mb-1">
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Date - <em class="font-weight-light">To</em>
+		</small>
+		<input type="date" (change)="loadManualTransfers()" [(ngModel)]="manual_transfer_params.date_to" class="form-control form-control-sm input-lokal-x mb-1">
+	</div>
+</div>
+<div class="row ml-1 mb-3">
+	<div class="col-lg-3 col-xs-12 px-2">
+		<button class="btn button-lokal-x btn-block my-1" (click)="open(transfer_token)">
+			<small>
+				<i class="fas fa-exchange-alt mr-2"></i>Transfer Token
+			</small>
+		</button>
+	</div>
+</div>
+<div class="table-responsive px-0"  style="min-height: 300px;">
+	<table class="table member-table-x admin-db table-hover px-2">
+		<caption class="bg-light m-0 p-0 py-2 px-1" *ngIf="!table_loader">
+			<pagination-controls class="my-pagination" (pageChange)="manual_transfer_list_page = $event" id="manual_transfer_list_page"></pagination-controls>
+		</caption>
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Wallet Address</th>
+				<th>Type Of Member</th>
+				<th>Token Value</th>
+				<th>Remark</th>
+				<th>Date</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody *ngIf="table_loader">
+			<tr>
+				<td colspan="8">
+					<div class="row" >
+						<div class="col-lg-12 col-xs-12">
+							<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+								<div class="circle"></div>
+								<small class="text">LOADING TABLE...</small>
+							</div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+		<tbody *ngIf="!table_loader">	
+			<tr *ngIf="manual_transfer_list == ''">
+				<td colspan="8">
+					<div class="text-center">
+						<small class="font-weight-light">No data found.</small>
+					</div>
+				</td>
+			</tr>	
+			<tr *ngFor="let data of manual_transfer_list  | paginate: { itemsPerPage:10, currentPage: manual_transfer_list_page, id : 'manual_transfer_list_page'}">
+				
+				<td>{{data.member_log_id}}</td>
+				<td>{{data.member_address}}</td>
+				<td>{{data.member_position_name}}</td>
+				<td>{{data.log_amount | number:'2.2-8'}}</td>
+				<td>{{data.log_message}}</td>
+				<td>{{data.log_time | date:'MM/dd/yyyy'}}</td>
+				<td class="text-center">
+					<div class="btn-group" dropdown placement="bottom right">
+					  <button id="button-alignment" dropdownToggle type="button"
+					          class="btn button-lokal-x btn-block dropdown-toggle" aria-controls="dropdown-alignment">
+					    <small>
+				      		<i class="fas fa-cog mr-2"></i>ACTIONS <span class="caret"></span>
+				      	</small> 
+					  </button>
+					  <ul id="dropdown-alignment" *dropdownMenu class="dropdown-menu dropdown-menu-right"
+					      role="menu" aria-labelledby="button-alignment">
+					    <li role="menuitem">
+					    	<a href="javascript:void" class="dropdown-item" (click)="viewDetailsTransferToken(data.member_log_id,view_transfer_token_details)">View Details</a>
+					    </li>
+					  </ul>
+					</div>
+				</td>
+			</tr>
+		</tbody>	
+	</table>
+</div>
+
+
+<ng-template #view_transfer_token_details let-c="close" let-d="dismiss">
+	<div class="view_account_details">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Transaction Details</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left  color-lokal-x">
+			<div class="bg-light p-3 row">
+				<div class=" col-lg-6 col-xs-12">
+					<h4 class="mb-0 font-weight-light mt-2">{{ details.first_name }} {{ details.last_name }}</h4>
+					<small class="font-weight-bold mb-5">Account Name</small>
+					<h4 class="mb-0 font-weight-light mt-2">{{ details.member_position_name }}</h4>
+					<small class="font-weight-bold mb-5">Member Position</small>
+					<h4 class="mb-0 font-weight-light mt-2">{{ details.log_amount }}</h4>
+					<small class="font-weight-bold mb-5">Amount Receive</small>
+				</div>
+				<div class=" col-lg-6 col-xs-12">
+					<h4 class="mb-0 font-weight-light mt-2">{{ details.log_message }}</h4>
+					<small class="font-weight-bold mb-5">Remarks</small>
+					<h4 class="mb-0 font-weight-light mt-2">{{ details.log_time | date:'MM/dd/yyyy hh:mm:ss a' }}</h4>
+					<small class="font-weight-bold mb-5">Log Time</small>
+					<h4 class="mb-0 font-weight-light mt-2">{{ details.ip_address }}</h4>
+					<small class="font-weight-bold mb-5">IP Address</small>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+
+<ng-template #transfer_token let-c="close" let-d="dismiss">
+	<div class="transfer_token">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Send tokens to user</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left  color-lokal-x">
+			<div class="p-3 row">
+				<small class="font-weight-bold">Receiver Wallet Address, Email Address or Phone Number</small>
+				<div class="input-group mb-3">
+				  <div class="input-group-prepend">
+				    <span class="input-group-text" id="basic-addon1">
+				    	<i class="fas fa-times"></i>
+				    </span>
+				  </div>
+				  <input type="text" (change)="checkReceiver()" [(ngModel)]="receiver_credential" class="form-control" placeholder="Receiver Wallet Address, Email Address or Phone Number" aria-label="" aria-describedby="basic-addon1">
+				</div>
+				
+				<span *ngIf="receiver">
+					<span  *ngFor="let data of _receiver.list">
+						<div class="row mb-1">
+							<div class="col-lg-12 col-xs-12">
+								<small class="font-weight-bold d-block">Receiver Information</small>
+							</div>
+							<div class="col-lg-12 col-xs-12 py-2">
+								<div class="alert alert-warning d-flex flex-column">
+								<small class="font-weight-bold">Name: <span class="font-weight-light">{{data.first_name}} {{data.last_name}}</span></small> 
+								<small class="font-weight-bold">Career: <span class="font-weight-light">{{data.member_position.member_position_name}}</span></small> 
+								<small class="font-weight-bold">Email Address: <span class="font-weight-light">{{data.email}}</span></small> 
+								<small class="font-weight-bold">Phone Number: <span class="font-weight-light">{{data.phone_number}}</span></small> 
+								<small class="font-weight-bold">SPAY Wallet Address: <span class="font-weight-light">{{data.member_address}}</span></small> 
+								<small class="font-weight-bold">SPAY Balance: <span class="font-weight-light">{{data.address_balance | number:'2.2-8'}}</span></small> 
+								</div>
+							</div>
+						</div>
+
+						<small class="font-weight-bold">Amount to Send</small>
+						<div class="input-group mb-2">
+						  <input type="text" class="form-control" [(ngModel)]="amount_to_send" placeholder="Amount to send" aria-label="" aria-describedby="basic-addon1">
+						</div>
+
+						<small class="font-weight-bold d-block">Remarks</small>
+						<textarea name="" class="form-control mb-2" id="" cols="10" [(ngModel)]="remarks" rows="5"></textarea>
+						
+						<button class="btn button-lokal-x btn-block text-center" (click)="transferToken(data.member_address_id)" disabled="{{sending ? 'disabled' : ''}}">
+							<small *ngIf="sending">
+	    						<i class="fas fa-spinner button-loader"></i>
+	    					</small>
+	    					<small *ngIf="!sending">
+		    					Send Tokens
+		    				</small>
+						</button>
+						<div class="row my-1" *ngIf="send_message">
+							<div class="col-lg-12 col-xs-12 py-2">
+								<div class="alert alert-success text-center d-flex flex-column">
+								<small> LOKAL Tokens has been successfully sent to <strong>{{data.first_name}} {{data.last_name}}</strong></small> 
+								</div>
+							</div>
+						</div>
+						<div class="row my-1" *ngIf="error_message !='no-message'">
+							<div class="col-lg-12 col-xs-12 py-2">
+								<div  *ngFor="let data of error_message" class="alert alert-danger text-center d-flex flex-column">
+								<small> {{ data }} </small> 
+								</div>
+							</div>
+						</div>
+
+						</span>
+				</span>
+			</div> 
+		</div> 
+	</div>
+	
+</ng-template>

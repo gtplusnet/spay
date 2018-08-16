@@ -1,0 +1,68 @@
+@import '../../../assets/assets-laravel/member-dashboard/css/styles.css';
+@import '../../../assets/scss/app';
+
+.arrow-up {
+	width: 0; 
+	height: 0; 
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+
+	border-bottom: 5px solid black;
+}
+
+.arrow-down {
+	width: 0; 
+	height: 0; 
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+
+	border-top: 5px solid #f00;
+}
+
+.arrow-right {
+	width: 0; 
+	height: 0; 
+	border-top: 60px solid transparent;
+	border-bottom: 60px solid transparent;
+
+	border-left: 60px solid green;
+}
+
+.arrow-left {
+	width: 0; 
+	height: 0; 
+	border-top: 10px solid transparent;
+	border-bottom: 10px solid transparent; 
+
+	border-right:10px solid blue; 
+}
+
+.dropdown-lokal
+{
+	li
+	{
+		a
+		{
+			&::before
+			{
+				content: "\00bb ";
+			}
+		}
+		
+	}
+	
+}
+
+.sub-menu
+{
+	padding-left: 31px;
+}
+
+.first-time-login-container
+{
+	background: rgba(0,0,0,0.7);
+	min-width: 100%;
+	min-height: 100vh;
+	position: fixed;
+	z-index: 9999;
+}

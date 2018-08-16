@@ -1,0 +1,128 @@
+<h4 class="font-weight-light page-title-admin">
+	<i class="far fa-handshake mr-2"></i>Referral Settings
+	<em><small></small></em>
+</h4>
+<div class="row color-lokal-x">
+	<div class="offset-lg-6 col-lg-3 col-xs-12 mb-2 d-flex align-items-center justify-content-end">
+
+	</div>
+	<div class="col-lg-3 col-xs-12 mb-2">
+		<button class="btn btn-block button-lokal-x" (click)="updateCurrentMemberPosition()">
+			<i class="fas fa-cog mr-2"></i>Save Settings
+		</button>
+	</div>
+	<div class="col-lg-12 col-xs-12 mb-2">
+		<div class="bg-lokal-x p-2 text-light">
+			<h6 class="mb-0">Configure Settings for Member Positions</h6>
+		</div>
+		<div class="bg-lokal-x-body my-border-light p-3">
+			<div class="row">
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						User Type
+					</small>
+					<select name="sale_stage_id" class="form-control input-lokal-x" [(ngModel)]="member_position_id" (change)="loadCurrentMemberPositions()">
+						<option *ngFor="let data of _list" value="{{data.member_position_id}}">{{data.member_position_name}}</option>
+					</select>
+				</div>
+				<div class="col-lg-6 col-xs-12 mb-2" *ngIf="!current_loading">
+					<small class="d-block font-weight-bold">
+						Bonus Method
+					</small>
+					<select name="" class="form-control input-lokal-x" [(ngModel)]="bonus_method">
+						<option value="automatic">Automatic</option>
+						<option value="floating">Floating</option>
+					</select>
+				</div>
+			</div>
+			<div class="row" *ngIf="current_loading">
+				<div class="col-lg-12 col-xs-12 mb-2">
+					<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+						<div class="circle"></div>
+						<small class="text">LOADING TABLE...</small>
+					</div>
+				</div>
+			</div>
+			<div class="row" *ngIf="!current_loading">
+				<div class="col-lg-12 col-xs-12">
+					<div class="row">
+						<div class="col-lg-6 col-xs-12 mb-2">
+							<small class="d-block font-weight-bold">
+								Commission
+							</small>
+							<input type="number" [(ngModel)]="commission" class="form-control input-lokal-x" placeholder="0.00">
+						</div>
+						<div class="col-lg-6 col-xs-12 mb-2">
+							<small class="d-block font-weight-bold">
+								Minimum Purchase
+							</small>
+							<input type="number" [(ngModel)]="member_min_purchase" class="form-control input-lokal-x" placeholder="0.00">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6 col-xs-12 mb-2">
+							<small class="d-block font-weight-bold">
+								Token Release
+							</small>
+							<input type="number" [(ngModel)]="token_release" class="form-control input-lokal-x" placeholder="0">
+						</div>
+						<div class="col-lg-6 col-xs-12 mb-2">
+							<small class="d-block font-weight-bold">
+								Initial Release Percentage (%)
+							</small>
+							<input type="number" [(ngModel)]="initial_release_percentage" class="form-control input-lokal-x" placeholder="0">
+						</div>
+						<div class="col-lg-6 col-xs-12 mb-2">
+							<small class="d-block font-weight-bold">
+								After Purchase Comission
+							</small>
+							<input type="number" [(ngModel)]="after_purchase_comission" class="form-control input-lokal-x" placeholder="0">
+						</div>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-lg-6 col-xs-12 mb-2">
+							<h6 class="mb-2 font-weight-bold">Requirements</h6>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6 col-xs-12 mb-2">
+							<small class="d-block font-weight-bold">
+								Needed Member
+							</small>
+							<input type="number" [(ngModel)]="needed_member" class="form-control input-lokal-x" placeholder="0">
+						</div>
+						<div class="col-lg-6 col-xs-12 mb-2">
+							<small class="d-block font-weight-bold">
+								Needed Community Manager
+							</small>
+							<input type="number" [(ngModel)]="needed_community_manager" class="form-control input-lokal-x" placeholder="0">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6 col-xs-12 mb-2">
+							<small class="d-block font-weight-bold">
+								Needed Ambassador
+							</small>
+							<input type="number" [(ngModel)]="needed_ambassador" class="form-control input-lokal-x" placeholder="0">
+						</div>
+						<div class="col-lg-6 col-xs-12 mb-2">
+							<small class="d-block font-weight-bold">
+								Needed Marketing Director
+							</small>
+							<input type="number" [(ngModel)]="needed_marketing_director" class="form-control input-lokal-x" placeholder="0">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6 col-xs-12 mb-2">
+							<small class="d-block font-weight-bold">
+								Needed Advisor
+							</small>
+							<input type="number" [(ngModel)]="needed_advisor" class="form-control input-lokal-x" placeholder="0">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

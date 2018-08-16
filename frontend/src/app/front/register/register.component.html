@@ -1,0 +1,222 @@
+<div class="main-loader d-flex justify-content-center align-items-center" *ngIf="country_loading == true">
+	<img src="/assets/img/lokalize-loader.gif" alt="">
+</div>
+<section class="page-section register-page">
+	<div class="container">
+		<div class="register-form-holder d-flex flex-column align-items-center justify-content-center">
+			<div class="logo-holder">
+				<img src="/assets/img/lokal-logo.png" width="150">
+			</div>
+			<div class="py-3">
+				<!-- 	{{-- <form action="">
+						<input class="custom-textfield w-100 my-2 p-2" type="text" placeholder="Email Address">
+						<input class="custom-textfield w-100 p-2" type="text" placeholder="Password">
+						<button class="btn-lokal-sm w-100 mt-3">REGISTER</button>
+				</form> --}} -->
+				<!-- <div *ngIf="error_message != 'no-message'" class="error-message {{ error_message != 'no-message' ? '' : 'transparent' }}">{{ error_message }}</div> -->
+				<!-- <div class="row mb-2 register-section" *ngIf="error_message != 'no-message'">
+					<div class="col-xs-12 col-lg-12">
+						<div class="d-flex justify-content-center align-items-center p-2 text-center error-message">
+							<span>{{ error_message }}</span>
+						</div>
+					</div>
+				</div>
+				<div class="row" *ngIf="submitted">
+					<div class="col-xs-12 col-lg-12">
+						<div class="d-flex justify-content-center align-items-center p-2 text-center validating">
+							<div class="circle mr-2"></div><span>Validating</span>
+						</div>
+					</div>
+				</div> -->
+				<div class="lokal-forms">
+					<div class="row mb-2 lokal-alerts" *ngIf="error_message != 'no-message'">
+						<div class="col-xs-12 col-lg-12 p-0">
+							<div class="d-flex justify-content-center px-2 py-3 align-items-center text-center error-message">
+								<span class="lokal-text">{{ error_message }}</span>
+							</div>
+						</div>
+					</div>
+					<div class="row lokal-alerts" *ngIf="submitted">
+						<div class="col-xs-12 col-lg-12 p-0">
+							<div class="d-flex justify-content-center px-2 py-0 align-items-center text-center validating lokal-text">
+								<div class="circle mr-2 lokal-text"></div><span>Validating</span>
+							</div>
+						</div>
+					</div>
+					<input class="" type="text" name="first_name" id="first_name" [(ngModel)]="system_register.first_name" (keyup)="validate()" placeholder="First Name">
+					<input class="" type="text" name="last_name" id="last_name" [(ngModel)]="system_register.last_name" (keyup)="validate()" placeholder="Last Name">
+					<input class="" type="email" name="email_address" id="email_address" [(ngModel)]="system_register.email" (keyup)="validate()" placeholder="Email Address">
+					<input class="mb-2" type="text" name="referral_link" id="referral_link" [(ngModel)]="referral_link" (keyup)="validate()" placeholder="Referral Code (Optional)">
+					<div class="recaptcha">
+						<re-captcha (resolved)="resolved($event)" siteKey="6LcawmMUAAAAADoDEsl6YcaM5TLemfEVqavfqbM1"></re-captcha>
+					</div>
+
+
+
+					<button class=" mt-2 lokalize-login-button" (click)="newRegister()" disabled="{{!register_approve ? 'disabled' : ''}}">Sign Up</button>
+					<button class=" my-2 lokalize-register-button" [routerLink]="['/login']" disabled="{{ registering ? 'disabled' : '' }}">Login</button>
+					<div class="or"> OR </div>
+					<button class="btn-lokal-sm facebook-btn my-2" (click)="socialSignIn('facebook')" disabled="{{ registering ? 'disabled' : '' }}"><i class="fab fa-facebook mr-1"></i>Sign Up with Facebook</button>
+					<button class="btn-lokal-sm google-btn mb-2" (click)="socialSignIn('google')" disabled="{{ registering ? 'disabled' : '' }}"><i class="fab fa-google mr-1"></i>Sign Up with Google</button>
+					<!-- <div class="content-text text-center pt-1"><a class="text-link-1 lokal-text" [routerLink]="['/forgot-password']">Forgot Password?</a></div> -->
+				</div>
+
+				<!-- <div class="row my-1 register-section text-light">
+					<div class="col-xs-12 col-md-6">
+						<small class="d-block ">First Name</small>
+						<div class="form-group">
+							<input class=" input-sm custom-textfield w-100 p-2" type="text" name="first_name" id="first_name" [(ngModel)]="system_register.first_name" (keyup)="validate()" placeholder="First Name">
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-6">
+						<small class="d-block ">Last Name</small>
+						<div class="form-group">
+							<input class=" input-sm custom-textfield w-100 p-2" type="text" name="last_name" id="last_name" [(ngModel)]="system_register.last_name" (keyup)="validate()" placeholder="Last Name">
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-12">
+						<small class="d-block ">Email Address</small>
+						<div class="form-group">
+							<input class=" input-sm custom-textfield w-100 p-2" type="email" name="email_address" id="email_address" [(ngModel)]="system_register.email" (keyup)="validate()" placeholder="Email Address">
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-12 my-2">
+						<small class="d-block ">Referral Code (Optional)</small>
+						<div class="form-group">
+							<input class=" input-sm custom-textfield w-100 p-2" type="text" name="referral_link" id="referral_link" [(ngModel)]="referral_link" (keyup)="validate()" placeholder="Referral Code">
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-12 mb-2">
+						<re-captcha (resolved)="resolved($event)" siteKey="6LcawmMUAAAAADoDEsl6YcaM5TLemfEVqavfqbM1"></re-captcha>
+					</div> -->
+					<!-- <div class="col-xs-12 col-md-12">
+						<small class="d-block ">Password</small>
+						<div class="form-group">
+							<input class=" input-sm custom-textfield w-100 p-2" type="password" name="password" id="password" [(ngModel)]="system_register.password" (keyup)="validate()" placeholder="Password">
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-12">
+						<small class="d-block ">Confirm Password</small>
+						<div class="form-group">
+							<input class=" input-sm custom-textfield w-100 p-2" type="password" name="password_confirmation" id="password_confirmation" [(ngModel)]="system_register.password_confirmation" (keyup)="validate()" placeholder="Confirm Password">
+						</div>
+					</div> -->
+					
+					<!-- <div class="col-xs-12 col-md-12">
+						<button class="btn-lokal-sm w-100 mt-2" (click)="newRegister()" disabled="{{!register_approve ? 'disabled' : ''}}">REGISTER</button>
+					</div>
+					<div class="col-xs-12 col-md-12 or py-2">
+						OR
+					</div>
+					<div class="col-xs-12 col-md-12 pb-1">
+						<button class="btn-lokal-sm facebook-btn w-100"  disabled="{{ registering ? 'disabled' : '' }}" (click)="socialSignIn('facebook')"><i class="fab fa-facebook mr-1"></i>Sign up with Facebook</button>
+					</div>
+					<div class="col-xs-12 col-md-12 pt-1">
+						<button class="btn-lokal-sm google-btn w-100"  disabled="{{ registering ? 'disabled' : '' }}" (click)="socialSignIn('google')"><i class="fab fa-google mr-1"></i>Sign up with Google</button>
+					</div>
+				</div> -->
+				
+				<!-- <form role="form">
+					<div class="row">
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="form-group">
+								<input class=" input-sm custom-textfield w-100 p-2" type="text" name="first_name" id="first_name" [(ngModel)]="first_name" placeholder="First Name *">
+							</div>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="form-group">
+								
+								<input class=" input-sm custom-textfield w-100 p-2" type="text" name="last_name" id="last_name" [(ngModel)]="last_name" placeholder="Last Name *">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="form-group">
+								<input class=" input-sm custom-textfield w-100 p-2" type="date" name="birth_date" id="birth_date" [(ngModel)]="birth_date" placeholder="Date of Birth: ">
+							</div>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="form-group">
+								<select name="entity" [(ngModel)]="entity" class="input-sm custom-textfield w-100 p-2" id="entity">
+									<option value="0">Select Entity *</option>
+									<option value="Individual">Individual</option>
+									<option value="Corporate/Business">Corporate/Business</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="form-group">
+								<input class="input-sm custom-textfield w-100 p-2" type="text" name="referral" id="referral" [(ngModel)]="referral_link" placeholder="Referral Code">
+							</div>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="form-group">
+								<input class="input-sm custom-textfield w-100 p-2" type="text" name="company_name" id="company_name" [(ngModel)]="company_name" placeholder="Company Name">
+							</div>
+						</div>					
+					</div>
+					<div class="row">
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="form-group">
+								<input class=" input-sm custom-textfield w-100 p-2" type="text" name="desired_btc" id="desired_btc" [(ngModel)]="desired_btc" placeholder="Desired BTC Contribution">
+							</div>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="form-group">
+								<input class=" input-sm custom-textfield w-100 p-2" type="text" name="desired_eth" id="desired_eth" [(ngModel)]="desired_eth" placeholder="Desired ETH Contribution">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="form-group">
+								<input class=" input-sm custom-textfield w-100 p-2" type="email" name="email" id="email" [(ngModel)]="email" placeholder="Email Address *">
+							</div>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="form-group">
+								<input class=" input-sm custom-textfield w-100 p-2" type="text" name="user_name" id="user_name" [(ngModel)]="user_name" placeholder="Username *">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="form-group">
+								<select name="country_code" id="country_code" [(ngModel)]="country_code" class=" input-sm custom-textfield w-100 p-2">
+									<option value="0">Select country *</option>
+									<option *ngFor="let cc of country_codes" value="{{ cc.country_code_id }}">
+										{{ cc.country }} ({{cc.country_code}})
+									</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="form-group">
+								<input class=" input-sm custom-textfield w-100 p-2" type="text" name="phone_number" id="phone_number" [(ngModel)]="phone_number" placeholder="Phone Number *">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="form-group">
+								<input class=" input-sm custom-textfield w-100 p-2" type="password" name="password" id="password" [(ngModel)]="password" placeholder="Password *">
+							</div>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="form-group">
+								<input class=" input-sm custom-textfield w-100 p-2" type="password" name="password_confirmation" [(ngModel)]="password_confirmation" id="password_confirmation"  placeholder="Confirm Password *">
+							</div>
+						</div>
+					</div>
+					<button class="btn-lokal-sm w-100 mt-2" (click)="register()">REGISTER</button>
+					
+				</form> -->
+				<!-- <div class="content-text text-center pt-2">Already have an account? <a class="text-link-1" [routerLink]="['/login']">Click Here.</a></div> -->
+				<div class="content-text text-center pt-4"><a [routerLink]="['']" class="text-link-2">« Back to Homepage</a></div>
+			</div>
+		</div>
+	</div>
+</section>

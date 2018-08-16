@@ -1,0 +1,385 @@
+<h4 class="font-weight-light page-title-admin">
+	<i class="fas fa-sync mr-2"></i>Conversion Settings
+	<em><small></small></em>
+</h4>
+<div class="row color-lokal-x" *ngIf="is_loaded == true">
+	<div class="offset-lg-6 col-lg-3 col-xs-12 mb-2 d-flex align-items-center justify-content-end">
+		<span class="text-success text-right p-2" *ngIf="success_message != 'no-message'">
+			{{ success_message }}
+		</span>
+		<span class="text-danger text-right p-2" *ngIf="error_message != 'no-message'">
+			{{ error_message }}
+		</span>
+	</div>
+	<div class="col-lg-3 col-xs-12 mb-2">
+		<button class="btn btn-block button-lokal-x" (click)="update()">
+			<i class="fas fa-cog mr-2 {{ button_loader ? 'button-loader' : ''}}"></i>Save Settings
+		</button>
+	</div>
+	<div class="col-lg-12 col-xs-12 mb-2">
+		<div class="bg-lokal-x p-2 text-light">
+			<h6 class="mb-0">Sale Stages</h6>
+		</div>
+		<div class="bg-lokal-x-body my-border-light p-3">
+			<div class="row">
+				<div class="col-lg-12 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Select Stage
+					</small>
+					<select name="sale_stage_id" (change)="changeSaleStage()" [(ngModel)]="sale_stage_index" class="form-control input-lokal-x">
+						<option *ngFor="let sale_stage of _sale_stage; let i = index" value="{{i}}">{{sale_stage.sale_stage_type}}</option>
+					</select>
+				</div>
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Start Date
+					</small>
+					<input type="date"  (input)="refresh()" [(ngModel)]="sale_stage_selected.sale_stage_start_date" class="form-control input-lokal-x">
+				</div>
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						End Date
+					</small>
+					<input type="date" (input)="refresh()" [(ngModel)]="sale_stage_selected.sale_stage_end_date" class="form-control input-lokal-x">
+				</div>
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Minimum Purchase
+					</small>
+					<input [(ngModel)]="sale_stage_selected.sale_stage_min_purchase" type="number" class="form-control input-lokal-x">
+				</div>
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Maximum Purchase
+					</small>
+					<input [(ngModel)]="sale_stage_selected.sale_stage_max_purchase" type="number" class="form-control input-lokal-x">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12 col-xs-12 mb-2">
+		<div class="bg-lokal-x p-2 text-light">
+			<h6 class="mb-0">LOKAL Coin Base Value</h6>
+		</div>
+		<div class="bg-lokal-x-body my-border-light p-3">
+			<div class="row">
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						BTC to LOK
+					</small>
+					<input type="number" (input)="refresh()" [(ngModel)]="_coin[2].conversion_multiplier" class="form-control input-lokal-x" placeholder="0.00">
+				</div>
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						ETH to LOK
+					</small>
+					<input type="number" (input)="refresh()" [(ngModel)]="_coin[1].conversion_multiplier" class="form-control input-lokal-x" placeholder="0.00">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12 col-xs-12 mb-2">
+		<div class="bg-lokal-x p-2 text-light">
+			<h6 class="mb-0">LOKAL Coin Discount Value</h6>
+		</div>
+		<div class="bg-lokal-x-body my-border-light p-3">
+			<div class="row">
+				<div class="col-lg-12 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Discount
+					</small>
+					<input type="number" (input)="refresh()"  [(ngModel)]="sale_stage_selected.sale_stage_discount" class="form-control input-lokal-x" placeholder="0">
+				</div>
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						BTC
+					</small>
+					<input type="number" [(ngModel)]="btc_discount_equivalent" class="form-control input-lokal-x" disabled placeholder="0.00">
+				</div>
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						ETH
+					</small>
+					<input type="number" [(ngModel)]="eth_discount_equivalent" class="form-control input-lokal-x" disabled placeholder="0.00">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12 col-xs-12 mb-2">
+		<div class="bg-lokal-x p-2 text-light">
+			<h6 class="mb-0">Bonus Coin</h6>
+		</div>
+		<div class="bg-lokal-x-body my-border-light p-3 py-0">
+			<div class="row btm-border mb-2">
+				<div class="col-lg-2 col-xs-12 mb-2">
+					<span class="text-light">.</span>
+					<small class="d-block font-weight-bold">
+						Set A
+					</small>
+				</div>
+				<div class="col-lg-4 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						From
+					</small>
+					<input type="number" class="form-control input-lokal-x" [(ngModel)]="sale_stage_bonus_selected[0].buy_coin_bonus_from" placeholder="0">
+				</div>
+				<div class="col-lg-4 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						To
+					</small>
+					<input type="number" class="form-control input-lokal-x" [(ngModel)]="sale_stage_bonus_selected[0].buy_coin_bonus_to" placeholder="0">
+				</div>
+				<div class="col-lg-2 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Bonus %
+					</small>
+					<input type="number" class="form-control input-lokal-x" [(ngModel)]="sale_stage_bonus_selected[0].buy_coin_bonus_percentage" placeholder="0">
+				</div>
+			</div>
+			<div class="row btm-border mb-2">
+				<div class="col-lg-2 col-xs-12 mb-2">
+					<span class="text-light">.</span>
+					<small class="d-block font-weight-bold">
+						Set B
+					</small>
+				</div>
+				<div class="col-lg-4 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						From
+					</small>
+					<input type="number" class="form-control input-lokal-x" [(ngModel)]="sale_stage_bonus_selected[1].buy_coin_bonus_from" placeholder="0">
+				</div>
+				<div class="col-lg-4 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						To
+					</small>
+					<input type="number" class="form-control input-lokal-x" [(ngModel)]="sale_stage_bonus_selected[1].buy_coin_bonus_to" placeholder="0">
+				</div>
+				<div class="col-lg-2 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Bonus %
+					</small>
+					<input type="number" class="form-control input-lokal-x" [(ngModel)]="sale_stage_bonus_selected[1].buy_coin_bonus_percentage" placeholder="0">
+				</div>
+			</div>
+			<div class="row btm-border mb-2">
+				<div class="col-lg-2 col-xs-12 mb-2">
+					<span class="text-light">.</span>
+					<small class="d-block font-weight-bold">
+						Set C
+					</small>
+				</div>
+				<div class="col-lg-4 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						From
+					</small>
+					<input type="number" class="form-control input-lokal-x" [(ngModel)]="sale_stage_bonus_selected[2].buy_coin_bonus_from" placeholder="0">
+				</div>
+				<div class="col-lg-4 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						To
+					</small>
+					<input type="number" class="form-control input-lokal-x" [(ngModel)]="sale_stage_bonus_selected[2].buy_coin_bonus_to" placeholder="0">
+				</div>
+				<div class="col-lg-2 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Bonus %
+					</small>
+					<input type="number" class="form-control input-lokal-x" [(ngModel)]="sale_stage_bonus_selected[2].buy_coin_bonus_percentage" placeholder="0">
+				</div>
+			</div>
+			<div class="row btm-border mb-2">
+				<div class="col-lg-2 col-xs-12 mb-2">
+					<span class="text-light">.</span>
+					<small class="d-block font-weight-bold">
+						Set D
+					</small>
+				</div>
+				<div class="col-lg-4 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						From
+					</small>
+					<input type="number" class="form-control input-lokal-x" [(ngModel)]="sale_stage_bonus_selected[3].buy_coin_bonus_from" placeholder="0">
+				</div>
+				<div class="col-lg-4 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						To
+					</small>
+					<input type="number" class="form-control input-lokal-x" [(ngModel)]="sale_stage_bonus_selected[3].buy_coin_bonus_to" placeholder="0">
+				</div>
+				<div class="col-lg-2 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Bonus %
+					</small>
+					<input type="number" class="form-control input-lokal-x" [(ngModel)]="sale_stage_bonus_selected[3].buy_coin_bonus_percentage" placeholder="0">
+				</div>
+			</div>
+			<div class="row btm-border mb-2">
+				<div class="col-lg-2 col-xs-12 mb-2">
+					<span class="text-light">.</span>
+					<small class="d-block font-weight-bold">
+						Set E
+					</small>
+				</div>
+				<div class="col-lg-4 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						From
+					</small>
+					<input type="number" class="form-control input-lokal-x" [(ngModel)]="sale_stage_bonus_selected[4].buy_coin_bonus_from" placeholder="0">
+				</div>
+				<div class="col-lg-4 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						To
+					</small>
+					<input type="number" class="form-control input-lokal-x" [(ngModel)]="sale_stage_bonus_selected[4].buy_coin_bonus_to" placeholder="0">
+				</div>
+				<div class="col-lg-2 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Bonus %
+					</small>
+					<input type="number" class="form-control input-lokal-x" [(ngModel)]="sale_stage_bonus_selected[4].buy_coin_bonus_percentage" placeholder="0">
+				</div>
+			</div>
+			<div class="row btm-border mb-2">
+				<div class="col-lg-2 col-xs-12 mb-2">
+					<span class="text-light">.</span>
+					<small class="d-block font-weight-bold">
+						Set F
+					</small>
+				</div>
+				<div class="col-lg-4 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						From
+					</small>
+					<input type="number" class="form-control input-lokal-x" [(ngModel)]="sale_stage_bonus_selected[5].buy_coin_bonus_from" placeholder="0">
+				</div>
+				<div class="col-lg-4 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						To
+					</small>
+					<input type="number" class="form-control input-lokal-x" [(ngModel)]="sale_stage_bonus_selected[5].buy_coin_bonus_to" placeholder="0">
+				</div>
+				<div class="col-lg-2 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Bonus %
+					</small>
+					<input type="number" class="form-control input-lokal-x" [(ngModel)]="sale_stage_bonus_selected[5].buy_coin_bonus_percentage" placeholder="0">
+				</div>
+			</div>
+		</div>
+	</div>
+</div><!-- 
+<div class="row mb-3 mx-2" *ngIf="is_loaded == true">
+	<div class="col-lg-12 col-xs-12 px-0">
+		<div class="row">
+			<h4>Sale Stages</h4>
+		</div>
+		<div class="row">
+			<small class="d-block font-weight-bold">
+				Select Stage
+			</small>
+			<select name="sale_stage_id" (change)="changeSaleStage()" [(ngModel)]="sale_stage_index" id="" class="text-dark form-control mb-1">
+				<option *ngFor="let sale_stage of _sale_stage; let i = index" value="{{i}}">{{sale_stage.sale_stage_type}}</option>
+			</select>
+		</div>
+		<div class="row">
+			<small class="d-block font-weight-bold">
+				Start Date
+			</small>
+			<input type="date" name="" (input)="refresh()" [(ngModel)]="sale_stage_selected.sale_stage_start_date" class="form-control">
+		</div>
+		<div class="row">
+			<small class="d-block font-weight-bold">
+				End Date
+			</small>
+			<input type="date" name="" (input)="refresh()" [(ngModel)]="sale_stage_selected.sale_stage_end_date" class="form-control">
+		</div>
+		<div class="row ">
+			<small class="d-block font-weight-bold">
+				Duration
+			</small>
+			<input type="text" step="any" name="" [(ngModel)]="sale_stage_days_remain" class="form-control" disabled>
+		</div>
+		<div class="row mt-4">
+			<h4>LOK Coin Value</h4>
+		</div>
+		<div class="row">
+			<small class="d-block font-weight-bold">
+				BTC to LOK
+			</small>
+			<input type="number" step="any" name="" (input)="refresh()" [(ngModel)]="_coin[2].conversion_multiplier"  class="form-control">
+		</div>
+		<div class="row">
+			<small class="d-block font-weight-bold">
+				ETH to LOK
+			</small>
+			<input type="number" step="any" name="" (input)="refresh()" [(ngModel)]="_coin[1].conversion_multiplier" class="form-control">
+		</div>
+		<div class="row mt-4">
+			<h4>LOK Coin Discount Value</h4>
+		</div>
+		<div class="row">
+			<small class="d-block font-weight-bold">
+				Discount
+			</small>
+			<input type="number" step="any" name="" (input)="refresh()"  [(ngModel)]="sale_stage_selected.sale_stage_discount"  class="form-control">
+		</div>
+		<div class="row">
+			<small class="d-block font-weight-bold">
+				BTC
+			</small>
+			<input type="number" step="any" name="" [(ngModel)]="btc_discount_equivalent" class="form-control" disabled>
+		</div>
+		<div class="row">
+			<small class="d-block font-weight-bold">
+				ETH
+			</small>
+			<input type="number" step="any" name="" [(ngModel)]="eth_discount_equivalent" class="form-control" disabled>
+		</div>
+		<div class="row mt-4">
+			<h4>Bonus Coin</h4>
+		</div>
+		
+		<div class="row mt-2" >
+			<input type="number" step="any" name="" [(ngModel)]="sale_stage_bonus_selected[0].buy_coin_bonus_from" class="form-control col-md-5">
+			<input type="number" step="any" name="" [(ngModel)]="sale_stage_bonus_selected[0].buy_coin_bonus_to" class="form-control col-md-5">
+			<input type="number" step="any" name="" [(ngModel)]="sale_stage_bonus_selected[0].buy_coin_bonus_percentage" class="form-control col-md-2">
+		</div>
+
+		<div class="row mt-2" >
+			<input type="number" step="any" name="" [(ngModel)]="sale_stage_bonus_selected[1].buy_coin_bonus_from" class="form-control col-md-5">
+			<input type="number" step="any" name="" [(ngModel)]="sale_stage_bonus_selected[1].buy_coin_bonus_to" class="form-control col-md-5">
+			<input type="number" step="any" name="" [(ngModel)]="sale_stage_bonus_selected[1].buy_coin_bonus_percentage" class="form-control col-md-2">
+		</div>
+
+		<div class="row mt-2" >
+			<input type="number" step="any" name="" [(ngModel)]="sale_stage_bonus_selected[2].buy_coin_bonus_from" class="form-control col-md-5">
+			<input type="number" step="any" name="" [(ngModel)]="sale_stage_bonus_selected[2].buy_coin_bonus_to" class="form-control col-md-5">
+			<input type="number" step="any" name="" [(ngModel)]="sale_stage_bonus_selected[2].buy_coin_bonus_percentage" class="form-control col-md-2">
+		</div>
+
+		<div class="row mt-2" >
+			<input type="number" step="any" name="" [(ngModel)]="sale_stage_bonus_selected[3].buy_coin_bonus_from" class="form-control col-md-5">
+			<input type="number" step="any" name="" [(ngModel)]="sale_stage_bonus_selected[3].buy_coin_bonus_to" class="form-control col-md-5">
+			<input type="number" step="any" name="" [(ngModel)]="sale_stage_bonus_selected[3].buy_coin_bonus_percentage" class="form-control col-md-2">
+		</div>
+
+		<div class="row justify-content-end mt-4"> -->
+			<!-- <button class="btn btn-primary col-md-2 mr-2" (click)="experiment()">REFRESH</button> -->
+			<!-- <button class="btn btn-primary col-md-2" (click)="update()">UPDATE</button>
+		</div>
+
+		
+	</div>
+
+
+</div> -->
+<!-- <div class="row" *ngIf="loading">
+	<div class="col-lg-12 col-xs-12">
+		<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+			<div class="circle"></div>
+			<small class="text">LOADING TABLE...</small>
+		</div>
+	</div>
+</div>
+ -->

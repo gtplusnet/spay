@@ -1,0 +1,174 @@
+/* TEXT STYLES */
+
+.text-header {
+    font-family: $ff;
+    color: #5c7cfe;
+    font-weight: $sem;
+    font-size: 45px;
+    padding: 20px 0;
+}
+
+.section-header {
+    @include text-style($ff, $bold, 28px);
+    color: #741EC8;
+}
+
+.section-header-white {
+    @include text-style($ff, $bold, 28px);
+    color: #fff;
+}
+
+.section-header-white-sm {
+    @include text-style($ff, $bold, 22px);
+    color: #fff;
+}
+
+.section-header-lblue {
+    @include text-style($ff, $bold, 22px);
+    color: #429EF9;
+}
+
+.section-text {
+    @include text-style($os, 300, 1rem);
+}
+
+.section-text-white {
+    @include text-style($os, 300, 1rem);
+    color: rgba(#fff, .6);
+}
+
+.small-header {
+    font-family: $ff;
+    color: #fff;
+    font-weight: $sem;
+    font-size: 18px;
+    padding: 20px 0;
+}
+
+.text-header-w {
+    font-family: $ff;
+    color: #fff;
+    font-weight: $sem;
+    font-size: 45px;
+    padding: 20px 0;
+}
+
+.content-text {
+    font-family: $ff;
+    color: rgba(#fff, 0.8);
+    font-weight: $light;
+    font-size: 16px;
+}
+
+.content-text-bold {
+    @extend .content-text;
+    font-weight: $bold;
+}
+
+.small-text {
+    font-family: $ff;
+    color: rgba(#fff, 0.8);
+    font-weight: $light;
+    font-size: 14px;
+}
+
+.total {
+    color: #ff4848 !important;
+}
+
+.td-color {
+    background-color: rgba(#0a0129, 0.5);
+}
+
+.custom-textfield {
+    font-family: $ff;
+    font-size: 18px;
+    font-weight: $light;
+    border: none;
+    background-color: #180e3b;
+    color: #fff;
+}
+
+.f-answer {
+    border-bottom: 1px solid #1e61a4;
+}
+
+.f-text {
+    font-family: $ff;
+    font-size: 12px;
+    font-weight: $light;
+    color: #5d5868;
+}
+
+.f-text-link {
+    @extend .f-text;
+    &:hover {
+        color: rgba(#fff, 0.8);
+    }
+}
+
+.text-link-1 {
+    text-decoration: none;
+    color: #27aae1;
+    opacity: 0.8;
+    &:hover {
+        @include transition(0.2s);
+        color: #27aae1;
+        opacity: 1;
+    }
+}
+
+.text-link-2 {
+    text-decoration: none;
+    color: #775bfa;
+    opacity: 0.8;
+    &:hover {
+        @include transition(0.2s);
+        color: #775bfa;
+        opacity: 1;
+    }
+}
+
+.crd-title {
+    font-family: $ff;
+    font-weight: $reg;
+    font-size: 22px;
+    color: rgba(#fff, 0.7);
+}
+
+.crd-content-text {
+    font-family: $ff;
+    font-weight: $bold;
+    font-size: 24px;
+}
+
+.crd-content-text-sm {
+    @extend .crd-content-text;
+    font-size: 16px;
+}
+
+.crd-content-text-xs-muted {
+    @extend .crd-content-text;
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.nav-item,
+.nav-title,
+.nav-link,
+.dropdown-header,
+.dropdown-item {
+    font-family: $ff;
+}
+
+.nav-title {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.side-nav-link-text {
+    font-family: $ff;
+    font-weight: $reg;
+    font-size: 14px;
+}
+
+// END TEXT STYLES

@@ -1,0 +1,195 @@
+<div class="row member-loading p-0 m-0" *ngIf="initializing">
+    <div class="col-lg-12 col-xs-12">
+        <div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+            <div class="circle"></div>
+            <small class="text">{{ load_message }}</small>
+        </div>
+    </div>
+</div>
+<div class="page-wrapper">
+    <nav class="navbar page-header">
+        <a href="javascript:" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
+            <i class="fa fa-bars"></i>
+        </a>
+
+        <a class="navbar-brand" href="/member">
+            <img src="/assets/img/svg/lokalize-admin-logo.svg" atl="logo">
+        </a>
+
+        <a href="javascript:" class="btn btn-link sidebar-toggle d-md-down-none">
+            <i class="fa fa-bars"></i>
+        </a>
+
+        <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="javascript:" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="/assets/assets-laravel/member-dashboard/imgs/avatar-1.png" class="avatar avatar-sm" alt="logo">
+                    <span class="small ml-1 d-md-down-none">{{ rest.first_name }} {{ rest.last_name }}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right p-3">
+                    <li class="dropdown-item nav-label-lokal p-0 m-0 mt-2 text-center">
+                        Notifications
+                    </li>
+                    <li class="dropdown-divider border-lokal-nav"></li>
+                    <li class="dropdown-item py-1">
+                        <a href="javascript:void(0)" [routerLink]="['/admin/member-list']" class="nav-items-lokal"
+                        (click)="adminViewedNotif('new_member_request')">
+                            <div class="nav-alignment-x"><i class="fas fa-user"></i></div> <small>New Member Request <small class="notif-counter-{{admin_notif.new_member_request == 0 ? 'inactive' : 'active'}}">{{ admin_notif.new_member_request }}</small></small>
+                        </a>
+                    </li>
+                    <li class="dropdown-item py-1">
+                        <a href="javascript:void(0)" [routerLink]="['/admin/business-application']" class="nav-items-lokal d-flex justify-content-center align-items-center" (click)="adminViewedNotif('new_business_application')">
+                            <div class="nav-alignment-x"><i class="far fa-handshake"></i></div> <small>Business Application <small class="notif-counter-{{admin_notif.new_business_application == 0 ? 'inactive' : 'active'}}">{{ admin_notif.new_business_application }}</small></small>
+                        </a>
+                    </li>
+                    <li class="dropdown-item py-1">
+                        <a href="javascript:void(0)" [routerLink]="['/admin/kyc-verification']" class="nav-items-lokal" (click)="adminViewedNotif('new_kyc')">
+                            <div class="nav-alignment-x"><i class="fas fa-id-card"></i></div> <small>Verification Request <small class="notif-counter-{{admin_notif.new_kyc == 0 ? 'inactive' : 'active'}}">{{ admin_notif.new_kyc }}</small></small>
+                        </a>
+                    </li>
+
+                    <li class="dropdown-item nav-label-lokal p-0 m-0 mt-2 text-center">
+                        Account
+                    </li>
+                    <li class="dropdown-divider border-lokal-nav"></li>
+                    <li class="dropdown-item py-1">
+                        <a href="javascript:void(0)" [routerLink]="['/member']" class="nav-items-lokal">
+                            <div class="nav-alignment-x"><i class="fas fa-exchange-alt"></i></div> <small>Switch to Member</small>
+                        </a>
+                    </li>
+                   <!--  <li class="dropdown-item py-1">
+                        <a href="javascript:void(0)" [routerLink]="['/member/profile']" class="nav-items-lokal">
+                            <div class="nav-alignment-x"><i class="fas fa-user"></i></div> <small>My Account</small>
+                        </a>
+                    </li>
+                    <li class="dropdown-item py-1">
+                        <a href="javascript:void(0)" [routerLink]="['/member/profile/my-referral']" class="nav-items-lokal">
+                            <div class="nav-alignment-x"><i class="far fa-handshake"></i> </div> <small>My Referrals</small>
+                        </a>
+                    </li> -->
+                    <li class="dropdown-item py-1">
+                        <a href="javascript:void(0)" (click)="actionLogout()" class="nav-items-lokal">
+                            <div class="nav-alignment-x"><i class="fas fa-sign-out-alt"></i> </div> <small>Logout</small>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav member-sidenav">
+                    <li class="nav-title">Navigation</li>
+
+                    <li class="nav-item">
+                        <a [routerLink]="['/admin/dashboard']" class="nav-link py-1 px-4">
+                            <div class="nav-alignment-x"><i class="fas fa-tachometer-alt"></i></div> <small>Dashboard</small>                        
+                          </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a [routerLink]="['/admin/member-list']" class="nav-link py-1 px-4" (click)="adminViewedNotif('new_member_request')">
+                            <div class="nav-alignment-x"><i class="fas fa-users"></i></div> <small>Member List</small>  
+                        </a>
+                        
+                    </li>
+                    <li class="nav-item">
+                        <a [routerLink]="['/admin/btc-transactions']" class="nav-link py-1 px-4">
+                            <div class="nav-alignment-x"><i class="fab fa-bitcoin"></i></div> <small>BTC Transaction List</small>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a [routerLink]="['/admin/eth-transactions']" class="nav-link py-1 px-4">
+                            <div class="nav-alignment-x"><i class="fab fa-ethereum"></i></div> <small>ETH Transaction List</small>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a [routerLink]="['/admin/kyc-verification']" class="nav-link py-1 px-4" (click)="adminViewedNotif('new_kyc')">
+                            <div class="nav-alignment-x"><i class="far fa-check-square"></i></div><small>Profile/KYC Verification</small>
+                        </a>
+                    </li>
+                     <li class="nav-item">
+                        <a [routerLink]="['/admin/business-application']" class="nav-link py-1 px-4" (click)="adminViewedNotif('new_business_application')">
+                            <div class="nav-alignment-x"><i class="fas fa-briefcase"></i></div><small>Business Application</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a [routerLink]="['/admin/communication-board']" class="nav-link py-1 px-4">
+                            <div class="nav-alignment-x"><i class="far fa-calendar-alt"></i></div><small>Communication Board</small>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a [routerLink]="['/admin/transfer-token']" class="nav-link py-1 px-4">
+                            <div class="nav-alignment-x"><i class="fas fa-donate"></i></div><small>Transfer Token</small>
+                        </a>
+                    </li>
+                    <li>  
+                        <a [routerLink]="['/admin/bonus']" class="nav-link py-1 px-4">
+                            <div class="nav-alignment-x"><i class="fas fa-user-plus"></i></div> <small>Member Bonus Logs</small>
+                        </a>
+                    </li>
+                       <ul class="nav member-sidenav dropdown-lokal">
+                           <li class="nav-item sub-menu">
+                               <a [routerLink]="['/admin/bonus/sale-stage']" class="nav-link py-0">
+                                   <small class="ml-1" >Sale Stage Bonus</small> 
+                               </a>
+                           </li>
+                           <li class="nav-item sub-menu">
+                               <a [routerLink]="['/admin/bonus/referral']" class="nav-link py-0">
+                                   <small class="ml-1" >Affiliate Bonus</small> 
+                               </a>
+                           </li>
+                           <!-- <li class="nav-item sub-menu">
+                               <a [routerLink]="['/admin/bonus/role']" class="nav-link py-0">
+                                   <small class="ml-1" >Role Bonus</small> 
+                               </a>
+                           </li> -->
+                       </ul>
+                    <li class="nav-item">
+                        <a [routerLink]="['/admin/settings']" class="nav-link py-1 px-4">
+                            <div class="nav-alignment-x"><i class="fas fa-cog"></i></div> <small>Settings</small>
+                        </a>
+                    </li>
+                       <ul class="nav member-sidenav dropdown-lokal">
+                           <li class="nav-item sub-menu">
+                               <a [routerLink]="['/admin/settings/conversion-settings']" class="nav-link py-0">
+                                   <small class="ml-1" >Conversion Settings</small> 
+                               </a>
+                           </li>
+                           <li class="nav-item sub-menu">
+                               <a [routerLink]="['/admin/settings/referral-settings']" class="nav-link py-0">
+                                   <small class="ml-1" >Referral Settings</small> 
+                               </a>
+                           </li>
+                           <li class="nav-item sub-menu">
+                               <a [routerLink]="['/admin/settings/main-wallet-settings']" class="nav-link py-0">
+                                   <small class="ml-1" >Main Wallet Settings</small> 
+                               </a>
+                           </li>
+                           <li class="nav-item sub-menu">
+                               <a [routerLink]="['/admin/settings/faqs-settings']" class="nav-link py-0">
+                                   <small class="ml-1" >FAQs Settings</small> 
+                               </a>
+                           </li>
+                           <li class="nav-item sub-menu">
+                               <a [routerLink]="['/admin/settings/system-files']" class="nav-link py-0">
+                                   <small class="ml-1" >System Files</small> 
+                               </a>
+                           </li>
+                       </ul>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="content" style="background: #f5f6fa !important;">
+            <div class="container-fluid text-dark">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,965 @@
+<h4 class="font-weight-light page-title">
+	<i class="fas fa-user mr-2"></i>Profile
+	<em><small></small></em>
+</h4>
+
+<div class="main-cointainer">
+	<div class="cointainer">
+		<div class="row clearfix">
+			<div class="col-md-5 text-center">
+				<!--left-->
+				<h2 class="text-center"> {{rest.first_name}} {{rest.last_name}} </h2>
+				<p class="text-center mb-0">{{rest.email}}</p>
+				<p class="text-center">Member Since {{rest.created_at | date:'MMMM dd, yyyy' }}</p>
+				<div class="d-flex flex-column tab">
+					<button class="btn button-lokal-l {{ profile_page == 'basic-information' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/basic-information']"><i class="fas fa-user mr-2"></i>Basic Information</button>
+					<button class="btn button-lokal-l {{ profile_page == 'google-auth' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/google-auth']"><i class="fab fa-google mr-2"></i>Google Authenticator</button>
+					<button class="btn button-lokal-l {{ profile_page == 'limits-and-verification' ? 'active-lokal' : kyc_page == 'id' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/limits-and-verification']"><i class="far fa-check-square mr-2"></i>Verification</button>
+					<button class="btn button-lokal-l {{ profile_page == 'change-password' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/change-password']"><i class="fas fa-edit mr-2" ></i>Change Password</button>
+					<button class="btn button-lokal-l {{ profile_page == 'my-referral' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/my-referral']"><i class="far fa-handshake mr-2"></i>My Referral</button>
+				</div>
+			</div>
+			<div class="col-md-7">
+				<div class="main-container border pt-3 pb-3">
+					<div class="basic-information" *ngIf="profile_page == 'basic-information'">
+						<div class="top-container">
+							<div class="container"> 
+								<div class="row clearfix">
+									<div class="col-md-9  color-lokal">
+										<span class="d-inline-block align-middle">
+											<i class="fas fa-user mr-2"></i>
+										</span>
+										<span class="d-inline-block align-middle">
+											<h5 class="font-weight-light mb-0"> Basic Information</h5>
+										</span> 
+									</div>
+									<div class="col-md-3">
+										<button class="btn btn-block button-lokal mb-2 float-right" (click)="updateInformation()" disabled="{{is_update_submit ? 'disabled' : ''}}">
+											<small *ngIf="is_update_submit">
+												<i class="fas fa-spinner button-loader mr-2"></i>Updating..
+											</small>
+											<small *ngIf="!is_update_submit">
+												<i class="fas fa-edit mr-2"></i>Update
+											</small>
+										</button>
+									</div>
+								</div>
+								<div class="row mb-1" *ngIf="error_message != 'no-message'">
+									<div class="col-xs-12 col-lg-12">
+										<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-danger">
+											<span>{{ error_message }}</span>
+										</div>
+									</div>
+								</div>
+								<div class="row mb-1" *ngIf="success_message != 'no-message'">
+									<div class="col-xs-12 col-lg-12">
+										<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-success">
+											<span>{{ success_message }}</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="bottom-container">
+							<div class="container">
+								<label class="mb-1 mt-3">ID</label>
+								<input type="text" [(ngModel)]="member_id" class="form-control input-lokal" readonly="true" value="{{rest.member_id}}">
+								
+								<label class="mb-1 mt-3">Username</label>
+								<input type="text" [(ngModel)]="username" class="form-control input-lokal" placeholder="Username" value="{{rest.username}}">
+
+								<label class="mb-1 mt-3">First Name</label>
+								<input type="text" [(ngModel)]="first_name" class="form-control input-lokal" placeholder="First Name" value="{{rest.first_name}}" readonly="true">
+
+								<label class="mb-1 mt-3">Last Name</label>
+								<input type="text" [(ngModel)]="last_name" class="form-control input-lokal" placeholder="Last Name" value="{{rest.last_name}}" readonly="true">
+
+								<label class="mb-1 mt-3">Email Address</label>
+								<input type="email" [(ngModel)]="email" class="form-control input-lokal" placeholder="Email Address" value="{{rest.email}}" readonly="true">
+
+								<label class="mb-1 mt-3">Birthday</label>
+								<input type="date" class="form-control input-lokal" value="{{rest.birthday | date:'yyyy-MM-dd'}}" readonly="true">
+								
+								<!-- <label class="mb-1 mt-3">Country</label>
+								<select [(ngModel)]="country" class="form-control input-lokal" placeholder="Select Country">
+									<option value=></option>
+								-->
+								<label class="mb-1 mt-3">Phone Number</label>
+								<input type="number" [(ngModel)]="phone_number" class="form-control input-lokal" placeholder="Phone Number" value="{{rest.phone_number}}">
+
+								<label class="mb-1 mt-3">Country</label>
+								<select name="country_code" id="country_code" [(ngModel)]="country_code_id" class="form-control form-control-sm input-lokal">
+									<option *ngFor="let cc of country_codes" value="{{ cc.country_code_id }}">
+										{{ cc.country }}
+									</option>
+								</select>
+
+								<label class="mb-1 mt-3">Entity</label>
+								<select (change)="entityChange()" name="entity" id="entity" [(ngModel)]="entity" class="form-control form-control-sm input-lokal">
+									<option value="Individual">Individual</option>
+									<option value="Corporate/Business">Corporate/Business</option>
+								</select>
+
+								<label class="mb-1 mt-3">Crypto Purchaser</label>
+								<select [(ngModel)]="crypto_purchaser" (change)="cryptoPurchaser(crypto_purchaser_details)" name="crypto_purchaser" id="crypto_purchaser" class="form-control form-control-sm input-lokal">
+									<option value="none">(Optional)</option>
+									<option value="Every Day Crypto Purchaser">Every Day Crypto Purchaser</option>
+									<option value="Adviced Crypto Purchaser">Adviced Crypto Purchaser</option>
+									<option value="Self-Certified Crypto Purchaser">Self-Certified Crypto Purchaser</option>
+									<option value="High Net Worth Crypto Purchaser">High Net Worth Crypto Purchaser</option>
+								</select>
+
+								<label class="mb-1 mt-3">Company Name</label>
+								<input type="text" [(ngModel)]="company_name" class="form-control input-lokal" placeholder="Company Name (Optional)" value="{{rest.company_name}}">
+
+								<label class="mb-1 mt-3">Desired BTC</label>
+								<input type="number" [(ngModel)]="desired_btc" class="form-control input-lokal" placeholder="Desired BTC (Optional)" value="{{rest.desired_btc}}">	
+
+								<label class="mb-1 mt-3">Desired ETH</label>
+								<input type="number" [(ngModel)]="desired_eth" class="form-control input-lokal" placeholder="Desired ETH (Optional)" value="{{rest.desired_eth}}">	
+							</div>
+						</div>
+					</div>
+
+					<div class="google-auth" *ngIf="profile_page == 'google-auth'">
+						<div class="top-container">
+							<div class="container">
+								<div class="row clearfix">
+									<div class="col-md-12 color-lokal">
+										<span class="d-inline-block align-middle">
+											<i class="fab fa-google mr-2"></i>
+										</span>
+										<span class="d-inline-block align-middle">
+											<h5 class="font-weight-light mb-0">Google Authentication</h5>
+										</span> 
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="bottom-container">
+							<div class="container">
+								<div class="checkbox checbox-switch switch-success p-3">
+									<!-- <label class="mb-1 mt-3" style="padding-left: 25%; padding-right: 10%">Switch ON/OFF
+										<input [(ngModel)]="auth_switch" name=""/>
+										<button *ngIf="google_enabled_status" class="btn {{google_enabled_status.type == 'enabled' ? 'btn-primary' : 'btn-danger'}}" (click)="enableGoogle2FA()">Google 2FA {{google_enabled_status.type == 'enabled' ? 'Enabled' : 'Disabled'}}</button>
+										<span></span> 
+									</label> -->
+									<div class="row">
+										<div class="col-md-8 col-xs-8">
+											Google Two-Factor Authentication 
+										</div>
+										<div class="col-md-4 col-xs-4">
+											<h3 *ngIf="!google_2fa_qr.user">
+												<i class="fas fa-spinner button-loader"></i>
+											</h3>
+											<button *ngIf="google_2fa_qr.user" class="btn {{ google_2fa_qr.user.google2fa_enabled == '1' ? 'btn-success' : 'btn-danger'}} btn-sm" (click)="switchQrCode(google_auth_enable)">
+												{{ google_2fa_qr.user.google2fa_enabled == '1' ? 'Enabled' : 'Disabled'}}
+											</button>
+											<!-- <label *ngIf="google_2fa_qr.user" class="switch">
+
+												<input name ="google2fa_enabled" type="checkbox" *ngIf="!google2fa_enabled" (click)="switchQrCode(google_auth_enable)">
+												<input name ="google2fa_enabled" type="checkbox" checked="checked" *ngIf="google2fa_enabled" (click)="switchQrCode(google_auth_enable)">
+												<span class="slider round"></span>
+											</label> -->
+											<!--  -->
+										</div>
+										<div class="col-md-8 col-xs-8">
+											Show Pairing QR Code
+										</div>
+										<div class="col-md-4 col-xs-4">
+											<h3 *ngIf="!google_2fa_qr.user">
+												<i class="fas fa-spinner button-loader"></i>
+											</h3>
+											<label *ngIf="google_2fa_qr.user" class="switch">
+												<input *ngIf="google_2fa_qr.user" type="checkbox" (change)="showHideQrPairing()" disabled="{{google2fa_enabled == 1 ? '' : 'disabled'}}">
+												<span *ngIf="google_2fa_qr.user" class="slider round"></span>
+											</label>
+										</div>
+										<div class="col-md-8 col-xs-8" *ngIf="qr_code_switch == 1">
+											<small class="d-block mb-1 font-weight-bold">Pairing QR Code</small>
+											<img src="{{google_2fa_qr.google2fa_url}}" alt="">
+										</div>
+										<div class="col-md-4 col-xs-4">
+										</div>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+					<div class="limits-and-verification" *ngIf="profile_page == 'limits-and-verification'">
+						<div class="top-container">
+							<div class="container  color-lokal">
+								<span class="d-inline-block align-middle">
+									<i class="fas fa-edit mr-2" ></i>
+								</span>
+								<span class="d-inline-block align-middle">
+									<h5 class="font-weight-light mb-0">Limits & Verification</h5>
+								</span>
+								<div>
+									<h2 class="text-center my-3">Your KYC: Level {{ current_kyc_level }}</h2>
+								</div>
+								<hr class="border-top border-light">
+								<div>
+									<h5 class="text-center">Level 1</h5>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<label class="mb-0 pt-1">Email Verification</label>
+									</div>
+									<div class="col-md-6">
+										<a *ngIf="verified_mail == 0"  data-toggle="modal" data-target="" (click)="idVerification(email_verification)"><div class="alert alert-success px-0 py-1 text-center my-1">
+											Verify
+										</div></a>
+
+										<div *ngIf="verified_mail == 1" class="alert alert-light px-0 py-1 text-center my-0">
+											Completed
+										</div>
+									</div>
+								</div>
+								<div>
+									<h5 class="text-center">Level 2</h5>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<label class="mb-0 pt-2">Phone Verification</label>
+									</div>
+									<div class="col-md-6">
+										<div class="alert alert-light px-0 py-1 text-center my-1">
+											Completed
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<label class="mb-0 pt-2">Identity Verification</label>
+									</div>
+									<div class="col-md-6">
+										<a *ngIf="kyc_status_id == ''" href="" data-toggle="modal" data-target=""  (click)="openKycLevel2id(id_verification)"><div class="alert alert-success px-0 py-1 text-center my-1">
+											Verify
+										</div></a>
+										<a *ngIf="kyc_status_id =='rejected'" href="" data-toggle="modal" data-target="" (click)="openKycLevel2id(id_verification)"><div class="alert alert-danger px-0 py-1 text-center my-1">
+											Rejected
+										</div></a>
+										<div *ngIf="kyc_status_id =='pending'"  class="alert alert-light px-0 py-1 text-center my-1">
+											Wait For Confirmation
+										</div>
+										<div *ngIf="kyc_status_id =='completed'" class="alert alert-light px-0 py-1 text-center my-1">
+											Completed
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<label class="mb-0 pt-2">Selfie Verification</label>
+									</div>
+									<div class="col-md-6">
+										<a *ngIf="kyc_status_selfie == ''" href="" data-toggle="modal" data-target="" (click)="openKycLevel2Selfie(selfie_verification)"><div class="alert alert-success px-0 py-1 text-center my-1">
+											Verify
+										</div></a>
+										<a *ngIf="kyc_status_selfie =='rejected'" href="" data-toggle="modal" data-target="" (click)="openKycLevel2Selfie(selfie_verification)"><div class="alert alert-danger px-0 py-1 text-center my-1">
+											Rejected
+										</div></a>
+										<div *ngIf="kyc_status_selfie =='pending'" class="alert alert-light px-0 py-1 text-center my-1">
+											Wait For Confirmation
+										</div>
+										<div *ngIf="kyc_status_selfie =='completed'" class="alert alert-light px-0 py-1 text-center my-1">
+											Completed
+										</div>
+									</div>
+								</div>
+								<div>
+									<h5 class="text-center">Level 3</h5>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<label class="mb-0 pt-2">Address Verification</label>
+									</div>
+									<div class="col-md-6">
+										<div class="alert alert-success px-0 py-1 text-center my-1">
+											Verify
+										</div>
+									</div>
+								</div>
+								<div>
+									<h5 class="text-center">Level 4</h5>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<label class="mb-0 pt-2">Business Verification</label>
+									</div>
+									<div class="col-md-6">
+										<div class="alert alert-success px-0 py-1 text-center my-1">
+											Verify
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="change-password" *ngIf="profile_page == 'change-password'">
+						<div class="top-container">
+							<div class="container"> 
+								<div class="row clearfix">
+									<div class="col-md-6 color-lokal">
+										<span class="d-inline-block align-middle">
+											<i class="fas fa-edit mr-2" ></i>
+										</span>
+										<span class="d-inline-block align-middle">
+											<h5 class="font-weight-light mb-0">Change Password</h5>
+										</span> 
+									</div>
+									<div class="col-md-6">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="bottom-container">
+							<div class="container clearfix">
+								<div class="row mb-2" *ngIf="error_message != 'no-message'">
+									<div class="col-xs-12 col-lg-12">
+										<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-danger">
+											<span>{{ error_message }}</span>
+										</div>
+									</div>
+								</div>
+								<div class="row mb-2" *ngIf="success_message != 'no-message'">
+									<div class="col-xs-12 col-lg-12">
+										<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-success">
+											<span>{{ success_message }}</span>
+										</div>
+									</div>
+								</div>
+								<label class="mb-1 mt-3">Current Password</label>
+								<input type="password" [(ngModel)]="current_password" class="form-control input-lokal" placeholder="Current Password">
+
+								<label class="mb-1 mt-3">New Password</label>
+								<input type="password" [(ngModel)]="password" class="form-control input-lokal" placeholder="New Password">
+								
+								<label class="mb-1 mt-3">Confirm Password</label>
+								<input type="password" [(ngModel)]="password_confirmation" class="form-control input-lokal" placeholder="Confirm Password">
+								
+								<button class="btn button-lokal mb-2 mt-3 float-right" (click)="updateMemberPassword()" disabled="{{is_update_submit ? 'disabled' : ''}}">
+									<small *ngIf="is_update_submit">
+										<i class="fas fa-spinner button-loader mr-2"></i>Updating..
+									</small>
+									<small *ngIf="!is_update_submit">
+										<i class="fas fa-edit mr-2"></i>Update
+									</small>
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="my-referral" *ngIf="profile_page == 'my-referral'">
+						<div class="top-container">
+							<div class="container"> 
+								<div class="row">
+									<div class="col-md-12 color-lokal">
+										<span class="d-inline-block align-middle">
+											<i class="far fa-handshake mr-2"></i>
+										</span>
+										<span class="d-inline-block align-middle">
+											<h5 class="font-weight-light mb-1">My Referral</h5>
+										</span> 
+									</div>
+									<hr>
+								</div>
+								<div class="row clearfix mb-2">
+									<div class="col-md-6" *ngIf="refer_data">
+										<div *ngIf="refer_data.refer == 1" class="d-flex my-border-light alert alert-primary flex-row justify-content-center align-items-center h6 mb-0 text-center color-lokal-x ">
+											<small class="mx-2">
+												<h4 class="text-center mb-0">{{refer_data.list.referral_link}}</h4>
+												<small class="text-primary d-block mb-1"><i class="fas fa-link mr-1"></i>https://spay.io/register?referral={{refer_data.list.referral_link}}</small>
+												Referral Code
+											</small>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="d-flex my-border-light alert alert-light flex-row justify-content-center align-items-center h6 mb-0 text-center color-lokal-x ">
+											<small class="mx-2">
+												<h4 class="text-center mb-0">{{referral_count}}</h4>
+												Total Referral
+											</small>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="bottom-container">
+							<div class="container clearfix">
+								<div class="table-responsive px-0"  style="min-height: 300px;">
+									<table class="table member-table-x admin-db table-hover px-2">
+										<caption class="bg-light m-0 p-0 py-2 px-1" *ngIf="!table_loader">
+											<pagination-controls class="my-pagination" (pageChange)="referral_member_page = $event" id="referral_member_page"></pagination-controls>
+										</caption>
+										<thead>
+											<tr>
+												<th>Full Name</th>
+												<th>Email</th>
+												<th>Career</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody *ngIf="table_loader">
+											<tr>
+												<td colspan="8">
+													<div class="row" >
+														<div class="col-lg-12 col-xs-12">
+															<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+																<div class="circle"></div>
+																<small class="text">LOADING TABLE...</small>
+															</div>
+														</div>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+										<tbody *ngIf="!table_loader">
+											<tr *ngIf="_table == ''">
+												<td colspan="8">
+													<div class="text-center">
+														<small class="font-weight-light">No data found.</small>
+													</div>
+												</td>
+											</tr>
+											<tr *ngFor="let data of _table | paginate: { itemsPerPage:5, currentPage: referral_member_page, id : 'referral_member_page' }">
+												<td>{{data.first_name}} {{data.last_name}}</td>
+												<td>{{data.email}}</td>
+												<td>{{data.member_position_name}}</td>
+												<td class="text-center">
+													<!-- <div ngbDropdown placement="bottom-right">
+														<button class="btn btn-outline-dark btn-sm" id="dropdownBasic1" ngbDropdownToggle>
+															<small>
+																<i class="fas fa-cog mr-2"></i>ACTIONS
+															</small>
+														</button>
+														<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+															<button class="dropdown-item" (click)="viewReferralInfo(data.id,view_referral_details)">View Details</button>
+														</div>
+													</div> -->
+													<div class="btn-group" dropdown placement="bottom right">
+													  <button id="button-alignment" dropdownToggle type="button"
+													          class="btn btn-outline-dark btn-sm dropdown-toggle" aria-controls="dropdown-alignment">
+													    <small>
+												      		<i class="fas fa-cog mr-2"></i>ACTIONS <span class="caret"></span>
+												      	</small> 
+													  </button>
+													  <ul id="dropdown-alignment" *dropdownMenu class="dropdown-menu dropdown-menu-right"
+													      role="menu" aria-labelledby="button-alignment">
+													    <li role="menuitem">
+													    	<a href="javascript:void" class="dropdown-item" (click)="viewReferralInfo(data.id,view_referral_details)">View Details</a>
+													    </li>
+													  </ul>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Id Verification -->
+<ng-template #id_verification let-c="close" let-d="dismiss">
+	<div class="id_verification">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">ID Verification</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body color-lokal-x">
+			<div class="row">
+				<div class="col-md-6">
+					<label class="mr-3">Select ID Type : </label>
+					<select [(ngModel)]="id_type" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng-valid ng-touched">
+						<option>Passport</option>
+						<option>Other</option>
+					</select>
+				</div>
+				<div class="col-md-6">
+					<label *ngIf="id_type == 'Other'" class="mr-4">Please Specify: </label>
+					<input *ngIf="id_type == 'Other'" [(ngModel)]="other_id" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng-valid ng-touched" type="" name="">
+				</div>
+				<div class="col-md-6">
+					<label class="mr-4">ID Number: </label>
+					<input [(ngModel)]="id_number" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng-valid ng-touched" type="" name="">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<label class="mr-2">Expiration Date : </label>
+					<input [(ngModel)]="expiration_date" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng-valid ng-touched" type="date" name="">
+				</div>
+				<div class="col-md-6">
+					<label>Upload Image:</label>
+					<div class="form-row">
+						<div class="col-md-6">
+							<input [(ngModel)]="front_image" type="file" (change)="onFileSelectedFront($event)" class="btn btn-primary btn-sm mb-1 w-100">Upload Front ID Image
+						</div>
+						<div class="col-md-6">
+							<input [(ngModel)]="back_image" type="file" (change)="onFileSelectedBack($event)" class="btn btn-primary btn-sm mb-1 w-100">Upload Back ID Image
+						</div>
+					</div>
+				</div>
+			</div>
+			<div>
+				<input type="checkbox" [checked]="checked" (change)="checked = !checked" style="vertical-align: middle;"><small class="ml-1">I hereby declare that the information contained in this form is complete, void and truthful.</small>
+			</div>
+			<br>
+			<br>
+			<div class="row">
+				<div class="col-md-6">
+					<small><b>Note:</b></small>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-lg-6 B text-center">
+					<i class="fas fa-id-card" style="font-size: 50px;"></i>
+				</div>
+				<div class="col-md-6 col-lg-6 B text-center">
+					<i class="far fa-calendar-alt" style="font-size: 50px;"></i>
+				</div>
+			</div>	
+			<div class="row">
+				<div class="col-md-6 col-lg-6 B text-center">
+					<small>ID must show birthdate.</small>
+				</div>
+				<div class="col-md-6 col-lg-6 B text-center">
+					<small>ID must have atlease one month before expiration.</small>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row" *ngIf="error_message != 'no-message'">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-danger">
+						<span>{{ error_message }}</span>
+					</div>
+				</div>
+			</div>
+			<div class="row" *ngIf="success_message != 'no-message'">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-success">
+						<span>{{ success_message }}</span>
+					</div>
+				</div>
+			</div>
+			<button type="button" class="btn btn-success" (click)="kyclevel2Id()" disabled="{{submitted ? 'disabled' : ''}}">
+				<small *ngIf="submitted">
+					<i class="fas fa-spinner button-loader"></i>
+				</small>
+				SUBMIT
+			</button>
+		</div>
+	</div>
+</ng-template>
+<!--  -->
+<ng-template #google_auth_enable let-c="close" let-d="dismiss">
+	<div class="selfie-verification">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Google Authenticator</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	</div>
+	<div *ngIf="qr_for_enable" class="modal-body color-lokal-x">
+		<div class="row">
+			<div class="col-lg-12 col-xs-12 text-center py-2">
+				<h6>Do not forget to pair your device with this QR Code before logging out. Click 'Confirm' after successfully pairing your device.</h6>
+				<h3 *ngIf="google_2fa_qr_loader">
+					<i class="fas fa-spinner button-loader"></i>
+				</h3>
+				<img *ngIf="!google_2fa_qr_loader" src="{{google_2fa_qr.google2fa_url}}" alt="">
+			</div>
+			<div class="col-lg-6 col-xs-6 text-center py-2">
+				<button class="btn btn-dark btn-lg btn-block" (click)="d('Cross click')">
+					<small>
+						Cancel <i class="fas fa-times ml-2"></i>
+					</small>
+				</button>
+			</div>
+			<div class="col-lg-6 col-xs-6 text-center py-2">
+				<button class="btn btn-dark btn-lg btn-block" disabled="{{ pairing ? 'disabled' : ''}}" (click)="changeStatus2FA()">
+					<small *ngIf="pairing">
+						<i class="fas fa-spinner button-loader"></i>
+					</small>
+					<small *ngIf="!pairing">
+						CONFIRM <i class="fas fa-check ml-2"></i>
+					</small>
+				</button>
+			</div>
+		</div>
+	</div>
+	<div *ngIf="qr_for_disable" class="modal-body color-lokal-x">
+		<div class="row">
+			<div class="col-lg-12 col-xs-12 text-center py-2">
+				<h6>Are you sure to disable Google Authenticator?</h6>
+			</div>
+			<div class="col-lg-6 col-xs-6 text-center py-2">
+				<button class="btn btn-dark btn-lg btn-block" (click)="d('Cross click')">
+					<small>
+						NO <i class="fas fa-times ml-2"></i>
+					</small>
+				</button>
+			</div>
+			<div class="col-lg-6 col-xs-6 text-center py-2">
+				<button class="btn btn-dark btn-lg btn-block" disabled="{{ pairing ? 'disabled' : ''}}" (click)="changeStatus2FA()">
+					<small *ngIf="pairing">
+						<i class="fas fa-spinner button-loader"></i>
+					</small>
+					<small *ngIf="!pairing">
+						YES <i class="fas fa-check ml-2"></i>
+					</small>
+				</button>
+			</div>
+		</div>
+	</div>
+</ng-template>
+<!-- Selfie -->
+<ng-template #selfie_verification let-c="close" let-d="dismiss">
+	<div class="selfie-verification">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Selfie Verification</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	</div>
+	<div class="modal-body color-lokal-x">
+		<div class="row">
+			<div class="col-md-6">
+				<input [(ngModel)]="selfie_image" type="file" (change)="onFileSelectedSelfie($event)" class="btn btn-primary btn-sm mb-1 w-100">Selfie Picture Upload
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row" *ngIf="error_message != 'no-message'">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-danger">
+						<span>{{ error_message }}</span>
+					</div>
+				</div>
+			</div>
+			<div class="row" *ngIf="success_message != 'no-message'">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-success">
+						<span>{{ success_message }}</span>
+					</div>
+				</div>
+			</div>
+			<button (click)="kycLevel2Selfie()" class="btn btn-success" disabled="{{submitted ? 'disabled' : ''}}">
+				<small *ngIf="submitted">
+					<i class="fas fa-spinner button-loader"></i>
+					Sending..
+				</small>
+				<span *ngIf="!submitted">
+					SUBMIT
+				</span>
+			</button>	
+		</div>
+	</div>
+</ng-template>
+
+<!--  -->
+
+<ng-template #view_referral_details let-c="close" let-d="dismiss">
+	<div class="view_account_details">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Transaction Details</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left color-lokal-x">
+			<ngb-tabset>
+				<ngb-tab title="Affiliate Bonus History">
+					<ng-template ngbTabContent>
+				<div class="row p-3 mb-2">
+					<div class="col-lg-6 col-xs-12 px-2">
+						<small class="d-block font-weight-bold color-lokal">
+							Transaction Date<em class="font-weight-light"> -From</em>
+						</small>
+						<input class="form-control form-control-sm input-lokal mb-1" type="date" [(ngModel)]="bonus_tx_date_from" (change)="loadReferralInfo(data_focus_information.id)">
+					</div>
+					<div class="col-lg-6 col-xs-12 px-2">
+						<small class="d-block font-weight-bold color-lokal">
+							Transaction Date<em class="font-weight-light"> -To</em>
+						</small>
+						<input class="form-control form-control-sm input-lokal mb-1" type="date" [(ngModel)]="bonus_tx_date_to" (change)="loadReferralInfo(data_focus_information.id)">
+					</div>
+				</div>
+				<div class=" p-3 row ">
+					<div class="table-responsive px-0"  style="min-height: 300px;">
+						<table class="table member-table-x admin-db table-hover px-2">
+							<caption class="bg-light m-0 p-0 py-2 px-1" *ngIf="!table_loader_referral">
+								<pagination-controls class="my-pagination" (pageChange)="referral_page = $event" id="referral_page"></pagination-controls>
+							</caption>
+							<thead>
+								<tr>
+									<th>Bought Token</th>
+									<th>Receive Bonus</th>
+									<th>Date Receive</th>
+								</tr>
+							</thead>
+							<tbody *ngIf="table_loader_referral">
+								<tr>
+									<td colspan="8">
+										<div class="row" >
+											<div class="col-lg-12 col-xs-12">
+												<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+													<div class="circle"></div>
+													<small class="text">LOADING TABLE...</small>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+							<tbody *ngIf="!table_loader_referral">
+								<tr *ngIf="data_from == ''">
+									<td colspan="8">
+										<div class="text-center">
+											<small class="font-weight-light">No data found.</small>
+										</div>
+									</td>
+								</tr>
+								<tr *ngFor="let item of referral_bonus_info | paginate: { itemsPerPage:5, currentPage: referral_page, id : 'referral_page' }">
+									<td>{{ item["from"][0].log_amount + " LOK" }}</td>
+									<td>{{ item["to"][0].log_amount + " LOK"}}</td>
+									<td>{{ item["to"][0].log_time | date: 'MM/dd/yyyy hh:mm:ss a '}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</ng-template>
+		</ngb-tab>
+		<ngb-tab title="Information">
+			<ng-template ngbTabContent>
+				<div class="table-responsive bg-light p-3">
+					<div class = "row">
+						<div class="col md-3">
+							<h4 class="mb-0 font-weight-light mt-2" >{{	data_focus_information.first_name }} {{ data_focus_information.last_name}}</h4>
+							<small class="font-weight-bold mb-5">Full Name</small> 
+						</div>
+						<div class="col md-3">
+							<h4 class="mb-0 font-weight-light mt-2" >{{ data_focus_information.status_account == 1? 'Verified' : 'Not Verified' }}</h4>
+							<small class="font-weight-bold mb-5">Account Status</small> 
+						</div>
+						<div class="col md-3">
+							<h4 class="mb-0 font-weight-light mt-2" >{{	data_focus_information.created_at | date : 'MM/dd/yyyy hh:mm:ss a' }}</h4>
+							<small class="font-weight-bold mb-5">Date of Registration</small> 
+						</div>
+					</div>
+				</div>
+			</ng-template>
+		</ngb-tab>
+	</ngb-tabset>
+</div>
+</div>
+</ng-template>
+
+<ng-template #email_verification let-c="close" let-d="dismiss">
+	<div class="id_verification">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Email Verification</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body color-lokal-x">
+			<div class="row">
+				
+			</div>
+			<div class="row md-12">
+				<!-- <div class="col-md-3">
+					<button (click)="verifyEmailCode()" type="button" class="btn btn-primary" disabled="{{submitted_submit ? 'disabled' : ''}}">
+						<small *ngIf="submitted_submit">
+							<i class="fas fa-spinner button-loader"></i>
+						</small>
+						Submit
+					</button>
+				</div>
+				<div class="col-md-6">
+					<button (click)="SendVerification()" type="button" class="btn btn-success" disabled="{{submitted_send ? 'disabled' : ''}}">
+						<small *ngIf="submitted_send">
+							<i class="fas fa-spinner button-loader"></i>
+						</small>
+						Send Verification Code
+					</button>
+				</div> -->
+				<div class="col-md-12">
+					<button (click)="SendVerification()" type="button" class="btn button-lokal-x btn-block my-1" disabled="{{submitted_send ? 'disabled' : ''}}">
+						<small *ngIf="submitted_send">
+							<i class="fas fa-spinner button-loader"></i>
+						</small>
+						Verify My Email Address
+					</button>
+				</div>
+			</div>
+			<div class="row mb-1 mt-1" *ngIf="error_message != 'no-message'">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-danger">
+						<span>{{ error_message }}</span>
+					</div>
+				</div>
+			</div>
+			<div class="row mb-1 mt-1" *ngIf="success_message != 'no-message'">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-success">
+						<span>{{ success_message }}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #crypto_purchaser_details let-c="close">
+	<div class="crypto_purchaser_details">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">{{selected + ' Terms And Condition'}}</h5>
+		</div>
+		<div *ngIf="selected == 'Every Day Crypto Purchaser'" class="modal-body color-lokal-x">
+			<div class="row">
+				<div class="col-md-12">
+					<label class="mr-4"><strong>Description</strong></label>
+					<p class="mr-4">Everyday Crypto Purchaser could be anyone. In Everyday Crypto Purchaser you have to invest not more than 10% of your net assets apart from your main home.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<label class="mr-4"><strong>Statement</strong></label>
+					<p class="mr-4">In the twelve months preceding the date below, I have not invested more than 10% of my net assets in non-readily realizable securities; and
+						I undertake that in the twelve months following the date below, I will not invest more than 10% of my net assets in non-readily realizable securities.
+					</p>
+					<p>Net assets for these purposes do not include:</p>
+					<ul>
+						<li>the property which is my primary residence or any money raised through a loan secured on that property;</li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<p>I accept that the purchased made to which it will expose me to the risk of losing money. I am very much aware to seek advice from authorized people who has specializations in advising on cryptocurrency.</p>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" (click)="agreedTermAndCondition('Every Day Crypto Purchaser')">
+					I Agree
+				</button>
+			</div>
+		</div>
+
+		<div *ngIf="selected == 'Adviced Crypto Purchaser'" class="modal-body color-lokal-x">
+			<div class="row">
+				<div class="col-md-12">
+					<label class="mr-4"><strong>Description</strong></label>
+					<p class="mr-4">I am an existing client of a financial advisor or wealth manager and they will provide me with advice about whether this investment (or investments found through this site) are suitable for me.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<label class="mr-4"><strong>Statement</strong></label>
+					<p class="mr-4">I make this statement so that I can receive promotional communications relating to non-readily realizable securities as an advised investor.
+					</p>
+					<p>I declare that I qualify as an advised investor because:</p>
+					<ul>
+						<li>(a) I am already a client of a regulated firm, such as an Independent Financial Adviser or Wealth manager;(“my financial adviser”); and</li>
+						<li>(b) My financial adviser will advise my about whether any investment is suitable where I viewed the investment details through Co-Investor’s website.</li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<p>I accept that the purchased made to which it will expose me to the risk of losing money.</p>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" (click)="agreedTermAndCondition('Adviced Crypto Purchaser')">
+					I Agree
+				</button>
+			</div>
+		</div>
+
+		<div *ngIf="selected == 'Self-Certified Crypto Purchaser'" class="modal-body color-lokal-x">
+			<div class="row">
+				<div class="col-md-12">
+					<label class="mr-4"><strong>Description</strong></label>
+					<p class="mr-4">Self–Certified Crypto Purchaser are people who have invested in more than one unlisted company in the previous two years or has been a member of a network.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<label class="mr-4"><strong>Statement</strong></label>
+					<p class="mr-4">I declare that I am a self-certified sophisticated investor for the purposes of the restriction on promotion of non-readily realizable securities. I understand that this means:
+					</p>
+					<ul>
+						<li>I can receive promotional communications made by a person who is authorized by the Financial Conduct Authority which relate to investment activity in non-readily realizable securities;</li>
+						<li>The investments to which the promotions will relate may expose me to a significant risk of losing all of the property invested.</li>
+					</ul>
+					<p>I am a self-certified sophisticated investor because at least one of the following applies:</p>
+					<ul>
+						<li>I am a member of a network or syndicate of business angels and have been so for at least the last six months prior to the date below;</li>
+						<li>I have made more than one investment in an unlisted company in the two years prior to the date below;</li>
+						<li>I am working, or have worked in the two years prior to the date below, in a professional capacity in the private equity sector, or in the provision of finance for small and medium enterprises;</li>
+						<li>I am currently, or have been in the two years prior to the date below, a director of a company with an annual turnover of at least £1 million.</li>
+
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<p>I accept that the purchased made to which it will expose me to the risk of losing money. I am very much aware to seek advice from authorized people who has specializations in advising on cryptocurrency.</p>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" (click)="agreedTermAndCondition('Self-Certified Crypto Purchaser')">
+					I Agree
+				</button>
+			</div>
+		</div>
+
+		<div *ngIf="selected == 'High Net Worth Crypto Purchaser'" class="modal-body color-lokal-x">
+			<div class="row">
+				<div class="col-md-12">
+					<label class="mr-4"><strong>Description</strong></label>
+					<p class="mr-4">High Net Worth Crypto Purchaser are group of people who earn $ 150,000.00 a year or have net assets of more than $ 350,000.00. </p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<label class="mr-4"><strong>Statement</strong></label>
+					<p class="mr-4">I make this statement so that I can receive promotional communications which are exempt from the restriction on promotion of non-mainstream pooled investments. The exemption relates to certified high net worth investors and I declare that I qualify as such because at least one of the following applies to me:
+					</p>
+					<ul>
+						<li>I had, throughout the financial year immediately preceding the date below, an annual income to the value of $150,000 or more;</li>
+						<li>I held, throughout the financial year immediately preceding the date below, net assets to the value of $350,000 or more.</li>
+					</ul>
+					<p>Net assets for these purposes do not include:</p>
+					<ul>
+						<li>the property which is my primary residence or any money raised through a loan secured on that property;</li>
+						<li>any rights of mine under a qualifying contract of insurance; or</li>
+						<li>any benefits (in the form of pensions or otherwise) which are payable on the termination of my service or on my death or retirement and to which I am (or my dependents are), or may be, entitled.</li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<p>I accept that the purchased made to which it will expose me to the risk of losing money. I am very much aware to seek advice from authorized people who has specializations in advising on cryptocurrency.</p>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" (click)="agreedTermAndCondition('High Net Worth Crypto Purchaser')">
+					I Agree
+				</button>
+			</div>
+		</div>
+	</div>
+</ng-template>
