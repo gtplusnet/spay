@@ -255,6 +255,73 @@ body
 			{
 				padding-top: 2rem;
 			}
+
+			button 
+			{
+				position: relative;
+				padding-right: 50px !important;
+
+				.fa-play-circle
+				{
+					position: absolute;
+					right: 5px;
+					top: 6px;
+					font-size: 32px;
+				}
+			}
+		}
+	}
+
+	.s-4
+	{
+		@include flex();
+
+		height: 75vh;
+		background-color: $dark;
+		color: $dark-white;
+		background-image: url('../../../assets/spay_assets/img/bottom_bg.jpg');
+		background-attachment: fixed;
+		background-repeat: no-repeat;
+		background-size: cover;
+
+		.inner-left
+		{
+			padding-left: 20px;
+			
+			h2
+			{
+				color: $white;
+			}
+			.h-line 
+			{
+				margin-top: 1rem;
+				padding: 1px 0;
+				max-width: 90px;
+				background-color: $white;
+			}
+			p 
+			{
+				padding-top: 2rem;
+			}
+
+			button 
+			{
+				position: relative;
+				padding-right: 50px !important;
+
+				.fa-arrow-alt-circle-down
+				{
+					position: absolute;
+					right: 5px;
+					top: 6px;
+					font-size: 32px;
+				}
+			}
+		}
+
+		.inner-right
+		{
+			text-align: center;
 		}
 	}
 }
