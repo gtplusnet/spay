@@ -22,12 +22,12 @@ import { BusinessRegistrationComponent } from '../business-registration/business
 import { MainFuncComponent } from '../main-func/main-func.component';
 import { DemoFrontComponent } from '../demo-front/demo-front.component';
 import { FaqComponent } from '../faq/faq.component';
-import { FrontLayoutComponent } from '../front-layout/front-layout.component';
+import { LayoutComponent } from '../layout/layout.component';
 
 const routes: Routes = [
   { path: '', component: MainFuncComponent, children: 
     [
-      { path: '', component:FrontLayoutComponent, children: 
+      { path: '', component:LayoutComponent, children: 
         [
           { path: '', redirectTo: 'home', pathMatch: 'full'},
           { path: 'home', component: HomeComponent},

@@ -1,0 +1,133 @@
+@import "../../../assets/spay_assets/scss/custom";
+
+*
+{
+	font-family: $heading-text;
+}
+
+header 
+{
+	nav 
+	{
+		background-color: transparent !important;
+		font-size: 0.875rem;
+
+		ul 
+		{
+			li 
+			{
+				.nav-link 
+				{
+					color: $dark-white !important;
+				}
+			}
+			li.active 
+			{
+				a 
+				{
+					color: $white !important;
+				}
+			}
+		}
+		.navbar-text 
+		{
+			padding: 0 10px;
+
+			a 
+			{
+				text-decoration: none;
+			}
+			.log 
+			{
+				color: $green;
+			}
+			.reg 
+			{
+				color: $white;
+			}
+		}
+		.nav-btn-container
+		{
+			padding-left: 22px;
+			button 
+			{
+				// -webkit-box-shadow: 0px 0px 18px 3px rgba(0,90,60,1);
+				// -moz-box-shadow: 0px 0px 18px 3px rgba(0,90,60,1);
+				// box-shadow: 0px 0px 18px 3px rgba(0,90,60,1);
+			}
+		}
+	}
+}
+
+footer 
+{
+	background-color:$dark-green;
+	color: $dark-white;
+	font-size: 0.75rem;
+
+	.top-inner	
+	{
+		padding: 40px 0;
+
+		.f-title 
+		{
+			font-size: 0.875rem;
+		}
+		.inner-left
+		{
+			padding: 15px 0;
+
+			.inner-left-child 
+			{
+				padding: 7px 0;
+
+				span 
+				{
+					padding-left: 10px;
+				}
+			}
+		}
+		.flex-container	
+		{
+			border-left: 1px solid rgba(0,76,57,0.5);
+			border-right: 1px solid rgba(0,76,57,0.5);
+			height: 100%;
+			@include flex();
+
+			.flex-child 
+			{
+				.footer-tag 
+				{
+					color: $white;
+					font-size: 1rem;
+				}
+			}
+		}
+		.inner-right 
+		{
+			padding: 40px 0 0 60px;
+
+			.inner-right-child 
+			{
+				padding: 7px 0;
+				a 
+				{
+					color: $dark-white;
+					font-size: 0.875rem;
+					text-decoration: none;
+
+					&:hover 
+					{
+						color: $white;
+					}
+				}
+			}
+		}
+
+	}
+	.bottom-inner
+	{
+		border-top: 1px solid rgba(0,76,57,0.5);
+		padding: 20px 0 20px 0;
+	}
+}

@@ -1,0 +1,27 @@
+@import "01-variables";
+@import "02-mixins";
+
+h1
+{
+	@include text-style($heading-text, $reg, 2.8125rem, 0.01rem, 3.375rem);
+}
+
+h2
+{
+	@include text-style($heading-text, $reg, 2rem, 0.01rem, 3.375rem);
+}
+
+p 
+{
+	@include text-style($body-text, $reg, 0.875rem, 0.01rem, 1.6875rem);
+}
+
+.text-dark-white
+{
+	color: $dark-white !important;
+}
+
+.t-center 
+{
+	text-align: center;
+}

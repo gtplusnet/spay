@@ -83,7 +83,7 @@ import { AdminTransferTokenComponent } from './admin/admin-transfer-token/admin-
 import { MemberManualTransfersComponent } from './member/member-manual-transfers/member-manual-transfers.component';
 import { AdminFaqsSettingsComponent } from './admin/admin-faqs-settings/admin-faqs-settings.component';
 import { FaqComponent } from './front/faq/faq.component';
-import { FrontLayoutComponent } from './front/front-layout/front-layout.component';
+import { LayoutComponent } from './front/layout/layout.component';
 import { AdminFilesComponent } from './admin/admin-files/admin-files.component';
 
 export function getAuthServiceConfigs() {
@@ -150,7 +150,7 @@ export function getAuthServiceConfigs() {
     MemberManualTransfersComponent,
     AdminFaqsSettingsComponent,
     FaqComponent,
-    FrontLayoutComponent,
+    LayoutComponent,
     AdminFilesComponent
   ],
   exports: [  ],

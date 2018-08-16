@@ -1,0 +1,43 @@
+@import "01-variables";
+@import "02-mixins";
+
+*
+{
+	font-family: $heading-text;
+}
+//Primary
+.btn-primary
+{
+	background-color: $green;
+	display: inline-block;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	color: white;
+	cursor: pointer;
+	border: none;
+}
+
+//With Radius
+.btn-rounded
+{
+	@extend .btn-primary;
+
+	border-radius: 50px;
+}
+
+//Button Sizes
+.btn-lg
+{
+	padding: 10px 20px;
+	font-size: 1rem;
+	font-weight: $reg;
+}
+
+.btn-md 
+{
+	padding: 8px 20px;
+	font-size: 0.8125rem;
+	font-weight: $reg;
+}
+

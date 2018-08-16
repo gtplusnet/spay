@@ -1,20 +1,260 @@
-@import '../../../assets/scss/app';
-@import '../../../assets/assets-laravel/wow/css/animate.css';
-@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Condensed|Open+Sans:400,600,700,800');
+@import "../../../assets/spay_assets/scss/custom";
 
-.f-14
+
+body 
 {
-	font-size: 14px !important;
+	@inlcude text-style($body-text, $reg, 0.875rem, 0.01rem, 1.6875rem);
 }
 
-.fixed-height
-{
-	min-height: 84px;
-	max-height: 84px;
-}
 
-.h-80
+//Page
+.content 
 {
-	min-height: 80px;
-	max-height: 80px;
+	.s-1 
+	{
+		@include flex();
+
+		height: 100vh;
+		background-color: $dark;
+		color: $dark-white;
+		background-image: url('../../../assets/img/back_light2.png');
+		background-repeat: no-repeat;
+		background-position: right;
+
+		.inner-left 
+		{
+			margin-top: 50px;
+			h1, h2 
+			{
+				color: $white;
+				span 	
+				{
+					color: $gold;
+				}
+			}
+			.h-line 
+			{
+				margin-top: 1rem;
+				padding: 1px 0;
+				max-width: 90px;
+				background-color: $white;
+			}
+			p 
+			{
+				padding-top: 2rem;
+			}
+			button 
+			{
+				// -webkit-box-shadow: 0px 0px 18px 3px rgba(0,90,60,1);
+				// -moz-box-shadow: 0px 0px 18px 3px rgba(0,90,60,1);
+				// box-shadow: 0px 0px 18px 3px rgba(0,90,60,1);
+
+				min-width: 145px !important;
+			}
+		}
+
+		.inner-right 
+		{
+			position: relative;
+
+			.object_1 
+			{
+				width: 100%;
+			}
+
+			.splash_1 
+			{
+				z-index: 100;
+			}
+
+			.splash_2, .splash_3 
+			{
+				z-index: 99;
+				position: absolute;
+				top: -75px;
+				left: 30%;
+				max-width: 220px;
+			}
+			.splash_3 
+			{
+				z-index: 98;
+			}
+			.splash_4, .splash_5, .splash_6
+			{
+				position: absolute;
+			}
+			.splash_4
+			{	
+				z-index: 103;
+				bottom: 0;
+				left: 0;
+			}
+			.splash_5
+			{
+				z-index: 101;
+				bottom: 175px;
+				left: 60px;
+			}
+			.splash_6
+			{
+				z-index: 102;
+				bottom: 175px;
+				left: 118px;
+			}
+			.tri-1, .tri-2, .tri-3, .tri-4 
+			{
+				position: absolute;
+				top: 50px;
+				width: 0; 
+				height: 0; 
+				border-top: 6px solid transparent;
+				border-bottom: 6px solid transparent;
+				border-left: 7px solid $white;
+			}
+			.tri-1
+			{
+				left: 20px;
+			}
+			.tri-2
+			{
+				left: 35px;
+			}
+			.tri-3
+			{
+				left: 50px;
+			}
+			.tri-4
+			{
+				left: 65px;
+			}
+			.round 
+			{
+				position: absolute;
+				top: 51px;
+				left: 80px;
+				height: 10px;
+				width: 10px;
+				border-radius: 50px;
+				background-color: $white;
+			}
+			.tri-6, .tri-7, .tri-8, .tri-9 
+			{
+				position: absolute;
+				bottom: 20px;
+				width: 0; 
+				height: 0; 
+				border-top: 4px solid transparent;
+				border-bottom: 4px solid transparent;
+				border-left: 5px solid $white;
+			}
+			.tri-6
+			{
+				right: 68px;
+			}
+			.tri-7
+			{
+				right: 56px;
+			}
+			.tri-8
+			{
+				right: 44px;
+			}
+			.tri-9
+			{
+				right: 32px;
+			}
+			.round-2
+			{
+				position: absolute;
+				bottom: 20px;
+				right: 20px;
+				height: 7px;
+				width: 7px;
+				border-radius: 50px;
+				background-color: $white;
+			}
+		}
+	}
+
+	.s-2
+	{
+		background-color: $dark;
+		padding-top: 0 !important;
+
+		.inner-holder 
+		{
+			padding: 25px 0;
+			border-top: 1px solid rgba(255,255,255, 0.3);
+			border-bottom: 1px solid rgba(255,255,255, 0.3);
+			text-align: center;
+
+			h2 
+			{
+				color: $white;
+			}
+
+			p 
+			{
+				max-width: 616px;
+				margin: auto;
+				color: $dark-white;
+				padding-bottom: 20px;
+			}
+
+			.col-item 
+			{
+				padding-top: 10px;
+
+				img 
+				{
+					max-width: 67px;
+				}
+				.img-label
+				{
+					color: $white;
+					padding-top: 10px;
+					text-align: center;
+				}
+			}
+		}
+	}
+
+	.s-3
+	{
+		@include flex();
+		padding-top: 0 !important;
+
+		height: 100vh;
+		background-color: $dark;
+		color: $dark-white;
+		background-image: url('../../../assets/img/back_light2.png');
+		background-repeat: no-repeat;
+		background-position: left;
+
+		.inner-left
+		{
+
+		}
+
+		.inner-right
+		{
+			padding-left: 20px;
+			
+			h2
+			{
+				color: $white;
+			}
+			.h-line 
+			{
+				margin-top: 1rem;
+				padding: 1px 0;
+				max-width: 90px;
+				background-color: $white;
+			}
+			p 
+			{
+				padding-top: 2rem;
+			}
+		}
+	}
 }
