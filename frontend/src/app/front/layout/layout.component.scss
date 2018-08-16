@@ -5,12 +5,19 @@
 	font-family: $heading-text;
 }
 
+.show 
+{
+	background-color: rgba(170,120,9, 0.8) !important;
+}
+
 header 
 {
 	nav 
 	{
-		background-color: transparent !important;
 		font-size: 0.875rem;
+		
+		-webkit-transition: all 0.4s ease;
+		transition: all 0.4s ease;
 
 		ul 
 		{
@@ -25,7 +32,7 @@ header
 			{
 				a 
 				{
-					color: $white !important;
+					color: white !important;
 				}
 			}
 		}
@@ -39,11 +46,12 @@ header
 			}
 			.log 
 			{
-				color: $green;
+				color: white;
+				font-weight: bold;
 			}
 			.reg 
 			{
-				color: $white;
+				color: white;
 			}
 		}
 		.nav-btn-container
@@ -61,7 +69,7 @@ header
 
 footer 
 {
-	background-color:$dark-green;
+	background-color: #001e16;
 	color: $dark-white;
 	font-size: 0.75rem;
 
@@ -98,7 +106,7 @@ footer
 			{
 				.footer-tag 
 				{
-					color: $white;
+					color: white;
 					font-size: 1rem;
 				}
 			}
@@ -118,7 +126,7 @@ footer
 
 					&:hover 
 					{
-						color: $white;
+						color: white;
 					}
 				}
 			}
