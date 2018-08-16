@@ -1,0 +1,408 @@
+<div class="main-loader d-flex justify-content-center align-items-center" *ngIf="initializing == true">
+    <img src="/assets/img/lokalize-loader.gif" alt="">
+</div>
+<div class="page-wrapper">
+    <nav class="navbar page-header">
+        <a href="javascript:" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
+            <i class="fa fa-bars"></i>
+        </a>
+
+        <a class="navbar-brand" href="/member">
+            <img src="/assets/img/svg/lokalize-logo.svg" alt="logo">
+        </a>
+
+        <a href="javascript:" class="btn btn-link sidebar-toggle d-md-down-none">
+            <i class="fa fa-bars"></i>
+        </a>
+
+        <ul class="navbar-nav ml-auto">
+
+            <!-- {{-- <li class="nav-item d-md-down-none">
+                <a href="javascript:">
+                    <i class="fa fa-bell"></i>
+                    <span class="badge badge-pill badge-danger">5</span>
+                </a>
+            </li>
+
+            <li class="nav-item d-md-down-none">
+                <a href="javascript:">
+                    <i class="fa fa-envelope-open"></i>
+                    <span class="badge badge-pill badge-danger">5</span>
+                </a>
+            </li> --}} -->
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="javascript:" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="/assets/assets-laravel/member-dashboard/imgs/avatar-1.png" class="avatar avatar-sm" alt="logo">
+                    <span class="small ml-1 d-md-down-none">{{rest.first_name}} {{rest.last_name}}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right p-3">
+                    <li class="dropdown-item nav-label-lokal p-0 m-0 mt-2 text-center">
+                        Notifications
+                    </li>
+                    <li class="dropdown-divider border-lokal-nav"></li>
+                    <li class="dropdown-item py-1">
+                        <a href="javascript:void(0)" [routerLink]="['/member/profile/my-referral']" (click)="resetNotifications('new_referrals')" class="nav-items-lokal">
+                            <div class="nav-alignment-x"><i class="fas fa-sitemap"></i></div> <small>New Referrals <small class="notif-counter-{{notif.new_referrals == 0 ? 'inactive' : 'active' }}">{{notif.new_referrals}}</small></small>
+                        </a>
+                    </li>
+
+                    <li class="dropdown-item py-1">
+                        <a href="javascript:void(0)" [routerLink]="['/member/profile/my-referral']" (click)="resetNotifications('new_referral_bonus')" class="nav-items-lokal">
+                            <div class="nav-alignment-x"><i class="fas fa-hand-holding-usd"></i></div> <small>New Referral Bonus <small class="notif-counter-{{notif.new_referral_bonus == 0 ? 'inactive' : 'active' }}">{{notif.new_referral_bonus}}</small></small>
+                           
+                        </a>
+                    </li>
+
+                    <li class="dropdown-item py-1">
+                        <a href="javascript:void(0)" [routerLink]="['/member/btc-transactions']" (click)="resetNotifications('new_btc_approve')" class="nav-items-lokal d-flex justify-content-center align-items-center">
+                            <div class="nav-alignment-x"><i class="fas fa-user"></i></div> <small>BTC Transactions <small class="notif-counter-{{notif.new_btc_approve == 0 ? 'inactive' : 'active' }}">{{notif.new_btc_approve}}</small></small>
+                        </a>
+                    </li>
+                    <li class="dropdown-item py-1">
+                        <a href="javascript:void(0)" [routerLink]="['/member/eth-transactions']" (click)="resetNotifications('new_eth_approve')" class="nav-items-lokal">
+                            <div class="nav-alignment-x"><i class="far fa-handshake"></i></div> <small>ETH Transactions <small class="notif-counter-{{notif.new_eth_approve == 0 ? 'inactive' : 'active' }}">{{notif.new_eth_approve}}</small></small>
+                        </a>
+                    </li>
+
+                    <li class="dropdown-item nav-label-lokal p-0 m-0 mt-2 text-center">
+                        Account
+                    </li>
+                    <li class="dropdown-divider border-lokal-nav"></li>
+                    <li class="dropdown-item py-1">
+                        <a *ngIf="rest.is_admin" href="javascript:void(0)" [routerLink]="['/admin']" class="nav-items-lokal">
+                            <div class="nav-alignment-x"><i class="fas fa-exchange-alt"></i></div> <small>Switch to Admin</small>
+                        </a>
+                    </li>
+                    <li class="dropdown-item py-1">
+                        <a href="javascript:void(0)" [routerLink]="['/member/profile']" class="nav-items-lokal">
+                            <div class="nav-alignment-x"><i class="fas fa-user"></i></div> <small>My Account</small>
+                        </a>
+                    </li>
+                    <li class="dropdown-item py-1">
+                        <a href="javascript:void(0)" [routerLink]="['/member/profile/my-referral']" class="nav-items-lokal">
+                            <div class="nav-alignment-x"><i class="far fa-handshake"></i> </div> <small>My Referrals</small>
+                        </a>
+                    </li>
+                    <li class="dropdown-item py-1">
+                        <a href="javascript:void(0)" (click)="actionLogout()" class="nav-items-lokal">
+                            <div class="nav-alignment-x"><i class="fas fa-sign-out-alt"></i> </div> <small>Logout</small>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+                <!-- <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-header">Account</div>
+                    <a *ngIf="rest.is_admin" href="javascript:" class="dropdown-item py-1" [routerLink]="['/admin']">
+
+                        <i class="fas fa-exchange-alt"></i> Switch to Admin
+                    </a>
+
+                    <a *ngIf="rest.is_admin" href="javascript:" class="dropdown-item py-1" [routerLink]="['/admin']">
+
+                        <i class="fas fa-user"></i> My Account
+                    </a>
+
+                    <div class="dropdown-header">Notifications </div>
+
+                    <a href="javascript:" class="dropdown-item py-1">
+                        <i class="fa fa-bell"></i> BTC Transaction
+                    </a>
+
+                    <div class="dropdown-header"><hr></div>
+                    <a href="javascript:" class="dropdown-item py-1" (click)="actionLogout()">
+                        <i class="fa fa-lock"></i> Logout
+                    </a>
+                </div>
+            </li> -->
+        </ul>
+    </nav>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav member-sidenav">
+                    <li class="nav-title">Navigation</li>
+
+                    <li class="nav-item member-sidenav-item">
+                        <a [routerLink]="['/member/dashboard']" class="nav-link py-1 px-4">
+                            <div class="nav-alignment-x"><i class="fas fa-tachometer-alt"></i></div> <small>Dashboard</small>
+                        </a>
+                    </li>
+
+                    <li class="nav-item member-sidenav-item">
+                        <a [routerLink]="['/member/profile']" class="nav-link py-1 px-4">
+                            <div class="nav-alignment-x"><i class="fas fa-user"></i></div> <small>My Account</small>  
+                        </a>
+                        
+                    </li>
+                    <li class="nav-item member-sidenav-item">
+                        <a [routerLink]="['/member/btc-transactions']" class="nav-link py-1 px-4">
+                            <div class="nav-alignment-x"><i class="fab fa-bitcoin mr-2"></i></div> <small>BTC Transaction List</small>
+                        </a>
+                    </li>
+
+                    <li class="nav-item member-sidenav-item">
+                        <a [routerLink]="['/member/eth-transactions']" class="nav-link py-1 px-4">
+                            <div class="nav-alignment-x"><i class="fab fa-ethereum  mr-2"></i></div> <small>ETH Transaction List</small>
+                        </a>
+                    </li>
+
+                    <li class="nav-item member-sidenav-item">
+                        <a [routerLink]="['/member/manual-transfer']" class="nav-link py-1 px-4">
+                            <div class="nav-alignment-x"><i class="fas fa-donate mr-2"></i></div> <small>Manual Transfer List</small>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="content p-3" style="background: #f5f6fa !important;">
+            <div class="container-fluid text-dark" *ngIf="rest.loading">
+                <div class="p-3" *ngIf="rest.first_time_login">
+                    <h2 class="font-weight-bold text-center">Welcome to LOKALIZE!</h2>
+                    <div class="row mb-4">
+                        <div class="col-xs-12 col-lg-12 text-center">
+                            This is your first time logging into the system! We're very glad to have you in our system but you will have to update some information to have full access to lokalize. 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-12">
+                            <h4 class="mb-0"><i class="fas fa-user-edit mr-1"></i>Update Information</h4>
+                            <hr class="my-1">
+                        </div>
+                        <div *ngIf="post_output" class="col-xs-12 col-lg-12 p-3 mt-2 text-center alert {{ post_output.status == 'success' ? 'alert-success' : 'alert-danger' }}" >
+                            {{ post_output.message }}                            
+                        </div>
+                        <div class="col-xs-12 col-lg-4 p-3" *ngIf="!rest.email">
+                            <small class="d-block font-weight-bold">
+                                Email Address *
+                            </small>
+                            <input type="text" placeholder="Email Address" [(ngModel)]="update_info.email" class="form-control form-control-sm input-lokal">
+                        </div>
+                        <div class="col-xs-12 col-lg-4 p-3">
+                            <small class="d-block font-weight-bold">
+                                Country Code *
+                            </small>
+                            <select name="country_code" id="country_code" [(ngModel)]="update_info.country_code_id" class="form-control form-control-sm input-lokal">
+                                    <option *ngFor="let cc of country_codes" value="{{ cc.country_code_id }}">
+                                        {{ cc.country }} ({{cc.country_code}})
+                                    </option>
+                                </select>
+                        </div>
+                        <div class="col-xs-12 col-lg-4 p-3">
+                            <small class="d-block font-weight-bold">
+                                Phone Number *
+                            </small>
+                            <input type="text" placeholder="Phone Number" [(ngModel)]="update_info.phone_number" class="form-control form-control-sm input-lokal">
+                        </div>
+                        <div class="col-xs-12 col-lg-4 p-3">
+                            <small class="d-block font-weight-bold">
+                                Birthdate *
+                            </small>
+                            <input type="date" placeholder="Birth Date" [(ngModel)]="update_info.birth_date" class="form-control form-control-sm input-lokal">
+                        </div>
+                        <div class="col-xs-12 col-lg-4 p-3">
+                            <small class="d-block font-weight-bold">
+                                Entity
+                            </small>
+                            <select name="entity" [(ngModel)]="update_info.entity" class="form-control form-control-sm input-lokal" id="entity">
+                                <option value="Individual">Individual</option>
+                                <option value="Corporate/Business">Corporate/Business</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-12 col-lg-4 p-3">
+                            <small class="d-block font-weight-bold">
+                                Company Name
+                            </small>
+                            <input type="text" placeholder="Company Name" [(ngModel)]="update_info.company_name" class="form-control form-control-sm input-lokal">
+                        </div>
+                        <div class="col-xs-12 col-lg-4 p-3">
+                            <small class="d-block font-weight-bold">
+                                Desired BTC Contribution
+                            </small>
+                            <input type="text" placeholder="Desired BTC Contribution" [(ngModel)]="update_info.desired_btc" class="form-control form-control-sm input-lokal">
+                        </div>
+                        <div class="col-xs-12 col-lg-4 p-3">
+                            <small class="d-block font-weight-bold">
+                                Desired ETH Contribution
+                            </small>
+                            <input type="text" placeholder="Desired ETH Contribution" [(ngModel)]="update_info.desired_eth" class="form-control form-control-sm input-lokal">
+                        </div>
+                        <div class="col-xs-12 col-lg-4 p-3">
+                            <small class="d-block font-weight-bold">
+                                Crypto Purchaser
+                            </small>
+                            <select type="text" [(ngModel)]="update_info.crypto_purchaser" (change)="cryptoPurchaser(crypto_purchaser_details)" class="form-control form-control-sm input-lokal">
+                                <option value="none">(Optional)</option>
+                                <option value="Every Day Crypto Purchaser">Every Day Crypto Purchaser</option>
+                                <option value="Adviced Crypto Purchaser">Adviced Crypto Purchaser</option>
+                                <option value="Self-Certified Crypto Purchaser">Self-Certified Crypto Purchaser</option>
+                                <option value="High Net Worth Crypto Purchaser">High Net Worth Crypto Purchaser</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-12 col-lg-4 p-3">
+                            <button class="btn btn-block btn-lg button-lokal" disabled="{{updating ? 'disabled' : ''}}" (click)="update_information()">
+                                <i class="fas fa-edit"></i> Save Information
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <span *ngIf="!rest.first_time_login">
+                    <div *ngIf="rest.verified_mail == '0'" class="alert alert-warning alert-dismissible fade show p-2" role="alert" style="width: 100%; border-radius: 0px !important; color: #85641d;">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                      <small>To purchase your first token, please verify your email address. <a href="javascript:void(0)" [routerLink]="['/member/profile/limits-and-verification']" class="" style="color: #85641d !important; text-decoration: underline;"><strong>Verify Email</strong></a> 
+                        </small>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <router-outlet></router-outlet>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #crypto_purchaser_details let-c="close">
+    <div class="crypto_purchaser_details">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{selected + ' Terms And Condition'}}</h5>
+        </div>
+        <div *ngIf="selected == 'Every Day Crypto Purchaser'" class="modal-body color-lokal-x">
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="mr-4"><strong>Description</strong></label>
+                    <p class="mr-4">Everyday Crypto Purchaser could be anyone. In Everyday Crypto Purchaser you have to invest not more than 10% of your net assets apart from your main home.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="mr-4"><strong>Statement</strong></label>
+                    <p class="mr-4">In the twelve months preceding the date below, I have not invested more than 10% of my net assets in non-readily realizable securities; and
+                        I undertake that in the twelve months following the date below, I will not invest more than 10% of my net assets in non-readily realizable securities.
+                    </p>
+                    <p>Net assets for these purposes do not include:</p>
+                    <ul>
+                        <li>the property which is my primary residence or any money raised through a loan secured on that property;</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>I accept that the purchased made to which it will expose me to the risk of losing money. I am very much aware to seek advice from authorized people who has specializations in advising on cryptocurrency.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" (click)="agreedTermAndCondition('Every Day Crypto Purchaser')">
+                        I Agree
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="selected == 'Adviced Crypto Purchaser'" class="modal-body color-lokal-x">
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="mr-4"><strong>Description</strong></label>
+                    <p class="mr-4">I am an existing client of a financial advisor or wealth manager and they will provide me with advice about whether this investment (or investments found through this site) are suitable for me.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="mr-4"><strong>Statement</strong></label>
+                    <p class="mr-4">I make this statement so that I can receive promotional communications relating to non-readily realizable securities as an advised investor.
+                    </p>
+                    <p>I declare that I qualify as an advised investor because:</p>
+                    <ul>
+                        <li>(a) I am already a client of a regulated firm, such as an Independent Financial Adviser or Wealth manager;(“my financial adviser”); and</li>
+                        <li>(b) My financial adviser will advise my about whether any investment is suitable where I viewed the investment details through Co-Investor’s website.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>I accept that the purchased made to which it will expose me to the risk of losing money.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" (click)="agreedTermAndCondition('Adviced Crypto Purchaser')">
+                        I Agree
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="selected == 'Self-Certified Crypto Purchaser'" class="modal-body color-lokal-x">
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="mr-4"><strong>Description</strong></label>
+                    <p class="mr-4">Self–Certified Crypto Purchaser are people who have invested in more than one unlisted company in the previous two years or has been a member of a network.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="mr-4"><strong>Statement</strong></label>
+                    <p class="mr-4">I declare that I am a self-certified sophisticated investor for the purposes of the restriction on promotion of non-readily realizable securities. I understand that this means:
+                    </p>
+                    <ul>
+                        <li>I can receive promotional communications made by a person who is authorized by the Financial Conduct Authority which relate to investment activity in non-readily realizable securities;</li>
+                        <li>The investments to which the promotions will relate may expose me to a significant risk of losing all of the property invested.</li>
+                    </ul>
+                    <p>I am a self-certified sophisticated investor because at least one of the following applies:</p>
+                    <ul>
+                        <li>I am a member of a network or syndicate of business angels and have been so for at least the last six months prior to the date below;</li>
+                        <li>I have made more than one investment in an unlisted company in the two years prior to the date below;</li>
+                        <li>I am working, or have worked in the two years prior to the date below, in a professional capacity in the private equity sector, or in the provision of finance for small and medium enterprises;</li>
+                        <li>I am currently, or have been in the two years prior to the date below, a director of a company with an annual turnover of at least £1 million.</li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>I accept that the purchased made to which it will expose me to the risk of losing money. I am very much aware to seek advice from authorized people who has specializations in advising on cryptocurrency.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" (click)="agreedTermAndCondition('Self-Certified Crypto Purchaser')">
+                        I Agree
+                </button>
+            </div>
+        </div>
+
+            <div *ngIf="selected == 'High Net Worth Crypto Purchaser'" class="modal-body color-lokal-x">
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="mr-4"><strong>Description</strong></label>
+                    <p class="mr-4">High Net Worth Crypto Purchaser are group of people who earn $ 150,000.00 a year or have net assets of more than $ 350,000.00. </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="mr-4"><strong>Statement</strong></label>
+                    <p class="mr-4">I make this statement so that I can receive promotional communications which are exempt from the restriction on promotion of non-mainstream pooled investments. The exemption relates to certified high net worth investors and I declare that I qualify as such because at least one of the following applies to me:
+                    </p>
+                    <ul>
+                        <li>I had, throughout the financial year immediately preceding the date below, an annual income to the value of $150,000 or more;</li>
+                        <li>I held, throughout the financial year immediately preceding the date below, net assets to the value of $350,000 or more.</li>
+                    </ul>
+                    <p>Net assets for these purposes do not include:</p>
+                    <ul>
+                        <li>the property which is my primary residence or any money raised through a loan secured on that property;</li>
+                        <li>any rights of mine under a qualifying contract of insurance; or</li>
+                        <li>any benefits (in the form of pensions or otherwise) which are payable on the termination of my service or on my death or retirement and to which I am (or my dependents are), or may be, entitled.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>I accept that the purchased made to which it will expose me to the risk of losing money. I am very much aware to seek advice from authorized people who has specializations in advising on cryptocurrency.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" (click)="agreedTermAndCondition('High Net Worth Crypto Purchaser')">
+                        I Agree
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

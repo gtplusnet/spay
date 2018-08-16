@@ -1,0 +1,223 @@
+<h4 class="font-weight-light page-title-admin">
+	<i class="fas fa-cog mr-2"></i>FAQs Settings
+	<em><small></small></em>
+</h4>
+<div class="row mb-6">
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Category
+		</small>
+		<select (change)="getFaqs()" [(ngModel)]="faqs_param.category" class="form-control form-control-sm input-lokal-x mb-1">
+			<option value="all">All</option>
+			<option value="Withdraw">Withdraw</option>
+			<option value="Buy Coin">Buy Coin</option>
+			<option value="Promotion">Promotion</option>
+            <option value="Purchase Bonus">Purchased Bonus</option>
+            <option value="Affiliate Bonus">Affiliate Bonus</option>
+            <option value="Others">Others</option>
+		</select>
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2"></div>
+	<div class="col-lg-3 col-xs-12 px-2"></div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<button (click)="viewDetailsFaq(0,add_faq)" class="btn button-lokal-x btn-block my-1">
+			Add FAQ
+		</button>
+	</div>
+</div>
+
+<div class="table-responsive px-0"  style="min-height: 300px;">
+	<table class="table member-table-x admin-db table-hover px-2">
+		<caption class="bg-light m-0 p-0 py-2 px-1" *ngIf="!faqs_table_loader">
+			<pagination-controls class="my-pagination" (pageChange)="page = $event"></pagination-controls>
+		</caption>
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Category</th>
+				<th>Question</th>
+				<th>Date Added</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody *ngIf="faqs_table_loader">
+			<tr>
+				<td colspan="8">
+					<div class="row" >
+						<div class="col-lg-12 col-xs-12">
+							<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+								<div class="circle"></div>
+								<small class="text">LOADING TABLE...</small>
+							</div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+		<tbody *ngIf="!faqs_table_loader">
+			<tr *ngIf="faqs_table == ''">
+				<td colspan="8">
+					<div class="text-center">
+						<small class="font-weight-light">No data found.</small>
+					</div>
+				</td>
+			</tr>
+			<tr *ngFor="let data of faqs_table | paginate: { itemsPerPage:15, currentPage: page }">
+				<td>{{ data.faq_id }}</td>
+				<td>{{ data.faq_category }}</td>
+				<td>{{ data.faq_question }}</td>
+				<td>{{ data.date_added }}</td>
+				<td class="text-center">
+					<!-- <div ngbDropdown placement="bottom-right">
+				      <button class="btn button-lokal-x btn-block btn-sm" id="dropdownBasic1" ngbDropdownToggle>
+				      		<small>
+				      			<i class="fas fa-cog mr-2"></i>ACTIONS
+				      		</small>
+				      </button>
+				      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+				        	<button (click)="viewDetailsFaq(data.faq_id,view_faq_details)" class="dropdown-item">View Details</button>
+				      </div>
+				    </div> -->
+				    <div class="btn-group" dropdown placement="bottom right">
+					  <button id="button-alignment" dropdownToggle type="button"
+					          class="btn button-lokal-x btn-block btn-sm dropdown-toggle" aria-controls="dropdown-alignment">
+					    <small>
+				      		<i class="fas fa-cog mr-2"></i>ACTIONS <span class="caret"></span>
+				      	</small> 
+					  </button>
+					  <ul id="dropdown-alignment" *dropdownMenu class="dropdown-menu dropdown-menu-right"
+					      role="menu" aria-labelledby="button-alignment">
+					    <li role="menuitem">
+					    	<a href="javascript:void" (click)="viewDetailsFaq(data.faq_id,view_faq_details)" class="dropdown-item">View Details</a>
+					    </li>
+					  </ul>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+
+
+<!--pop up-->
+<ng-template #add_faq let-c="close" let-d="dismiss">
+	<div class="view_faq_details">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-question-circle mr-2"></i>FAQ Details</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left  color-lokal-x">
+			<div class=" col-lg-6 col-xs-12">
+				<small class="d-block font-weight-bold">
+					Category
+				</small>
+				<select [(ngModel)]="faqs_param.add_category" class="form-control form-control-sm input-lokal-x mb-1">
+					<option value="Withdraw">Withdraw</option>
+					<option value="Buy Coin">Buy Coin</option>
+					<option value="Promotion">Promotion</option>
+				    <option value="Purchase Bonus">Purchased Bonus</option>
+				    <option value="Affiliate Bonus">Affiliate Bonus</option>
+				    <option value="Others">Others</option>
+				</select>
+				
+				<small class="font-weight-bold mb-5">Question</small>
+				<input [(ngModel)]="faqs_param.add_question" class="form-control form-control-sm input-lokal-x mb-1">  
+			</div>
+			<div class="col-lg-12 col-xs-12">
+				<small class="font-weight-bold mb-5">Answer</small>
+				<ck-editor  [(ngModel)]="faqs_param.add_answer" name="editor1" skin="moono-lisa" language="en"></ck-editor>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button (click)="onSubmitAdd()" class="btn button-lokal-x btn-block my-1" disabled="{{submitted ? 'disabled' : ''}}">
+				<small *ngIf="submitted">
+					<i class="fas fa-spinner button-loader"></i>
+				</small>
+				Submit
+			</button>
+		</div>
+		<div class="col-lg-12 col-xs-12">
+			<div class="row" *ngIf="error_message != 'no-message'">
+				<div *ngFor="let data of error_message" class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-danger">
+						<span>{{ data }}</span>
+					</div>
+				</div>
+			</div>
+			<div class="row" *ngIf="success_message != 'no-message'">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-success">
+						<span>{{ success_message }}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #view_faq_details let-c="close" let-d="dismiss">
+	<div class="view_faq_details">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-question-circle mr-2"></i> FAQ Details</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left  color-lokal-x">
+			<div class=" col-lg-6 col-xs-12">
+				<small class="d-block font-weight-bold">
+					Category
+				</small>
+				<select [(ngModel)]="faqs_param.edit_category" class="form-control form-control-sm input-lokal-x mb-1">
+					<option value="Withdraw">Withdraw</option>
+					<option value="Buy Coin">Buy Coin</option>
+					<option value="Promotion">Promotion</option>
+				    <option value="Purchase Bonus">Purchased Bonus</option>
+				    <option value="Affiliate Bonus">Affiliate Bonus</option>
+				    <option value="Others">Others</option>
+				</select>
+				<small class="d-block font-weight-bold">
+					Status
+				</small>
+				<select [(ngModel)]="faqs_param.edit_status" class="form-control form-control-sm input-lokal-x mb-1">
+					<option value=1>Active</option>
+					<option value=0>In-active</option>
+				</select>
+				
+				<small class="font-weight-bold mb-5">Question</small>
+				<input [(ngModel)]="faqs_param.edit_question" class="form-control form-control-sm input-lokal-x mb-1">  
+			</div>
+			<div class="col-lg-12 col-xs-12">
+				<small class="font-weight-bold mb-5">Answer</small>
+				<ck-editor  [(ngModel)]="faqs_param.edit_answer"  name="editor1" skin="moono-lisa" language="en"></ck-editor>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button (click)="onSubmitEdit()" class="btn button-lokal-x btn-block my-1" disabled="{{submitted ? 'disabled' : ''}}">
+				<small *ngIf="submitted">
+					<i class="fas fa-spinner button-loader"></i>
+				</small>
+					Update
+			</button>
+		</div>
+		<div class="col-lg-12 col-xs-12">
+			<div class="row" *ngIf="error_message != 'no-message'">
+				<div *ngFor="let data of error_message" class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-danger">
+						<span>{{ data }}</span>
+					</div>
+				</div>
+			</div>
+			<div class="row" *ngIf="success_message != 'no-message'">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-success">
+						<span>{{ success_message }}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template>

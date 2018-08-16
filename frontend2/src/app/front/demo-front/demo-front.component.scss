@@ -1,0 +1,211 @@
+@import '../../../assets/scss/app';
+@import '../../../assets/assets-laravel/wow/css/animate.css';
+@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Condensed|Open+Sans:400,600,700,800');
+
+.f-14
+{
+	font-size: 14px !important;
+}
+
+.fixed-height
+{
+	min-height: 84px;
+	max-height: 84px;
+}
+
+.h-80
+{
+	min-height: 80px;
+	max-height: 80px;
+}
+
+.show-on-mobile
+{
+	display: none;
+
+	@media screen and (max-width: 800px) {
+		
+		display: block;
+	}
+}
+
+.mobile-logo
+{
+	display: none;
+}
+
+@media screen and (max-width: 800px) {
+	.remove-on-mobile
+	{
+		display: none;
+	}
+
+	.desktop-logo
+	{
+		display: none;
+	}
+
+	.mobile-logo
+	{
+		display: block;
+	}
+
+}
+
+.sale-stage-holder
+{
+	background: rgba(0,0,0,0.2);
+	width: 100%;
+	min-height: 100px;
+	padding: 15px;
+
+	.sale-stage-title
+	{
+		text-align: center;
+		text-transform: uppercase;
+		color: #fce963;
+		padding: 5px;
+		font-size: 24px;
+		border-bottom: 1px solid rgba(255,255,255,0.4);
+	}
+
+	.sale-stage-body
+	{
+    text-align: center;
+		color: #fff;
+		padding: 5px;
+
+		.countdown
+		{
+			margin: 5px 25px;
+			padding: 10px;
+			color: #fff;
+			small
+			{
+				color: #bbb;
+        font-size: 10px;
+        display: block;
+        font-weight: bold;
+			}
+
+      div
+      {
+        background: rgba(51, 175, 243, 0.7);
+        border-radius: 2px;
+        min-width: 75px;
+        padding: 20px 0px;
+
+      }
+
+		}
+	}
+}
+
+.telegram
+{
+  position: fixed;
+  right: 45px;
+  bottom: 60px;
+  color: #31b3f8;
+  .telegram-ico
+  {
+    width: 40px;
+    height: 40px;
+    transition: 100ms;
+    &:hover
+    {
+      width: 42px;
+      height: 42px;
+      transition: 100ms;
+    }
+  }
+
+  z-index: 999;
+}
+
+.support
+{
+  position: fixed;
+  right: 65px;
+  bottom: 15px;
+  color: #31b3f8;
+  .support-ico
+  {
+    width: 40px;
+    height: 40px;
+    transition: 100ms;
+    &:hover
+    {
+      width: 42px;
+      height: 42px;
+      transition: 100ms;
+    }
+  }
+
+  z-index: 999;
+}
+
+
+.whitepaper-download
+{
+	font-size: 12px;
+}
+
+h1{
+      min-height: 200px;
+      background-color: #ccc;
+      text-align: center;
+      line-height: 200px;
+    }
+    .leftRs {
+        position: absolute;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        width: 50px;
+        height: 50px;
+        box-shadow: 1px 2px 10px -1px rgba(0, 0, 0, .3);
+        border-radius: 999px;
+        left: 0;
+        visibility: hidden;
+    }
+
+    .rightRs {
+        position: absolute;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        width: 50px;
+        height: 50px;
+        box-shadow: 1px 2px 10px -1px rgba(0, 0, 0, .3);
+        border-radius: 999px;
+        visibility: hidden;
+        right: 0;
+    }
+
+.my-brand
+{
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+}
+
+.my-tagline
+{
+  font-family: 'Encode Sans Condensed', sans-serif;
+  font-size: 24px;
+}
+
+.color-picker-btn
+{
+  border:0; width: 15px; height: 15px; border-radius: 50%;
+}
+
+.apply-now-btn
+{
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: 0;
+  margin-top: 15px;
+  font-size: 16px;
+}

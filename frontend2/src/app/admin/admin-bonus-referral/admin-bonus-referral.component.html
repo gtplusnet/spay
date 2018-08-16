@@ -1,0 +1,130 @@
+<h4 class="font-weight-light page-title-admin">
+	<i class="fas fa-sitemap mr-2"></i>Referral Bonus Logs
+	<em><small></small></em>
+</h4>
+<div class="row mb-3">
+	<div class="col-lg-3 col-xs-12">
+		<!-- <div class="alert alert-light p-2 my-border-light">
+			<div class="d-flex flex-row justify-content-center align-items-center h6 mb-0 text-center color-lokal-x ">
+				<small class="mx-2">
+					<h4 class="text-center mb-0">{{ pending_transactions }}</h4>
+					Pending Transactions
+				</small>
+				<i class="fab fa-bitcoin mx-2 h1 mb-0"></i>
+			</div>
+		</div> -->
+	</div>
+	<div class="col-lg-3 col-xs-12">
+		
+	</div>
+
+	<div class="col-lg-2 col-xs-12">
+		<!-- spacer -->
+	</div>
+
+	<div class="col-lg-2 col-xs-12 px-1">
+		<button class="btn button-lokal-x btn-block my-1" (click)="loadTable()">
+			<small>
+				<i class="fas fa-sync mr-2"></i>REFRESH TABLE
+			</small>
+		</button>
+	</div>
+	<div class="col-lg-2 col-xs-12 px-1">
+		
+		<div class="btn-group" dropdown placement="bottom right">
+		  <button id="button-basic" dropdownToggle type="button" class="btn button-lokal-x btn-block my-1 dropdown-toggle"
+		          aria-controls="dropdown-basic">
+		    <small>
+					<i class="fas fa-table mr-2"></i>EXPORT DATA <span class="caret"></span>
+			</small> 
+		  </button>
+		  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu  dropdown-menu-right"
+		      role="menu" aria-labelledby="button-basic">
+		    <li role="menuitem">
+		    	<a href="{{ rest.api_url }}/api/admin/excel/export_referral_bonus?login_token={{rest.login_token}}" class="dropdown-item">Export All Data</a>
+		    </li>
+		    <li role="menuitem">
+		    	<a href="{{ rest.api_url }}/api/admin/excel/export_referral_bonus?login_token={{rest.login_token}}&invitee={{invitee}}&referrer={{referrer}}&transaction_date_from={{transaction_date_from}}&transaction_date_to={{transaction_date_to}}&data=filtered" class="dropdown-item">Export Filtered Data</a> 
+		    </li>
+		  </ul>
+		</div>
+	</div>
+</div>
+<div class="row mb-3">
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Search by Referrer
+		</small>
+		<input type="text" name="referrer" (keyup)="loadTable()" [(ngModel)]="referrer" class="form-control form-control-sm input-lokal-x mb-1" placeholder="Referrer Name">
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Search by Invitee
+		</small>
+		<input type="text" name="invitee" (keyup)="loadTable()" [(ngModel)]="invitee" class="form-control form-control-sm input-lokal-x mb-1" placeholder="Invitee Name">
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Transaction Date - <em class="font-weight-light">From</em>
+		</small>
+		<input type="date" name="transaction_date_from" (change)="loadTable()" [(ngModel)]="transaction_date_from" class="form-control form-control-sm input-lokal-x mb-1">
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Transaction Date - <em class="font-weight-light">To</em>
+		</small>
+		<input type="date" name="transaction_date_to" (change)="loadTable()" [(ngModel)]="transaction_date_to" class="form-control form-control-sm input-lokal-x mb-1">
+	</div>
+	
+</div>
+<div class="table-responsive px-0"  style="min-height: 300px;">
+	<table class="table member-table-x admin-db table-hover px-2">
+		<caption class="bg-light m-0 p-0 py-2 px-1" *ngIf="!table_loader">
+			<pagination-controls class="my-pagination" (pageChange)="page = $event"></pagination-controls>
+		</caption>
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Referrer</th>
+				<th>Invitee</th>
+				<th>Received Bonus</th>
+				<th>Details</th>
+				<th>Date</th>
+			</tr>
+		</thead>
+		<tbody *ngIf="table_loader">
+			<tr>
+				<td colspan="8">
+					<div class="row" >
+						<div class="col-lg-12 col-xs-12">
+							<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+								<div class="circle"></div>
+								<small class="text">LOADING TABLE...</small>
+							</div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+
+		<tbody *ngIf="!table_loader">
+			<tr *ngIf="_table == ''">
+				<td colspan="8">
+					<div class="text-center">
+						<small class="font-weight-light">No data found.</small>
+					</div>
+				</td>
+			</tr>
+			<tr *ngFor="let data of _table | paginate: { itemsPerPage:15, currentPage: page }">
+				<td>{{ data.referral_bonus_log_id }}</td>
+				<td>{{ data.bonus_to.first_name }} {{ data.bonus_to.last_name }}</td>
+				<td>{{ data.bonus_from.first_name }} {{ data.bonus_from.last_name }}</td>
+				<td>{{ data.bonus_to.log_amount }}</td>
+				<td>{{ data.bonus_to.log_message }}</td>
+				<td>
+					{{ data.referral_bonus_log_date | date:'MM/dd/yyyy'}}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

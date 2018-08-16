@@ -1,0 +1,98 @@
+<section class="page-section login-page">
+
+	<div class="container">
+		<div class="login-form-holder d-flex flex-column align-items-center justify-content-center">
+			<div class="logo-holder">
+				<img src="/assets/img/lokal-logo.png" width="150">
+			</div>
+			<div class="responsive-width py-3">
+				
+				<form #loginForm="ngForm" (ngSubmit)="onSubmit(google_authenticator)">
+					<div class="lokal-forms">
+						<div class="row mb-2 lokal-alerts" *ngIf="error_message != 'no-message'">
+							<div class="col-xs-12 col-lg-12 p-0">
+								<div class="d-flex justify-content-center px-2 py-3 align-items-center text-center error-message">
+									<span class="lokal-text">{{ error_message }}</span>
+								</div>
+							</div>
+						</div>
+						<div class="row lokal-alerts" *ngIf="submitted">
+							<div class="col-xs-12 col-lg-12 p-0">
+								<div class="d-flex justify-content-center px-2 py-0 align-items-center text-center validating lokal-text">
+									<div class="circle mr-2  lokal-text"></div><span>Validating</span>
+								</div>
+							</div>
+						</div>
+						<input class="" name="username" [(ngModel)]="username" type="text" placeholder="Username" required="">
+						<input class="mb-2" name="password" [(ngModel)]="password" type="password" placeholder="Password" required="">
+						<div class="recaptcha">
+							<re-captcha (resolved)="resolved($event)" siteKey="6LcawmMUAAAAADoDEsl6YcaM5TLemfEVqavfqbM1"></re-captcha>
+						</div>
+						<button class=" mt-2 lokalize-login-button" type="submit" disabled="{{submitted ? 'disabled' : ''}}">Login</button>
+						<button class=" my-2 lokalize-register-button" [routerLink]="['/register']" disabled="{{submitted ? 'disabled' : ''}}">Sign Up</button>
+						<div class="or"> OR </div>
+						<button class="btn-lokal-sm facebook-btn my-2" (click)="socialSignIn('facebook')" disabled="{{submitted ? 'disabled' : ''}}"><i class="fab fa-facebook mr-1"></i>Login with Facebook</button>
+						<button class="btn-lokal-sm google-btn mb-2" (click)="socialSignIn('google')" disabled="{{submitted ? 'disabled' : ''}}"><i class="fab fa-google mr-1"></i>Login with Google</button>
+						<div class="content-text text-center pt-1"><a class="text-link-1 lokal-text" [routerLink]="['/forgot-password']">Forgot Password?</a></div>
+					</div>
+				</form>
+
+			<!-- 	<form #loginForm="ngForm" (ngSubmit)="onSubmit(google_authenticator)">
+					<input class="custom-textfield w-100 my-2 p-2" name="username" [(ngModel)]="username" type="text" placeholder="Username" required="">
+					<input class="custom-textfield w-100 mt-2 mb-4 p-2" name="password" [(ngModel)]="password" type="password" placeholder="Password" required="">
+					<div class="d-flex justify-content-center">
+						<div class="recaptcha">
+								<re-captcha (resolved)="resolved($event)" siteKey="6LcawmMUAAAAADoDEsl6YcaM5TLemfEVqavfqbM1"></re-captcha>
+						</div>
+					</div>
+					<button class="btn-lokal-sm w-100 my-3" type="submit" disabled="{{submitted ? 'disabled' : ''}}">Login</button>
+					
+					<!-- <div class="loading {{ submitted ? '' : 'transparent' }}"><span class="loading-spinner"></span> Authenticating Account</div> -->
+				<!-- </form> -->
+				 
+					
+				<!-- <div class="content-text text-center pt-2">Don't have an account? <a class="text-link-1" [routerLink]="['/register']">Register Here.</a></div>
+				<div class="content-text text-center py-2">Forgot Password? <a class="text-link-1" [routerLink]="['/forgot-password']">Click Here.</a></div> -->
+				<div class="content-text text-center pt-4"><a [routerLink]="['']" class="text-link-2">« Back to Homepage</a></div>
+			</div>
+		</div>
+	</div>
+
+</section>
+<ng-template #google_authenticator let-c="close" let-d="dismiss">
+	<div class="google_authenticator">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel"><i class="fab fa-google mr-2"></i>Google 2-FA</h5>
+		</div>
+		<div class="modal-body text-left  color-lokal-x">
+			<div class="row mb-2" *ngIf="error_message != 'no-message'">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center error-message">
+						<span class="text-dark">{{ error_message }}</span>
+					</div>
+				</div>
+			</div>
+			<div class="row mb-2" *ngIf="validating">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center font-weight-bold">
+						<span class="text-muted"><i class="fas fa-spinner button-loader mr-1"></i> Validating</span>
+					</div>
+				</div>
+			</div>
+			<div class="p-3 row">
+				<div class=" col-lg-12 col-xs-12 p-0 mb-2">
+					<input type="text" class="form-control form-control-lg input-lokal" [(ngModel)]="pair_code" placeholder="Enter code">
+				</div>
+				<div class=" col-lg-6 col-xs-6 p-1 mb-2">
+					<button class="btn btn-block button-lokal-x" (click)="c('cross click')" disabled="{{validating ? 'disabled' : ''}}"><i class="fas fa-times mr-1"></i>Cancel</button>
+				</div>
+				<div class=" col-lg-6 col-xs-6 p-1 mb-2">
+					<button class="btn btn-block button-lokal-x text-center" (click)="validateCode()" disabled="{{validating ? 'disabled' : ''}}">
+						Validate
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template>
+

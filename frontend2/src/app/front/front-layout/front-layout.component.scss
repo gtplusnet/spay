@@ -1,0 +1,68 @@
+@import '../../../assets/scss/app';
+.f-14 {
+    font-size: 14px !important;
+}
+
+.fixed-height {
+    min-height: 84px;
+    max-height: 84px;
+}
+
+.h-80 {
+    min-height: 80px;
+    max-height: 80px;
+}
+
+.show-on-mobile {
+    display: none;
+    @media screen and (max-width: 800px) {
+        display: block;
+    }
+}
+
+.mobile-logo {
+    display: none;
+}
+
+@media screen and (max-width: 800px) {
+    .remove-on-mobile {
+        display: none;
+    }
+    .desktop-logo {
+        display: none;
+    }
+    .mobile-logo {
+        display: block;
+    }
+}
+
+.telegram {
+    position: fixed; // right: 45px;
+    padding: 8px 12px 12px;
+    right: 18px;
+    bottom: 40px;
+    color: #31b3f8;
+    z-index: 888;
+    .telegram-ico {
+        width: 65px;
+        height: 65px;
+        transition: 100ms;
+        &:hover {
+            width: 50px;
+            height: 50px;
+            transition: 100ms;
+        }
+    }
+    @media screen and (max-width: 900px) {
+        right: 8px; // bottom: 105px;
+        bottom: 80px;
+    }
+    @media screen and (max-width: 600px) {
+        right: 8px; // bottom: 105px;
+        bottom: 80px;
+    }
+    @media screen and (max-width: 360px) {
+        right: 8px; // bottom: 105px;
+        bottom: 80px;
+    }
+}

@@ -1,0 +1,49 @@
+@import '../../../assets/scss/app';
+
+*
+{
+    font-family: $ff;
+}
+
+.community-manager {
+    @include gradient($primary-c, $secondary-c);
+
+    background-image: url("/assets/img/loginregister-bg.png");
+    background-size: cover;
+    background-position: center;
+    // background-attachement: fixed;
+    min-height: 100vh;
+    // padding-top: 4rem;
+    padding: 100px 0;
+    display: flex;
+    align-items: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+
+    .f-14
+    {
+        font-size: 14px !important;
+    }
+
+    .to-right
+    {
+        text-align: right !important;
+
+        @media screen and (max-width: 500px) {
+            text-align: left !important;
+        }
+    }
+
+    ul
+    {
+        li
+        {
+            // list-style-type: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            padding: 10px 0;
+        }
+    }
+}
+
+//LOGIN

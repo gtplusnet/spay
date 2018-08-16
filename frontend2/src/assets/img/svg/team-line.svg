@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 84 2">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#linear-gradient);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="-0.103" y1="1" x2="1.071" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#31b3f8"/>
+      <stop offset="1" stop-color="#765efa"/>
+    </linearGradient>
+  </defs>
+  <rect id="team-line" class="cls-1" width="84" height="2"/>
+</svg>

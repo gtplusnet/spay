@@ -1,0 +1,259 @@
+
+.page-title
+{
+	border: 0;
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	padding-bottom: 10px;
+	color: #0e0137;
+}
+
+.page-title-admin
+{
+	border: 0;
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	padding-bottom: 10px;
+	color: #353b48;
+}
+
+.page-sub-title
+{
+	padding: 10px;
+	background: rgba(0,0,0,0.1);
+	color: #ddd;
+}
+
+.dashboard-boxes
+{
+	min-height: 200px;
+}
+
+.member-table
+{
+	border: 0;
+	border: 1px solid rgba(0,0,0,0.1);
+	border-radius: 5px;
+	background: rgba(255,255,255,0.5);
+	thead
+	{
+		background: #0e0137 !important;
+		color: #ddd !important;
+	}
+}
+
+.member-table-x
+{
+	border: 0;
+	border: 1px solid rgba(0,0,0,0.1);
+	border-radius: 5px;
+	background: rgba(255,255,255,0.5);
+	thead
+	{
+		background: #353b48 !important;
+		color: #ddd !important;
+	}
+}
+
+.my-border-light
+{
+	border: 0;
+	border: 1px solid rgba(0,0,0,0.08);
+}
+
+.button-lokal
+{
+	border: 0;
+	border: 1px solid #0e0137 !important;
+	border-radius: 0;
+	color: #0e0137 !important;
+	background: rgba(255,255,255,0.5) !important;
+	transition: 400ms;
+	&:hover
+	{
+	  color: rgba(255,255,255,1) !important;
+	  background: #0e0137 !important;
+	  transition: 400ms;
+	}
+	&:active
+	{
+	  color: rgba(255,255,255,0.7) !important;
+	  background: #080021 !important;
+	  transition: 400ms;
+	}
+	&:focus
+	{
+		outline: none !important;
+		box-shadow: none !important;
+	}
+}
+
+.button-lokal-x
+{
+	border: 0;
+	border: 1px solid #353b48 !important;
+	border-radius: 0;
+	color: #353b48 !important;
+	background: rgba(255,255,255,0.5) !important;
+	transition: 400ms;
+	&:hover
+	{
+	  color: rgba(255,255,255,1) !important;
+	  background: #353b48 !important;
+	  transition: 400ms;
+	}
+	&:active
+	{
+	  color: rgba(255,255,255,0.7) !important;
+	  background: #2f3640 !important;
+	  transition: 400ms;
+	}
+	&:focus
+	{
+		outline: none !important;
+		box-shadow: none !important;
+	}
+}
+
+.button-lokal-l
+{
+	border: 0;
+	border: 1px solid #0e0137 !important;
+	border-left: 5px solid #0e0137 !important;
+	border-radius: 0;
+	color: #0e0137 !important;
+	background: rgba(255,255,255,0.5) !important;
+	transition: 400ms;
+	&:hover
+	{
+	  color: rgba(255,255,255,1) !important;
+	  background: #0e0137 !important;
+	  transition: 400ms;
+	}
+	&:active
+	{
+	  color: rgba(255,255,255,0.7) !important;
+	  background: #080021 !important;
+	  transition: 400ms;
+	}
+	&:focus
+	{
+		outline: none !important;
+		box-shadow: none !important;
+	}
+
+	
+}
+
+.active-lokal
+{
+	color: rgba(255,255,255,1) !important;
+  	background: #0e0137 !important;
+}
+
+.input-lokal
+{
+	border: 0;
+	border: 1px solid rgba(14, 1, 55, 0.1) !important;
+	font-size: 13px;
+	border-radius: 0;
+	color: #0e0137 !important;
+	&:focus
+	{
+		outline: none !important;
+		box-shadow: none !important;
+	}
+}
+
+.input-lokal-x
+{
+	border: 0;
+	border: 1px solid rgba(14, 1, 55, 0.1) !important;
+	font-size: 13px;
+	border-radius: 0;
+	color: #353b48 !important;
+	&:focus
+	{
+		outline: none !important;
+		box-shadow: none !important;
+	}
+}
+
+.color-lokal
+{
+	color: #0e0137 !important;
+}
+
+.color-lokal-x
+{
+	color: #353b48 !important;
+}
+
+
+.member-db
+{
+	.my-pagination /deep/ .ngx-pagination .current 
+	{
+	    background: #0e0137;
+	    color: #fff;
+	}
+
+	.my-pagination /deep/ .ngx-pagination
+	{
+	    color: #0e0137;
+	}
+}
+
+.admin-db
+{
+	.my-pagination /deep/ .ngx-pagination .current 
+	{
+	    background: #353b48;
+	    color: #fff;
+	}
+
+	.my-pagination /deep/ .ngx-pagination
+	{
+	    color: #353b48;
+	}
+}
+
+.bg-lokal-x
+{
+	background: #353b48 !important;
+}
+
+.bg-lokal-x-body
+{
+	background: rgba(255,255,255,0.5) !important;
+}
+
+.btm-border
+{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.modal
+{
+	border-radius: 0 !important;
+	
+	.modal-header
+	{
+		background: #353b48 !important;
+		color: #fff !important;
+		border-radius: 0 !important;
+		border: 0px !important;
+		box-shadow: none !important;
+		span
+		{
+			color: #fff;
+		}
+	}
+
+	.modal-body
+	{
+		background: #fff !important;
+		color: #353b48 !important;
+		border-radius: 0 !important;
+		border: 0px !important;
+		box-shadow: none !important;
+	}
+}

@@ -1,0 +1,38 @@
+<section class="page-section login-page">
+
+	<div class="container">
+		<div class="login-form-holder d-flex flex-column align-items-center justify-content-center">
+			<div class="logo-holder">
+				<img src="/assets/img/lokal-logo.png">
+			</div>
+			<br>
+			<div class="responsive-width py-3">
+				<div class="row mb-2" *ngIf="error_message != 'no-message'">
+					<div class="col-xs-12 col-lg-12">
+						<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-danger">
+							<span>{{ error_message }}</span>
+						</div>
+					</div>
+				</div>
+				<div class="row mb-2" *ngIf="error_message == 'Link is already expired.'">
+					<div class="col-xs-12 col-lg-12">
+						<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-danger">
+							<span><a [routerLink]="['/resend_email']" class="text-link-2">Click Here to Resend Email</a></span>
+						</div>
+					</div>
+				</div>
+				<div class="row mb-2" *ngIf="success_message != 'no-message'">
+					<div class="col-xs-12 col-lg-12">
+						<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-success">
+							<span>{{ success_message }}</span>
+						</div>
+					</div>
+				</div>
+				<div class="content-text text-center pt-4"><a [routerLink]="['']" class="text-link-2">« Back to Homepage</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>
+

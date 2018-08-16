@@ -1,0 +1,122 @@
+@import '../../../assets/scss/app';
+.logo-holder
+{
+	width: 170px;
+	margin: auto !important;
+	padding: 10px;
+}
+.faq-forms
+{
+	@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+	font-family: 'Roboto Condensed', sans-serif !important;
+	width: 90%;
+	text-align: center;
+	margin: auto;
+	background: #fff;
+	padding: 25px 15px;
+	border-top: 5px solid #14004c;
+	border-bottom: 5px solid #14004c;;	
+	input
+	{
+		
+		font-size: 13px;
+		padding: 13px;
+		border: 1px solid rgba(10, 0, 39, 0.2);
+		color: #0a0027;
+		font-family: 'Roboto Condensed', sans-serif !important;
+	}
+	button
+	{
+		width: 301px !important;
+		border-radius: 0px !important;
+		height: 38px;
+		// margin: 5px 0px;
+		cursor: pointer;
+		text-align: center;
+		font-family: 'Roboto Condensed', sans-serif !important;
+	}
+
+	.or 
+	{
+		display:flex;
+		justify-content:center;
+		align-items: center;
+		color:  rgba(10, 0, 39, 0.5);
+		font-size: 12px;
+		&::after,
+		&::before
+		{
+			content: "";
+			display: block;
+			background: #000 !important;
+			width: 30%;
+			height:1px;
+			margin: 0 10px;
+		}
+	}
+
+	.lokalize-login-button
+	{
+		border: 1px solid #0a0027 !important;
+		background: #0a0027 !important;
+		color: #fff !important;
+		transition: 500ms;
+		&:hover
+		{
+			background: #14004c !important;
+			color: #fff !important;
+			transition: 500ms;
+		}
+		&:disabled
+		{
+			background: #393544 !important;
+			color: #fff !important;
+			filter: grayscale(40%);
+			transition: 500ms;
+			cursor: not-allowed;
+		}
+
+
+	}
+
+	.lokalize-register-button
+	{
+		border: 1px solid #0a0027 !important;
+		background: #fff !important;
+		color: #0a0027 !important;
+		transition: 500ms;
+		&:hover
+		{
+			background: #0a0027 !important;
+			color: #fff !important;
+			transition: 500ms;
+		}
+		&:disabled
+		{
+			background: #393544 !important;
+			color: #fff !important;
+			filter: grayscale(40%);
+			transition: 500ms;
+			cursor: not-allowed;
+		}
+	}
+
+	.lokal-alerts
+	{
+		width: 301px !important;
+		font-size: 14px;
+		.lokal-text
+		{
+			color: #0a0027 !important;
+		}
+	}
+
+	.faq-divider
+	{
+		background: #14004c;
+		height: 100%;
+		width: 1px;
+		margin: auto;
+	}
+
+}

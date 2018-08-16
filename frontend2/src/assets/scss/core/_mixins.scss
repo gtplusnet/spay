@@ -1,0 +1,79 @@
+/* MIXINS */
+
+@mixin grad-btn($primary, $secondary)
+{
+	background: $primary;
+	background: -moz-linear-gradient(left, $primary 0%, $secondary 100%);
+	background: -webkit-gradient(left top, right top, color-stop(0%, $primary), color-stop(100%, $secondary));
+	background: -webkit-linear-gradient(left, $primary 0%, $secondary 100%);
+	background: -o-linear-gradient(left, $primary 0%, $secondary 100%);
+	background: -ms-linear-gradient(left, $primary 0%, $secondary 100%);
+	background: linear-gradient(to right, $primary 0%, $secondary 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$primary, endColorstr=$secondary, GradientType=1 );
+}
+
+// BACKGROUND-COLOR
+@mixin gradient($primary, $secondary)
+{
+    background-color: $primary;
+    background-color: -moz-linear-gradient(top, $primary 0%, $secondary 100%);
+    background-color: -webkit-gradient(left top, left bottom, color-stop(0%, $primary), color-stop(100%, $secondary));
+    background-color: -webkit-linear-gradient(top, $primary 0%, $secondary 100%);
+    background-color: -o-linear-gradient(top, $primary 0%, $secondary 100%);
+    background-color: -ms-linear-gradient(top, $primary 0%, $secondary 100%);
+    background-color: linear-gradient(to bottom, $primary 0%, $secondary 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$primary, endColorstr=$secondary, GradientType=0 );
+}
+
+@mixin gradient-diag($primary, $secondary)
+{
+    background-color: $primary;
+    background-color: -moz-linear-gradient(-45deg, $primary 0%, $secondary 100%);
+    background-color: -webkit-gradient(left top, right bottom, color-stop(0%, $primary), color-stop(100%, $secondary));
+    background-color: -webkit-linear-gradient(-45deg, $primary 0%, $secondary 100%);
+    background-color: -o-linear-gradient(-45deg, $primary 0%, $secondary 100%);
+    background-color: -ms-linear-gradient(-45deg, $primary 0%, $secondary 100%);
+    background-color: linear-gradient(135deg, $primary 0%, $secondary 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$primary, endColorstr=$secondary, GradientType=1 );
+}
+
+//BACKGROUND
+@mixin gradient-bg($primary, $secondary)
+{
+    background: $primary;
+    background: -moz-linear-gradient(top, $primary 0%, $secondary 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, $primary), color-stop(100%, $secondary));
+    background: -webkit-linear-gradient(top, $primary 0%, $secondary 100%);
+    background: -o-linear-gradient(top, $primary 0%, $secondary 100%);
+    background: -ms-linear-gradient(top, $primary 0%, $secondary 100%);
+    background: linear-gradient(to bottom, $primary 0%, $secondary 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$primary, endColorstr=$secondary, GradientType=0 );
+}
+
+//BTN-LINEAR GRADIENT
+@mixin linear-grad($color1, $color2)
+{
+    // background-image: linear-gradient(to right, #2fb5f8 0%, #785bfa 51%, #2fb5f8 100%);
+    background-image: linear-gradient(to right, $color1 0%, $color2 51%, $color1 100%);
+}
+
+@mixin transition($transition)
+{
+    -webkit-transition: all $transition ease-in-out;
+    -moz-transition: all $transition ease-in-out;
+    -o-transition: all $transition ease-in-out;
+    transition: all $transition ease-in-out;
+}
+
+
+@mixin img-size($imgsize)
+{
+	max-width: $imgsize;
+}
+
+@mixin text-style($ff, $fw, $fz)
+{
+    font-family: $ff;
+    font-weight: $fw;
+    font-size: $fz;
+}

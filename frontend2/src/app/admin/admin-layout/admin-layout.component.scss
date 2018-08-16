@@ -1,0 +1,23 @@
+@import '../../../assets/assets-laravel/admin-dashboard/css/styles.css';
+@import '../../../assets/scss/app';
+
+.dropdown-lokal
+{
+	li
+	{
+		a
+		{
+			&::before
+			{
+				content: "\00bb ";
+			}
+		}
+		
+	}
+	
+}
+
+.sub-menu
+{
+	padding-left: 31px;
+}

@@ -1,0 +1,478 @@
+<span *ngIf="rest.loading">
+
+<!-- <div class="row">
+	<div class="offset-lg-9 col-lg-3 col-xs-12 mb-2">
+		<button class="cbtn-sm crd-btn-lokal btn-convert w-100 my-1" (click)="buy_step_1(rest.member_id, buy_token)">BUY TOKEN</button>
+	</div>
+</div> -->
+<div class="row">
+	<div class="col-lg-12 col-xs-12 p-0 dashboard-card">
+		<div class="p-3 dashboard-card-header">
+			<i class="far fa-calendar-alt mr-1"></i> Events
+		</div>
+		<div class="p-3 dashboard-card-body">
+			<div class="row p-2">
+				<div class="col-lg-8 col-xs-12">
+					<div class="table-responsive"  *ngIf="!events">
+						<table class="table table-stripe table-hover">
+							<tbody>
+								<tr>
+									<td colspan="4" class="text-muted text-center">No events for you at this moment.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					 <div class="lokalize-slider">
+				        <div class="slider-main" >
+				          <div class="slider-image-holder" *ngFor="let data of upcoming_event_list">
+				            <img src="https://aeolus-storage.sgp1.digitaloceanspaces.com/{{data.communication_board_banner}}" (click)="viewEventDetails(data.communication_board_id, view_upcoming_event)" class="slider-image" alt="">
+				          </div>
+				        </div>
+				        <div class="buttons d-flex flex-row justify-content-center">
+				            <button class="prev">
+				            	<i class="fas fa-angle-double-left"></i>
+				            </button>
+				            <button class="next">
+				            	<i class="fas fa-angle-double-right"></i>
+				            </button>
+				        </div>
+				    </div>
+				     
+				</div>
+				<div class="col-lg-4 col-xs-12 dashboard-timer text-center d-flex flex-column align-items-center" *ngIf="rest._stages.sale_stage_type != 'no_sale_stage'">
+						<h5 class="mb-0" style="text-transform: uppercase;">ONGOING {{ sale_stage_name }}</h5>
+						<hr class="my-1">
+						<span class="d-flex justify-content-center align-items-center">
+							<div>
+								<span id="days" class="mb-0 number">00</span>
+								<small class="font-weight-bold lokal-text">D</small>
+							</div>
+							<div>
+								<span id="hours" class="mb-0 number">00</span>
+								<small class="font-weight-bold lokal-text">H</small>
+							</div>
+							<div>
+								<span id="minutes" class="mb-0 number">00</span>
+								<small class="font-weight-bold lokal-text">M</small>
+							</div>
+							<div>
+								<span id="seconds" class="mb-0 number">00</span>
+								<small class="font-weight-bold lokal-text">S</small>
+							</div>
+						</span>
+				</div>
+				<div class="col-lg-4 col-xs-12 dashboard-timer text-center d-flex flex-column align-items-center" *ngIf="rest._stages.sale_stage_type == 'no_sale_stage'">
+						<h5 class="mb-0" style="text-transform: uppercase;">No current sale at this moment.</h5>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-4 col-xs-12 p-0 dashboard-card">
+		<div class="p-3 dashboard-card-header">
+			<i class="fas fa-sync mr-1"></i> Conversion Rate
+		</div>
+		<div class="p-3 dashboard-card-body d-flex flex-column justify-content-center align-items-center">
+			<div class="media d-flex flex-row align-items-center justify-content-center">
+			    <img class="mr-3 img-fluid mx-2" src="/assets/img/lokal-variant-3.png" width="100" height="100" alt="45x45">
+			    <div class="media-body mx-2">
+
+<!-- 			      <small class="mt-0 mb-1 d-block font-weight-bold">1 SPAY ~ {{rest._rates[2].conversion_multiplier}} BTC</small>
+			      <small class="mt-0 mb-1 d-block font-weight-bold">1 LOK ~ {{rest._rates[1].conversion_multiplier}} ETH</small>
+			      <small class="mt-0 mb-1 d-block font-weight-bold">DISCOUNT: {{rest._stages.sale_stage_discount}}%</small>
+ -->
+			      <small class="mt-0 mb-1 d-block font-weight-bold">1 SPAY ~ {{rest._rates[1].conversion_multiplier}} BTC</small>
+			      <small class="mt-0 mb-1 d-block font-weight-bold">1 SPAY ~ {{rest._rates[0].conversion_multiplier}} ETH</small>
+			      <small class="mt-0 mb-1 d-block font-weight-bold">DISCOUNT: {{rest._stages.sale_stage_discount}}%</small>
+
+			      <!-- <small class="mt-0 mb-1 d-block font-weight-bold">ACTUAL 1 SPAY ~ 0.01 BTC | 0.10 ETH</small> -->
+			    </div>
+			  </div>
+			<small class="mt-0 mb-1 d-block my-1"><em>ACTUAL 1 SPAY ~ {{rest._rates[1].conversion_multiplier}} BTC | {{rest._rates[0].conversion_multiplier}} ETH</em></small>
+			<button class="cbtn-sm crd-btn-lokal btn-convert w-100 my-1" (click)="buy_step_1(rest.member_id, buy_token)">BUY TOKEN</button>
+		</div>
+	</div>
+	<div class="col-lg-4 col-xs-12 p-0 dashboard-card">
+		<div class="p-3 dashboard-card-header">
+			<i class="fas fa-wallet mr-1"></i> LOKAL Wallet
+		</div>
+		<div class="p-3 dashboard-card-body d-flex flex-column justify-content-center align-items-center">
+			<div class="media d-flex flex-column align-items-center justify-content-center" *ngIf="w_balance">
+			    <div class="media-body mx-2 d-flex flex-row align-items-center justify-content-center">
+			      <h2 class="mb-0 font-weight-bold mr-2">{{ w_balance.bought | number : '1.2-8'}} </h2>
+			      <img src="/assets/img/lokal-mini.png" class="img-fluid" width="30" height="30" alt="">
+			    </div>
+			    <h4>Bought Tokens</h4>
+			    <hr class="my-0">
+			    <div class="row">
+			    	<div class="col-md-4 col-xs-12 text-center">
+			    		<div class="media-body mx-2 d-flex flex-row align-items-center justify-content-center">
+					      <h4 class="mb-0 font-weight-bold mr-1">{{ w_balance.affiliated | number : '1.2-8'}} </h4>
+					      <img src="/assets/img/lokal-mini.png" class="img-fluid" width="20" height="20" alt="">
+					    </div>
+					    <h6>Affiliated Bonus</h6>
+			    	</div>
+			    	<div class="col-md-4 col-xs-12 text-center">
+			    		<div class="media-body mx-2 d-flex flex-row align-items-center justify-content-center">
+					      <h4 class="mb-0 font-weight-bold mr-1">{{ w_balance.purchased | number : '1.2-8'}} </h4>
+					      <img src="/assets/img/lokal-mini.png" class="img-fluid" width="20" height="20" alt="">
+					    </div>
+					    <h6>Purchase Bonus</h6>
+			    	</div>
+			    	<div class="col-md-4 col-xs-12 text-center">
+			    		<div class="media-body mx-2 d-flex flex-row align-items-center justify-content-center">
+					      <h4 class="mb-0 font-weight-bold mr-1">{{ w_balance.manual | number : '1.2-8'}} </h4>
+					      <img src="/assets/img/lokal-mini.png" class="img-fluid" width="20" height="20" alt="">
+					    </div>
+					    <h6>Manually Transferred</h6>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-4 col-xs-12 p-0 dashboard-card">
+		<div class="p-3 dashboard-card-header">
+			<i class="fas fa-hand-holding-heart mr-1"></i> Contributions
+		</div>
+		<div class="p-3 dashboard-card-body d-flex flex-column justify-content-center align-items-center"  *ngIf="w_contributions">
+			<div class="media d-flex flex-row align-items-center justify-content-center">
+			    <div class="media-body mx-2 d-flex flex-row align-items-center justify-content-center">
+			      <h2 class="mt-0 mb-1 d-block font-weight-bold mx-2"> {{w_contributions.eth | number : '1.2-8'}} </h2>
+			      <img src="/assets/img/eth-mini.png" class="img-fluid" width="30" height="30" alt="">
+			    </div>
+			</div>
+			<div class="media d-flex flex-row align-items-center justify-content-center">
+			    <div class="media-body mx-2 d-flex flex-row align-items-center justify-content-center">
+			      <h2 class="mt-0 mb-1 d-block font-weight-bold mx-2"> {{w_contributions.btc | number : '1.2-8'}} </h2>
+			      <img src="/assets/img/btc-mini.png" class="img-fluid" width="30" height="30" alt="">
+			    </div>
+			</div>
+			<h3>Current Contributions</h3>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-12 col-xs-12 p-0 dashboard-card">
+		<div class="p-3 dashboard-card-header">
+			<i class="fas fa-columns mr-1"></i> Recent Transactions
+		</div>
+		<div class="p-3 dashboard-card-body no-min-height d-flex flex-column justify-content-center align-items-center">
+			<div class="table-responsive">
+				<table class="table">
+					<caption class="bg-light m-0 p-0 py-2 px-1">
+						<pagination-controls class="my-pagination" (pageChange)="recent_transaction = $event" id="recent_transaction"></pagination-controls>
+					</caption>
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Token Amount</th>
+							<th>Type</th>
+							<th>Status</th>
+							<th>Date</th>
+							<th>Time</th>
+						</tr>
+					</thead>
+					<tbody *ngIf="_table_recent_transaction_loader">
+						<tr>
+							<td colspan="8">
+								<div class="row" >
+									<div class="col-lg-12 col-xs-12">
+										<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+											<div class="circle"></div>
+											<small class="text">LOADING TABLE...</small>
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+					<tbody *ngIf="!_table_recent_transaction_loader">
+						<tr *ngIf="_table_recent_transaction == ''">
+							<td colspan="8">
+								<div class="text-center">
+									<small class="font-weight-light">No data found.</small>
+								</div>
+							</td>
+						</tr>
+						<tr *ngFor="let data of _table_recent_transaction | paginate: { itemsPerPage:15, currentPage: recent_transaction, id: 'recent_transaction'}">
+							<td>{{data.member_log_id}}</td>
+							<td>{{data.log_amount}}</td>
+							<td>{{data.log_method == "Bitcoin Total" || data.log_method == "Bitcoin" ? "Bitcoin" : "Ethereum"}} </td>
+							<td>
+								<span class="badge badge-secondary px-2" *ngIf="data.log_status == 'pending'">
+									Pending
+								</span>
+								<span class="badge badge-success px-2" *ngIf="data.log_status == 'accepted'">
+									Accepted
+								</span>
+								<span class="badge badge-danger px-2" *ngIf="data.log_status == 'canceled'">
+									Canceled
+								</span>
+							</td>
+							<td>{{data.log_time | date: 'MM/dd/yyyy'}}</td>
+							<td>{{data.log_time | date: 'hh:mm a'}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- <div class="col-lg-4 col-xs-12 p-0 dashboard-card">
+		<div class="p-3 dashboard-card-header">
+			<i class="far fa-calendar-alt mr-1"></i> Events
+		</div>
+		<div class="p-4 dashboard-card-body no-min-height">
+			<span *ngFor="let data of upcoming_event_list" class="d-block">
+				<a href="javascript:void(0)" (click)="viewEventDetails(data.communication_board_id, view_upcoming_event)" class="row table table-hovered" *ngIf="events">
+					<div class="col-md-2 p-1 px-0 text-dark"><img src="https://aeolus-storage.sgp1.digitaloceanspaces.com/{{data.communication_board_thumbnail}}" width="30" alt=""></div>
+					<div class="col-md-7 d-flex flex-column justify-content-center p-1 text-left text-dark">{{ data.communication_board_subtitle }}</div>
+					<div class="col-md-3 d-flex flex-column justify-content-center p-1 text-center text-dark">{{ data.insert_date | date:'mm/dd' }}</div>
+				</a>
+				<a  class="row table table-hovered" *ngIf="!events">
+					<div class="col-md-12 p-1 text-center text-dark">No events for you at this moment.</div>
+				</a>
+			</span>
+		</div>
+	</div> -->
+</div>
+
+<ng-template #buy_token let-c="close" let-d="dismiss" >
+    <div class="change_password">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Buy Token</h5>
+            <button type="button" class="close" *ngIf="!buy_loading" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body text-left">
+        	<!-- <div class="row mb-2" *ngIf="error_message != 'no-message'">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center {{error_message.type == 'success' ? 'success-message' : 'error-message'}}">
+						<span>{{ error_message.message }}</span>
+					</div>
+				</div>
+			</div> -->
+			<!-- <div class="row" *ngIf="submitted">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center validating">
+						<div class="circle mr-2"></div><span>Validating</span>
+					</div>
+				</div>
+			</div> -->
+        	<div class="px-5 py-3" *ngIf="buy_step == 'buy_step_1'">
+        		<h3 class="font-weight-bold">Your order</h3>
+        		<hr>
+        		<div class="row mb-2" *ngIf="error_message != 'no-message'">
+					<div class="col-xs-12 col-lg-12">
+						<div class="d-flex justify-content-center align-items-center p-2 text-center error-message">
+							<span>{{ error_message }}</span>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-xs-12">
+						<h5 class="mb-1">Amount of Tokens</h5>
+        				<input type="number" min="1" class="form-control mb-3" placeholder="Min. {{rest._stages.sale_stage_min_purchase}}" [(ngModel)]="token_amount" (keyup)="compute_to_pay()" name="token_amount">
+					</div>
+					<div class="col-md-6 col-xs-12">
+						<h5 class="mb-1">Purchase Bonus</h5>
+        				<input type="text" min="1" class="form-control mb-3" placeholder="0%" [(ngModel)]="bonus_percentage" name="token_amount" disabled="">
+					</div>
+				</div>
+        		
+        		<h5 class="mb-1">Payment Method</h5>
+        		<!-- <select name="payment_type" [(ngModel)]="payment_type" (change)="compute_to_pay()" id="" class="mb-3 form-control">
+        			<option value="2">Ethereum</option>
+        			<option value="3">Bitcoin</option>
+        		</select> -->
+        		<div class="row mb-2">
+        			<div class="col-md-12 col-xs-12">
+        				<button type="button" (click)="setPaymentType(2)" class="payment-btn {{payment_type == 2? 'payment-btn-active' : ''}} mr-2">
+        					<i class="fab fa-ethereum"></i>
+        				</button>
+        				<button type="button" (click)="setPaymentType(3)" class="payment-btn {{payment_type == 3 ? 'payment-btn-active' : ''}} ml-2">
+        					<i class="fab fa-bitcoin"></i>
+        				</button>
+        			</div>
+        		</div>	
+        		<div class="row">
+					<div class="col-md-6 col-xs-12">
+        				<h5 class="mb-1">Payment Value</h5>
+        				<input type="text" [(ngModel)]="to_be_paid" (keyup)="compute_to_pay()" name="to_be_paid" class="form-control mb-1" value="0">
+					</div>
+					<div class="col-md-6 col-xs-12">
+						<h5 class="mb-1">US Dollar Value</h5>
+        				<input type="text" min="1" class="form-control mb-3" [(ngModel)]="exchange_rate" name="exchange_rate" disabled="">
+					</div>
+				</div>
+        		<!-- <input type="hidden" [(ngModel)]="lok_exchange_rate" value="{{ payment_type == 2 ? rest._rates[1].conversion_multiplier : rest._rates[2].conversion_multiplier }}"> -->
+        		
+        		<!-- <small class="d-block font-weight-bold mb-3 text-muted">USD {{ exchange_rate }}</small> -->
+        		<h6 class="mb-1">
+        			<input type="checkbox" [(ngModel)]="check_toa_1" (click)="check_tos('check_toa_1')"> I agree that I am not a citizen, resident or company over which the laws of the any of the following countries have jurisdiction: United-States of America, China, India, North Korea or South Korea. 
+        		</h6>
+        		<h6 class="mb-1">
+        			<input type="checkbox" [(ngModel)]="check_toa_2" (click)="check_tos('check_toa_2')"> The bitcoin/ethereum price is so volatile that the number of SPAY token varies time to time it might increase or decrease.
+        		</h6>
+        		<h6 class="mb-1">
+        			<input type="checkbox" [(ngModel)]="check_toa_3" (click)="check_tos('check_toa_3')"> I have read and agree to the website terms and conditions.
+        		</h6>
+        		<div class="row mt-2">
+        			<div class="offset-lg-8 col-lg-4 col-xs-12" *ngIf="rest.verified_mail == '1'">
+        				<button  class="btn btn-dark btn-lg btn-block" (click)="buy_step_2()">
+        					<small *ngIf="buy_loading">
+		    						<i class="fas fa-spinner button-loader"></i>
+		    				</small>
+		    				<small *ngIf="!buy_loading">
+        						NEXT <i class="fas fa-angle-double-right ml-2"></i>
+        					</small>
+        				</button>
+        			</div>
+        			<div class="col-lg-12 col-xs-12" *ngIf="rest.verified_mail == '0'">
+        				<div class="alert alert-warning alert-dismissible fade show p-2" role="alert" style="width: 100%; border-radius: 0px !important; color: #85641d;">
+	                        <i class="fas fa-exclamation-triangle mr-2"></i>
+	                      <small>To purchase your first token, please verify your email address.
+	                        </small>
+	                      <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	                        <span aria-hidden="true">&times;</span>
+	                      </button> -->
+	                    </div>
+        			</div>
+        		</div>
+        	</div>
+
+        	<div class="px-5 py-3" *ngIf="buy_step == 'buy_step_2'">
+        		<h3 class="font-weight-bold">Review your order</h3>
+        		<hr>
+        		<h5 class="mb-1">Requested Tokens</h5>
+        		<h3 class="mb-3">{{ token_amount }} LOK</h3>
+
+        		<!-- <h5 class="mb-1">Bonus Tokens</h5>
+        		<h3 class="mb-3">{{ bonus_token }} LOK (+{{ bonus_percentage }}%)</h3>
+
+        		<h5 class="mb-1">Total Tokens</h5>
+        		<h3 class="mb-3">{{ total_token }} LOK</h3> -->
+
+        		<h5 class="mb-1">To be paid</h5>
+        		<h3 class="mb-3">{{ to_be_paid }} {{ payment_type == 2 ? 'ETH' : 'BTC' }}</h3>
+				<hr>
+				<div class="text-center">
+					<h3 class="font-weight-bold">Send Payment</h3>
+	        		<h5 class="mb-1">Copy this wallet address</h5>
+	        		<h3 class="mb-3">{{ payment_type == 2 ? rest._wallet[2].member_address: rest._wallet[3].member_address }}<button class="btn btn-default"><i class="fas fa-copy"></i></button></h3>
+					or
+	        		<h5 class="mb-1 mt-3">Scan this QR Code</h5>
+	        		<span class="mb-3 d-flex justify-content-center align-items-center py-2">
+	        			<qrcode [qrdata]="payment_type == 2 ? rest._wallet[2].member_address: rest._wallet[3].member_address" [size]="150" [level]="'M'"></qrcode>
+	        		</span>
+					<small class="alert alert-warning alert-lokalize mb-4 d-block">
+						<span *ngIf="check_pending_transacts"><b>Note:</b> You already have a pending token order for this payment method. Proceeding with this order will result to cancellation of your previous order.</span>
+						<hr *ngIf="check_pending_transacts">
+						<b>Note:</b> Your order will expire upon not sending your payment for 2 days.
+					</small>
+	        		<div class="row mt-2">
+		    			<div class=" col-lg-4 col-xs-12">
+		    				<button class="btn btn-dark btn-lg btn-block" disabled="{{buy_loading ? 'disabled' : ''}}" (click)="buy_step_1(rest.member_id, null, 'back')">
+		    					<small>
+		    						<i class="fas fa-angle-double-left mr-2"></i> PREVIOUS 
+		    					</small>
+		    				</button>
+		    			</div>
+		    			<div class="offset-lg-4 col-lg-4 col-xs-12">
+		    				<button class="btn btn-dark btn-lg btn-block" disabled="{{buy_loading ? 'disabled' : ''}}" (click)="buy_step_3()">
+		    					<small *ngIf="buy_loading">
+		    						<i class="fas fa-spinner button-loader"></i>
+		    					</small>
+		    					<small *ngIf="!buy_loading">
+		    						Confirm Order <i class="fas fa-angle-double-right ml-2"></i>
+		    					</small>
+		    				</button>
+		    			</div>
+		    		</div>	
+	    		</div>	
+        	</div>
+
+        	<div class="px-5 py-3" *ngIf="buy_step == 'buy_step_3'">
+        		<h4 class="alert alert-success mb-4 d-block text-center p-4">
+					You have successfully ordered {{ token_amount }} LOK. 
+					<br>Your order will expire upon not sending your payment in 2 days.
+				</h4>
+        		<div class="row mt-2">
+	    			<div class="offset-lg-8 col-lg-4 col-xs-12">
+	    				<button class="btn btn-dark btn-lg btn-block" (click)="closeModal()">
+	    					<small>
+	    						CLOSE WINDOW <i class="fas fa-times ml-2"></i>
+	    					</small>
+	    				</button>
+	    			</div>
+	    		</div>		
+        	</div>
+        	
+        </div>
+    </div>
+</ng-template>
+</span>
+
+<!-- upcoming event Pop up -->
+<ng-template #view_upcoming_event let-c="close" let-d="dismiss">
+	<div class="view_account_details">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-calendar-alt mr-2"></i>Event Details</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left  color-lokal-x">
+			<div class="p-3 row">
+				<div class=" col-lg-12 col-xs-12 text-center">
+					<img class="ml-0" src="https://aeolus-storage.sgp1.digitaloceanspaces.com/{{banner_link}}" style='width:400px;height:100px; object-fit: contain;'/>
+				</div>
+			</div>
+			<div class="p-3 row">
+				<div class=" col-lg-12 col-xs-12">
+					<div class="col-lg-12 col-xs-6 text-center"><h3>{{event_title}}</h3></div>
+				</div>
+			</div>
+			<div class="p-3 row">
+				<div class=" col-lg-12 col-xs-12">
+					<div class="col-lg-12 col-xs-6 text-center"><h5>{{event_sub_title}}</h5></div>
+				</div>
+			</div>
+			<div class="p-3 row">
+				<div class="col-lg-4 col-xs-12">
+					<img class="ml-3 mb-1" src="https://aeolus-storage.sgp1.digitaloceanspaces.com/{{thumbnail_link}}" width="200" height="250"/>
+				</div>
+				<div class="main-container border pt-3 pb-3 col-lg-8 col-xs-12">
+					<div class="top-container">
+						<div class="container"> 
+							<div class="row clearfix">
+								<div class="col-md-12 color-lokal">
+									<span class="d-inline-block align-middle">
+										<i class="fas fa-envelope mr-2"></i>
+									</span>
+									<span class="d-inline-block align-middle">
+										<h5 class="font-weight-light mb-0">Event Description</h5>
+									</span> 
+								</div>
+							</div>
+							<div class="col-md-12 color-lokal mt-2" [innerHTML]="description">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="p-3 row">
+			<div class="col-lg-12 col-xs-12">
+				<div class="col-lg-12 col-xs-6"><small>Start Date: {{start_date | date:'MM/dd/yyyy'}}</small></div>
+				<div class="col-lg-12 col-xs-6"><small>End Date: {{end_date | date:'MM/dd/yyyy'}}</small></div>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+
+

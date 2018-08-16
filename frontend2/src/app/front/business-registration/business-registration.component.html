@@ -1,0 +1,123 @@
+	<section class="page-section business-registration">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-md-6">
+				<h6 class="content-text py-3">Fill up this form</h6>
+				<!-- <form> -->
+					<div class="form-group">
+						<label for="inputDirectorName" class="content-text f-14">Name</label>
+					    <input [(ngModel)]="director_name"  type="text" class="custom-textfield f-14 w-100 p-2" id="inputDirectorName" placeholder="Director's Name">
+					</div>
+					<div class="form-group">
+						<label for="inputDirectorName" class="content-text f-14">Position</label>
+					    <input [(ngModel)]="position"  type="text" class="custom-textfield f-14 w-100 p-2" id="inputDirectorName" placeholder="Position">
+					</div>
+					<div class="form-group">
+						<label for="inputTokenName" class="content-text f-14">Contact E-Mail</label>
+					    <input [(ngModel)]="contact_email"  type="email" class="custom-textfield f-14 w-100 p-2" id="contactEmail" placeholder="E-Mail Address">
+					</div>
+					<div class="form-group">
+						<label for="inputTokenName" class="content-text f-14">Contact number</label>
+					    <input [(ngModel)]="contact_number"  type="text" class="custom-textfield f-14 w-100 p-2" id="contactNumber" placeholder="Contact Number">
+					</div>
+					<!-- <div class="form-group">
+						<label for="inputIndustry" class="content-text f-14">Industry</label>
+						<select [(ngModel)]="industry" id="inputIndustry" class="custom-textfield f-14 w-100 p-2">
+							<option selected>...</option>
+							<option value="other">Others</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label *ngIf="industry == 'other'" for="inputOtherIndustry" class="content-text f-14">Please Sepcify</label>
+					    <input *ngIf="industry == 'other'" [(ngModel)]="other_industry"  type="text" class="custom-textfield f-14 w-100 p-2" id="inputOtherIndustry" placeholder="Please Specify Here your Industry">
+					</div> -->
+					<div class="form-group">
+						<label for="inputCountry" class="content-text f-14">Country</label>
+						<select [(ngModel)]="country"  id="inputCounty" class="custom-textfield f-14 w-100 p-2">
+							<option *ngFor="let cc of country_codes" value="{{ cc.country }}">
+                                 {{ cc.country }}
+                             </option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="inputCompanyName" class="content-text f-14">Company's Legal Name</label>
+					    <input [(ngModel)]="company_name" type="text" class="custom-textfield f-14 w-100 p-2" id="inputCompanyName" placeholder="Company Name (Optional)">
+					</div>
+					<div class="form-group">
+						<label for="inputNumberOfEmployee" class="content-text f-14">Number of Employees</label>
+					    <input [(ngModel)]="number_of_employees"  type="number" class="custom-textfield f-14 w-100 p-2" id="inputNumberOfEmployee" placeholder="Number of Employees(Optional)">
+					</div>
+					<!-- <div class="form-group">
+						<label for="inputAnnualRevenue" class="content-text f-14">Annual Revenue</label>
+					    <input [(ngModel)]="annual_revenue"  type="number" class="custom-textfield f-14 w-100 p-2" id="inputAnnualRevenue" placeholder="Annual Revenue (Optional)">
+					</div> -->
+
+					<div class="form-group">
+						<label for="inputCompanyName" class="content-text f-14">Preferred ICO Website Name</label>
+					    <input [(ngModel)]="preferred_ico_name" type="text" class="custom-textfield f-14 w-100 p-2" id="inputCompanyName" placeholder="ICO Website Name">
+					</div>
+					<div class="form-group">
+						<label for="inputTokenName" class="content-text f-14">Prefered Token Name</label>
+					    <input [(ngModel)]="prefered_token_name"  type="text" class="custom-textfield f-14 w-100 p-2" id="inputTokenName" placeholder="Token Name">
+					</div>
+
+					<h6 class="content-text py-2">Uploading of Supporting Documents: </h6>
+					<small class="text-white text-muted text-center">(i.e Article of incorporation, Business Licenses, Audited Financial Statement, etc.)(Optional)</small>
+
+					<div class="files-holder d-flex align-items-center justify-content-center my-2">
+						<div class="file-holder d-flex align-items-center justify-content-center btn btn-primary">
+							<!-- <img width="50" src="/assets/img/svg/briefcase.svg" alt=""> -->
+							Choose File
+							<input type="file" [(ngModel)]="supporting_document_name" (change)="onFileSelectedDocument($event)" name="file/">
+						</div>
+					</div>
+					<div class="form-group">
+						<input type="checkbox" [checked]="checked" (change)="checked = !checked" style="vertical-align: middle;" required><small class="content-text f-14 ml-2">I hereby declare that the information contained in this form is complete, void and truthful.</small>
+					</div>
+					<div class="row mb-1" *ngIf="error_message != 'no-message'">
+						<div *ngFor="let data of error_message" class="col-xs-12 col-lg-12">
+							<div class="d-flex justify-content-center align-items-center p-2 textalert alert-danger">
+								<span>{{ data }}</span>
+							</div>
+						</div>
+					</div>
+					<div class="row mb-1" *ngIf="error_document_message != 'no-message'">
+						<div class="col-xs-12 col-lg-12">
+							<div class="d-flex justify-content-center align-items-center p-2 textalert alert-danger">
+								<span>{{ error_document_message }}</span>
+							</div>
+						</div>
+					</div>
+					<div class="row mb-1" *ngIf="success_message != 'no-message'">
+						<div class="col-xs-12 col-lg-12">
+							<div class="d-flex justify-content-center align-items-center p-2 textalert alert-success">
+								<span>{{ success_message }}</span>
+							</div>
+						</div>
+					</div>
+					<div class="row" *ngIf="uploading">
+						<div class="col-xs-12 col-lg-12">
+							<div class="d-flex justify-content-center align-items-center p-2 text-center validating">
+								<div class="circle mr-2"></div><span>Uploading..</span>
+							</div>
+						</div>
+					</div>
+					<div class="row" *ngIf="submitted">
+						<div class="col-xs-12 col-lg-12">
+							<div class="d-flex justify-content-center align-items-center p-2 text-center validating">
+								<div class="circle mr-2"></div><span>Verifying</span>
+							</div>
+						</div>
+					</div>
+					<div (click)="onSubmit()" class="d-flex justify-content-center align-items-center my-4">
+						<button class="cbtn-sm btn-lokal f-14">SUBMIT</button>
+					</div>
+
+				<!-- </form> -->
+				<div class="content-text text-center pt-4"><a [routerLink]="['/']" class="text-link-2">« Back to Homepage</a></div>
+			</div>
+			<div class="col-md-3"></div>
+		</div>
+	</div>
+</section>

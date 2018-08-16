@@ -1,0 +1,226 @@
+<h4 class="font-weight-light page-title-admin mb-2">
+	<div class="row">
+		<div class="col-md-6">
+			<i class="fas fa-edit mr-2" ></i>Profile KYC Verification
+			<em><small></small></em>
+			<div>
+				<small class="mx-4"><i>List of pending verifications.</i></small>
+			</div>
+		</div>
+		<div class="col md-6">
+			<div class="col-lg-6 col-xs-12 float-right">
+				<div class="alert alert-light p-2 my-border-light">
+					<div class="d-flex flex-row justify-content-center align-items-center h6 mb-0 text-center color-lokal-x">
+						<small class="mx-2">
+							<h4 class="text-center mb-0">{{number_of_pending}}</h4>
+							Pending KYC request
+						</small>
+						<i class="fas fa-users"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</h4>
+<div class="row ml-1 mb-3">
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Level Of Verification
+		</small>
+		<select (change)="get_kyc_list()" [(ngModel)]="level" class="form-control form-control-sm input-lokal-x mb-1">
+			<option value=0>All</option>
+			<option value=1>Level 1</option>
+			<option value=2>Level 2</option>
+			<option value=3>Level 3</option>
+		</select>
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Verification Status
+		</small>
+		<select (change)="get_kyc_list()" [(ngModel)]="status" class="form-control form-control-sm input-lokal-x mb-1">
+			<option value="all">All</option>
+			<option value="pending">Pending</option>
+			<option value="completed">Accepted</option>
+			<option value="rejected">Rejected</option>
+		</select>
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Search Member
+		</small>
+		<input (keyup)="get_kyc_list()" [(ngModel)]="search_name" type="text" class="form-control form-control-sm input-lokal-x mb-1" placeholder="Search Member by Name">
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Request Date - <em class="font-weight-light">From</em>
+		</small>
+		<input (change)="get_kyc_list()" [(ngModel)]="date_from" type="date" class="form-control form-control-sm input-lokal-x mb-1">
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Request Date - <em class="font-weight-light">To</em>
+		</small>
+		<input (change)="get_kyc_list()" [(ngModel)] = "date_to" type="date" class="form-control form-control-sm input-lokal-x mb-1">
+	</div>
+</div>
+<div class="table-responsive px-0"  style="min-height: 300px;">
+	<table class="table member-table-x admin-db table-hover px-2">
+		<caption class="bg-light m-0 p-0 py-2 px-1" *ngIf="!table_loader">
+			<pagination-controls class="my-pagination" (pageChange)="page = $event"></pagination-controls>
+		</caption>
+		<thead>
+			<tr>
+				<th>count</th>
+				<th>Name</th>
+				<th>Level</th>
+				<th>Attached File</th>
+				<th>Status</th>
+				<th>Date Submitted</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody *ngIf="table_loader">
+			<tr>
+				<td colspan="8">
+					<div class="row" >
+						<div class="col-lg-12 col-xs-12">
+							<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+								<div class="circle"></div>
+								<small class="text">LOADING TABLE...</small>
+							</div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+		<tbody *ngIf="!table_loader">
+			<tr *ngIf="kyc_list == ''">
+				<td colspan="8">
+					<div class="text-center">
+						<small class="font-weight-light">No data found.</small>
+					</div>
+				</td>
+			</tr>
+			<tr *ngFor="let data of kyc_list | paginate: { itemsPerPage:15, currentPage: page }; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{data.member_info.first_name}} {{data.member_info.last_name}}</td>
+				<td>Level{{data.user_info[0].kyc_level}}</td>
+				<td>{{data.user_info[0].kyc_type}}</td>
+				<td>
+					<span class="badge badge-secondary px-2" *ngIf="data.user_info[0].kyc_status == 'pending'">
+						Pending
+					</span>
+					<span class="badge badge-success px-2" *ngIf="data.user_info[0].kyc_status == 'completed'">
+						Confirmed
+					</span>
+					<span class="badge badge-danger px-2" *ngIf="data.user_info[0].kyc_status == 'rejected'">
+						Rejected
+					</span>
+				</td>
+				<td>{{data.user_info[0].kyc_upload_date}}</td>
+				<td class="text-center">
+					<!-- <div ngbDropdown placement="bottom-right">
+						<button class="btn button-lokal-x btn-block btn-sm" id="dropdownBasic1" ngbDropdownToggle>
+							<small>
+								<i class="fas fa-cog mr-2"></i>ACTIONS
+							</small>
+						</button>
+						<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+							<button class="dropdown-item" (click)="viewIdentificationDetails(data.user_info[0].kyc_upload_date, view_identification_details)">View Details</button>
+						</div>
+					</div> -->
+					<div class="btn-group" dropdown placement="bottom right">
+					  <button id="button-alignment" dropdownToggle type="button"
+					          class="btn button-lokal-x btn-block btn-sm dropdown-toggle" aria-controls="dropdown-alignment">
+					    <small>
+				      		<i class="fas fa-cog mr-2"></i>ACTIONS <span class="caret"></span>
+				      	</small> 
+					  </button>
+					  <ul id="dropdown-alignment" *dropdownMenu class="dropdown-menu dropdown-menu-right"
+					      role="menu" aria-labelledby="button-alignment">
+					    <li role="menuitem">
+					    	<a href="javascript:void" class="dropdown-item" (click)="viewIdentificationDetails(data.user_info[0].kyc_upload_date, view_identification_details)">View Details</a>
+					    </li>
+					  </ul>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<!-- pop up -->
+<ng-template #view_identification_details let-c="close" let-d="dismiss">
+	<div class="view_account_details">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Identification Details</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left  color-lokal-x">
+			<div class=" p-3 row ">
+				<div class=" col-lg-6 col-xs-12">
+					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.member_info.first_name }} {{ data_focus.member_info.last_name }}</h4>
+					<small class="font-weight-bold mb-5">Requested By</small>  
+
+					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.user_info[0].kyc_type }}</h4>
+					<small class="font-weight-bold mb-5">ID Type</small>  
+
+					<h4 *ngIf="data_focus.user_info[0].kyc_type !='selfie'" class="mb-0 font-weight-light mt-2">{{ data_focus.user_info[0].kyc_id_number }}</h4>
+					<small *ngIf="data_focus.user_info[0].kyc_type !='selfie'" class="font-weight-bold mb-5">ID Number</small>  
+
+					<h4 *ngIf="data_focus.user_info[0].kyc_type !='selfie'" class="mb-0 font-weight-light mt-2">{{ data_focus.user_info[0].kyc_id_expiration }}</h4>
+					<small *ngIf="data_focus.user_info[0].kyc_type !='selfie'" class="font-weight-bold mb-5">Expiration Date </small>  
+					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.user_info[0].kyc_upload_date | date:'MM/dd/yyyy hh:mm:ss a' }}</h4>
+					<small class="font-weight-bold mb-5">Date Requested</small>
+				</div>
+				<div class="col-lg-6 col-xs-12">
+					<a *ngFor="let data of data_focus.user_info" class="mb-0 font-weight-light mt-2" href="https://aeolus-storage.sgp1.digitaloceanspaces.com/{{ data.kyc_proof }}"  target="_blank"><i class="mr-2 fa fa-link" aria-hidden="true"></i>Click here for proof image ({{data.kyc_remarks}})<br></a>
+					<small class="font-weight-bold mb-5">Proof Pictures</small>
+				</div>
+			</div> 
+		</div> 
+	</div>
+	<div class="modal-footer">
+		<div class="row" *ngIf="success_message != 'no-message'">
+			<div class="col-xs-12 col-lg-12">
+				<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-success">
+					<span>{{ success_message }}</span>
+				</div>
+			</div>
+		</div>
+		<div class="row" *ngIf="error_message != 'no-message'">
+			<div class="col-xs-12 col-lg-12">
+				<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-danger">
+					<span>{{ error_message }}</span>
+				</div>
+			</div>
+		</div>
+		<!-- <button *ngIf="data_focus.user_info[0].kyc_status =='pending'" (click)="changeStatus('completed',data_focus.user_info[0].kyc_id_number)" type="button" class="btn btn-success">
+			<span>Accept</span>
+		</button>
+		<button *ngIf="data_focus.user_info[0].kyc_status =='pending'" (click)="changeStatus('rejected',data_focus.user_info[0].kyc_id_number)" type="button" class="btn btn-danger">
+			<span>Reject</span>
+		</button> -->
+		<button *ngIf="data_focus.user_info[0].kyc_status =='pending'" (click)="changeStatus('completed',data_focus.user_info[0].kyc_upload_date)" class="btn btn-success" disabled="{{submitted ? 'disabled' : ''}}">
+			<small *ngIf="submitted_accept">
+				<i class="fas fa-spinner button-loader"></i>
+			</small>
+			<span *ngIf="!submitted_accept">
+				Accept
+			</span>
+		</button>
+		<button *ngIf="data_focus.user_info[0].kyc_status =='pending'" (click)="changeStatus('rejected',data_focus.user_info[0].kyc_upload_date)" class="btn btn-danger" disabled="{{submitted ? 'disabled' : ''}}">
+			<small *ngIf="submitted_reject">
+				<i class="fas fa-spinner button-loader"></i>
+			</small>
+			<span *ngIf="!submitted_reject">
+				Reject
+			</span>
+		</button>
+	</div>
+</ng-template>
+<!--  -->
+

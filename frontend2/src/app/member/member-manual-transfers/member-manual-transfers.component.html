@@ -1,0 +1,104 @@
+<h4 class="font-weight-light page-title">
+	<i class="fas fa-donate mr-2"></i>Manual Transfer Transaction
+	<em><small></small></em>
+</h4>
+<div class="main-container">
+	<div class="container">
+		<div class="row mb-3">
+			<div class="col-lg-3 col-xs-12 px-2">
+				<small class="d-block font-weight-bold color-lokal">
+					Transaction Date<em class="font-weight-light"> -From</em>
+				</small>
+				<input class="form-control form-control-sm input-lokal mb-1" type="date" [(ngModel)]="manual_transfer_params.date_from" (onchange)="getManualTransferList()">
+			</div>
+			<div class="col-lg-3 col-xs-12 px-2">
+				<small class="d-block font-weight-bold color-lokal">
+						Transaction Date<em class="font-weight-light"> -To</em>
+				</small>
+			<input class="form-control form-control-sm input-lokal mb-1" type="date" [(ngModel)]="manual_transfer_params.date_to" (onchange)="getManualTransferList()">
+			</div>
+		</div>
+	</div>
+	<div class="table-responsive px-0"  style="min-height: 300px;">
+		<table class="table member-table-x admin-db table-hover px-2">
+				<caption class="bg-light m-0 p-0 py-2 px-1" *ngIf="!table_loader">
+					<pagination-controls class="my-pagination" (pageChange)="page = $event"></pagination-controls>
+				</caption>
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Wallet Address</th>
+					<th>Token Value</th>
+					<th>Remark</th>
+					<th>Date</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody *ngIf="table_loader">
+				<tr>
+					<td colspan="8">
+						<div class="row" >
+							<div class="col-lg-12 col-xs-12">
+								<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+									<div class="circle"></div>
+									<small class="text">LOADING TABLE...</small>
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+			<tbody *ngIf="!table_loader">
+				<tr *ngIf="manual_transfer_list == ''">
+					<td colspan="8">
+						<div class="text-center">
+							<small class="font-weight-light">No data found.</small>
+						</div>
+					</td>
+				</tr>	
+				 <tr *ngFor="let data of manual_transfer_list  | paginate: { itemsPerPage:15, currentPage: page }; let i = index"> 
+					<td>{{ i + 1 }}</td>
+					<td>{{data.member_address}}</td>
+					<td>{{data.log_amount}}</td>
+					<td>{{data.log_message}}</td>
+					<td>{{data.log_time | date : 'MM/dd/yyyy hh:mm a'}}</td>
+					<td class="text-center">
+						<!-- <div ngbDropdown placement="bottom-right">
+							<button class="btn button-lokal-x btn-block btn-sm" id="dropdownBasic1" ngbDropdownToggle>
+								<small>
+									<i class="fas fa-cog mr-2"></i>ACTIONS
+								</small>
+							</button>
+							<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+								<button class="dropdown-item" (click)="viewTransferListDetails(data.member_log_id,view_transfer_details)">View Details</button>
+							</div>
+						</div> -->
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!-- <ng-template #view_transfer_details let-c="close" let-d="dismiss">
+	<div class="view_account_details">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Manual Transfer Details</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left  color-lokal-x">
+			<div class=" p-3 row ">
+				<div class=" col-lg-6 col-xs-12">
+					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_amount + ' LOK' }}</h4>
+					<small class="font-weight-bold mb-5">Token Amount</small>
+
+					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_time }}</h4>
+					<small class="font-weight-bold mb-5">Log Date & Time</small>
+				</div>
+			</div> 
+		</div> 
+	</div>
+</ng-template>
+ -->

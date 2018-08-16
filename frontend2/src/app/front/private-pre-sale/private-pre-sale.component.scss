@@ -1,0 +1,88 @@
+@import '../../../assets/scss/app';
+
+*
+{
+    font-family: $ff;
+}
+
+/* LOGIN */
+.page-section {
+    background-size: cover;
+    background-position: center center;
+    padding: 100px 0;
+}
+
+.responsive-width {
+    max-width: 35%;
+    min-width: 35%;
+
+    @media screen and (max-width: 800px){
+        max-width: 50%;
+        min-width: 50%;
+    }
+
+    @media screen and (max-width: 500px){
+        max-width: 100%;
+        min-width: 100%;
+    }
+}
+
+.private-presale {
+    @include gradient($primary-c, $secondary-c);
+
+    background-image: url("/assets/img/loginregister-bg.png");
+    background-size: cover;
+    background-position: center;
+    // background-attachement: fixed;
+    min-height: 100vh;
+    padding-top: 4rem;
+    display: flex;
+    align-items: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+
+    .f-14
+    {
+        font-size: 14px !important;
+    }
+
+    .image-file-holder
+    {
+        width: 250px;
+        height: 250px;
+        border: 3px dashed #eee;
+        overflow: hidden;
+        position: relative;
+
+        input
+        {
+            position: absolute;
+            font-size: 14px;
+            opacity: 0;
+            right: 0;
+            top: 0;
+            width: 100%;
+        }
+    }
+
+    .file-holder
+    {
+        width: 500px;
+        height: 35px;
+        border: 3px dashed #eee;
+        overflow: hidden;
+        position: relative;
+
+        input
+        {
+            position: absolute;
+            font-size: 14px;
+            opacity: 0;
+            right: 0;
+            top: 0;
+            width: 100%;
+        }
+    }
+}
+
+//LOGIN

@@ -1,0 +1,177 @@
+@import '../../../assets/assets-laravel/member-dashboard/css/styles.css';
+@import '../../../assets/scss/app';
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+.dashboard-card
+{
+	border:5px solid #f5f6fa;
+	border-width: 10px 5px 10px 5px; 
+	background: #fff;
+	.dashboard-card-header
+	{
+		width: 100%; 
+		background: #0e0137;
+		color: rgba(255,255,255,0.7);
+		font-size: 14px;
+		// text-transform: uppercase;
+	}
+	.dashboard-card-body
+	{
+		width: 100%; 
+		background: #fff;
+		min-height: 200px;
+		table
+		{
+			tr,td,th
+			{
+				font-size: 12px;
+			}
+		}
+	}
+	.no-min-height
+	{
+		min-height: 0px !important;
+		font-size: 12px;
+	}
+}
+
+.dashboard-timer
+{
+	background: rgba(255,255,255,0.7);
+	padding: 10px;
+	font-family: 'Open Sans', sans-serif;
+	border: 1px solid  rgba(0,0,0,0.05);
+	height: 100%;
+	h5
+	{
+		text-transform: uppercase;
+		color: rgba(0,0,0,0.8);
+	}
+	div
+	{
+		margin: 0px 2px;
+		padding: 5px 3px;
+		background: rgba(255,255,255,.9);
+		min-width: 55px;
+		border-top: 5px solid rgba(10, 0, 39, 0.8);
+		border-bottom: 1px solid rgba(10, 0, 39, 0.5);
+		text-align: center;
+		box-shadow: 0px 0px 1px rgba(10, 0, 39, 0.3);
+		div
+		{
+			.number
+			{	
+				font-size: 22px !important;
+			}
+			.label
+			{
+				font-size: 12px !important;
+			}
+		}
+	}
+}
+
+.lokalize-slider
+{
+	width: 100%;
+	margin: auto;
+	overflow: hidden;
+	.slider-main
+	{
+		position: relative;
+		margin: auto;
+		display: grid;
+		// grid-template-columns: repeat(6, 1fr);
+		grid-gap: 10px;
+		padding: 5px 3px;
+		left: 0px;
+		transition: 400ms;
+		.slider-image-holder
+		{
+			width: 320px;
+			background: #eee;
+			box-shadow: 0px 0px 1px rgba(0,0,0,0.1);
+			padding: 10px;
+			margin: 0px 3px;
+			cursor: pointer;
+			text-align: center;
+			image
+			{
+				width: 100%;
+				text-align: center;
+			}
+		}
+	}
+	
+	.slider-bullet-holder
+	{
+		display: block;
+		background: #eee;
+		margin: 10px 0px;
+		min-height: 50px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		.slider-bullet
+		{
+			width: 10px;
+			height: 10px;
+			border-radius: 100%;
+			background: #aaa;
+			margin: 5px;
+		}
+	}
+
+	.buttons
+	{
+		button
+		{
+			background: transparent;
+			font-size: 26px;
+			border: 0;
+			box-shadow: 0;
+			color: rgba(10, 0, 39, 1);
+			&:focus
+			{
+				border: 0;
+				box-shadow: 0;
+				outline: none;
+			}
+		}
+	}
+}
+
+.payment-btn
+{
+	cursor: pointer;
+	border-radius: 0;
+	border: 1px solid rgba(10,0,39, 0.1);
+	padding: 10px;
+	text-align: center;
+	width: 100px;
+	height: 100px;
+	margin: 2px 0px;
+	color: #333;
+	font-size: 40px;
+	background: #f0f0f0;
+	transition: 200;
+	&:hover
+	{
+		background: #ccc;
+		transition: 200;
+	}
+}
+
+.payment-btn-active
+{
+	background: rgba(10,0,39, 1) !important;
+	color: #ddd;
+	transition: 200;
+	&:hover
+	{
+		background: rgba(10,0,39, 0.8) !important;
+		color: #fff;
+		transition: 200;
+	}
+}

@@ -1,0 +1,1082 @@
+<h4 class="font-weight-light page-title-admin">
+	<i class="fas fa-users mr-2"></i>Member List
+	<em><small></small></em>
+</h4>
+<div class="row mb-3">
+	<div class="col-lg-3 col-xs-12">
+		<div class="alert alert-light p-2 my-border-light">
+			<div class="d-flex flex-row justify-content-center align-items-center h6 mb-0 text-center color-lokal-x">
+				<small class="mx-2">
+					<h4 class="text-center mb-0">{{ total_members }}</h4>
+					Total Users
+				</small>
+				<i class="fas fa-users mx-2 h1 mb-0"></i>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-3 col-xs-12">
+		
+	</div>
+
+	<div class="col-lg-2 col-xs-12">
+		<!-- spacer -->
+	</div>
+
+	<div class="col-lg-2 col-xs-12 px-1">
+		<button class="btn button-lokal-x btn-block my-1" (click)="loadTable()">
+			<small>
+				<i class="fas fa-sync mr-2"></i>REFRESH TABLE
+			</small>
+		</button>
+	</div>
+	<div class="col-lg-2 col-xs-12 px-1">
+		<!-- <div ngbDropdown placement="bottom-right">
+			<button class="btn button-lokal-x btn-block my-1" id="dropdownBasic1" ngbDropdownToggle>
+				<small>
+					<i class="fas fa-table mr-2"></i>EXPORT DATA
+				</small>
+			</button>
+			<div ngbDropdownMenu aria-labelledby="dropdownBasic1" style="z-index: 9999;">
+				<a href="{{ rest.api_url }}/api/admin/excel/export_member_list?login_token={{rest.login_token}}" class="dropdown-item">Export All Data</a>
+				<a href="{{ rest.api_url }}/api/admin/excel/export_member_list?login_token={{rest.login_token}}&search_name={{search_name}}&search_status={{search_status}}&search_email_status={{search_email_status}}&search_roles={{search_roles}}&search_date_from={{search_date_from}}&search_date_to={{search_date_to}}&register_platform={{register_platform}}&search_career={{search_career}}&data=filtered" class="dropdown-item">Export Filtered Data</a>
+			</div>
+		</div> -->
+		<div class="btn-group" dropdown placement="bottom right">
+		  <button id="button-basic" dropdownToggle type="button" class="btn button-lokal-x btn-block my-1 dropdown-toggle"
+		          aria-controls="dropdown-basic">
+		    <small>
+					<i class="fas fa-table mr-2"></i>EXPORT DATA <span class="caret"></span>
+			</small> 
+		  </button>
+		  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu  dropdown-menu-right"
+		      role="menu" aria-labelledby="button-basic">
+		    <li role="menuitem">
+		    	<a href="{{ rest.api_url }}/api/admin/excel/export_member_list?login_token={{rest.login_token}}" class="dropdown-item">Export All Data</a>
+		    </li>
+		    <li role="menuitem">
+		    	<a href="{{ rest.api_url }}/api/admin/excel/export_member_list?login_token={{rest.login_token}}&search_name={{search_name}}&search_status={{search_status}}&search_email_status={{search_email_status}}&search_roles={{search_roles}}&search_date_from={{search_date_from}}&search_date_to={{search_date_to}}&register_platform={{register_platform}}&search_career={{search_career}}&data=filtered" class="dropdown-item">Export Filtered Data</a>
+		    </li>
+		  </ul>
+		</div>
+	</div>
+</div>
+
+<div class="row mb-3 color-lokal-x">
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Register Platform
+		</small>
+		<select name="search_status" id="" [(ngModel)]="register_platform" (change)="loadTable()" class="form-control form-control-sm input-lokal-x mb-1">
+			<option value="all">All</option>
+			<option value="system">System</option>
+			<option value="facebook">Facebook</option>
+			<option value="google">Google</option>
+		</select>
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Account Status
+		</small>
+		<select name="search_status" id="" [(ngModel)]="search_status" (change)="loadTable()" class="form-control form-control-sm input-lokal-x mb-1">
+			<option value="all">All</option>
+			<option value="1">Activated</option>
+			<option value="0">Unactivated</option>
+		</select>
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Email Verification Status
+		</small>
+		<select name="search_email_status" id="" [(ngModel)]="search_email_status" (change)="loadTable()" class="form-control form-control-sm input-lokal-x mb-1">
+			<option value="all">All</option>
+			<option value="1">Verified</option>
+			<option value="0">Unverified</option>
+		</select>
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Roles
+		</small>
+		<select name="search_roles" id="" [(ngModel)]="search_roles" (change)="loadTable()" class="form-control form-control-sm input-lokal-x mb-1">
+			<option value="all">All</option>
+			<option value="1">Administrator</option>
+			<option value="0">Members</option>
+		</select>
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Account Name
+		</small>
+		<input type="text" name="search_name" [(ngModel)]="search_name" (keyup)="loadTable()" class="form-control form-control-sm input-lokal-x mb-1" placeholder="Account Name">
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Career
+		</small>
+		<select name="search_career" id="" [(ngModel)]="search_career" (change)="loadTable()" class="form-control form-control-sm input-lokal-x mb-1">
+			<option value="all">All</option>
+			<option value="1">Member</option>
+			<option value="2">Community Manager</option>
+			<option value="3">Marketing Director</option>
+			<option value="4">Ambassador</option>
+			<option value="5">Advisor</option>
+		</select>
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Register Date - <em class="font-weight-light">From</em> 
+		</small>
+		<input name="search_date_from" type="date" [(ngModel)]="search_date_from" (change)="loadTable()" class="form-control form-control-sm input-lokal-x mb-1">
+	</div>
+	<div class="col-lg-3 col-xs-12 px-2">
+		<small class="d-block font-weight-bold">
+			Register Date  - <em class="font-weight-light">To</em>
+		</small>
+		<input name="search_date_to" type="date" [(ngModel)]="search_date_to" (change)="loadTable()" class="form-control form-control-sm input-lokal-x mb-1">
+	</div>
+
+</div>
+
+<div class="table-responsive px-0"  style="min-height: 300px;" >
+	<table class="table member-table-x table-hover px-2 admin-db">
+		<caption class="bg-light m-0 p-0 py-2 px-1" *ngIf="!table_loader">
+			<pagination-controls class="my-pagination" (pageChange)="page_member_list = $event" id="page_member_list"></pagination-controls>
+		</caption>
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Account Name</th>
+				<th>Username</th>
+				<th>Email Address</th>
+				<th class="text-center">System Activated</th>
+				<th class="text-center">Email Verified</th>
+				<th class="text-center">Administrator</th>
+				<th>Date Registered</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody *ngIf="table_loader">
+			<tr>
+				<td colspan="8">
+					<div class="row" >
+						<div class="col-lg-12 col-xs-12">
+							<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+								<div class="circle"></div>
+								<small class="text">LOADING TABLE...</small>
+							</div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+		<tbody *ngIf="!table_loader">
+			<tr *ngIf="_table == ''">
+				<td colspan="8">
+					<div class="text-center">
+						<small class="font-weight-light">No data found.</small>
+					</div>
+				</td>
+			</tr>
+			<tr *ngFor="let data of _table | paginate: { itemsPerPage:15, currentPage: page_member_list, id:'page_member_list' }">
+				<td>{{ data.id }}</td>
+				<td>{{data.first_name}} {{data.last_name}}</td>
+				<td>{{data.username == null? 'N/A' : data.username}}</td>
+				<td>{{data.email | slice:0:10}}...</td>
+				<td class="text-center">
+					<i class="fas {{ data.status_account == 0 ? 'fa-times-circle text-danger' : 'fa-check-circle text-primary' }}"></i>
+				</td>
+				<td class="text-center">
+					<i class="fas {{ data.verified_mail == 0 ? 'fa-times-circle text-danger' : 'fa-check-circle text-primary' }}"></i>
+				</td>
+				<td class="text-center">
+					<i class="fas {{ data.is_admin == 0 ? 'fa-times-circle text-danger' : 'fa-check-circle text-primary' }}"></i>
+				</td>
+				<td>{{data.created_at | date:'MM/dd/yy'}}</td>
+				<td class="text-center">
+					<!-- <div ngbDropdown placement="bottom-right">
+						<button class="btn button-lokal-x btn-block btn-sm" id="dropdownBasic1" ngbDropdownToggle>
+							<small>
+								<i class="fas fa-cog mr-2"></i>ACTIONS
+							</small>
+						</button>
+						<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+							<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.first_time_login == 0" (click)="viewAccountDetails(data.id, view_account_details)">Account Details</a>
+							<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.status_account == 0" (click)="activeDeactiveUser(data.id, 1)">Activate User</a>
+							<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.status_account == 1" (click)="activeDeactiveUser(data.id, 0)">Deactivate User</a>
+							<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.is_admin == 0 && data.verified_mail != 0" (click)="promoteDemoteUser(data.id, 1)">Set as Administrator</a>
+							<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.is_admin == 1 && data.verified_mail != 0" (click)="promoteDemoteUser(data.id, 0)">Demote Administrator</a>
+							<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.platform == 'system'" (click)="changeUserPassword(data.id, change_password)">Update Password</a>
+							<a href="javascript:void(0)" class="dropdown-item" (click)="careerSettings(data.id,career_settings)">Career Settings</a>
+							<a href="javascript:void(0)" class="dropdown-item" (click)="ViewCurrentCareerType(data.id,change_career_type)">Change Career Type</a>
+							<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.first_time_login == 0" (click)="getReferrals(data.id, referral_info)">View Referral Information</a>
+						</div>
+					</div> -->
+					<div class="btn-group" dropdown placement="bottom right">
+					  <button id="button-alignment" dropdownToggle type="button"
+					          class="btn btn-outline-dark btn-sm dropdown-toggle" aria-controls="dropdown-alignment">
+					    <small>
+				      		<i class="fas fa-cog mr-2"></i>ACTIONS <span class="caret"></span>
+				      	</small> 
+					  </button>
+					  <ul id="dropdown-alignment" *dropdownMenu class="dropdown-menu dropdown-menu-right"
+					      role="menu" aria-labelledby="button-alignment">
+					    <li role="menuitem">
+					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.first_time_login == 0" (click)="viewAccountDetails(data.id, view_account_details)">Account Details</a>
+					    </li>
+					    <li role="menuitem">
+					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.status_account == 0" (click)="activeDeactiveUser(data.id, 1)">Activate User</a>
+					    </li>
+					    <li role="menuitem">
+					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.status_account == 1" (click)="activeDeactiveUser(data.id, 0)">Deactivate User</a>
+					    </li>
+					    <li role="menuitem">
+					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.is_admin == 0 && data.verified_mail != 0" (click)="promoteDemoteUser(data.id, 1)">Set as Administrator</a>
+					    </li>
+					    <li role="menuitem">
+					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.is_admin == 1 && data.verified_mail != 0" (click)="promoteDemoteUser(data.id, 0)">Demote Administrator</a>
+					    </li>
+					    <li role="menuitem">
+					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.platform == 'system'" (click)="changeUserPassword(data.id, change_password)">Update Password</a>
+					    </li>
+					    <li role="menuitem">
+					    	<a href="javascript:void(0)" class="dropdown-item" (click)="careerSettings(data.id,career_settings)">Career Settings</a>
+					    </li>
+					    <li role="menuitem">
+					    	<a href="javascript:void(0)" class="dropdown-item" (click)="ViewCurrentCareerType(data.id,change_career_type)">Change Career Type</a>
+					    </li>
+					    <li role="menuitem">
+					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.first_time_login == 0" (click)="getReferrals(data.id, referral_info)">View Referral Information</a>
+					    </li>
+					  </ul>
+					</div>
+				</td>
+			</tr>
+
+
+		</tbody>
+	</table>
+</div>
+
+<ng-template #view_account_details let-c="close" let-d="dismiss">
+	<div class="view_account_details">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Account Details</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+
+		</div>
+		<div class="modal-body text-left  color-lokal-x">
+			<ngb-tabset>
+				<ngb-tab title="Basic Information">
+					<ng-template ngbTabContent>
+						<div class="bg-light p-3 row ">
+							<div class=" col-lg-6 col-xs-12">
+								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.first_name }} {{ data_focus.last_name }}</h4>
+								<small class="font-weight-bold mb-5">Account Name</small>  
+								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.username != null ? data_focus.username : 'N/A' }}</h4>
+								<small class="font-weight-bold mb-5">Username</small>  
+								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.email }}</h4>
+								<small class="font-weight-bold mb-5">Email Address</small>  
+								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.country ? data_focus.country : 'N/A' }}</h4>
+								<small class="font-weight-bold mb-5">Country</small>   
+								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.country_code }}{{ data_focus.phone_number }}</h4>
+								<small class="font-weight-bold mb-5">Mobile Number</small>
+								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.desired_eth == null ? 'N/A' : data_focus.desired_eth }}</h4>
+								<small class="font-weight-bold mb-5">Desire ETH</small>
+								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.birth_date | date : 'MM/dd/yyyy' }}</h4>
+								<small class="font-weight-bold mb-5">Birthday</small>
+								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.company_name == null ? 'N/A': data_focus.company_name }}</h4>
+								<small class="font-weight-bold mb-5">Company</small>
+								<h5 class="mb-0 font-weight-light mt-2">{{ data_focus['lokalize'].member_address != null ? data_focus['lokalize'].member_address : 'N/A' }}</h5>
+								<small class="font-weight-bold mb-5">Lokal Wallet Address</small>
+							</div>
+							<div class="col-lg-6 col-xs-12">
+								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.is_admin == 1 ? 'Administrator' : 'Member'}}</h4>
+								<small class="font-weight-bold mb-5">Role</small>  
+								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.status_account == 1 ? 'Activated' : 'Unactivated' }}</h4>
+								<small class="font-weight-bold mb-5">Account Activation Status</small>  
+								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.verified_mail == 1 ? 'Verified' : 'Unverified' }}</h4>
+								<small class="font-weight-bold mb-5">Email Verification Status</small>
+								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.created_at | date: 'MM/dd/yyyy hh:mm:ss a' }}</h4>
+								<small class="font-weight-bold mb-5">Date Registered</small>
+								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.entity }}</h4>
+								<small class="font-weight-bold mb-5">Entity</small>   
+								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.desired_btc == null ? 'N/A' : data_focus.desired_btc }}</h4>
+								<small class="font-weight-bold mb-5">Desire BTC</small>
+								<h4 class="mb-0 font-weight-light mt-2" *ngIf="refer_data">{{ refer_data.refer == 1 ? 'https://lokalize.io/register?referral=' + refer_data.list.referral_link : 'N/A'}}</h4>
+								<small class="font-weight-bold mb-5"> {{refer_data ? 'Referral Code' : 'Referral Code'}}</small>
+								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.platform | titlecase }}</h4>
+								<small class="font-weight-bold mb-5">Register Platform</small>
+								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.create_ip_address }}</h4>
+								<small class="font-weight-bold mb-5">Create IP Address</small>
+							</div>
+						</div>
+					</ng-template>
+				</ngb-tab>
+				<ngb-tab title="Wallet Balance">
+					<ng-template ngbTabContent>
+						<div class="table-responsive bg-light p-3">
+							<div class = "row">
+								<div class="col md-3">
+									<h4 class="mb-0 font-weight-light mt-2" >{{ loading_token_wallet ? '0.00' : w_balance.bought | number:'1.2-8' }}</h4>
+									<small class="font-weight-bold mb-5">LOK Bought Tokens</small> 
+								</div>
+
+								<div class="col md-3">
+									<h4 class="mb-0 font-weight-light mt-2" >{{  loading_token_wallet ? '0.00' : w_balance.affiliated | number:'1.2-8' }}</h4>
+									<small class="font-weight-bold mb-5">LOK Affiliated Bonus</small> 
+								</div>
+
+								<div class="col md-3">
+									<h4 class="mb-0 font-weight-light mt-2" >{{ loading_token_wallet ? '0.00' : w_balance.purchased | number:'1.2-8' }}</h4>
+									<small class="font-weight-bold mb-5">LOK Purchase Bonus</small> 
+								</div>
+
+								<div class="col md-3">
+									<h4 class="mb-0 font-weight-light mt-2" >{{ loading_token_wallet ? '0.00' : w_balance.manual | number:'1.2-8' }}</h4>
+									<small class="font-weight-bold mb-5">LOK Manually Transferred</small> 
+								</div> 
+							</div>
+							
+							<hr>  
+							<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.bitcoin ? data_focus.bitcoin.address_balance : '0.00' | number:'1.2-8' }}</h4>
+							<small class="font-weight-bold mb-5">BTC Contributions</small>
+							<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.ethereum ? data_focus.ethereum.address_balance : '0.00' | number:'1.2-8' }}</h4>
+							<small class="font-weight-bold mb-5">ETH Contributions</small>  
+						</div>
+
+					</ng-template>
+				</ngb-tab>
+				<ngb-tab title="BTC Transactions">
+					<ng-template ngbTabContent>
+						<div class="bg-light p-3">
+							<div class="row my-2">
+								<div class="btn-group offset-lg-8 col-lg-4 col-xs-12" dropdown placement="bottom right">
+								  <button id="button-basic" dropdownToggle type="button" class="btn button-lokal-x btn-block my-1 dropdown-toggle"
+								          aria-controls="dropdown-basic">
+								    <small>
+											<i class="fas fa-table mr-2"></i>EXPORT DATA <span class="caret"></span>
+									</small> 
+								  </button>
+								  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu  dropdown-menu-right"
+								      role="menu" aria-labelledby="button-basic">
+								    <li role="menuitem">
+								    	<a href="{{ rest.api_url }}/api/member/excel/export_member_transaction_list?login_token={{rest.login_token}}&log_method=bitcoin&member_id={{mem_id}}&first_name={{data_focus.first_name}}&last_name={{data_focus.last_name}}" class="dropdown-item">Export All Data</a>
+								    </li>
+								    <li role="menuitem">
+								    	<a href="{{ rest.api_url }}/api/member/excel/export_member_transaction_list?login_token={{rest.login_token}}&account_name={{account_name}}&transaction_status={{mem_transaction_status}}&transaction_date_from={{mem_transaction_date_from}}&transaction_date_to={{mem_transaction_date_to}}&log_method=bitcoin&data=filtered&member_id={{mem_id}}&first_name={{data_focus.first_name}}&last_name={{data_focus.last_name}}" class="dropdown-item">Export Filtered Data</a>
+								    </li>
+								  </ul>
+								</div>
+							</div>
+
+							<div class="row my-2 color-lokal-x">
+
+								<div class="col-lg-3 col-xs-12 px-2">
+									<small class="d-block font-weight-bold">
+										Transaction Status
+									</small>
+									<select name="" [(ngModel)]="mem_transaction_status" (change)="loadMemberTableBtc(data_focus.id)" id="" class="form-control form-control-sm input-lokal-x mb-1">
+										<option value="all">All</option>
+										<option value="pending">Pending</option>
+										<option value="accepted">Accepted</option>
+										<option value="canceled">Canceled</option>
+									</select>
+								</div>
+								<div class="col-lg-3 col-xs-12 px-2">
+									<small class="d-block font-weight-bold">
+										Transaction Date - <em class="font-weight-light">From</em>
+									</small>
+									<input type="date" [(ngModel)]="mem_transaction_date_from" (change)="loadMemberTableBtc(data_focus.id)" class="form-control form-control-sm input-lokal-x mb-1">
+								</div>
+								<div class="col-lg-3 col-xs-12 px-2">
+									<small class="d-block font-weight-bold">
+										Transaction Date - <em class="font-weight-light">To</em>
+									</small>
+									<input type="date" [(ngModel)]="mem_transaction_date_to" (change)="loadMemberTableBtc(data_focus.id)" class="form-control form-control-sm input-lokal-x mb-1">
+								</div>
+								<div class="col-lg-3 col-xs-12 px-2">
+									<!-- <small class="d-block font-weight-bold"> -->
+										<!-- Search by Account Name -->
+									<!-- </small> -->
+									<!-- <input type="text" class="form-control form-control-sm input-lokal-x mb-1" placeholder="Account Name"> -->
+								</div>
+							</div>
+							<div class="table-responsive">
+								<table class="table member-table-x table-hover px-2 admin-db">
+									<caption class="bg-light m-0 p-0 py-2 px-1">
+										<pagination-controls class="my-pagination" (pageChange)="page_btc = $event" id="page_btc"></pagination-controls>
+									</caption>
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>Exchange Rate</th>
+											<th>Requested</th>
+											<th>Received</th>
+											<th>Status</th>
+											<th>Date</th>
+											<th>Time</th><!-- 
+											<th></th> -->
+										</tr>
+									</thead>
+									<tbody *ngIf="modal_table_loader">
+										<tr>
+											<td colspan="8">
+												<div class="row" >
+													<div class="col-lg-12 col-xs-12">
+														<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+															<div class="circle"></div>
+															<small class="text">LOADING TABLE...</small>
+														</div>
+													</div>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+
+									<tbody *ngIf="!modal_table_loader">
+										<tr *ngIf="_table_m == ''">
+											<td colspan="8">
+												<div class="text-center">
+													<small class="font-weight-light">No data found.</small>
+												</div>
+											</td>
+										</tr>
+										<tr *ngFor="let data of _table_m | paginate: { itemsPerPage:5, currentPage: page_btc, id:'page_btc' }">
+											<td>{{ data.automatic_cash_in_id }}</td>
+											<td>{{ data.exchange_rate | number:'1.2-8' }}</td>
+											<td>
+												{{ data.amount_requested }} LOK
+												<small class="d-block">({{ (data.amount_requested*data.exchange_rate) - (data.amount_requested * (data.exchange_rate*(data.sale_stage_discount/100))) | number:'1.2-8'  }} BTC)</small>
+											</td>
+											<td *ngIf="data.log_status != 'accepted'">No data</td>
+											<td *ngIf="data.log_status == 'accepted'">
+												{{ data.log_amount | number:'1.2-8' }} LOK
+												<small class="d-block">({{ data.amount_paid | number:'1.2-8'  }} BTC)</small>
+											</td>
+											<td>
+												<span class="badge badge-secondary px-2" *ngIf="data.log_status == 'pending'">
+													Pending
+												</span>
+												<span class="badge badge-success px-2" *ngIf="data.log_status == 'accepted'">
+													Accepted
+												</span>
+												<span class="badge badge-danger px-2" *ngIf="data.log_status == 'canceled'">
+													Canceled
+												</span>
+											</td>
+											<td>
+												{{ data.log_time | date:'MM/dd/yyyy'}}
+											</td>
+											<td>
+												{{ data.log_time | date:'HH:mm a '}}
+											</td>
+											<!-- <td class="text-center">
+												<div ngbDropdown placement="bottom-right">
+													<button class="btn button-lokal-x btn-block btn-sm" id="dropdownBasic1" ngbDropdownToggle>
+														<small>
+															<i class="fas fa-cog mr-2"></i>ACTIONS
+														</small>
+													</button>
+													<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+														<button class="dropdown-item">Transaction Details</button>
+													</div>
+												</div>
+											</td> -->
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</ng-template>
+				</ngb-tab>
+
+				<ngb-tab title="ETH Transactions">
+					<ng-template ngbTabContent>
+						<div class="bg-light p-3">
+							<div class="row my-2">
+								<!-- <div ngbDropdown placement="bottom-right" class="offset-lg-8 col-lg-4 col-xs-12">
+									<button class="btn btn-sm  button-lokal-x btn-block my-1" id="dropdownBasic1" ngbDropdownToggle>
+										<small>
+											<i class="fas fa-table mr-2"></i>EXPORT DATA
+										</small>
+									</button>
+									<div ngbDropdownMenu aria-labelledby="dropdownBasic1" style="z-index: 9999;">
+										<a href="{{ rest.api_url }}/api/member/excel/export_member_transaction_list?login_token={{rest.login_token}}&log_method=Ethereum&member_id={{mem_id}}&first_name={{data_focus.first_name}}&last_name={{data_focus.last_name}}" class="dropdown-item">Export All Data</a>
+
+										<a href="{{ rest.api_url }}/api/member/excel/export_member_transaction_list?login_token={{rest.login_token}}&account_name={{account_name}}&transaction_status={{mem_transaction_status}}&transaction_date_from={{mem_transaction_date_from}}&transaction_date_to={{mem_transaction_date_to}}&log_method=Ethereum&data=filtered&member_id={{mem_id}}&first_name={{data_focus.first_name}}&last_name={{data_focus.last_name}}" class="dropdown-item">Export Filtered Data</a>
+									</div>
+								</div> -->
+								<div class="offset-lg-8 col-lg-4 col-xs-12 btn-group" dropdown placement="bottom right">
+								  <button id="button-basic" dropdownToggle type="button" class="btn button-lokal-x btn-block my-1 dropdown-toggle"
+								          aria-controls="dropdown-basic">
+								    <small>
+											<i class="fas fa-table mr-2"></i>EXPORT DATA <span class="caret"></span>
+									</small> 
+								  </button>
+								  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu  dropdown-menu-right"
+								      role="menu" aria-labelledby="button-basic">
+								    <li role="menuitem">
+								    	<a href="{{ rest.api_url }}/api/member/excel/export_member_transaction_list?login_token={{rest.login_token}}&log_method=Ethereum&member_id={{mem_id}}&first_name={{data_focus.first_name}}&last_name={{data_focus.last_name}}" class="dropdown-item">Export All Data</a>
+								    </li>
+								    <li role="menuitem">
+								    	<a href="{{ rest.api_url }}/api/member/excel/export_member_transaction_list?login_token={{rest.login_token}}&account_name={{account_name}}&transaction_status={{mem_transaction_status}}&transaction_date_from={{mem_transaction_date_from}}&transaction_date_to={{mem_transaction_date_to}}&log_method=Ethereum&data=filtered&member_id={{mem_id}}&first_name={{data_focus.first_name}}&last_name={{data_focus.last_name}}" class="dropdown-item">Export Filtered Data</a>
+								    </li>
+								  </ul>
+								</div>
+							</div>
+
+							<div class="row my-2 color-lokal-x">
+								<div class="col-lg-3 col-xs-12 px-2">
+									<small class="d-block font-weight-bold">
+										Transaction Status
+									</small>
+									<select name="" [(ngModel)]="mem_transaction_status" (change)="loadMemberTableEth(data_focus.id)" id="" class="form-control form-control-sm input-lokal-x mb-1">
+										<option value="all">All</option>
+										<option value="pending">Pending</option>
+										<option value="accepted">Accepted</option>
+										<option value="canceled">Canceled</option>
+									</select>
+								</div>
+								<div class="col-lg-3 col-xs-12 px-2">
+									<small class="d-block font-weight-bold">
+										Transaction Date - <em class="font-weight-light">From</em>
+									</small>
+									<input type="date" [(ngModel)]="mem_transaction_date_from" (change)="loadMemberTableEth(data_focus.id)" class="form-control form-control-sm input-lokal-x mb-1">
+								</div>
+								<div class="col-lg-3 col-xs-12 px-2">
+									<small class="d-block font-weight-bold">
+										Transaction Date - <em class="font-weight-light">To</em>
+									</small>
+									<input type="date" [(ngModel)]="mem_transaction_date_to" (change)="loadMemberTableEth(data_focus.id)" class="form-control form-control-sm input-lokal-x mb-1">
+								</div>
+								<div class="col-lg-3 col-xs-12 px-2">
+									<!-- <small class="d-block font-weight-bold"> -->
+										<!-- Search by Account Name -->
+									<!-- </small> -->
+									<!-- <input type="text" class="form-control form-control-sm input-lokal-x mb-1" placeholder="Account Name"> -->
+								</div>
+							</div>
+					<div class="table-responsive">
+						<table class="table member-table-x table-hover px-2 admin-db">
+					      	<caption class="bg-light m-0 p-0 py-2 px-1">
+								<pagination-controls class="my-pagination" (pageChange)="page_eth = $event" id="page_eth"></pagination-controls>
+							</caption>
+						    <thead>
+						    	<tr>
+						    		<th>#</th>
+									<th>Exchange Rate</th>
+						    		<th>Requested</th>
+						    		<th>Received</th>
+						    		<th>Status</th>
+						    		<th>Date</th>
+						    		<th>Time</th>
+						    	</tr>
+						    </thead>
+						    <tbody *ngIf="modal_table_loader_eth">
+						    	<tr>
+						    		<td colspan="8">
+						    			<div class="row" >
+						    				<div class="col-lg-12 col-xs-12">
+						    					<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+						    						<div class="circle"></div>
+						    						<small class="text">LOADING TABLE...</small>
+						    					</div>
+						    				</div>
+						    			</div>
+						    		</td>
+						    	</tr>
+						    </tbody>
+						    <tbody *ngIf="!modal_table_loader_eth">
+								<tr *ngIf="_table_eth == ''">
+									<td colspan="8">
+										<div class="text-center">
+											<small class="font-weight-light">No data found.</small>
+										</div>
+									</td>
+								</tr>
+								<tr *ngFor="let data of _table_eth | paginate: { itemsPerPage:5, currentPage: page_eth, id:'page_eth' }">
+									<td>{{ data.automatic_cash_in_id }}</td>
+									<td>{{ data.exchange_rate | number:'1.2-8' }}</td>
+									<td>
+										{{ data.amount_requested }} LOK
+										<small class="d-block">({{ (data.amount_requested*data.exchange_rate) - (data.amount_requested * (data.exchange_rate*(data.sale_stage_discount/100))) | number:'1.2-8'  }} ETH)</small>
+									</td>
+									<td *ngIf="data.log_status != 'accepted'">No data</td>
+									<td *ngIf="data.log_status == 'accepted'">
+											{{ data.log_amount | number:'1.2-8' }} LOK
+											<small class="d-block">({{ data.amount_paid | number:'1.2-8'  }} ETH)</small>
+									</td>
+									<td>
+										<span class="badge badge-secondary px-2" *ngIf="data.log_status == 'pending'">
+											Pending
+										</span>
+										<span class="badge badge-success px-2" *ngIf="data.log_status == 'accepted'">
+											Accepted
+										</span>
+										<span class="badge badge-danger px-2" *ngIf="data.log_status == 'canceled'">
+											Canceled
+										</span>
+									</td>
+									<td>
+										{{ data.log_time | date:'MM/dd/yyyy'}}
+									</td>
+									<td>
+										{{ data.log_time | date:'HH:mm a '}}
+									</td>
+									<!-- <td class="text-center">
+										<div ngbDropdown placement="bottom-right">
+											<button class="btn button-lokal-x btn-block btn-sm" id="dropdownBasic1" ngbDropdownToggle>
+												<small>
+													<i class="fas fa-cog mr-2"></i>ACTIONS
+												</small>
+											</button>
+											<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+												<button class="dropdown-item">Transaction Details</button>
+											</div>
+										</div>
+									</td> -->
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</ng-template>
+		</ngb-tab>
+
+		<ngb-tab title="Affiliate Bonus History">
+			<ng-template ngbTabContent>
+				<div class="table-responsive">
+					<table class="table member-table-x table-hover px-2 admin-db">
+						<caption class="bg-light m-0 p-0 py-2 px-1">
+							<pagination-controls class="my-pagination" (pageChange)="page_affiliate_bonus = $event" id="page_affiliate_bonus"></pagination-controls>
+						</caption>
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Bought Tokens</th>
+								<th>Receive Bonus</th>
+								<th>Bonus From</th>
+								<th>Date Receive</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody *ngIf="table_loader_referral">
+						    	<tr>
+						    		<td colspan="8">
+						    			<div class="row" >
+						    				<div class="col-lg-12 col-xs-12">
+						    					<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+						    						<div class="circle"></div>
+						    						<small class="text">LOADING TABLE...</small>
+						    					</div>
+						    				</div>
+						    			</div>
+						    		</td>
+						    	</tr>
+						    </tbody>
+						<tbody *ngIf="!table_loader_referral">
+							<tr *ngIf="referral_bonus_info == ''">
+								<td colspan="8">
+									<div class="text-center">
+										<small class="font-weight-light">No data found.</small>
+									</div>
+								</td>
+							</tr>
+							<tr *ngFor="let data of referral_bonus_info | paginate: { itemsPerPage:8, currentPage: page_affiliate_bonus, id : 'page_affiliate_bonus' }; let i = index">
+								<td>{{ i + 1 }}</td>
+								<td>{{ data["from"][0].log_amount == null ? '0 LOK' : data["from"][0].log_amount + ' LOK' }}</td>
+								<td>{{ data["to"][0].log_amount + " LOK"}}</td>
+								<td>{{data["from"][0].email}}</td>
+								<td>{{ data["to"][0].log_time | date: 'MM/dd/yyyy HH:mm a '}}</td>
+						</tbody>
+					</table>
+				</div>
+			</ng-template>
+		</ngb-tab>
+
+		<ngb-tab title="Login History">
+			<ng-template ngbTabContent>
+				<div class="table-responsive">
+					<table class="table member-table-x table-hover px-2 admin-db">
+						<caption class="bg-light m-0 p-0 py-2 px-1">
+							<pagination-controls class="my-pagination" (pageChange)="page_login_history = $event" id="page_login_history"></pagination-controls>
+						</caption>
+						<thead>
+							<tr>
+								<th>Login IP</th>
+								<th>Login Date</th>
+								<th>Login Time</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let data of login_history | paginate: { itemsPerPage:8, currentPage: page_login_history, id: 'page_login_history' }">
+								<td>{{ data.login_ip }}</td>
+								<td>{{ data.login_date | date:'MM/dd/yy' }}</td>
+								<td>{{ data.login_date | date:'hh:mm a' }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</ng-template>
+		</ngb-tab>
+	</ngb-tabset>
+
+</div>
+</div>
+</ng-template>
+
+<ng-template #change_password let-c="close" let-d="dismiss">
+	<div class="change_password">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Change Password for {{data_focus.first_name}} {{data_focus.last_name}}</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left">
+			<div class="row mb-2" *ngIf="error_message != 'no-message'">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center {{error_message.type == 'success' ? 'success-message' : 'error-message'}}">
+						<span>{{ error_message.message }}</span>
+					</div>
+				</div>
+			</div>
+			<div class="row" *ngIf="submitted">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center validating">
+						<div class="circle mr-2"></div><span>Validating</span>
+					</div>
+				</div>
+			</div>
+			<small class="d-block font-weight-bold">New Password</small>
+			<input type="password" class="form-control input-lokal-x mb-2" placeholder="Enter new password" [(ngModel)]="c_new_password">
+			<small class="d-block font-weight-bold">Confrm New Password</small>
+			<input type="password" class="form-control input-lokal-x mb-2" placeholder="Confirm new password" [(ngModel)]="c_confirm_new_password">
+			<button class="btn  button-lokal-x btn-block" (click)="updatePassword(data_focus.id)">Update Password</button>		
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #career_settings let-c="close" let-d="dismiss">
+	<div class="view_account_details">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Career Settings</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
+		<div class="modal-body text-left color-lokal-x">
+			<div class="row">
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						First Name
+					</small>
+					<h4 class="mb-0 font-weight-light mt-2">{{first_name}}</h4>
+				</div>
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Last Name
+					</small>
+					<h4 class="mb-0 font-weight-light mt-2">{{last_name}}</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Career Type
+					</small>
+					<h4 class="mb-0 font-weight-light mt-2">{{member_position}}</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Token Release
+					</small>
+					<input [(ngModel)]="token_release" type="number" class="form-control input-lokal-x">
+				</div>
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						After Purchase Commission
+					</small>
+					<input [(ngModel)]="after_commission_purchase" type="number" class="form-control input-lokal-x">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Commission
+					</small>
+					<input [(ngModel)]="commission" type="number" class="form-control input-lokal-x">
+				</div>
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Initial Release Percentage (%)
+					</small>
+					<input [(ngModel)]="initial_release_percentage" type="number" class="form-control input-lokal-x">
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<h6 class="mb-2 font-weight-bold">Requirements</h6>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Needed Member
+					</small>
+					<input [(ngModel)]="needed_member" type="number" class="form-control input-lokal-x" placeholder="0">
+				</div>
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Needed Community Manager
+					</small>
+					<input [(ngModel)]="needed_community_manager" type="number" class="form-control input-lokal-x" placeholder="0">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Needed Ambassador
+					</small>
+					<input [(ngModel)]="needed_ambassador" type="number" class="form-control input-lokal-x" placeholder="0">
+				</div>
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Needed Marketing Director
+					</small>
+					<input [(ngModel)]="needed_marketing_director" type="number" class="form-control input-lokal-x" placeholder="0">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Needed Adivisor
+					</small>
+					<input [(ngModel)]="needed_advisor" type="number" class="form-control input-lokal-x" placeholder="0">
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="row" *ngIf="error_message != 'no-message'">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-danger">
+						<span>{{ error_message }}</span>
+					</div>
+				</div>
+			</div>
+			<button (click)="onUpdateCareerSetting()" class="btn btn-success" disabled="{{submitted ? 'disabled' : ''}}">
+			<small *ngIf="submitted">
+				<i class="fas fa-spinner button-loader"></i>
+			</small>
+			SUBMIT
+			</button>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #change_career_type let-c="close" let-d="dismiss">
+	<div class="view_account_details">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Change Career Type</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left color-lokal-x">
+			<div class="col-lg-6 col-xs-12 px-2">
+				<small class="d-block font-weight-bold">
+					Full Name
+				</small>
+				<h4 class="mb-0 font-weight-light mt-2">{{ first_name }} {{ last_name }}</h4>
+			</div>
+			<div class="col-lg-12 col-xs-12 px-2 mt-2">
+				<small class="d-block font-weight-bold">
+					Career Type
+				</small>
+				<select name="search_status" id="" [(ngModel)]="career_type" class="form-control form-control-sm input-lokal-x mb-1">
+					<option *ngIf="career_type <= 1" value=1>Member</option>
+					<option *ngIf="career_type <= 2" value=2>Community Manager</option>
+					<option *ngIf="career_type <= 3" value=3>Marketing Director</option>
+					<option *ngIf="career_type <= 4" value=4>Ambassador</option>
+					<option *ngIf="career_type <= 5" value=5>Advisor</option>
+				</select>
+			</div>
+			<div class="col-lg-12 col-xs-12 px-1 ml-1">
+				<button (click)="onUpdateChangeCareerType()" class="btn button-lokal-x btn-block my-1" disabled="{{update_loading ? 'disabled' : ''}}">
+					<small>
+						UPDATE
+					</small>
+				</button>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #referral_info let-c="close" let-d="dismiss">
+	<div class="view_account_details">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Referral Info</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left color-lokal-x">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-lg-6 col-xs-12 p-1">
+						<div class="alert alert-light p-2 my-border-light">
+							<div class="d-flex flex-row justify-content-center align-items-center h6 mb-0 text-center color-lokal-x ">
+								<small class="mx-2">
+									<h4 class="text-center mb-0">{{referral_count_by_career.member}}</h4>
+										Member
+								</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 col-xs-12 p-1">
+						<div class="alert alert-light p-2 my-border-light">
+							<div class="d-flex flex-row justify-content-center align-items-center h6 mb-0 text-center color-lokal-x">
+								<small class="mx-2">
+									<h4 class="text-center mb-0">{{referral_count_by_career.community_manager}}</h4>
+									Community Manager
+								</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 col-xs-12 p-1">
+						<div class="alert alert-light p-2 my-border-light">
+							<div class="d-flex flex-row justify-content-center align-items-center h6 mb-0 text-center color-lokal-x ">
+								<small class="mx-2">
+									<h4 class="text-center mb-0">{{referral_count_by_career.marketing_director}}</h4>
+										Marketing Director
+								</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 col-xs-12 p-1">
+						<div class="alert alert-light p-2 my-border-light">
+							<div class="d-flex flex-row justify-content-center align-items-center h6 mb-0 text-center color-lokal-x ">
+								<small class="mx-2">
+									<h4 class="text-center mb-0">{{referral_count_by_career.ambassador}}</h4>
+									Ambassador
+								</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 col-xs-12 p-1">
+						<div class="alert alert-light p-2 my-border-light">
+							<div class="d-flex flex-row justify-content-center align-items-center h6 mb-0 text-center color-lokal-x ">
+								<small class="mx-2">
+									<h4 class="text-center mb-0">{{referral_count_by_career.advisor}}</h4>
+									Advisor
+								</small>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-lg-6 col-xs-12 p-1">
+						<small class="d-block font-weight-bold">
+							Search by Career
+						</small>
+						<select name="career" [(ngModel)]="search_by_career" (change)="referralLoadTable()" class="form-control form-control-sm input-lokal-x mb-1">
+							<option value="all">All</option>
+							<option value="Member">Member</option>
+							<option value="Community Manager">Community Manager</option>
+							<option value="Marketing Director">Marketing Director</option>
+							<option value="Ambassador">Ambassador</option>
+							<option value="Advisor">Advisor</option>
+
+						</select>
+					</div>
+					<div class="col-lg-6 col-xs-12 p-1"><!-- 
+						<div ngbDropdown placement="bottom-right">
+							<button class="btn button-lokal-x btn-block my-1" id="dropdownBasic1" ngbDropdownToggle>
+								<small>
+									<i class="fas fa-table mr-2"></i>EXPORT DATA
+								</small>
+							</button>
+							<div ngbDropdownMenu aria-labelledby="dropdownBasic1" style="z-index: 9999;">
+								<a href="{{ rest.api_url }}/api/admin/excel/export_affiliate_history_list?login_token={{rest.login_token}}&id={{id_referral_table}}" class="dropdown-item">Export All Data</a>
+								<a href="{{ rest.api_url }}/api/admin/excel/export_affiliate_history_list?login_token={{rest.login_token}}&career={{search_by_career}}&id={{id_referral_table}}&data=filtered" class="dropdown-item">Export Filtered Data</a>   
+							</div>
+						</div> -->
+						<div class="btn-group offset-lg-8 col-lg-4 col-xs-12" dropdown placement="bottom right">
+						  <button id="button-basic" dropdownToggle type="button" class="btn button-lokal-x btn-block my-1 dropdown-toggle"
+						          aria-controls="dropdown-basic">
+						    <small>
+									<i class="fas fa-table mr-2"></i>EXPORT DATA <span class="caret"></span>
+							</small> 
+						  </button>
+						  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu  dropdown-menu-right"
+						      role="menu" aria-labelledby="button-basic">
+						    <li role="menuitem">
+						    	<a href="{{ rest.api_url }}/api/admin/excel/export_affiliate_history_list?login_token={{rest.login_token}}&id={{id_referral_table}}" class="dropdown-item">Export All Data</a>
+						    </li>
+						    <li role="menuitem">
+						    	<a href="{{ rest.api_url }}/api/admin/excel/export_affiliate_history_list?login_token={{rest.login_token}}&career={{search_by_career}}&id={{id_referral_table}}&data=filtered" class="dropdown-item">Export Filtered Data</a> 
+						    </li>
+						  </ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="table-responsive">
+				<table class="table member-table-x table-hover px-2 admin-db">
+					<caption class="bg-light m-0 p-0 py-2 px-1">
+						<pagination-controls class="my-pagination" (pageChange)="page_referral_info = $event" id="page_referral_info"></pagination-controls>
+					</caption>
+					<thead>
+						<tr>
+							<th>Full Name</th>
+							<th>Email</th>
+							<th>Career</th>
+							<th>Account Status</th>
+							<th>Date of Registration</th>
+						</tr>
+					</thead>
+					<tbody *ngIf="referral_table_loader">
+						<tr>
+							<td colspan="8">
+								<div class="row" >
+									<div class="col-lg-12 col-xs-12">
+										<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+											<div class="circle"></div>
+											<small class="text">LOADING TABLE...</small>
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+					<tbody *ngIf="!referral_table_loader">
+						<tr *ngIf="_table_refer == ''">
+							<td colspan="8">
+								<div class="text-center">
+									<small class="font-weight-light">No data found.</small>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+					<tbody *ngIf="!referral_table_loader">
+						<tr *ngFor="let data of _table_refer | paginate: { itemsPerPage:8, currentPage: page_referral_info, id: 'page_referral_info' }">
+							<td>{{ data.first_name }} {{ data.last_name }}</td>
+							<td>{{ data.email }}</td>
+							<td>{{ data.member_position_name }}</td>
+							<td>{{ data.status_account == 1? 'Verified' : 'Not Verified' }}</td>
+							<td>{{ data.created_at | date: 'MM/dd/yyyy hh:mm:ss a'}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</ng-template>

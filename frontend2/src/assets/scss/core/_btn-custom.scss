@@ -1,0 +1,307 @@
+/* BUTTON CUSTOMS*/
+
+.btn-home-reg {
+    color: #1344d8 !important;
+}
+
+.btn-o {
+    @include transition(.3s);
+    font-family: $ff;
+    font-weight: $reg;
+    font-size: 12px;
+    padding: 15px 25px;
+    border: 2px solid #7C18DE;
+    border-radius: 50px;
+    color: #fff !important;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none !important;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+        @include transition(.3s);
+        font-size: 18px !important;
+        color: #7C18DE;
+    }
+    &:hover {
+        background-color: #7C18DE;
+        svg {
+            color: #fff;
+        }
+    }
+    @media screen and (max-width: 800px) {
+        padding: 10px 25px;
+    }
+}
+
+.btn-v {
+    @include transition(.3s);
+    font-family: $ff;
+    font-weight: $reg;
+    font-size: 12px;
+    padding: 15px 25px;
+    border: 2px solid #7C18DE;
+    border-radius: 50px;
+    color: #fff !important;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none !important; // background-color: transparent;
+    background-color: #7C18DE;
+    @media screen and (max-width: 500px) {
+        padding: 10px 25px;
+    }
+}
+
+.btn-o-white {
+    @include transition(.3s);
+    font-family: $ff;
+    font-weight: $reg;
+    font-size: 12px;
+    padding: 15px 25px;
+    border: 1px solid #fff;
+    border-radius: 50px;
+    color: #fff !important;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none !important; // background-color: transparent;
+    background-color: transparent;
+    &:hover {
+        background-color: #2fb5f8;
+        border: 1px solid #2fb5f8;
+    }
+}
+
+.btn-lokal {
+    @include grad-btn(#2fb5f8, #785bfa);
+    font-family: $ff;
+    font-weight: $reg;
+    font-size: 18px;
+    padding: 15px 25px;
+    border: 0;
+    border-radius: 4px;
+    color: #fff !important;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none !important;
+}
+
+.btn-glow-1 {
+    box-shadow: 0px 0px 25px 5px rgba(#2fb5f8, 0.4);
+}
+
+.btn-glow-2 {
+    // animation: glowing 1s infinite;
+    @include transition(0.2s);
+    box-shadow: none;
+    &:hover {
+        box-shadow: 0px 0px 25px 5px rgba(#2fb5f8, 0.4);
+    }
+}
+
+.btn-glow-3 {
+    // animation: glowing 1s infinite;
+    @include transition(0.2s);
+    box-shadow: none;
+    &:hover {
+        box-shadow: 0px 0px 25px 5px rgba(#7C18DE, 0.4);
+    }
+}
+
+.btn-glow {
+    box-shadow: 0px 0px 25px 5px rgba(#2fb5f8, 0.4);
+    @include transition(0.2s); // animation: glowing 1s infinite;
+    &:hover {
+        box-shadow: none;
+    }
+}
+
+.btn-lokal-sm {
+    @extend .btn-lokal;
+    @include linear-grad($color1, $color2);
+    padding: 7px 25px;
+}
+
+.cbtn-norm {
+    @extend .btn-lokal;
+    @include linear-grad($color1, $color2);
+    @include transition(0.5s);
+    background-size: 200% auto;
+    &:hover {
+        /* change the direction of the change here */
+        background-position: right center;
+    }
+}
+
+.cbtn-sm {
+    @extend .btn-lokal-sm;
+    @include transition(0.5s);
+    background-size: 200% auto;
+    &:hover {
+        /* change the direction of the change here */
+        background-position: right center;
+    }
+}
+
+.cbtn-sm-2 {
+    @extend .btn-lokal-sm;
+    background-image: linear-gradient(to right, #FFD800 0%, #F8B325 51%, #FFD800 100%);
+    @include transition(0.5s);
+    background-size: 200% auto;
+    &:hover {
+        /* change the direction of the change here */
+        background-position: right center;
+    }
+}
+
+.crd-btn-lokal {
+    font-size: 14px;
+    border-radius: 0px;
+    @include linear-grad($color1, $color2);
+}
+
+.btn-home-login {
+    background-color: #1344d8;
+    border-radius: 6px;
+    font-family: $ff;
+    font-weight: $reg;
+    font-size: 14px;
+    padding: 5px 10px;
+    color: #fff;
+}
+
+.btn-0 {
+    font-family: $ff;
+    font-weight: $reg;
+    font-size: 16px;
+    padding: 7px 15px;
+    background-color: transparent;
+    border: 2px solid #2fb6f8;
+    color: #2fb6f8;
+    cursor: pointer;
+}
+
+.btn-0-hoverable {
+    @include transition(0.2s);
+    @extend .btn-0;
+    &:hover {
+        border: 2px solid #fff;
+        color: #fff;
+    }
+}
+
+.btn-login {
+    color: #33B1F8 !important;
+    &:hover {
+        @include transition(0.2s);
+        opacity: 1 !important;
+    }
+}
+
+.btn-reg {
+    color: #fff !important;
+    &:hover {
+        @include transition(0.2s);
+        opacity: 1 !important;
+    }
+}
+
+.btn-violet {
+    @include transition(.3s);
+    border-radius: 50px;
+    border: 2px solid #7C18DE;
+    &:hover {
+        background-color: #7C18DE;
+        color: #fff;
+    }
+}
+
+.play-btn-1 {
+    width: 60px;
+    height: 60px;
+    // background: radial-gradient( rgba(255, 0, 128, 0.8) 60%, rgba(255, 255, 255, 1) 62%);
+    background: radial-gradient( rgba(255, 255, 255, 1) 60%, rgba(255, 255, 255, 1) 62%);
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    // display: block;
+    // margin: 100px auto;
+    /*   box-shadow: 0px 0px 25px 3px rgba(255, 0, 128, 0.8); */
+}
+
+/* triangle */
+
+.play-btn-1::after {
+    // content: "";
+    // position: absolute;
+    // left: 50%;
+    // top: 50%;
+    // -webkit-transform: translateX(-40%) translateY(-50%);
+    // transform: translateX(-40%) translateY(-50%);
+    // transform-origin: center center;
+    // width: 0;
+    // height: 0;
+    // border-top: 15px solid transparent;
+    // border-bottom: 15px solid transparent;
+    // border-left: 25px solid #fff;
+    // z-index: 100;
+    // -webkit-transition: all 400ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    // transition: all 400ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+
+/* pulse wave */
+
+.play-btn-1:before {
+    content: "";
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    -webkit-animation-delay: 0s;
+    animation-delay: 0s;
+    -webkit-animation: pulsate1 2s;
+    animation: pulsate1 2s;
+    -webkit-animation-direction: forwards;
+    animation-direction: forwards;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-timing-function: steps;
+    animation-timing-function: steps;
+    opacity: 1;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, .75);
+    top: -25%;
+    left: -25%;
+    background: rgba(255, 255, 255, 0);
+}
+
+@-webkit-keyframes pulsate1 {
+    0% {
+        -webkit-transform: scale(0.6);
+        transform: scale(0.6);
+        opacity: 1;
+        box-shadow: inset 0px 0px 25px 3px rgba(255, 255, 255, 0.75), 0px 0px 25px 10px rgba(255, 255, 255, 0.75);
+    }
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        opacity: 0;
+        box-shadow: none;
+    }
+}
+
+@keyframes pulsate1 {
+    0% {
+        -webkit-transform: scale(0.6);
+        transform: scale(0.6);
+        opacity: 1;
+        box-shadow: inset 0px 0px 25px 3px rgba(255, 255, 255, 0.75), 0px 0px 25px 10px rgba(255, 255, 255, 0.75);
+    }
+    100% {
+        -webkit-transform: scale(1, 1);
+        transform: scale(1);
+        opacity: 0;
+        box-shadow: none;
+    }
+}
