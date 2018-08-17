@@ -25,14 +25,7 @@ header
 			{
 				.nav-link 
 				{
-					color: $dark-white !important;
-				}
-			}
-			li.active 
-			{
-				a 
-				{
-					color: white !important;
+					color: white;
 				}
 			}
 		}
@@ -69,7 +62,7 @@ header
 
 footer 
 {
-	background-color: #001e16;
+	background-color: #8e660c;
 	color: $dark-white;
 	font-size: 0.75rem;
 
@@ -97,8 +90,8 @@ footer
 		}
 		.flex-container	
 		{
-			border-left: 1px solid rgba(0,76,57,0.5);
-			border-right: 1px solid rgba(0,76,57,0.5);
+			border-left: 1px solid rgba(255,255,255, 0.1);
+			border-right: 1px solid rgba(255,255,255, 0.1);
 			height: 100%;
 			@include flex();
 
@@ -135,7 +128,7 @@ footer
 	}
 	.bottom-inner
 	{
-		border-top: 1px solid rgba(0,76,57,0.5);
+		border-top: 1px solid rgba(255,255,255, 0.1);
 		padding: 20px 0 20px 0;
 	}
 }
