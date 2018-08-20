@@ -1,8 +1,47 @@
 @import '../../../assets/scss/app';
+@import "../../../assets/spay_assets/scss/custom";
 
 @keyframes rotate-circle {
     from {transform: rotate(0deg)}
     to {transform: rotate(360deg)}
+}
+
+.register-page 
+{
+	height: 100vh;
+	background-color: $base-color;
+	color: white;
+	background-image: url('../../../assets/spay_assets/img/back_light2.png');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+
+	.text-link-2
+	{
+		color: white !important;
+	}
+
+	.lokal-forms 
+	{
+		border-top: 5px solid $secondary-color;
+		border-bottom: 5px solid $secondary-color;
+	}
+
+	.spay-login-button
+	{
+		border: 1px solid $secondary-color !important;
+		background: $secondary-color !important;
+		color: #fff !important;
+		transition: 500ms;
+	}
+
+	.spay-register-button
+	{
+		border: 1px solid $secondary-color !important;
+		background: #fff !important;
+		color: $secondary-color !important;
+		transition: 500ms;
+	}
 }
 
 .validating

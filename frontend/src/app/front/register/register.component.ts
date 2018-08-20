@@ -95,14 +95,14 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
     this.login_url = this.rest.api_url + "/api/new_login";
     this.register_url = this.rest.api_url + "/api/new_register";
-    this.country_loading = true;
+    this.country_loading = false;
     this.country_code = 0;
     this.entity = 0;
-  	this.http.get(this.rest.api_url + "/api/get_country_codes").subscribe(response=>
-  	{
-      this.country_codes = response;
-      this.country_loading = false;
-  	});
+  	// this.http.get(this.rest.api_url + "/api/get_country_codes").subscribe(response=>
+  	// {
+   //    this.country_codes = response;
+   //    this.country_loading = false;
+  	// });
 
   }
 
