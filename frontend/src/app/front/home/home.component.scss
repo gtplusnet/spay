@@ -45,10 +45,6 @@ body
 			}
 			button 
 			{
-				// -webkit-box-shadow: 0px 0px 18px 3px rgba(0,90,60,1);
-				// -moz-box-shadow: 0px 0px 18px 3px rgba(0,90,60,1);
-				// box-shadow: 0px 0px 18px 3px rgba(0,90,60,1);
-
 				min-width: 145px !important;
 			}
 		}
@@ -56,15 +52,19 @@ body
 		.inner-right 
 		{
 			position: relative;
+			height: 100%;
 
 			.object_1 
 			{
-				width: 100%;
+				width: 90%;
 			}
 
 			.splash_1 
 			{
 				z-index: 100;
+				position: absolute;
+				top: 0;
+				right: 0;
 			}
 
 			.splash_2, .splash_3 
@@ -72,12 +72,8 @@ body
 				z-index: 99;
 				position: absolute;
 				top: -75px;
-				left: 30%;
+				left: 80px;
 				max-width: 220px;
-			}
-			.splash_3 
-			{
-				z-index: 98;
 			}
 			.splash_4, .splash_5, .splash_6
 			{
@@ -86,19 +82,19 @@ body
 			.splash_4
 			{	
 				z-index: 103;
-				bottom: 0;
+				bottom: -75px;
 				left: 0;
 			}
 			.splash_5
 			{
 				z-index: 101;
-				bottom: 175px;
+				bottom: 100px;
 				left: 60px;
 			}
 			.splash_6
 			{
 				z-index: 102;
-				bottom: 175px;
+				bottom: 100px;
 				left: 118px;
 			}
 			.tri-1, .tri-2, .tri-3, .tri-4 
@@ -140,7 +136,7 @@ body
 			.tri-6, .tri-7, .tri-8, .tri-9 
 			{
 				position: absolute;
-				bottom: 20px;
+				bottom: 80px;
 				width: 0; 
 				height: 0; 
 				border-top: 4px solid transparent;
@@ -166,7 +162,7 @@ body
 			.round-2
 			{
 				position: absolute;
-				bottom: 20px;
+				bottom: 80px;
 				right: 20px;
 				height: 7px;
 				width: 7px;
@@ -179,7 +175,6 @@ body
 	.s-2
 	{
 		background-color: $base-color;
-		padding-top: 0 !important;
 
 		.inner-holder 
 		{
@@ -222,7 +217,6 @@ body
 	.s-3
 	{
 		@include flex();
-		padding-top: 0 !important;
 
 		height: 100vh;
 		background-color: $base-color;
@@ -233,7 +227,10 @@ body
 
 		.inner-left
 		{
-
+			img 
+			{
+				width: 100%;
+			}
 		}
 
 		.inner-right
@@ -322,6 +319,270 @@ body
 		.inner-right
 		{
 			text-align: center;
+		}
+	}
+}
+
+
+/* Media Query */
+
+@media screen and (max-width: $tablet)
+{
+	.s-1 
+	{
+		background-position: left !important;
+		padding-bottom: 60px;
+		.inner-left 
+		{
+			h2 
+			{
+				font-size: 1.5rem;
+			}
+		}
+		.inner-right
+		{
+			.splash_1 
+			{
+				top: 20% !important;
+			}
+			.splash_2, .splash_3
+			{
+				top: 0 !important;
+			}
+		}
+	}
+	.s-3 
+	{
+		background-position: right !important;
+		.inner-left 
+		{
+			margin-top: 25%;
+		}
+	}
+}
+
+@media screen and (max-width: $mobile-l)
+{
+	.s-1, .s-2, .s-3, .s-4
+	{
+		height: auto !important;
+	}
+	.s-1 
+	{
+		background-image: none !important;
+
+		.inner-left 
+		{
+			margin-top: 100px !important;
+			h1, h2, p 
+			{
+				text-align: center;
+			}
+			h1 
+			{
+				font-size: 2rem !important;
+			}
+			h2 
+			{
+				margin-top: -22px !important;
+			}
+			.h-line 
+			{
+				display: none;
+			}
+			.btn-desk 
+			{
+				display: none !important;
+			}
+			.btn-mob 
+			{
+				display: block !important;
+			}
+			.btn-container 
+			{
+				@include flex();
+				
+				.flex-child 
+				{
+					flex: 1 55px;
+					padding: 0 5px;
+					button 
+					{
+						width: 100% !important;
+					}
+				}
+			}
+		}
+		.inner-right
+		{
+			display: none !important;
+		}
+		.mob-right
+		{
+			display: block !important;
+			text-align: center;
+
+			.splash_1 
+			{
+				width: 100% !important;
+			}
+		}
+	}
+	.s-2 
+	{
+		.inner-holder 
+		{
+			h2 
+			{
+				font-size: 1.5rem !important;
+				line-height: 2.375rem;
+			}
+		}
+	}
+	.s-3 
+	{
+		background-image: none !important;
+
+		.inner-left 
+		{
+			display: none !important;
+		}
+
+		.inner-right 
+		{
+			padding-left: 0 !important;
+			h2, p 
+			{
+				text-align: center;
+			}
+			h2 
+			{
+				font-size: 1.5rem;
+			}
+			.h-line 
+			{
+				margin: auto;
+			}
+			.mob-left 
+			{
+				display: block !important;
+				text-align: center;
+
+				.splash_1 
+				{
+					max-width: 100% !important;
+				}
+			}
+			button 
+			{
+				width: 100% !important;
+			}
+		}
+	}
+	.s-4 
+	{
+		padding-top: 60px;
+
+		.inner-right
+		{
+			display: none !important;
+		}
+
+		.inner-left 
+		{
+			padding-left: 0 !important;
+
+			h2, p 
+			{
+				text-align: center;
+			}
+			h2 
+			{
+				font-size: 1.5rem;
+			}
+			.h-line 
+			{
+				margin: auto;
+			}
+			.mob-left 
+			{
+				display: block !important;
+				text-align: center;
+				padding-top: 10px;
+				max-width: 200px;
+				margin: auto;
+
+				.splash_1 
+				{
+					width: 100% !important;
+				}
+			}
+			button 
+			{
+				width: 100% !important;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: $mobile-m)
+{
+	.s-1
+	{
+		.inner-left 
+		{
+			h1 
+			{
+				font-size: 1.875rem !important;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: $mobile-s)
+{
+	.s-1
+	{
+		.inner-left 
+		{
+			h1 
+			{
+				font-size: 1.5rem !important;
+			}
+			h2 
+			{
+				font-size: 1.25rem !important;
+			}
+		}
+	}
+	.s-2 
+	{
+		.inner-holder 
+		{
+			h2 
+			{
+				font-size: 1.25rem !important;
+			}
+		}
+	}
+	.s-3 
+	{
+		.inner-right 
+		{
+			h2 
+			{
+				font-size: 1.25rem !important;
+			}
+		}
+	}
+	.s-4 
+	{
+		.inner-left 
+		{
+			h2 
+			{
+				font-size: 1.25rem !important;
+			}
 		}
 	}
 }
