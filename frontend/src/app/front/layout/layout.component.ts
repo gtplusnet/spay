@@ -28,10 +28,13 @@ export class LayoutComponent implements OnInit {
 
   navExit()
   {
-    $('.nav-link').click(function()
-      {
-        $('.navbar-toggler').click();
-      });
+    if (document.documentElement.clientWidth < 768)
+    {
+       $('.nav-link').click(function()
+       {
+         $('.navbar-toggler').click();
+       });
+    }
   }
 
 }
