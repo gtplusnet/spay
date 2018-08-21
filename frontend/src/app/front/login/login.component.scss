@@ -39,3 +39,57 @@
 	}
 }
 
+/* Media Query */
+
+@media screen and (max-width: $tablet)
+{
+	
+}
+
+@media screen and (max-width: $mobile-l)
+{
+	.login-page 
+	{
+		height: auto;
+
+		.logo-holder 
+		{
+			display: none !important;
+		}
+		.mob-label 
+		{
+			display: block !important;
+			padding-top: 40px;
+			line-height: 0.75rem;
+			font-size: 1.5rem;
+		}
+		.lokal-forms 
+		{
+			width: 100%;
+
+			input, button 
+			{
+				width: 100% !important;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: $mobile-m)
+{
+	.mob-label
+	{
+		padding-top: 10px !important;
+	}
+}
+
+@media screen and (max-width: $mobile-m)
+{
+	
+}
+
+@media screen and (max-width: $mobile-s)
+{
+
+}
+

@@ -12,6 +12,7 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit() {
   	this.showScroll();
+    this.navExit();
   }
 
   showScroll()
@@ -23,6 +24,14 @@ export class LayoutComponent implements OnInit {
   	    $('nav').removeClass('show');
   	  }
   	});
+  }
+
+  navExit()
+  {
+    $('.nav-link').click(function()
+      {
+        $('.navbar-toggler').click();
+      });
   }
 
 }
