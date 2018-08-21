@@ -1,5 +1,6 @@
 @import '../../../assets/assets-laravel/member-dashboard/css/styles.css';
 @import '../../../assets/scss/app';
+@import '../../../assets/spay_assets/scss/custom';
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
 .dashboard-card
@@ -10,9 +11,10 @@
 	.dashboard-card-header
 	{
 		width: 100%; 
-		background: #0e0137;
-		color: rgba(255,255,255,0.7);
+		background: $dark-white;
+		color: #1c1c1c;
 		font-size: 14px;
+		font-weight: 600 !important;
 		// text-transform: uppercase;
 	}
 	.dashboard-card-body
@@ -53,10 +55,10 @@
 		padding: 5px 3px;
 		background: rgba(255,255,255,.9);
 		min-width: 55px;
-		border-top: 5px solid rgba(10, 0, 39, 0.8);
-		border-bottom: 1px solid rgba(10, 0, 39, 0.5);
+		border-top: 5px solid rgba(170, 120, 9, 0.8);
+		border-bottom: 1px solid rgba(170, 120, 9, 0.5);
 		text-align: center;
-		box-shadow: 0px 0px 1px rgba(10, 0, 39, 0.3);
+		box-shadow: 0px 0px 1px rgba(170, 120, 9, 0.3);
 		div
 		{
 			.number
@@ -131,7 +133,7 @@
 			font-size: 26px;
 			border: 0;
 			box-shadow: 0;
-			color: rgba(10, 0, 39, 1);
+			color: rgba(170, 120, 9, 1);
 			&:focus
 			{
 				border: 0;
@@ -146,7 +148,7 @@
 {
 	cursor: pointer;
 	border-radius: 0;
-	border: 1px solid rgba(10,0,39, 0.1);
+	border: 1px solid rgba(170, 120, 9, 0.1);
 	padding: 10px;
 	text-align: center;
 	width: 100px;
@@ -165,13 +167,19 @@
 
 .payment-btn-active
 {
-	background: rgba(10,0,39, 1) !important;
+	background: rgba(170, 120, 9, 1) !important;
 	color: #ddd;
 	transition: 200;
 	&:hover
 	{
-		background: rgba(10,0,39, 0.8) !important;
+		background: rgba(170, 120, 9, 0.8) !important;
 		color: #fff;
 		transition: 200;
 	}
 }
+
+.mini-coin
+{
+	filter: grayscale(100%) !important;
+}
+
