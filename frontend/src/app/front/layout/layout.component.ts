@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-layout',
@@ -8,13 +9,17 @@ import * as $ from 'jquery';
 })
 export class LayoutComponent implements OnInit {
 
+  initializing : boolean;
+  timer : any;
+  subscription : any;
+
   constructor() { }
 
   ngOnInit() {
   	this.showScroll();
     this.navExit();
   }
-
+  
   showScroll()
   {
   	$(window).scroll(function() {

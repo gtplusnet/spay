@@ -6,6 +6,13 @@ body
 	@inlcude text-style($body-text, $reg, 0.875rem, 0.01rem, 1.6875rem);
 }
 
+.video-resize {
+    @media screen and (max-width: 991px) {
+        width: 100%;
+        height: 300px;
+    }
+}
+
 
 //Page
 .content 

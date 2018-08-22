@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
   	this.smooth_scroll();
+    this.stopVideo();
   }
 
   smooth_scroll(): void
@@ -25,5 +26,21 @@ export class HomeComponent implements OnInit {
       return false; 
     });
   }
+
+  stopVideo(): void
+    {
+      $(document).ready(function () {
+        $('.modal').each(function () {
+          var src = $(this).find('iframe').attr('src');
+
+          $(this).on('click', function () {
+
+            $(this).find('iframe').attr('src', '');
+            $(this).find('iframe').attr('src', src);
+
+          });
+        });
+      });
+    }
 
 }
