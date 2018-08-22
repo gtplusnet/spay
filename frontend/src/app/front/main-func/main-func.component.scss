@@ -1,3 +1,10 @@
 body,html{
   overflow:hidden;
 }
+
+.coin-loader 
+{
+	background-image: url('../../../assets/spay_assets/img/spay-coin.png');
+	background-repeat: no-repeat;
+	background-size: contain;
+}
