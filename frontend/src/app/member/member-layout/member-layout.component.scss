@@ -1,5 +1,6 @@
 @import '../../../assets/assets-laravel/member-dashboard/css/styles.css';
 @import '../../../assets/scss/app';
+@import "../../../assets/spay_assets/scss/custom";
 
 
 .arrow-up {
@@ -66,4 +67,11 @@
 	min-height: 100vh;
 	position: fixed;
 	z-index: 9999;
+}
+
+.coin-loader 
+{
+	background-image: url('../../../assets/spay_assets/img/spay-coin.png');
+	background-repeat: no-repeat;
+	background-size: contain;
 }
