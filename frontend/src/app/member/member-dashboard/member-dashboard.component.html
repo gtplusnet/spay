@@ -9,6 +9,7 @@
 	<div class="col-lg-12 col-xs-12 p-0 dashboard-card">
 		<div class="p-3 dashboard-card-header">
 			<i class="far fa-calendar-alt mr-1"></i> Events
+			<hr class="my-2">
 		</div>
 		<div class="p-3 dashboard-card-body">
 			<div class="row p-2">
@@ -73,36 +74,38 @@
 	<div class="col-lg-4 col-xs-12 p-0 dashboard-card">
 		<div class="p-3 dashboard-card-header">
 			<i class="fas fa-sync mr-1"></i> Conversion Rate
+			<hr class="my-2">
 		</div>
 		<div class="p-3 dashboard-card-body d-flex flex-column justify-content-center align-items-center">
 			<div class="media d-flex flex-row align-items-center justify-content-center">
 			    <img class="mr-3 img-fluid mx-2" src="/assets/spay_assets/img/spay-coin.png" width="100" height="100" alt="45x45">
 			    <div class="media-body mx-2">
 
-<!-- 			      <small class="mt-0 mb-1 d-block font-weight-bold">1 SPAY ~ {{rest._rates[2].conversion_multiplier}} BTC</small>
+<!-- 			      <small class="mt-0 mb-1 d-block font-weight-bold">1 XS ~ {{rest._rates[2].conversion_multiplier}} BTC</small>
 			      <small class="mt-0 mb-1 d-block font-weight-bold">1 LOK ~ {{rest._rates[1].conversion_multiplier}} ETH</small>
 			      <small class="mt-0 mb-1 d-block font-weight-bold">DISCOUNT: {{rest._stages.sale_stage_discount}}%</small>
  -->
-			      <small class="mt-0 mb-1 d-block font-weight-bold">1 SPAY ~ {{rest._rates[1].conversion_multiplier}} BTC</small>
-			      <small class="mt-0 mb-1 d-block font-weight-bold">1 SPAY ~ {{rest._rates[0].conversion_multiplier}} ETH</small>
+			      <small class="mt-0 mb-1 d-block font-weight-bold">1 XS ~ {{rest._rates[1].conversion_multiplier}} BTC</small>
+			      <small class="mt-0 mb-1 d-block font-weight-bold">1 XS ~ {{rest._rates[0].conversion_multiplier}} ETH</small>
 			      <small class="mt-0 mb-1 d-block font-weight-bold">DISCOUNT: {{rest._stages.sale_stage_discount}}%</small>
 
-			      <!-- <small class="mt-0 mb-1 d-block font-weight-bold">ACTUAL 1 SPAY ~ 0.01 BTC | 0.10 ETH</small> -->
+			      <!-- <small class="mt-0 mb-1 d-block font-weight-bold">ACTUAL 1 XS ~ 0.01 BTC | 0.10 ETH</small> -->
 			    </div>
 			  </div>
-			<small class="mt-0 mb-1 d-block my-1"><em>ACTUAL 1 SPAY ~ {{rest._rates[1].conversion_multiplier}} BTC | {{rest._rates[0].conversion_multiplier}} ETH</em></small>
-			<button class="cbtn-sm crd-btn-lokal btn-convert w-100 my-1" (click)="buy_step_1(rest.member_id, buy_token)">BUY TOKEN</button>
+			<small class="mt-0 mb-1 d-block my-1"><em>ACTUAL 1 XS ~ {{rest._rates[1].conversion_multiplier}} BTC | {{rest._rates[0].conversion_multiplier}} ETH</em></small>
+			<button class="btn-primary p-2 w-100 my-1" (click)="buy_step_1(rest.member_id, buy_token)">BUY TOKEN</button>
 		</div>
 	</div>
 	<div class="col-lg-4 col-xs-12 p-0 dashboard-card">
 		<div class="p-3 dashboard-card-header">
 			<i class="fas fa-wallet mr-1"></i> LOKAL Wallet
+			<hr class="my-2">
 		</div>
 		<div class="p-3 dashboard-card-body d-flex flex-column justify-content-center align-items-center">
 			<div class="media d-flex flex-column align-items-center justify-content-center" *ngIf="w_balance">
 			    <div class="media-body mx-2 d-flex flex-row align-items-center justify-content-center">
 			      <h2 class="mb-0 font-weight-bold mr-2">{{ w_balance.bought | number : '1.2-8'}} </h2>
-			      <img src="/assets/img/lokal-mini.png" class="img-fluid" width="30" height="30" alt="">
+			      <img src="/assets/spay_assets/img/spay-coin.png" class="img-fluid mini-coin" width="30" height="30" alt="">
 			    </div>
 			    <h4>Bought Tokens</h4>
 			    <hr class="my-0">
@@ -110,21 +113,21 @@
 			    	<div class="col-md-4 col-xs-12 text-center">
 			    		<div class="media-body mx-2 d-flex flex-row align-items-center justify-content-center">
 					      <h4 class="mb-0 font-weight-bold mr-1">{{ w_balance.affiliated | number : '1.2-8'}} </h4>
-					      <img src="/assets/img/lokal-mini.png" class="img-fluid" width="20" height="20" alt="">
+					      <img src="/assets/spay_assets/img/spay-coin.png" class="img-fluid mini-coin" width="20" height="20" alt="">
 					    </div>
 					    <h6>Affiliated Bonus</h6>
 			    	</div>
 			    	<div class="col-md-4 col-xs-12 text-center">
 			    		<div class="media-body mx-2 d-flex flex-row align-items-center justify-content-center">
 					      <h4 class="mb-0 font-weight-bold mr-1">{{ w_balance.purchased | number : '1.2-8'}} </h4>
-					      <img src="/assets/img/lokal-mini.png" class="img-fluid" width="20" height="20" alt="">
+					      <img src="/assets/spay_assets/img/spay-coin.png" class="img-fluid mini-coin" width="20" height="20" alt="">
 					    </div>
 					    <h6>Purchase Bonus</h6>
 			    	</div>
 			    	<div class="col-md-4 col-xs-12 text-center">
 			    		<div class="media-body mx-2 d-flex flex-row align-items-center justify-content-center">
 					      <h4 class="mb-0 font-weight-bold mr-1">{{ w_balance.manual | number : '1.2-8'}} </h4>
-					      <img src="/assets/img/lokal-mini.png" class="img-fluid" width="20" height="20" alt="">
+					      <img src="/assets/spay_assets/img/spay-coin.png" class="img-fluid mini-coin" width="20" height="20" alt="">
 					    </div>
 					    <h6>Manually Transferred</h6>
 			    	</div>
@@ -135,6 +138,7 @@
 	<div class="col-lg-4 col-xs-12 p-0 dashboard-card">
 		<div class="p-3 dashboard-card-header">
 			<i class="fas fa-hand-holding-heart mr-1"></i> Contributions
+			<hr class="my-2">
 		</div>
 		<div class="p-3 dashboard-card-body d-flex flex-column justify-content-center align-items-center"  *ngIf="w_contributions">
 			<div class="media d-flex flex-row align-items-center justify-content-center">
@@ -157,6 +161,7 @@
 	<div class="col-lg-12 col-xs-12 p-0 dashboard-card">
 		<div class="p-3 dashboard-card-header">
 			<i class="fas fa-columns mr-1"></i> Recent Transactions
+			<hr class="my-2">
 		</div>
 		<div class="p-3 dashboard-card-body no-min-height d-flex flex-column justify-content-center align-items-center">
 			<div class="table-responsive">
@@ -315,7 +320,7 @@
         			<input type="checkbox" [(ngModel)]="check_toa_1" (click)="check_tos('check_toa_1')"> I agree that I am not a citizen, resident or company over which the laws of the any of the following countries have jurisdiction: United-States of America, China, India, North Korea or South Korea. 
         		</h6>
         		<h6 class="mb-1">
-        			<input type="checkbox" [(ngModel)]="check_toa_2" (click)="check_tos('check_toa_2')"> The bitcoin/ethereum price is so volatile that the number of SPAY token varies time to time it might increase or decrease.
+        			<input type="checkbox" [(ngModel)]="check_toa_2" (click)="check_tos('check_toa_2')"> The bitcoin/ethereum price is so volatile that the number of XS token varies time to time it might increase or decrease.
         		</h6>
         		<h6 class="mb-1">
         			<input type="checkbox" [(ngModel)]="check_toa_3" (click)="check_tos('check_toa_3')"> I have read and agree to the website terms and conditions.

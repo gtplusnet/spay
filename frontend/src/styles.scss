@@ -27,12 +27,12 @@
 
 .validating
 {
-	color: rgba(10, 0, 39, 1);
+	color: $base-color;
 	text-align: center;
 	font-size: 15px;
 	.circle
 	{
-		border: 2px dotted rgba(10, 0, 39, 1);
+		border: 2px dotted $base-color;
 		border-radius: 100%;
 		height: 20px;
 		width: 20px;
@@ -78,7 +78,7 @@
     position: fixed;
     width: 100%;
     min-height: 100vh;
-    background: rgba(10, 0, 39, 1);
+    background: $base-color;
     z-index: 999;
     overflow: hidden;
     .load-table {
@@ -116,7 +116,7 @@
     min-width: 100%;
     min-height: 100vh;
     position: fixed;
-    background: #0a0027;
+    background: $base-color-dark;
     transition: 300ms;
     z-index: 9999;
 }
@@ -221,8 +221,8 @@
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	border-top: 5px solid #14004c;
-	border-bottom: 5px solid #14004c;
+	border-top: 5px solid $base-color;
+	border-bottom: 5px solid $base-color;
 	input
 	{
 		width: 301px;
@@ -230,8 +230,8 @@
 		margin: 5px 0px;
 		font-size: 13px;
 		padding: 13px;
-		border: 1px solid rgba(10, 0, 39, 0.2);
-		color: #0a0027;
+		border: 1px solid rgba(147, 104, 1, 0.2);
+		color: $base-color-dark;
 		font-family: 'Roboto Condensed', sans-serif !important;
 	}
 	button
@@ -250,7 +250,7 @@
 		display:flex;
 		justify-content:center;
 		align-items: center;
-		color:  rgba(10, 0, 39, 0.5);
+		color:  rgba(147, 104, 1, 0.5);
 		font-size: 12px;
 		&::after,
 		&::before
@@ -266,13 +266,13 @@
 
 	.lokalize-login-button
 	{
-		border: 1px solid #0a0027 !important;
-		background: #0a0027 !important;
+		border: 1px solid $base-color-dark !important;
+		background: $base-color-dark !important;
 		color: #fff !important;
 		transition: 500ms;
 		&:hover
 		{
-			background: #14004c !important;
+			background: $base-color !important;
 			color: #fff !important;
 			transition: 500ms;
 		}
@@ -290,13 +290,13 @@
 
 	.lokalize-register-button
 	{
-		border: 1px solid #0a0027 !important;
+		border: 1px solid $base-color-dark !important;
 		background: #fff !important;
-		color: #0a0027 !important;
+		color: $base-color-dark !important;
 		transition: 500ms;
 		&:hover
 		{
-			background: #0a0027 !important;
+			background: $base-color-dark !important;
 			color: #fff !important;
 			transition: 500ms;
 		}
@@ -316,7 +316,7 @@
 		font-size: 14px;
 		.lokal-text
 		{
-			color: #0a0027 !important;
+			color: $base-color-dark !important;
 		}
 	}
 
@@ -325,18 +325,18 @@
 
 .lokal-text
 {
-	color: #0a0027 !important;
+	color: $base-color-dark !important;
 }
 
 .alert-lokalize
 {
-	background: rgba(10, 0, 39, 0.5) !important;
-	border-color: rgba(10, 0, 39, 0.2) !important;
+	background: rgba(147, 104, 1, 0.5) !important;
+	border-color: rgba(147, 104, 1, 0.2) !important;
 	border-radius: 0px !important;
 	color: #fff !important;
 	hr
 	{
-		border-color: rgba(10, 0, 39, 0.2) !important;
+		border-color: rgba(147, 104, 1, 0.2) !important;
 	}
 }
 
@@ -349,7 +349,7 @@
 	width: 100%;
 	position: fixed;
 	bottom: 0;
-	background: rgba(16, 2, 56, 0.7);
+	background: rgba(170, 120, 9, 0.7);
 	z-index: 9999;
 	font-size: 13px;
 	.cookie-btn

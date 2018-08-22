@@ -372,7 +372,7 @@ class MemberApiController extends Controller
                     if($file_size < 26214400)
                     {
                         $path_prefix = 'https://aeolus-storage.sgp1.digitaloceanspaces.com/';
-                        $path ="successpay/kycphotos";
+                        $path ="successmall/kycphotos";
                         $storage_path = storage_path();
             
                         if ($request->file('image_banner')->isValid())
@@ -420,7 +420,7 @@ class MemberApiController extends Controller
                 if($file_size < 26214400)
                 {
                     $path_prefix = 'https://aeolus-storage.sgp1.digitaloceanspaces.com/';
-                    $path ="successpay/kycphotos";
+                    $path ="successmall/kycphotos";
                     $storage_path = storage_path();
         
                     if ($request->file('image')->isValid())

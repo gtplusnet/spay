@@ -45,7 +45,7 @@ class Member_log
         {
             $insert["log_status"]          = "pending";
         }
-        $insert["log_message"]         = "Received <b>".$request['received_token']." SPAY Tokens</b> via <b>".ucwords($coin).".</b>";
+        $insert["log_message"]         = "Received <b>".$request['received_token']." XS Tokens</b> via <b>".ucwords($coin).".</b>";
         $insert["is_viewed"]           = 0;
         $insert["log_method"]          = ucwords($coin). " Accepted";
         $insert["ip_address"]          = $_SERVER['REMOTE_ADDR'];

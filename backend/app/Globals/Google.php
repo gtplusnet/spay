@@ -21,7 +21,7 @@ class Google
         $google2fa->setAllowInsecureCallToGoogleApis(true);
 
         $data["google2fa_url"] = $google2fa->getQRCodeGoogleUrl(
-            'SUCCESSPAY',
+            'SUCCESSMALL',
             $data["user"]->email,
             $data["user"]->google2fa_secret_key
         );

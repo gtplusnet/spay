@@ -63,7 +63,7 @@ class Coin
 
 	public static function getLOKId()
 	{
-		$coin = Tbl_coin::where("coin_name", "spay")->where("coin_abb", "SPAY")->first();
+		$coin = Tbl_coin::where("coin_name", "successmall")->where("coin_abb", "XS")->first();
 
 		if ($coin) 
 		{

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use DB;
 use PragmaRX\Google2FA\Google2FA;
 use Illuminate\Support\Facades\Hash;
+use App\Globals\Coin;
 
 class Seed
 {
@@ -14,7 +15,21 @@ class Seed
 		Self::coin();
 		Self::member_position();
 		Self::country_codes();
+		
+        /* Get Coin List */
+        $data["_coin"] = Coin::getListWithLOKConversion();
+       
+        /* Get ABA Coin ID */
+        $data["aba_id"] = Coin::getLOKId();
+
+        /* Get Sale Stage List */
+        $data["_sale_stage"] = Coin::getSaleStageList();
+       
+        /* Get Bonus Coin per Sale Stage List */
+		$data["_sale_stage_bonus"] = Coin::getBonusSaleStageList();
+		
 		Self::dev_account_seed();
+        
 	}
 
 	public static function coin()
@@ -36,8 +51,8 @@ class Seed
 			$seed[2]["created_at"] = Carbon::now();
 			$seed[2]["updated_at"] = Carbon::now();
 
-			$seed[3]["coin_name"]  = "spay";
-			$seed[3]["coin_abb"]   = "SPAY";
+			$seed[3]["coin_name"]  = "Successmall";
+			$seed[3]["coin_abb"]   = "XS";
 			$seed[3]["created_at"] = Carbon::now();
 			$seed[3]["updated_at"] = Carbon::now();
 
@@ -141,14 +156,14 @@ class Seed
 
 		$member_id                      = DB::table("users")->insertGetId($insert);
 
-		$ref_insert["referral_link"] 		  = substr(md5(Carbon::now()."SPAYTOKEN"), 0, 7);
+		$ref_insert["referral_link"] 		  = substr(md5(Carbon::now()."XSTOKEN"), 0, 7);
 		$ref_insert["referral_user_id"]       = $member_id;
 		$referral_id = DB::table("tbl_referral")->insertGetId($ref_insert);
 
 		$google2fa = new Google2FA();
         $secret_key = $google2fa->generateSecretKey();
 		
-		$info_insert["referrer_id"] = null;
+		$info_insert["referrer_id"] = 1;
 		$info_insert["member_position_id"]    = 1;
 		$info_insert["registration_stage_id"] = 1;
 		$info_insert["user_id"] = $member_id;
