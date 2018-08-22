@@ -11,7 +11,7 @@ class Mails
 	{
 		Mail::send("emails.send", $data, function ($message) use ($data)
 		{
-			$message->from('noreply@lokalize.io', 'Successpay');
+			$message->from('noreply@lokalize.io', 'Successmall');
 			$message->to($data["member"]->email);
 		});
 	}
@@ -20,7 +20,7 @@ class Mails
 	{
 		Mail::send("emails.send_change_member_pass", $data, function ($message) use ($data)
 		{
-			$message->from('noreply@lokalize.io', 'Successpay');
+			$message->from('noreply@lokalize.io', 'Successmall');
 			$message->to($data["member"]->email);
 			$message->subject("Your password has been changed");
 		});
@@ -30,7 +30,7 @@ class Mails
 	{
 		Mail::send("emails.send_activate_member", $data, function ($message) use ($data)
 		{
-			$message->from('noreply@lokalize.io', 'Successpay');
+			$message->from('noreply@lokalize.io', 'Successmall');
 			$message->to($data["member"]->email);
 			if($data["member"]->status_account == 1)
 			{
@@ -48,7 +48,7 @@ class Mails
 		
 		Mail::send("emails.send_register_verification", $data, function ($message) use ($data)
 		{
-			$message->from('noreply@lokalize.io', 'Successpay');
+			$message->from('noreply@lokalize.io', 'Successmall');
 			$message->to($data["email"]->verification_email);
 			$message->subject("Verify your email address");
 		});
@@ -59,7 +59,7 @@ class Mails
 		
 		Mail::send("emails.send_forgot_password_verification", $data, function ($message) use ($data)
 		{
-			$message->from('noreply@lokalize.io', 'Successpay');
+			$message->from('noreply@lokalize.io', 'Successmall');
 			$message->to($data["verify"]->verification_credential);
 			$message->subject("Reset Password Code");
 		});
@@ -70,7 +70,7 @@ class Mails
 		
 		Mail::send("emails.send_register_verification", $data, function ($message) use ($data)
 		{
-			$message->from('noreply@lokalize.io', 'Successpay');
+			$message->from('noreply@lokalize.io', 'Successmall');
 			$message->to($data["email"]->verification_email);
 			$message->subject("Verify your email address");
 		});
@@ -80,7 +80,7 @@ class Mails
 	{
 		Mail::send("emails.send_reset_password_request", $data, function ($message) use ($data)
 		{
-			$message->from('noreply@lokalize.io', 'Successpay');
+			$message->from('noreply@lokalize.io', 'Successmall');
 			$message->to($data["member"]->email);
 			$message->subject("Reset Password Request");
 		});
@@ -90,7 +90,7 @@ class Mails
 	{
 		Mail::send("emails.send_business_application", $data, function ($message) use ($data)
 		{
-			$message->from('noreply@lokalize.io', 'Successpay');
+			$message->from('noreply@lokalize.io', 'Successmall');
 			$message->to($data["request"]->business_contact_email);
 			$message->subject("Business Application");
 		});
@@ -100,7 +100,7 @@ class Mails
 	{
 		Mail::send("emails.promote_career", $data, function ($message) use ($data)
 		{
-			$message->from('noreply@lokalize.io', 'Successpay');
+			$message->from('noreply@lokalize.io', 'Successmall');
 			$message->to($data["member"]->email);
 			$message->subject("Career Promotion");
 		});
@@ -110,7 +110,7 @@ class Mails
 	{
 		Mail::send("emails.order_placed", $data, function ($message) use ($data)
 		{
-			$message->from('noreply@lokalize.io', 'Successpay');
+			$message->from('noreply@lokalize.io', 'Successmall');
 			$message->to($data["member"]->email);
 			$message->subject("Lokalize Token Order");
 		});
@@ -120,7 +120,7 @@ class Mails
 	{
 		Mail::send("emails.order_accepted", $data, function ($message) use ($data)
 		{
-			$message->from('noreply@lokalize.io', 'Successpay');
+			$message->from('noreply@lokalize.io', 'Successmall');
 			$message->to($data["member"]->email);
 			$message->subject("Lokalize Token Accepted");
 		});
@@ -148,7 +148,7 @@ class Mails
 	{
 		Mail::send("emails.send_transfer_token", $data, function ($message) use ($data)
 		{
-			$message->from('noreply@lokalize.io', 'Successpay');
+			$message->from('noreply@lokalize.io', 'Successmall');
 			$message->to($data["info"]->email);
 			$message->subject("Lokalize Manual Token Transfer");	
 		});
@@ -158,7 +158,7 @@ class Mails
 	{
 		Mail::send("emails.send_email_verification_kyc", $data, function ($message) use ($data)
 		{
-			$message->from('noreply@lokalize.io', 'Successpay');
+			$message->from('noreply@lokalize.io', 'Successmall');
 			$message->to($data["email"]->verification_email);
 			$message->subject("Verify your email address");
 		});
@@ -168,7 +168,7 @@ class Mails
 	{
 		Mail::send("emails.send_temp_password", $data, function ($message) use ($data)
 		{
-			$message->from('noreply@lokalize.io', 'Successpay');
+			$message->from('noreply@lokalize.io', 'Successmall');
 			$message->to($data["member"]->email);
 			$message->subject("Your temporary password");
 		});

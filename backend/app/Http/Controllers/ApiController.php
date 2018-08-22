@@ -521,7 +521,7 @@ class ApiController extends Controller
             $id = Tbl_email_verification::insertGetId($email_verification);
             $data["email"] = Tbl_email_verification::where("verification_id",$id)->first();
 
-            $ref_insert["referral_link"] = substr(md5(Carbon::now()."SPAYTOKEN"), 0, 7);
+            $ref_insert["referral_link"] = substr(md5(Carbon::now()."XSTOKEN"), 0, 7);
             $ref_insert["referral_user_id"]       = $member_id;
             $referral_id = Tbl_referral::insertGetId($ref_insert);
 

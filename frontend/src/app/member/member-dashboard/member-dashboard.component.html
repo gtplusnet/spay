@@ -81,18 +81,18 @@
 			    <img class="mr-3 img-fluid mx-2" src="/assets/spay_assets/img/spay-coin.png" width="100" height="100" alt="45x45">
 			    <div class="media-body mx-2">
 
-<!-- 			      <small class="mt-0 mb-1 d-block font-weight-bold">1 SPAY ~ {{rest._rates[2].conversion_multiplier}} BTC</small>
+<!-- 			      <small class="mt-0 mb-1 d-block font-weight-bold">1 XS ~ {{rest._rates[2].conversion_multiplier}} BTC</small>
 			      <small class="mt-0 mb-1 d-block font-weight-bold">1 LOK ~ {{rest._rates[1].conversion_multiplier}} ETH</small>
 			      <small class="mt-0 mb-1 d-block font-weight-bold">DISCOUNT: {{rest._stages.sale_stage_discount}}%</small>
  -->
-			      <small class="mt-0 mb-1 d-block font-weight-bold">1 SPAY ~ {{rest._rates[1].conversion_multiplier}} BTC</small>
-			      <small class="mt-0 mb-1 d-block font-weight-bold">1 SPAY ~ {{rest._rates[0].conversion_multiplier}} ETH</small>
+			      <small class="mt-0 mb-1 d-block font-weight-bold">1 XS ~ {{rest._rates[1].conversion_multiplier}} BTC</small>
+			      <small class="mt-0 mb-1 d-block font-weight-bold">1 XS ~ {{rest._rates[0].conversion_multiplier}} ETH</small>
 			      <small class="mt-0 mb-1 d-block font-weight-bold">DISCOUNT: {{rest._stages.sale_stage_discount}}%</small>
 
-			      <!-- <small class="mt-0 mb-1 d-block font-weight-bold">ACTUAL 1 SPAY ~ 0.01 BTC | 0.10 ETH</small> -->
+			      <!-- <small class="mt-0 mb-1 d-block font-weight-bold">ACTUAL 1 XS ~ 0.01 BTC | 0.10 ETH</small> -->
 			    </div>
 			  </div>
-			<small class="mt-0 mb-1 d-block my-1"><em>ACTUAL 1 SPAY ~ {{rest._rates[1].conversion_multiplier}} BTC | {{rest._rates[0].conversion_multiplier}} ETH</em></small>
+			<small class="mt-0 mb-1 d-block my-1"><em>ACTUAL 1 XS ~ {{rest._rates[1].conversion_multiplier}} BTC | {{rest._rates[0].conversion_multiplier}} ETH</em></small>
 			<button class="btn-primary p-2 w-100 my-1" (click)="buy_step_1(rest.member_id, buy_token)">BUY TOKEN</button>
 		</div>
 	</div>
@@ -320,7 +320,7 @@
         			<input type="checkbox" [(ngModel)]="check_toa_1" (click)="check_tos('check_toa_1')"> I agree that I am not a citizen, resident or company over which the laws of the any of the following countries have jurisdiction: United-States of America, China, India, North Korea or South Korea. 
         		</h6>
         		<h6 class="mb-1">
-        			<input type="checkbox" [(ngModel)]="check_toa_2" (click)="check_tos('check_toa_2')"> The bitcoin/ethereum price is so volatile that the number of SPAY token varies time to time it might increase or decrease.
+        			<input type="checkbox" [(ngModel)]="check_toa_2" (click)="check_tos('check_toa_2')"> The bitcoin/ethereum price is so volatile that the number of XS token varies time to time it might increase or decrease.
         		</h6>
         		<h6 class="mb-1">
         			<input type="checkbox" [(ngModel)]="check_toa_3" (click)="check_tos('check_toa_3')"> I have read and agree to the website terms and conditions.
