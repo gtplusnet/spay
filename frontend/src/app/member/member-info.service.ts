@@ -59,7 +59,7 @@ export class MemberInfoService
 		}
 		else
 		{
-			this.api_url 				= "https://api.successmall.io";
+			this.api_url 				= "http://api.successmall.io";
 		}
 		
 		this.first_name 				= "";
