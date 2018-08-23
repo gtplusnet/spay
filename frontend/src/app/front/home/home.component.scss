@@ -3,7 +3,7 @@
 
 body 
 {
-	@inlcude text-style($body-text, $reg, 0.875rem, 0.01rem, 1.6875rem);
+	@include text-style($body-text, $reg, 0.875rem, 0.01rem, 1.6875rem);
 }
 
 .video-resize {
@@ -35,6 +35,7 @@ body
 			h1
 			{
 				color: white;
+				
 			}
 			h2 
 			{
@@ -550,6 +551,20 @@ body
 			h1 
 			{
 				font-size: 1.875rem !important;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 372px)
+{
+	.s-1
+	{
+		.inner-left
+		{
+			h1
+			{
+				font-size: 1.75rem !important;
 			}
 		}
 	}

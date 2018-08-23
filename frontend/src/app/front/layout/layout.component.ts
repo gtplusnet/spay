@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MemberInfoService } 	from '../../member/member-info.service';
+import { GlobalConfigService }  from '../../global-config.service';
+import { HttpClient, HttpHeaders }     from '@angular/common/http';
+import { Router }         from "@angular/router";
 import * as $ from 'jquery';
 import { Observable } from 'rxjs';
 
@@ -13,7 +17,7 @@ export class LayoutComponent implements OnInit {
   timer : any;
   subscription : any;
 
-  constructor() { }
+  constructor(public rest: MemberInfoService, private http : HttpClient, private router:Router, public globalConfigService:GlobalConfigService) { }
 
   ngOnInit() {
   	this.showScroll();
@@ -41,5 +45,11 @@ export class LayoutComponent implements OnInit {
        });
     }
   }
+
+  actionLogout() : void
+	{
+	    this.globalConfigService.logout();
+	    this.router.navigate(['/']); 
+	}
 
 }

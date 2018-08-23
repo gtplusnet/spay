@@ -133,7 +133,7 @@ class ApiController extends Controller
          
         $rules["username"]                  = array("required");
         $rules["password"]                  = array("required", "min:6");
-        // $rules["captcha"]                   = array("required");
+        $rules["captcha"]                   = array("required");
         $validator                          = Validator::make($request->all(), $rules);
 
         /* VALIDATE LOGIN */

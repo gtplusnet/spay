@@ -22,20 +22,33 @@
 					<a class="nav-link nav-link-text navigation__link" href="#how_it_works">How It Works</a>
 				</li>
 				<li class="nav-item mob-show">
-					<a class="nav-link" href="/login">Login</a>
+					<a class="nav-link" [routerLink]="['/login']" href="javascript:void(0)" *ngIf="!globalConfigService.isLoggedIn()">Login</a>
+					<a class="nav-link" [routerLink]="['/member']" href="javascript:void(0)" *ngIf="globalConfigService.isLoggedIn()">{{ rest.first_name }} {{ rest.last_name }}</a>
 				</li>
 				<li class="nav-item mob-show">
-					<a class="nav-link" href="/register">Register</a>
+					<a class="nav-link" [routerLink]="['/register']" href="javascript:void(0)" *ngIf="!globalConfigService.isLoggedIn()">Register</a>
+					<a class="nav-link" (click)="actionLogout()" href="javascript:void(0)" *ngIf="globalConfigService.isLoggedIn()">Logout</a>
 				</li>
 			</ul>
-			<span class="navbar-text mob-hide">
-				<a class="log" href="/login">Login</a>
+			<span class="navbar-text mob-hide" *ngIf="!globalConfigService.isLoggedIn()">
+				<a class="log" [routerLink]="['/login']">Login</a>
 			</span>
-			<span class="navbar-text mob-hide">
-				<a class="reg" href="/register">Register</a>
+			<span class="navbar-text mob-hide" *ngIf="!globalConfigService.isLoggedIn()">
+				<a class="reg" [routerLink]="['/register']">Register</a>
+			</span>
+			<span class="navbar-text mob-hide" *ngIf="globalConfigService.isLoggedIn()">
+				<a class="log" href="/member">
+					{{ rest.first_name }} {{ rest.last_name }}
+				</a>
+			</span>
+			<span class="navbar-text mob-hide" *ngIf="globalConfigService.isLoggedIn()">
+				<a class="reg" href="javascript:void(0)" (click)="actionLogout()">Logout</a>
 			</span>
 			<div class="nav-btn-container">
-				<a class="btn-primary btn-rounded btn-md btn-desktop" href="" role="button">
+				<a class="btn-primary btn-rounded btn-md btn-desktop" href="javascript:void(0)" role="button" [routerLink]="['/register']" *ngIf="!globalConfigService.isLoggedIn()">
+					Get Your Coin
+				</a>
+				<a class="btn-primary btn-rounded btn-md btn-desktop" href="javascript:void(0)" role="button" [routerLink]="['/member']" *ngIf="globalConfigService.isLoggedIn()">
 					Get Your Coin
 				</a>
 			</div>

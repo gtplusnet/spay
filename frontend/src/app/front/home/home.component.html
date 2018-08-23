@@ -17,7 +17,10 @@
 						<a href="" role="button" class="btn-desk btn-primary btn-rounded btn-lg">
 							White Paper
 						</a>
-						<a href="" role="button" class="btn-desk btn-primary btn-rounded btn-lg ml-3">
+						<a href="javascript:void(0)" *ngIf="globalConfigService.isLoggedIn()" [routerLink]="['/member']" role="button" class="btn-desk btn-primary btn-rounded btn-lg ml-3">
+							Get Coin Now!
+						</a>
+						<a href="javascript:void(0)" *ngIf="!globalConfigService.isLoggedIn()" [routerLink]="['/register']" role="button" class="btn-desk btn-primary btn-rounded btn-lg ml-3">
 							Get Coin Now!
 						</a>
 						<div class="btn-mob d-none btn-container">
@@ -148,7 +151,7 @@
 							<img class="splash_1 object_1 floating" src="../../../assets/spay_assets/img/how_it_works_iso.svg" alt="">
 						</div>
 						<p>
-							Success Mall's Blockchain network uses 3.0 starndards, with native support for cross-chain and side-chain implementations. Combine that with efficient RESTFUL Netwok APIs, you can seamlessly connect any Blockchain and online stores alike into a secure and trust-less Blockchain.
+							Success Mall's Blockchain network uses 3.0 standards, with native support for cross-chain and side-chain implementations. Combine that with efficient RESTFUL Netwok APIs, you can seamlessly connect any Blockchain and online stores alike into a secure and trust-less Blockchain.
 						</p>
 						<a href="" role="button" class="btn-primary btn-rounded btn-lg">
 							Download App

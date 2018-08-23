@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MemberInfoService } 	from '../../member/member-info.service';
+import { GlobalConfigService }  from '../../global-config.service';
+import { HttpClient, HttpHeaders }     from '@angular/common/http';
+import { Router }         from "@angular/router";
 import * as $ from 'jquery';
 
 @Component({
@@ -8,7 +12,7 @@ import * as $ from 'jquery';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(public rest: MemberInfoService, private http : HttpClient, private router:Router, public globalConfigService:GlobalConfigService) { }
 
   ngOnInit() {
   	this.smooth_scroll();
