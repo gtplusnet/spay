@@ -5,6 +5,6 @@
 	You have recently requested a verification of your email address for your successmall account. Please click the button below to verify your email address. Thank you!
 </p>
 <div style="text-align: center; padding: 15px 0px;">
-	<a href="https://successmall.io/verify_email/{{$email->verification_code}}" target="_blank" style="padding: 12px; border: 1px solid rgba(10,0,39,1); background: rgba(10,0,39,0.8); color: #eee; cursor: pointer; text-decoration: none; font-size: 13px;">Verify Email Address</a>
+	<a href="http://successmall.io/verify_email/{{$email->verification_code}}" target="_blank" style="padding: 12px; border: 1px solid rgba(10,0,39,1); background: rgba(10,0,39,0.8); color: #eee; cursor: pointer; text-decoration: none; font-size: 13px;">Verify Email Address</a>
 </div>
 @endsection
