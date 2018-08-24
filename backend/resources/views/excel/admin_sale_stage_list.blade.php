@@ -17,7 +17,7 @@
                 
                 <td>{{ $transaction->member_log_id }}</td>
                 <td>{{ $transaction->first_name }} {{ $transaction->last_name }}</td>
-                <td>{{ $transaction->log_amount . ' LOK'}}</td>
+                <td>{{ $transaction->log_amount . ' LOXSK'}}</td>
                 <td>{{ $transaction->log_message}} </td>
                 <td>{{ $transaction->log_method }}</td>
                 <td>{{ date("M/d/Y", strtotime($transaction->log_time))}}</td>
