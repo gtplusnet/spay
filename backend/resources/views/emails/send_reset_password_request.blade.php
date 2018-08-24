@@ -7,6 +7,6 @@
 <div class="text-center"><strong>Verification Code:</strong> {{$request["verification_code"]}}</div>
 
 <div style="text-align: center; padding: 15px 0px;">
-	<a href="http://successmall.io/reset_password/{{$request["forget_account_request_id"]}}" target="_blank" style="padding: 12px; border: 1px solid #aa7809; background: #aa7809; color: #eee; cursor: pointer; text-decoration: none; font-size: 13px;">Reset Your Password</a>
+	<a href="http://successmall.io/reset_password/{{$request["forget_account_request_id"]}}" target="_blank" style="padding: 12px; border: 1px solid #005d12; background: #005d12; color: #eee; cursor: pointer; text-decoration: none; font-size: 13px;">Reset Your Password</a>
 </div>
 @endsection
