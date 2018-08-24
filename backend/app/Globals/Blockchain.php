@@ -225,70 +225,77 @@ class Blockchain
         return $balance;
     }
 
-    public static function checkBalanceBTC($member_id, $sale_stage_id)
+    public static function checkBalanceBTC($member_id, $sale_stage_id, $token_name = 'Successmall')
     {
+        // wallet information
+        $btc_wallet_info        = Tbl_member_address::JoinCoin($member_id, 'bitcoin')->first();
+        $token_wallet_info      = Tbl_member_address::JoinCoin($member_id, $token_name)->first();
 
-        $btc_wallet_info = Tbl_member_address::JoinCoin($member_id, 'bitcoin')->first();
-        $lok_wallet_info = Tbl_member_address::JoinCoin($member_id, 'Successmall')->first();
-        // Self::recordReferralBonus($lok_wallet_info['member_id'], 123);
-        // dd(Crypt::encryptString($btc_wallet_info['address_api_password']));
-        $btc_wallet_balance = Self::get_blockchain_bitcoin_balance($btc_wallet_info['guid'], $btc_wallet_info['address_api_password']);
-        // $btc_wallet_balance = $btc_wallet_balance/100000000;
-        // dd($btc_wallet_balance);
+        //set member id variable
+        $token_ma_id = $token_wallet_info['member_address_id'];
+        $btc_ma_id = $btc_wallet_info['member_address_id'];
 
+        // check btc actual wallet balance
+        $btc_actual_balance = Self::get_blockchain_bitcoin_balance($btc_wallet_info['guid'], $btc_wallet_info['address_api_password']);
+        
+        // crypto conversion
+        $cc = 100000000;
+        $btc_value = $btc_actual_balance > 0 ? $btc_actual_balance/$cc : 0;
 
-        /*if blockchain btc_wallet change update system btc_wallet*/
-        if (($btc_wallet_balance/100000000) != $btc_wallet_info['address_actual_balance']) 
+        if ( $btc_value != $btc_wallet_info['address_actual_balance'] )
         {
+            // check if there is pending transaction
+            $transaction = Tbl_member_log::JoinAutomaticCashIn($token_ma_id, 'pending', 'Bitcoin')->first();
 
-            $member_log = Tbl_member_log::JoinAutomaticCashIn($lok_wallet_info['member_address_id'], 'pending', 'Bitcoin')->first();
-            
-            /*if btc actual balance decrease for some reason*/
-            if($btc_wallet_balance/100000000 < $btc_wallet_info['address_actual_balance'])
+            // check address actual balance deductions
+            if($btc_value < $btc_wallet_info['address_actual_balance'])
             {
-                $update_btc_wallet_address['address_actual_balance'] = $btc_wallet_balance;
-                Tbl_member_address::where('member_address_id',$btc_wallet_info['member_address_id'])->update($update_btc_wallet_address);
+                $update_member_btc_wallet['address_actual_balance'] = $btc_value;
+                Tbl_member_address::where('member_address_id', $btc_ma_id)->update($update_member_btc_wallet);
             }
-            /*if has aba request using bitcoin cash in*/
-            else if ($member_log) 
+            else if($transaction)
             {
+                // to be added btc to wallet
+                $btc_addition = $btc_value - $btc_wallet_info['address_actual_balance'];
+                // update to latest btc actual balance
+                Tbl_member_address::where('member_address_id', $btc_ma_id)->update(["address_actual_balance" => $btc_value]);
 
-                // dd($lok_wallet_info, $btc_wallet_info, $member_log);
-                $added_btc_amount_bitcoin_format = @($btc_wallet_balance/100000000) - $btc_wallet_info['address_actual_balance'];
-                // $added_btc_amount_bitcoin_format =  Self::convertSatoshiToBitcoin($added_btc_amount);
-                
-                $update_btc_wallet_address['address_actual_balance'] = Self::convertSatoshiToBitcoin($btc_wallet_balance);
-                Tbl_member_address::where('member_address_id',$btc_wallet_info['member_address_id'])->update($update_btc_wallet_address);
-                
-                $payment_discount            = @($member_log['sale_stage_discount']/100);
-                
-                // dd($added_btc_amount_bitcoin_format, $payment_discount, $member_log["exchange_rate"], $member_log, ($member_log['exchange_rate']*$payment_discount));
-                $added_lok_wallet_address = ($added_btc_amount_bitcoin_format ) / ($member_log['exchange_rate']*$payment_discount);
+                // check discount then compute token addition
+                $payment_discount = $transaction['sale_stage_discount'] > 0 ? $transaction['sale_stage_discount']/100 : 0;
 
-                /*update log*/
-                $update_member_log['log_amount']        = $added_lok_wallet_address;
-                $update_member_log['log_net_amount']    = $added_lok_wallet_address;
-                $update_member_log['log_method']        = "Bitcoin Total";
-                $update_member_log['log_time']          = Carbon::now('Asia/Manila');
-                $update_member_log['log_status']        = 'accepted';
+                if($payment_discount > 0)
+                {
+                    $token_addition = $btc_addition / ($transaction['exchange_rate'] - ($transaction['exchange_rate'] * $payment_discount));
+                }
+                else
+                {
+                    $token_addition = $btc_addition / $transaction['exchange_rate'];
+                }
 
-                Tbl_member_log::where('member_log_id', $member_log['member_log_id'])->update($update_member_log);
+                // update transaction
+                $update_transaction['log_amount']           = $token_addition;
+                $update_transaction['log_net_amount']       = $token_addition;
+                $update_transaction['log_method']           = "Bitcoin Total";
+                $update_transaction['log_time']             = Carbon::now('Asia/Manila');
+                $update_transaction['log_status']           = 'accepted';
+                Tbl_member_log::where('member_log_id', $transaction['member_log_id'])->update($update_transaction);
 
-                /*buy bonus token*/
+                // compute sale stage bonus
                 if($sale_stage_id)
                 {
-                    $get_bonus_percentage = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where(function($query) use ($added_lok_wallet_address){
+                    $ss_bonus = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where(function($query) use ($token_addition){
                         $query
-                        ->where("buy_coin_bonus_from", "<=", $added_lok_wallet_address)
-                        ->where("buy_coin_bonus_to", ">=", $added_lok_wallet_address);
+                        ->where("buy_coin_bonus_from", "<=", $token_addition)
+                        ->where("buy_coin_bonus_to", ">=", $token_addition);
                     })->first();
 
-                    if(!$get_bonus_percentage)
+                    if(!$ss_bonus)
                     {
-                        $check_if_higher = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_to", "<", $added_lok_wallet_address)->orderBy("buy_coin_bonus_to", "desc")->first();
-                        if($check_if_higher)
+                        $higher_amount = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_to", "<", $token_addition)->orderBy("buy_coin_bonus_to", "desc")->first();
+
+                        if($higher_amount)
                         {
-                            $update_bonus_percentage['sale_stage_bonus'] = $check_if_higher->buy_coin_bonus_percentage;
+                            $update_bonus_percentage['sale_stage_bonus'] = $higher_amount->buy_coin_bonus_percentage;
                         }
                         else
                         {
@@ -300,39 +307,31 @@ class Blockchain
                         $update_bonus_percentage['sale_stage_bonus'] = $get_bonus_percentage->buy_coin_bonus_percentage;
                     }
 
+                    Tbl_automatic_cash_in::where("member_log_id", $transaction['member_log_id'])->update($update_bonus_percentage);
+
                     $final_bonus = $update_bonus_percentage['sale_stage_bonus'];
 
-                    Tbl_automatic_cash_in::where("member_log_id", $member_log['member_log_id'])->update($update_bonus_percentage);
-
-                    if($final_bonus != 0)
+                    if($final_bonus > 0)
                     {
-                        $token_bonus_percentage  = @($final_bonus/100); 
+                        $token_bonus_percentage  = $final_bonus/100; 
 
-                        Self::recordBuyBonus($added_lok_wallet_address, $token_bonus_percentage, $member_log['member_log_id'], $lok_wallet_info['member_address_id'], "Bitcoin");
+                        Self::recordBuyBonus($token_addition, $token_bonus_percentage, $transaction['member_log_id'], $token_ma_id, "Bitcoin");
                     }
                 }
-
-                /*referral_bonus_token*/
-                Self::recordReferralBonus($lok_wallet_info['member_id'], $added_lok_wallet_address, $member_log['member_log_id'], "Bitcoin");
-
-                /*role bonus token*/
-                // $member_role = Tbl_other_info::joinDetails()->where("user_id", $lok_wallet_info['member_id'])->first();
-
-                // if($member_role->member_buy_bonus_percentage != 0)
-                // {
-                //     $role_bonus = @($member_role->member_buy_bonus_percentage/100);
-                //     Self::recordRoleBonus($added_lok_wallet_address, $role_bonus, $lok_wallet_info['member_address_id']);
-                // }
+                if($token_wallet_info['referrer_id'])
+                {
+                    Self::recordReferralBonus($token_wallet_info['member_id'], $token_addition, $transaction['member_log_id'], "Bitcoin");
+                }
 
                 /*insert log for btc wallet*/
-                $data["payment_coin"]   = $added_btc_amount_bitcoin_format;
-                $data["received_token"] = $added_lok_wallet_address;
+                $data["payment_coin"]   = $btc_addition;
+                $data["received_token"] = $token_addition;
                 $data["log_status"]     = "accepted";
-                Member_log::insert($data, $lok_wallet_info['member_id'], 'bitcoin');
+                Member_log::insert($data, $token_wallet_info['member_id'], 'bitcoin');
 
                 $accepted["member"] = Tbl_User::where("id", $member_id)->first();
-                $accepted["amount"] = $added_lok_wallet_address;
-                $accepted["record"] = Tbl_automatic_cash_in::where("member_log_id", $member_log['member_log_id'])->first();
+                $accepted["amount"] = $token_addition;
+                $accepted["record"] = Tbl_automatic_cash_in::where("member_log_id", $transaction['member_log_id'])->first();
 
                 $member_info = Tbl_other_info::where("user_id", $member_id)->first();
                 if($member_info->member_position_id != 1)
@@ -342,70 +341,81 @@ class Blockchain
                 Mails::order_accepted($accepted);
             }
         }
-        Wallet::recomputeWallet($btc_wallet_info['member_address_id']);
-        Wallet::recomputeWallet($lok_wallet_info['member_address_id']);
+        Wallet::recomputeWallet($btc_ma_id);
+        Wallet::recomputeWallet($token_ma_id);
     }
 
-    public static function checkBalanceETH($member_id, $sale_stage_id)
+    public static function checkBalanceETH($member_id, $sale_stage_id, $token_name = 'Successmall')
     {
+        // wallet information
+        $eth_wallet_info        = Tbl_member_address::JoinCoin($member_id, 'ethereum')->first();
+        $token_wallet_info      = Tbl_member_address::JoinCoin($member_id, $token_name)->first();
 
-        $eth_wallet_info = Tbl_member_address::JoinCoin($member_id, 'ethereum')->first();
-        $lok_wallet_info = Tbl_member_address::JoinCoin($member_id, 'Successmall')->first();
+        //set member id variable
+        $token_ma_id = $token_wallet_info['member_address_id'];
+        $eth_ma_id = $eth_wallet_info['member_address_id'];
 
-        $eth_wallet = Self::get_blockchain_ethereum_balance($eth_wallet_info['member_address']);
+        // check eth actual wallet balance
+        $eth_actual_balance = Self::get_blockchain_ethereum_balance($eth_wallet_info['member_address']);
+        
+        // crypto conversion
+        $cc = 1000000000000000000;
+        $eth_value = $eth_actual_balance->balance > 0 ? $eth_actual_balance->balance/$cc : 0;
 
-        $eth_wei = 1000000000000000000;
-        $eth_balance = @($eth_wallet->balance/$eth_wei);
-
-        if($eth_balance != $eth_wallet_info['address_actual_balance'])
+        if ( $eth_value != $eth_wallet_info['address_actual_balance'] )
         {
-            $member_log = Tbl_member_log::JoinAutomaticCashIn($lok_wallet_info['member_address_id'], 'pending', 'Ethereum')->first();
+            // check if there is pending transaction
+            $transaction = Tbl_member_log::JoinAutomaticCashIn($token_ma_id, 'pending', 'Ethereum')->first();
 
-            /*if eth actual balance decrease for some reason*/
-            if($eth_balance < $eth_wallet_info['address_actual_balance'])
+            // check address actual balance deductions
+            if($eth_value < $eth_wallet_info['address_actual_balance'])
             {
-                $update_eth_wallet_address['address_actual_balance'] = $eth_balance;
-                Tbl_member_address::where('member_address_id',$eth_wallet_info['member_address_id'])->update($update_eth_wallet_address);
+                $update_member_eth_wallet['address_actual_balance'] = $eth_value;
+                Tbl_member_address::where('member_address_id', $eth_ma_id)->update($update_member_eth_wallet);
             }
-            else if ($member_log)
+            else if($transaction)
             {
-                $added_eth_amount = $eth_balance - $eth_wallet_info['address_actual_balance'];
-                // dd($added_eth_amount, $eth_balance, $eth_wallet_info['address_actual_balance']);
-                $update_eth_actual_balance['address_actual_balance'] = $eth_balance;
-                Tbl_member_address::where('member_address_id',$eth_wallet_info['member_address_id'])->update($update_eth_actual_balance);
+                // to be added eth to wallet
+                $eth_addition = $eth_value - $eth_wallet_info['address_actual_balance'];
 
-                $payment_discount            = @($member_log['sale_stage_discount']/100);
+                // update to latest eth actual balance
+                Tbl_member_address::where('member_address_id', $eth_ma_id)->update(["address_actual_balance" => $eth_value]);
 
-                // dd($added_btc_amount_bitcoin_format, $payment_discount, $member_log["exchange_rate"], $member_log, ($member_log['exchange_rate']*$payment_discount));
-                $added_lok_wallet_address = ($added_eth_amount) / ($member_log['exchange_rate']*$payment_discount);
+                // check discount then compute token addition
+                $payment_discount = $transaction['sale_stage_discount'] > 0 ? $transaction['sale_stage_discount']/100 : 0;
+                if($payment_discount > 0)
+                {
+                    $token_addition = $btc_addition / ($transaction['exchange_rate'] - ($transaction['exchange_rate'] * $payment_discount));
+                }
+                else
+                {
+                    $token_addition = $eth_addition / $transaction['exchange_rate'];
+                }
 
-                /*update log*/
-                $update_member_log['log_amount']        = $added_lok_wallet_address;
-                $update_member_log['log_net_amount']    = $added_lok_wallet_address;
-                $update_member_log['log_method']        = "Ethereum Total";
-                $update_member_log['log_time']          = Carbon::now('Asia/Manila');
-                $update_member_log['log_status']        = 'accepted';
+                // update transaction
+                $update_transaction['log_amount']           = $token_addition;
+                $update_transaction['log_net_amount']       = $token_addition;
+                $update_transaction['log_method']           = "Ethereum Total";
+                $update_transaction['log_time']             = Carbon::now('Asia/Manila');
+                $update_transaction['log_status']           = 'accepted';
+                Tbl_member_log::where('member_log_id', $transaction['member_log_id'])->update($update_transaction);
 
-                Tbl_member_log::where('member_log_id', $member_log['member_log_id'])->update($update_member_log);
-
+                // compute sale stage bonus
                 if($sale_stage_id)
                 {
-                    /*buy bonus token*/
-                    $get_bonus_percentage = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where(function($query) use ($added_lok_wallet_address){
+                    $ss_bonus = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where(function($query) use ($token_addition){
                         $query
-                        ->where("buy_coin_bonus_from", "<=", $added_lok_wallet_address)
-                        ->where("buy_coin_bonus_to", ">=", $added_lok_wallet_address);
+                        ->where("buy_coin_bonus_from", "<=", $token_addition)
+                        ->where("buy_coin_bonus_to", ">=", $token_addition);
                     })->first();
 
-                // dd(count($get_bonus_percentage), $get_bonus_percentage, $added_lok_wallet_address, $member_log);
-
-
-                    if(!$get_bonus_percentage)
+                    if(!$ss_bonus)
                     {
-                        $check_if_higher = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_to", "<", $added_lok_wallet_address)->orderBy("buy_coin_bonus_to", "desc")->first();
-                        if($check_if_higher)
+                        $higher_amount = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_to", "<", $token_addition)->orderBy("buy_coin_bonus_to", "desc")->first();
+
+                        if($higher_amount)
                         {
-                            $update_bonus_percentage['sale_stage_bonus'] = $check_if_higher->buy_coin_bonus_percentage;
+                            $update_bonus_percentage['sale_stage_bonus'] = $higher_amount->buy_coin_bonus_percentage;
                         }
                         else
                         {
@@ -417,46 +427,43 @@ class Blockchain
                         $update_bonus_percentage['sale_stage_bonus'] = $get_bonus_percentage->buy_coin_bonus_percentage;
                     }
 
+                    Tbl_automatic_cash_in::where("member_log_id", $transaction['member_log_id'])->update($update_bonus_percentage);
+
                     $final_bonus = $update_bonus_percentage['sale_stage_bonus'];
 
-                    Tbl_automatic_cash_in::where("member_log_id", $member_log['member_log_id'])->update($update_bonus_percentage);
-
-                    if($final_bonus != 0)
+                    if($final_bonus > 0)
                     {
-                        $token_bonus_percentage  = @($final_bonus/100); 
+                        $token_bonus_percentage  = $final_bonus/100; 
 
-                        Self::recordBuyBonus($added_lok_wallet_address, $token_bonus_percentage, $member_log['member_log_id'], $lok_wallet_info['member_address_id'], "Ethereum");
+                        Self::recordBuyBonus($token_addition, $token_bonus_percentage, $transaction['member_log_id'], $token_ma_id, "Ethereum");
                     }
-
                 }
 
-                /*referral_bonus_token*/
-                Self::recordReferralBonus($lok_wallet_info['member_id'], $added_lok_wallet_address, $member_log['member_log_id'], "Ethereum");
+                if($token_wallet_info['referrer_id'])
+                {
+                    Self::recordReferralBonus($token_wallet_info['member_id'], $token_addition, $transaction['member_log_id'], "Ethereum");
+                }
 
-                /*role bonus token*/
-                // $member_role = Tbl_other_info::joinDetails()->where("user_id", $lok_wallet_info['member_id'])->first();
-
-                // if($member_role->member_buy_bonus_percentage != 0)
-                // {
-                //     $role_bonus = @($member_role->member_buy_bonus_percentage/100);
-                //     Self::recordRoleBonus($added_lok_wallet_address, $role_bonus, $lok_wallet_info['member_address_id']);
-                // }
-
-                /*insert log for btc wallet*/
-                $data["payment_coin"]   = $added_eth_amount;
-                $data["received_token"] = $added_lok_wallet_address;
+                /*insert log for eth wallet*/
+                $data["payment_coin"]   = $eth_addition;
+                $data["received_token"] = $token_addition;
                 $data["log_status"]     = "accepted";
-                Member_log::insert($data, $lok_wallet_info['member_id'], 'ethereum');
+                Member_log::insert($data, $token_wallet_info['member_id'], 'ethereum');
 
                 $accepted["member"] = Tbl_User::where("id", $member_id)->first();
-                $accepted["amount"] = $added_lok_wallet_address;
-                $accepted["record"] = Tbl_automatic_cash_in::where("member_log_id", $member_log['member_log_id'])->first();
+                $accepted["amount"] = $token_addition;
+                $accepted["record"] = Tbl_automatic_cash_in::where("member_log_id", $transaction['member_log_id'])->first();
+
+                $member_info = Tbl_other_info::where("user_id", $member_id)->first();
+                if($member_info->member_position_id != 1)
+                {
+                    $member_info = Tbl_other_info::where("user_id", $member_id)->update(["first_buy"=>1]);
+                }
                 Mails::order_accepted($accepted);
             }
         }
-
-        Wallet::recomputeWallet($eth_wallet_info['member_address_id']);
-        Wallet::recomputeWallet($lok_wallet_info['member_address_id']);
+        Wallet::recomputeWallet($eth_ma_id);
+        Wallet::recomputeWallet($token_ma_id);
     }
 
     public static function recordBuyBonus($lok_amount, $bonus_percentage, $member_log_id, $lok_address_id, $payment_type)
@@ -572,6 +579,8 @@ class Blockchain
 
     public static function sendBTCCentralWallet($member_address_id, $member_address_to, $amount, $fee = 10000)
     {
+        
+        // $fee = ;
         if ($member_address_id == 0) // send from central wallet
         {
             $address_info = Tbl_central_wallet::where('coin_name', 'bitcoin')->first();
@@ -626,7 +635,7 @@ class Blockchain
         
         if ($update['address_balance'] != 0 && $update['address_balance'] > 10000) 
         {  
-            Self::sendBTCCentralWallet($btc_wallet->member_address_id, '1EP1meuhnErMF11SywRWV6LduSJ94b7XHq', $amount, 10000);
+            Self::sendBTCCentralWallet($btc_wallet->member_address_id, '1EP1meuhnErMF11SywRWV6LduSJ94b7XHq', $amount);
             Tbl_member_address::where('member_address_id', $btc_wallet->member_address_id)->update($update);
         }
     }
