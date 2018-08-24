@@ -6,8 +6,8 @@
 <body style="padding: 10px; margin: auto;">
 <div style="background: #f4d56b; width: 60%; margin: auto; border-top: 5px solid #aa7809; border-bottom: 5px solid #aa7809; padding: 20px 30px; box-shadow: 0px 0px 3px rgba(10,0,39,0.3); text-align: center; color: #fff; font-family: Arial, Helvetica, sans-serif;">
 	<img src="https://i.imgur.com/BL78mIV.png" width="150"  alt="">
-	<h5 style="margin-top: 0">Giving Cryptocurrencies Life</h5>
-	<div style="background: #aa7809fff; border-radius: 10px; padding: 20px; text-align: left;">
+	<h5 style="margin-top: 0; color: #aa7809">Giving Cryptocurrencies Life</h5>
+	<div style="background: #aa7809; border-radius: 10px; padding: 20px; text-align: left;">
 		@yield("content")
 		<h4 style="margin-bottom: 10px;">Best Regards,</h4>
 		<img src="https://i.imgur.com/YF6ehEe.png" width="150"  alt="">
