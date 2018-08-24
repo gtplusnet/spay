@@ -309,13 +309,13 @@ class MemberApiController extends Controller
         if($request->token_amount > 0)
         {
             $member_id                          = $request->member_id;
-            $coin_id                            = Tbl_coin::where("coin_abb", "SPAY")->value("coin_id");
+            $coin_id                            = Tbl_coin::where("coin_abb", "XS")->value("coin_id");
             $sale_stage_id                      = $request->sale_stage_id;
             $conversion_rate                    = $request->lok_exchange_rate;
             $amount                             = $request->amount_to_pay;
             $token_amount                       = $request->token_amount;
             $log_method                         = $request->payment_method;
-            $log                                = "Buy <b>". $request->token_amount ." SPAY Tokens</b> via <b>" . ucfirst($request->payment_method) . ".</b>";
+            $log                                = "Buy <b>". $request->token_amount ." XS Tokens</b> via <b>" . ucfirst($request->payment_method) . ".</b>";
             $member_log_id                      = Wallet::recordTransaction($member_id, $coin_id, $sale_stage_id, $conversion_rate, $amount, $token_amount, $log_method, $log);        
 
             $return["type"] = "success";
