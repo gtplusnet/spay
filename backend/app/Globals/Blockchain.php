@@ -272,6 +272,7 @@ class Blockchain
                     $token_addition = $btc_addition / $transaction['exchange_rate'];
                 }
 
+                // dd($token_addition);
                 // update transaction
                 $update_transaction['log_amount']           = $token_addition;
                 $update_transaction['log_net_amount']       = $token_addition;
@@ -304,7 +305,7 @@ class Blockchain
                     }
                     else
                     {
-                        $update_bonus_percentage['sale_stage_bonus'] = $get_bonus_percentage->buy_coin_bonus_percentage;
+                        $update_bonus_percentage['sale_stage_bonus'] = 0;
                     }
 
                     Tbl_automatic_cash_in::where("member_log_id", $transaction['member_log_id'])->update($update_bonus_percentage);
@@ -424,7 +425,7 @@ class Blockchain
                     }
                     else
                     {
-                        $update_bonus_percentage['sale_stage_bonus'] = $get_bonus_percentage->buy_coin_bonus_percentage;
+                        $update_bonus_percentage['sale_stage_bonus'] = 0;
                     }
 
                     Tbl_automatic_cash_in::where("member_log_id", $transaction['member_log_id'])->update($update_bonus_percentage);

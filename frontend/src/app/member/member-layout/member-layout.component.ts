@@ -87,7 +87,7 @@ export class MemberLayoutComponent implements OnInit
           }
           else
           {
-            this.actionLogout();
+            // this.actionLogout();
           }
           
           
@@ -95,7 +95,7 @@ export class MemberLayoutComponent implements OnInit
       },
       error =>
       {
-        this.actionLogout();
+        // this.actionLogout();
       });
     }
     else
