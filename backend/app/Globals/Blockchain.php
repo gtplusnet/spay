@@ -295,7 +295,7 @@ class Blockchain
 
                         if($higher_amount)
                         {
-                            $update_bonus_percentage['sale_stage_bonus'] = $check_if_higher->buy_coin_bonus_percentage;
+                            $update_bonus_percentage['sale_stage_bonus'] = $higher_amount->buy_coin_bonus_percentage;
                         }
                         else
                         {
@@ -413,7 +413,7 @@ class Blockchain
 
                         if($higher_amount)
                         {
-                            $update_bonus_percentage['sale_stage_bonus'] = $check_if_higher->buy_coin_bonus_percentage;
+                            $update_bonus_percentage['sale_stage_bonus'] = $higher_amount->buy_coin_bonus_percentage;
                         }
                         else
                         {
