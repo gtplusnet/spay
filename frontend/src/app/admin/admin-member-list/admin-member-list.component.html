@@ -191,7 +191,10 @@
 				<td class="text-center">
 					<i class="fas {{ data.is_admin == 0 ? 'fa-times-circle text-danger' : 'fa-check-circle text-primary' }}"></i>
 				</td>
-				<td>{{data.created_at | date:'MM/dd/yy'}}</td>
+				<td>
+					{{ rest.formatDate(data.created_at) }}
+				</td>
+				<!-- <td>{{data.created_at | date:'MM/dd/yy'}}</td> -->
 				<td class="text-center">
 					<!-- <div ngbDropdown placement="bottom-right">
 						<button class="btn button-lokal-x btn-block btn-sm" id="dropdownBasic1" ngbDropdownToggle>
@@ -298,7 +301,11 @@
 								<small class="font-weight-bold mb-5">Account Activation Status</small>  
 								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.verified_mail == 1 ? 'Verified' : 'Unverified' }}</h4>
 								<small class="font-weight-bold mb-5">Email Verification Status</small>
-								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.created_at | date: 'MM/dd/yyyy hh:mm:ss a' }}</h4>
+								<h4 class="mb-0 font-weight-light mt-2">
+									<!-- {{ data_focus.created_at | date: 'MM/dd/yyyy hh:mm:ss a' }} -->
+									{{ rest.formatDate(data.created_at) }} {{ rest.formatTime(data.created_at) }}
+
+								</h4>
 								<small class="font-weight-bold mb-5">Date Registered</small>
 								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.entity }}</h4>
 								<small class="font-weight-bold mb-5">Entity</small>   
@@ -467,10 +474,12 @@
 												</span>
 											</td>
 											<td>
-												{{ data.log_time | date:'MM/dd/yyyy'}}
+												<!-- {{ data.log_time | date:'MM/dd/yyyy'}} -->
+												{{ rest.formatDate(data.log_time) }}
 											</td>
 											<td>
-												{{ data.log_time | date:'HH:mm a '}}
+												<!-- {{ data.log_time | date:'HH:mm a '}} -->
+												{{ rest.formatTime(data.log_time) }}
 											</td>
 											<!-- <td class="text-center">
 												<div ngbDropdown placement="bottom-right">
@@ -620,10 +629,12 @@
 										</span>
 									</td>
 									<td>
-										{{ data.log_time | date:'MM/dd/yyyy'}}
+										<!-- {{ data.log_time | date:'MM/dd/yyyy'}} -->
+										{{ rest.formatDate(data.log_time) }}
 									</td>
 									<td>
-										{{ data.log_time | date:'HH:mm a '}}
+										<!-- {{ data.log_time | date:'HH:mm a '}} -->
+										{{ rest.formatTime(data.log_time) }}
 									</td>
 									<!-- <td class="text-center">
 										<div ngbDropdown placement="bottom-right">
@@ -689,7 +700,11 @@
 								<td>{{ data["from"][0].log_amount == null ? '0 LOK' : data["from"][0].log_amount + ' LOK' }}</td>
 								<td>{{ data["to"][0].log_amount + " LOK"}}</td>
 								<td>{{data["from"][0].email}}</td>
-								<td>{{ data["to"][0].log_time | date: 'MM/dd/yyyy HH:mm a '}}</td>
+								<td>
+									<!-- {{ data["to"][0].log_time | date: 'MM/dd/yyyy HH:mm a '}} -->
+									{{ rest.formatDate(data["to"][0].log_time) }}
+									{{ rest.formatTime(data["to"][0].log_time) }}
+								</td>
 						</tbody>
 					</table>
 				</div>
@@ -713,8 +728,14 @@
 						<tbody>
 							<tr *ngFor="let data of login_history | paginate: { itemsPerPage:8, currentPage: page_login_history, id: 'page_login_history' }">
 								<td>{{ data.login_ip }}</td>
-								<td>{{ data.login_date | date:'MM/dd/yy' }}</td>
-								<td>{{ data.login_date | date:'hh:mm a' }}</td>
+								<td>
+									<!-- {{ data.login_date | date:'MM/dd/yy' }} -->
+									{{ rest.formatDate(data.login_date) }}
+								</td>
+								<td>
+									<!-- {{ data.login_date | date:'hh:mm a' }} -->
+									{{ rest.formatTime(data.login_date) }}
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -1072,7 +1093,8 @@
 							<td>{{ data.email }}</td>
 							<td>{{ data.member_position_name }}</td>
 							<td>{{ data.status_account == 1? 'Verified' : 'Not Verified' }}</td>
-							<td>{{ data.created_at | date: 'MM/dd/yyyy hh:mm:ss a'}}</td>
+							<td>{{ rest.formatDate(data.created_at) }} {{ rest.formatTime(data.created_at) }}</td>
+							<!-- <td>{{ data.created_at | date: 'MM/dd/yyyy hh:mm:ss a'}}</td> -->
 						</tr>
 					</tbody>
 				</table>

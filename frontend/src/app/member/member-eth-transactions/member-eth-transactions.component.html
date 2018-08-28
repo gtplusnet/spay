@@ -140,10 +140,12 @@
 					</span>
 				</td>
 				<td>
-					{{ data.log_time | date:'MM/dd/yyyy'}}
+					<!-- {{ data.log_time | date:'MM/dd/yyyy'}} -->
+					{{ rest.formatDate(data.log_time) }}
 				</td>
 				<td>
-					{{ data.log_time | date:'HH:mm a '}}
+					<!-- {{ data.log_time | date:'HH:mm a '}} -->
+					{{ rest.formatTime(data.log_time) }}
 				</td>
 				<!-- <td class="text-center">
 					<div ngbDropdown placement="bottom-right">
@@ -222,7 +224,10 @@
 						Canceled
 					</span></h4>
 					<small class="font-weight-bold mb-5">Transaction Status</small>  
-					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_time | date:'MM/dd/yyyy hh:mm a' }}</h4>
+					<h4 class="mb-0 font-weight-light mt-2">
+						<!-- {{ data_focus.log_time | date:'MM/dd/yyyy hh:mm a' }} -->
+						{{ rest.formatDate(data_focus.log_time) } {{ rest.formatTime(data_focus.log_time) }}}
+					</h4>
 					<small class="font-weight-bold mb-5">Date Requested</small>
 					<!-- <h4 class="mb-0 font-weight-light mt-2">{{ data_focus.created_at }}</h4>
 					<small class="font-weight-bold mb-5">Date Registered</small>   

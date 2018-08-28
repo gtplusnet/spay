@@ -129,7 +129,10 @@
 				<td>{{data.member_position_name}}</td>
 				<td>{{data.log_amount | number:'2.2-8'}}</td>
 				<td>{{data.log_message}}</td>
-				<td>{{data.log_time | date:'MM/dd/yyyy'}}</td>
+				<td>
+					{{ rest.formatDate(data.log_time) }}
+				</td>
+				<!-- <td>{{data.log_time | date:'MM/dd/yyyy'}}</td> -->
 				<td class="text-center">
 					<div class="btn-group" dropdown placement="bottom right">
 					  <button id="button-alignment" dropdownToggle type="button"
@@ -173,7 +176,10 @@
 				<div class=" col-lg-6 col-xs-12">
 					<h4 class="mb-0 font-weight-light mt-2">{{ details.log_message }}</h4>
 					<small class="font-weight-bold mb-5">Remarks</small>
-					<h4 class="mb-0 font-weight-light mt-2">{{ details.log_time | date:'MM/dd/yyyy hh:mm:ss a' }}</h4>
+					<h4 class="mb-0 font-weight-light mt-2">
+						<!-- {{ details.log_time | date:'MM/dd/yyyy hh:mm:ss a' }} -->
+						{{ rest.formatDate(details.log_time) }} {{ rest.formatTime(details.log_time) }}
+					</h4>
 					<small class="font-weight-bold mb-5">Log Time</small>
 					<h4 class="mb-0 font-weight-light mt-2">{{ details.ip_address }}</h4>
 					<small class="font-weight-bold mb-5">IP Address</small>

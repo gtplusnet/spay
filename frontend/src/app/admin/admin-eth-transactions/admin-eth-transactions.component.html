@@ -149,10 +149,12 @@
 					</span>
 				</td>
 				<td>
-					{{ data.log_time | date:'MM/dd/yyyy'}}
+					<!-- {{ data.log_time | date:'MM/dd/yyyy'}} -->
+					{{ rest.formatDate(data.log_time) }}
 				</td>
 				<td>
-					{{ data.log_time | date:'hh:mm:ss a '}}
+					<!-- {{ data.log_time | date:'hh:mm:ss a '}} -->
+					{{ rest.formatTime(data.log_time) }}
 				</td>
 				<td class="text-center">
 					<!-- <div ngbDropdown placement="bottom-right">

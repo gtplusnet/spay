@@ -115,7 +115,8 @@
 				<td>{{ data.log_message }}</td>
 				<td>{{ data.log_method }}</td>
 				<td>
-					{{ data.log_time | date:'MM/dd/yyyy'}}
+					{{ rest.formatDate(data.log_time) }}
+					<!-- {{ data.log_time | date:'MM/dd/yyyy'}} -->
 				</td>
 			</tr>
 		</tbody>

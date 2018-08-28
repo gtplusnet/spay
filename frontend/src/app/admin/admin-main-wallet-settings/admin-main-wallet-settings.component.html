@@ -163,7 +163,11 @@
 							<td>{{data.central_wallet_owner}}</td>
 							<td>{{data.central_wallet_address}}</td>
 							<td class="{{data.central_wallet_default == 1 ? 'text-success' : 'text-danger'}}">{{data.central_wallet_default == 1 ? 'Yes' : 'No'}}</td>
-							<td>{{data.date_added | date:'MM/dd/yyyy hh:mm a'}}</td>
+							<!-- <td>{{data.date_added | date:'MM/dd/yyyy hh:mm a'}}</td> -->
+							<td>
+								{{ rest.formatDate(data.date_added) }}
+								{{ rest.formatTime(data.date_added) }}
+							</td>
 							<td>
 								<button class="btn btn-sm btn-block button-lokal-x" (click)="showViewDetails(data.central_wallet_id)"><i class="fas fa-info-circle mr-1"></i>View Details</button>
 							</td>

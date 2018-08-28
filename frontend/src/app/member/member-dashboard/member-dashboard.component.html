@@ -216,8 +216,14 @@
 									Canceled
 								</span>
 							</td>
-							<td>{{data.log_time | date: 'MM/dd/yyyy'}}</td>
-							<td>{{data.log_time | date: 'hh:mm a'}}</td>
+							<td>
+								<!-- {{data.log_time | date: 'MM/dd/yyyy'}} -->
+								{{ rest.formatDate(data.log_time) }}
+							</td>
+							<td>
+								<!-- {{data.log_time | date: 'hh:mm a'}} -->
+								{{ rest.formatTime(data.log_time) }}
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -472,8 +478,10 @@
 		</div>
 		<div class="p-3 row">
 			<div class="col-lg-12 col-xs-12">
-				<div class="col-lg-12 col-xs-6"><small>Start Date: {{start_date | date:'MM/dd/yyyy'}}</small></div>
-				<div class="col-lg-12 col-xs-6"><small>End Date: {{end_date | date:'MM/dd/yyyy'}}</small></div>
+					<!-- {{start_date | date:'MM/dd/yyyy'}} -->
+					<!-- {{end_date | date:'MM/dd/yyyy'}} -->
+				<div class="col-lg-12 col-xs-6"><small>Start Date: {{ rest.formatDate(start_date) }}</small></div>
+				<div class="col-lg-12 col-xs-6"><small>End Date: {{ rest.formatDate(end_date) }}</small></div>
 			</div>
 		</div>
 	</div>

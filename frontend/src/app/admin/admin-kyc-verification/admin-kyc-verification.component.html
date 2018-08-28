@@ -173,7 +173,11 @@
 
 					<h4 *ngIf="data_focus.user_info[0].kyc_type !='selfie'" class="mb-0 font-weight-light mt-2">{{ data_focus.user_info[0].kyc_id_expiration }}</h4>
 					<small *ngIf="data_focus.user_info[0].kyc_type !='selfie'" class="font-weight-bold mb-5">Expiration Date </small>  
-					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.user_info[0].kyc_upload_date | date:'MM/dd/yyyy hh:mm:ss a' }}</h4>
+					<h4 class="mb-0 font-weight-light mt-2">
+						<!-- {{ data_focus.user_info[0].kyc_upload_date | date:'MM/dd/yyyy hh:mm:ss a' }} -->
+						{{ rest.formatDate(data_focus.user_info[0].kyc_upload_date) }}
+						{{ rest.formatTime(data_focus.user_info[0].kyc_upload_date) }}
+					</h4>
 					<small class="font-weight-bold mb-5">Date Requested</small>
 				</div>
 				<div class="col-lg-6 col-xs-12">

@@ -122,7 +122,8 @@
 				<td>{{ data.bonus_to.log_amount }}</td>
 				<td>{{ data.bonus_to.log_message }}</td>
 				<td>
-					{{ data.referral_bonus_log_date | date:'MM/dd/yyyy'}}
+					{{ rest.formatDate(data.referral_bonus_log_date) }} 
+					<!-- {{ data.referral_bonus_log_date | date:'MM/dd/yyyy'}} -->
 				</td>
 			</tr>
 		</tbody>

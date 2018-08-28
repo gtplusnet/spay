@@ -87,7 +87,10 @@
 									<td>{{data.first_name}} {{data.last_name}}</td>
 									<td>{{data.username}}</td>
 									<td>{{data.email}}</td>
-									<td>{{data.created_at | date:'MM/dd/yyyy hh:mm:ss a'}}</td>
+									<td>
+										<!-- {{data.created_at | date:'MM/dd/yyyy hh:mm:ss a'}} -->
+										{{ rest.formatDate(data.created_at) }} {{ rest.formatTime(data.created_at) }}
+									</td>
 								</tr>
 							</tbody>
 						</table>
@@ -141,7 +144,10 @@
 											Canceled
 										</span>
 									</td>
-									<td>{{data.log_time | date:'MM/dd/yyyy hh:mm:ss a'}}</td>
+									<td>
+											{{ rest.formatDate(data.log_time) }} {{ rest.formatTime(data.log_time) }}
+									</td>
+									<!-- <td>{{data.log_time | date:'MM/dd/yyyy hh:mm:ss a'}}</td> -->
 								</tr>
 							</tbody>
 						</table>
@@ -195,7 +201,10 @@
 											Canceled
 										</span>
 									</td>
-									<td>{{data.log_time | date:'MM/dd/yyyy hh:mm:ss a'}}</td>
+									<td>
+										{{ rest.formatDate(data.log_time) }} {{ rest.formatTime(data.log_time) }}
+									</td>
+									<!-- <td>{{data.log_time | date:'MM/dd/yyyy hh:mm:ss a'}}</td> -->
 								</tr>
 							</tbody>
 						</table>

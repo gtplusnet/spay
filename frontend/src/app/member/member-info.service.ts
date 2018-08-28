@@ -278,4 +278,30 @@ export class MemberInfoService
 		app._files 					= response;
 	}
 
+	formatDate(date)
+	{
+		var t = date.split(/[- :]/);
+		var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
+		var new_date = new Date(d);
+		var month = new_date.getMonth() + 1;
+		var year = new_date.getFullYear();
+		var day = new_date.getDate();
+		return month + "/" + day + "/" + year;
+	}
+
+	formatTime(time)
+	{
+		var t = time.split(/[- :]/);
+		var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
+		var new_date = new Date(d);
+		var hour = new_date.getHours() + 1;
+		var minute = new_date.getMinutes();
+		var seconds = new_date.getSeconds();
+		var ampm = hour >= 12 ? 'PM' : 'AM';
+		hour = hour % 12;
+		hour = hour ? hour : 12; // the hour '0' should be '12'
+		var minutes = minute < 10 ? '0'+minute : minute;
+
+		return hour + ":" + minutes + " " + ampm;
+	}
 }
