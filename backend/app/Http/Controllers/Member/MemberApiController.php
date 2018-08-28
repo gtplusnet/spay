@@ -534,7 +534,6 @@ class MemberApiController extends Controller
     {
         // dd(request()->all());
         $data = Tbl_member_log::where("member_log_id", $request->member_log_id)->where("log_method", $request->log_method)->update(["log_status" => "canceled"]);
-
     }
     function get_kyc_status(Request $request)
     {

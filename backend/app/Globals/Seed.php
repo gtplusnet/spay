@@ -163,7 +163,7 @@ class Seed
 		$google2fa = new Google2FA();
         $secret_key = $google2fa->generateSecretKey();
 		
-		$info_insert["referrer_id"] = 1;
+		$info_insert["referrer_id"] = null;
 		$info_insert["member_position_id"]    = 1;
 		$info_insert["registration_stage_id"] = 1;
 		$info_insert["user_id"] = $member_id;
