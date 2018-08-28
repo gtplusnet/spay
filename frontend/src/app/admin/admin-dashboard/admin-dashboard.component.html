@@ -128,7 +128,7 @@
 								</tr>
 								<tr *ngFor="let data of recent_btc_transaction | paginate: { itemsPerPage:15, currentPage: recent_btc, id: 'recent_btc' }">
 									<td>{{data.first_name}} {{data.last_name}}</td>
-									<td>{{data.amount_requested + " LOK"}}</td>
+									<td>{{data.amount_requested + " XS"}}</td>
 									<td>{{data.expected_payment | number : '1.2-2'}}</td>
 									<td>
 										<span class="badge badge-secondary px-2" *ngIf="data.log_status == 'pending'">
@@ -182,7 +182,7 @@
 								</tr>
 								<tr *ngFor="let data of recent_eth_transaction | paginate: { itemsPerPage:15, currentPage: recent_eth, id: 'recent_eth' }">
 									<td>{{data.first_name}} {{data.last_name}}</td>
-									<td>{{data.amount_requested + " LOK"}}</td>
+									<td>{{data.amount_requested + " XS"}}</td>
 									<td>{{data.expected_payment | number : '1.2-2'}}</td>
 									<td>
 										<span class="badge badge-secondary px-2" *ngIf="data.log_status == 'pending'">
