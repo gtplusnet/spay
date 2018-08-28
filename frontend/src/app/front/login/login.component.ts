@@ -49,8 +49,24 @@ export class LoginComponent implements OnInit {
     this.login_url = this.memberInfoService.api_url + "/api/new_login";
     this.configUrl = this.memberInfoService.api_url + "/api/login";
     this.submitted = false;
+    $("#reset_captcha").trigger('click');
   }
 
+  // submitCaptcha(captchaResponse: string): void {
+  //   this.http.post(this.captcha, {captcha: captchaResponse,});
+  // }
+
+  public captchaResponse: string = '';
+  public submitCaptcha(captchaResponse: string, selector = null) {
+    const newResponse = captchaResponse
+      ? `${captchaResponse.substr(0, 7)}...${captchaResponse.substr(-7)}`
+      : captchaResponse;
+    this.captchaResponse += `${JSON.stringify(newResponse)}\n`;
+    if(this.captchaResponse)
+    {
+      this.onSubmit(selector);
+    }
+  }
 
   onSubmit(selector) : void
   {
@@ -83,7 +99,8 @@ export class LoginComponent implements OnInit {
   			else
   			{
   				this.error_message 	= data['message'];
-  				this.submitted 		= false;
+          this.submitted 		= false;
+          $("#reset_captcha").trigger('click');
   			}
   		},
   		error =>

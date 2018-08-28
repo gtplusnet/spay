@@ -133,7 +133,7 @@ class ApiController extends Controller
          
         $rules["username"]                  = array("required");
         $rules["password"]                  = array("required", "min:6");
-        $rules["captcha"]                   = array("required");
+        // $rules["captcha"]                   = array("required");
         $validator                          = Validator::make($request->all(), $rules);
 
         /* VALIDATE LOGIN */
@@ -594,7 +594,7 @@ class ApiController extends Controller
         if($request->platform == "system")
         {
             $rules["email"]                   = array("required", "email", "unique:users");
-            $rules["captcha"]                 = array("required");
+            // $rules["captcha"]                 = array("required");
         }
 
 
@@ -675,7 +675,7 @@ class ApiController extends Controller
             
             $member_position_log_insert["member_position_id"] = $request->career_id;
             $member_position_log_insert["member_id"] = $member_id;
-            $member_position_log_insert["created_at"] = Carbon::now();
+            $member_position_log_insert["updated_at"] = Carbon::now();
             $member_position_log = Tbl_member_position_log::insert($member_position_log_insert);
 
             $return["message"]  = "no-message";

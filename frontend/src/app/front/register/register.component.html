@@ -49,13 +49,12 @@
 					<input class="" type="email" name="email_address" id="email_address" [(ngModel)]="system_register.email" (keyup)="validate()" placeholder="Email Address">
 					<input class="mb-2" type="text" name="referral_link" id="referral_link" [(ngModel)]="referral_link" (keyup)="validate()" placeholder="Referral Code (Optional)">
 					<div class="recaptcha">
-						<re-captcha (resolved)="resolved($event)" siteKey="6Leas2sUAAAAAOCewGhpmMFP1yRb7vJ_bSNlh0oN"></re-captcha>
+						<!-- <re-captcha (resolved)="resolved($event)" siteKey="6Leas2sUAAAAAOCewGhpmMFP1yRb7vJ_bSNlh0oN"></re-captcha> -->
+						<re-captcha #captchaRef="reCaptcha" siteKey="6LfxQWwUAAAAAK_TrtwMkx34BihD7aA2W1xpX-e7" size="invisible" (resolved)="$event && submitCaptcha($event)"></re-captcha>
+						<input type="hidden" id="reset_captcha" (click)="captchaRef.reset()">
 					</div>
-
-
-
-					<button class=" mt-2 spay-login-button" (click)="newRegister()" disabled="{{!register_approve ? 'disabled' : ''}}">Sign Up</button>
-					<button class=" my-2 spay-register-button" [routerLink]="['/login']" disabled="{{ registering ? 'disabled' : '' }}">Login</button>
+					<button class=" mt-2 spay-login-button {{ registering ? 'disabled-btn' : '' }}" (click)="captchaRef.execute()" disabled="{{ registering ? 'disabled' : '' }}">Sign Up</button>
+					<button class=" my-2 spay-register-button {{ registering ? 'disabled-btn' : '' }}" [routerLink]="['/login']" disabled="{{ registering ? 'disabled' : '' }}">Login</button>
 					<div class="or"> OR </div>
 					<button class="btn-lokal-sm facebook-btn my-2" (click)="socialSignIn('facebook')" disabled="{{ registering ? 'disabled' : '' }}"><i class="fab fa-facebook mr-1"></i>Sign Up with Facebook</button>
 					<button class="btn-lokal-sm google-btn mb-2" (click)="socialSignIn('google')" disabled="{{ registering ? 'disabled' : '' }}"><i class="fab fa-google mr-1"></i>Sign Up with Google</button>

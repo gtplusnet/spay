@@ -305,7 +305,7 @@ class Blockchain
                     }
                     else
                     {
-                        $update_bonus_percentage['sale_stage_bonus'] = 0;
+                        $update_bonus_percentage['sale_stage_bonus'] = $ss_bonus->buy_coin_bonus_percentage;
                     }
 
                     Tbl_automatic_cash_in::where("member_log_id", $transaction['member_log_id'])->update($update_bonus_percentage);
@@ -425,7 +425,7 @@ class Blockchain
                     }
                     else
                     {
-                        $update_bonus_percentage['sale_stage_bonus'] = 0;
+                        $update_bonus_percentage['sale_stage_bonus'] = $ss_bonus->buy_coin_bonus_percentage;
                     }
 
                     Tbl_automatic_cash_in::where("member_log_id", $transaction['member_log_id'])->update($update_bonus_percentage);

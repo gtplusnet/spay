@@ -92,12 +92,28 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  public captchaResponse: string = '';
+  public submitCaptcha(captchaResponse: string) {
+    const newResponse = captchaResponse
+      ? `${captchaResponse.substr(0, 7)}...${captchaResponse.substr(-7)}`
+      : captchaResponse;
+    this.captchaResponse += `${JSON.stringify(newResponse)}\n`;
+    if(this.captchaResponse)
+    {
+      this.newRegister();
+    }
+    else
+    {
+    }
+  }
+
   ngOnInit() {
     this.login_url = this.rest.api_url + "/api/new_login";
     this.register_url = this.rest.api_url + "/api/new_register";
     this.country_loading = false;
     this.country_code = 0;
     this.entity = 0;
+    $("#reset_captcha").trigger('click');
   	// this.http.get(this.rest.api_url + "/api/get_country_codes").subscribe(response=>
   	// {
    //    this.country_codes = response;
@@ -222,6 +238,7 @@ export class RegisterComponent implements OnInit {
         {
           this.error_message   = data['message'];
           this.submitted     = false;
+          $("#reset_captcha").trigger('click');
         }
 
       },
