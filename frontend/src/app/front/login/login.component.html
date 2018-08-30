@@ -28,7 +28,7 @@
 						<input class="mb-2" name="password" [(ngModel)]="password" type="password" placeholder="Password" required="">
 						<div class="recaptcha">
 							<!-- <re-captcha (resolved)="resolved($event)" siteKey="6Leas2sUAAAAAOCewGhpmMFP1yRb7vJ_bSNlh0oN"></re-captcha> -->
-							<re-captcha #captchaRef="reCaptcha" siteKey="6LfxQWwUAAAAAK_TrtwMkx34BihD7aA2W1xpX-e7" size="invisible" (resolved)="$event && submitCaptcha($event, google_authenticator)"></re-captcha>
+							<re-captcha #captchaRef="reCaptcha" siteKey="6Lc4Z20UAAAAAKmDA1WvXmezAEfspgRa7md3goLa" size="invisible" (resolved)="$event && submitCaptcha($event, google_authenticator)"></re-captcha>
 							<input type="hidden" id="reset_captcha" (click)="captchaRef.reset()">
 						</div>
 						<button class=" mt-2 spay-login-button" type="submit" disabled="{{submitted ? 'disabled' : ''}}">Login</button>
