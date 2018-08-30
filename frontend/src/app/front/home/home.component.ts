@@ -52,41 +52,23 @@ export class HomeComponent implements OnInit {
     icoNewsSwiper(): void
     {
       var swiper = new Swiper('.swiper-ico-news',
+       {
+           slidesPerView: 3,
+           direction: 'horizontal',
+           autoplay:
            {
-               slidesPerView: 4,
-               autoplay:
-               {
-                   delay: 2500,
-                   disableOnInteraction: false
-               },
-               spaceBetween: 16,
+               delay: 2500,
+               disableOnInteraction: false
+           },
+           spaceBetween: 16,
 
-               breakpoints: {
-                   1024: {
-                       slidesPerView: 4,
-                       spaceBetween: 40
-                   },
-                   768: {
-                       slidesPerView: 3,
-                       spaceBetween: 30
-                   },
-                   640: {
-                       slidesPerView: 2,
-                       spaceBetween: 20
-                   },
-                   320: {
-                       slidesPerView: 1,
-                       spaceBetween: 10
-                   }
-               },
+          // Navigation arrows
+          navigation: {
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev',
+          },
 
-              // Navigation arrows
-              navigation: {
-                  nextEl: '.swiper-button-next',
-                  prevEl: '.swiper-button-prev',
-              },
-
-          });
+      });
     }
 
 }
