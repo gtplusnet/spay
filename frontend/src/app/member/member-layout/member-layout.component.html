@@ -10,7 +10,7 @@
         </a>
 
         <a class="navbar-brand" href="/member">
-            <img src="/assets/ahm_assets/img/logo-home.png" alt="logo">
+            <img src="/assets/ahm_assets/img/logo-home.png" width="156" height="30" alt="logo">
         </a>
 
         <a href="javascript:" class="btn btn-link sidebar-toggle d-md-down-none">
@@ -247,10 +247,10 @@
                             <button class="btn btn-block btn-lg button-lokal" disabled="{{updating ? 'disabled' : ''}}" (click)="update_information()">
                                 <i class="fas fa-edit"></i> Save Information
                             </button>
-                        </div>
-                    </div> -->
+                        </div> -->
+                    </div>
                 </div>
-                <span *ngIf="!rest.first_time_login">
+                <span >
                     <div *ngIf="rest.verified_mail == '0'" class="alert alert-warning alert-dismissible fade show p-2" role="alert" style="width: 100%; border-radius: 0px !important; color: #85641d;">
                         <i class="fas fa-exclamation-triangle mr-2"></i>
                       <small>To purchase your first token, please verify your email address. <a href="javascript:void(0)" [routerLink]="['/member/profile/limits-and-verification']" class="" style="color: #85641d !important; text-decoration: underline;"><strong>Verify Email</strong></a> 
