@@ -37,12 +37,13 @@ export class MainFuncComponent implements OnInit {
             app.rest.serverGetLiveExchangeRate().subscribe(response=>
             {
               app.rest.syncFromServerGetLiveExchangeRate(response);
-              app.rest.serverGetFiles().subscribe(response=>
-              {
-                app.rest.syncFromServerGetFiles(response);
-                app.initializing = false;
-                app.rest.loading = true;
-              });
+              app.initializing = false;
+              app.rest.loading = true;
+              // app.rest.serverGetFiles().subscribe(response=>
+              // {
+              //   app.rest.syncFromServerGetFiles(response);
+                
+              // });
             });
           });
           
@@ -64,13 +65,13 @@ export class MainFuncComponent implements OnInit {
             app.rest.serverGetLiveExchangeRate().subscribe(response=>
             {
               app.rest.syncFromServerGetLiveExchangeRate(response);
-              
-              app.rest.serverGetFiles().subscribe(response=>
-              {
-                app.rest.syncFromServerGetFiles(response);
-                app.initializing = false;
-                app.rest.loading = true;
-              });
+              app.initializing = false;
+              app.rest.loading = true;
+              // app.rest.serverGetFiles().subscribe(response=>
+              // {
+              //   app.rest.syncFromServerGetFiles(response);
+                
+              // });
 
             });
           });

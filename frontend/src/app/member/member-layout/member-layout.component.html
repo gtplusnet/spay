@@ -43,7 +43,7 @@
                         Notifications
                     </li>
                     <li class="dropdown-divider border-lokal-nav"></li>
-                    <li class="dropdown-item py-1">
+                   <!--  <li class="dropdown-item py-1">
                         <a href="javascript:void(0)" [routerLink]="['/member/profile/my-referral']" (click)="resetNotifications('new_referrals')" class="nav-items-lokal">
                             <div class="nav-alignment-x"><i class="fas fa-sitemap"></i></div> <small>New Referrals <small class="notif-counter-{{notif.new_referrals == 0 ? 'inactive' : 'active' }}">{{notif.new_referrals}}</small></small>
                         </a>
@@ -54,7 +54,7 @@
                             <div class="nav-alignment-x"><i class="fas fa-hand-holding-usd"></i></div> <small>New Referral Bonus <small class="notif-counter-{{notif.new_referral_bonus == 0 ? 'inactive' : 'active' }}">{{notif.new_referral_bonus}}</small></small>
                            
                         </a>
-                    </li>
+                    </li> -->
 
                     <li class="dropdown-item py-1">
                         <a href="javascript:void(0)" [routerLink]="['/member/btc-transactions']" (click)="resetNotifications('new_btc_approve')" class="nav-items-lokal d-flex justify-content-center align-items-center">
@@ -81,11 +81,11 @@
                             <div class="nav-alignment-x"><i class="fas fa-user"></i></div> <small>My Account</small>
                         </a>
                     </li>
-                    <li class="dropdown-item py-1">
+                    <!-- <li class="dropdown-item py-1">
                         <a href="javascript:void(0)" [routerLink]="['/member/profile/my-referral']" class="nav-items-lokal">
                             <div class="nav-alignment-x"><i class="far fa-handshake"></i> </div> <small>My Referrals</small>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="dropdown-item py-1">
                         <a href="javascript:void(0)" (click)="actionLogout()" class="nav-items-lokal">
                             <div class="nav-alignment-x"><i class="fas fa-sign-out-alt"></i> </div> <small>Logout</small>
@@ -204,7 +204,7 @@
                             </small>
                             <input type="date" placeholder="Birth Date" [(ngModel)]="update_info.birth_date" class="form-control form-control-sm input-lokal">
                         </div>
-                        <div class="col-xs-12 col-lg-4 p-3">
+                      <!--   <div class="col-xs-12 col-lg-4 p-3">
                             <small class="d-block font-weight-bold">
                                 Entity
                             </small>
@@ -248,7 +248,7 @@
                                 <i class="fas fa-edit"></i> Save Information
                             </button>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <span *ngIf="!rest.first_time_login">
                     <div *ngIf="rest.verified_mail == '0'" class="alert alert-warning alert-dismissible fade show p-2" role="alert" style="width: 100%; border-radius: 0px !important; color: #85641d;">

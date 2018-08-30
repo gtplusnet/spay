@@ -1246,7 +1246,6 @@ class ApiController extends Controller
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-        
         $data = Tbl_files::where("file_id", "!=", 0)->get();
         $_data = [];
         foreach ($data as $key => $value) {

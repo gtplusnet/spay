@@ -3,7 +3,7 @@
 @section('content')
 <h4 style="margin-bottom: 10px;">Hi {{$member["first_name"]}} {{$member["last_name"]}},</h4>
 <p style="text-indent: 50px;">
-	Your token order #{{$record["automatic_cash_in_id"]}} has been accepted. You have received a total of <strong>{{$amount}} XS Tokens</strong>. Thank you!
+	Your token order #{{$record["automatic_cash_in_id"]}} has been accepted. You have received a total of <strong>{{$amount}} AHM Tokens</strong>. Thank you!
 </p>
 <small><em>
 	To check your transactions details. Go to www.successmall.io, <strong>Login</strong> your account and in member dashboard click <strong>BTC or ETH Transactions</strong>.
