@@ -1,4 +1,4 @@
-@import "../../../assets/spay_assets/scss/custom";
+@import "../../../assets/ahm_assets/scss/custom";
 
 *
 {
@@ -7,7 +7,7 @@
 
 .show 
 {
-	background-color: rgba(170,120,9, 0.8) !important;
+	background-color: rgba(5, 26, 45, 0.8) !important;
 }
 .mob-show
 {
@@ -76,74 +76,57 @@ header
 
 footer 
 {
-	background-color: #8e660c;
+	background-color: $secondary-color-dark;
 	color: $dark-white;
-	font-size: 0.75rem;
-
-	.top-inner	
+	padding: 50px 0px;
+	.navigation-footer
 	{
-		padding: 40px 0;
-
-		.f-title 
+		span
 		{
-			font-size: 0.875rem;
+			margin-right: 20px;
+			font-size: 13px;
 		}
-		.inner-left
+		a
 		{
-			padding: 15px 0;
-
-			.inner-left-child 
-			{
-				padding: 7px 0;
-
-				span 
-				{
-					padding-left: 10px;
-				}
-			}
+			text-decoration: none;
+			color: $dark-white;
 		}
-		.flex-container	
-		{
-			border-left: 1px solid rgba(255,255,255, 0.1);
-			border-right: 1px solid rgba(255,255,255, 0.1);
-			height: 100%;
-			@include flex();
-
-			.flex-child 
-			{
-				.footer-tag 
-				{
-					color: white;
-					font-size: 1rem;
-				}
-			}
-		}
-		.inner-right 
-		{
-			padding: 40px 0 0 60px;
-
-			.inner-right-child 
-			{
-				padding: 7px 0;
-				a 
-				{
-					color: $dark-white;
-					font-size: 0.875rem;
-					text-decoration: none;
-
-					&:hover 
-					{
-						color: white;
-					}
-				}
-			}
-		}
-
 	}
-	.bottom-inner
+	.cntct-info
 	{
-		border-top: 1px solid rgba(255,255,255, 0.1);
-		padding: 20px 0 20px 0;
+		padding-top: 20px;
+		.top-container
+		{
+			span
+			{
+				font-size: 13px;
+				color: $dark-white;
+				margin-right: 30px;
+			}
+			.icon
+			{
+				margin-right: 15px !important;
+				color: #fff !important;
+			}
+		}
+		.bottom-container
+		{
+			padding-top: 20px;
+			@extend .top-container;
+		}
+	}
+	.right-container
+	{
+		text-align: right;
+		img
+		{
+			margin-bottom: 10px;
+		}
+		.desc
+		{
+			margin: 10px 0px 0px;
+			font-size: 13px;
+		}
 	}
 }
 
