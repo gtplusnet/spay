@@ -274,11 +274,11 @@ class Wallet
 			}
 		}
 	}
-	public static function generateWalletSuccessmall($member_id, $coin)
+	public static function generateWalletAhm($member_id, $coin)
 	{
 		$passkey 									= Self::randomPassword();
 		$insert_address["member_id"] 				= $member_id;
-		$insert_address["member_address"] 			= Self::generateFakeWallet("xs-" . time(), 33);
+		$insert_address["member_address"] 			= Self::generateFakeWallet("ahm-" . time(), 33);
 		$insert_address["coin_id"] 					= $coin->coin_id;
 		$insert_address["address_balance"] 			= 0;
 		$insert_address["address_actual_balance"] 	= 0;

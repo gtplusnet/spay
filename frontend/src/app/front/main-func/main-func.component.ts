@@ -20,7 +20,8 @@ export class MainFuncComponent implements OnInit {
 
   ngOnInit() {
   	var app = this;
-    app.initializing = true;
+    app.initializing = false;
+    app.rest.loading = true;
   	if(app.globalConfigService.isLoggedIn())
     {
 
@@ -30,7 +31,6 @@ export class MainFuncComponent implements OnInit {
         app.rest.serverGetOtherInfo().subscribe(response =>
         {
           app.rest.syncFromServerResponseOther(response);
-
           app.rest.serverGetSaleStage().subscribe(response =>
           {
             app.rest.syncFromServerGetSaleStage(response);
@@ -67,11 +67,6 @@ export class MainFuncComponent implements OnInit {
               app.rest.syncFromServerGetLiveExchangeRate(response);
               app.initializing = false;
               app.rest.loading = true;
-              // app.rest.serverGetFiles().subscribe(response=>
-              // {
-              //   app.rest.syncFromServerGetFiles(response);
-                
-              // });
 
             });
           });

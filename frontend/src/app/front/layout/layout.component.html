@@ -1,56 +1,63 @@
 
 <header>
+
 	<nav class="navbar bg-transparent fixed-top navbar-expand-lg navbar-dark bg-light">
-		<a class="navbar-brand" href="/">
-			<img src="../../../assets/spay_assets/img/logo.png" alt="">
-		</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarText">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item">
-					<a class="nav-link nav-link-text navigation__link" href="#splash">Home <span class="sr-only">(current)</span></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link nav-link-text navigation__link" href="#benefits">Why Choose Us</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link nav-link-text navigation__link" href="#about">About Us</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link nav-link-text navigation__link" href="#how_it_works">How It Works</a>
-				</li>
-				<li class="nav-item mob-show">
-					<a class="nav-link" [routerLink]="['/login']" href="javascript:void(0)" *ngIf="!globalConfigService.isLoggedIn()">Login</a>
-					<a class="nav-link" [routerLink]="['/member']" href="javascript:void(0)" *ngIf="globalConfigService.isLoggedIn()">{{ rest.first_name }} {{ rest.last_name }}</a>
-				</li>
-				<li class="nav-item mob-show">
-					<a class="nav-link" [routerLink]="['/register']" href="javascript:void(0)" *ngIf="!globalConfigService.isLoggedIn()">Register</a>
-					<a class="nav-link" (click)="actionLogout()" href="javascript:void(0)" *ngIf="globalConfigService.isLoggedIn()">Logout</a>
-				</li>
-			</ul>
-			<span class="navbar-text mob-hide" *ngIf="!globalConfigService.isLoggedIn()">
-				<a class="log" [routerLink]="['/login']">Login</a>
-			</span>
-			<span class="navbar-text mob-hide" *ngIf="!globalConfigService.isLoggedIn()">
-				<a class="reg" [routerLink]="['/register']">Register</a>
-			</span>
-			<span class="navbar-text mob-hide" *ngIf="globalConfigService.isLoggedIn()">
-				<a class="log" href="/member">
-					{{ rest.first_name }} {{ rest.last_name }}
-				</a>
-			</span>
-			<span class="navbar-text mob-hide" *ngIf="globalConfigService.isLoggedIn()">
-				<a class="reg" href="javascript:void(0)" (click)="actionLogout()">Logout</a>
-			</span>
-			<div class="nav-btn-container">
-				<a class="btn-primary btn-rounded btn-md btn-desktop" href="javascript:void(0)" role="button" [routerLink]="['/register']" *ngIf="!globalConfigService.isLoggedIn()">
-					Get Your Coin
-				</a>
-				<a class="btn-primary btn-rounded btn-md btn-desktop" href="javascript:void(0)" role="button" [routerLink]="['/member']" *ngIf="globalConfigService.isLoggedIn()">
-					Get Your Coin
-				</a>
+		<div class="container">
+			<a class="navbar-brand" href="/">
+				<img src="../../../assets/ahm_assets/img/logo.png" alt="">
+			</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarText">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link nav-link-text navigation__link" href="#splash">
+						 <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link nav-link-text navigation__link" href="#benefits">about</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link nav-link-text navigation__link" href="#about">ahmGames</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link nav-link-text navigation__link" href="#how_it_works">coinCap</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link nav-link-text navigation__link" href="#how_it_works">icoNews</a>
+					</li>
+					<li class="nav-item mob-show">
+						<a class="nav-link" [routerLink]="['/login']" href="javascript:void(0)" *ngIf="!globalConfigService.isLoggedIn()">Login</a>
+						<a class="nav-link" [routerLink]="['/member']" href="javascript:void(0)" *ngIf="globalConfigService.isLoggedIn()">{{ rest.first_name }} {{ rest.last_name }}</a>
+					</li>
+					<li class="nav-item mob-show">
+						<a class="nav-link" [routerLink]="['/register']" href="javascript:void(0)" *ngIf="!globalConfigService.isLoggedIn()">Register</a>
+						<a class="nav-link" (click)="actionLogout()" href="javascript:void(0)" *ngIf="globalConfigService.isLoggedIn()">Logout</a>
+					</li>
+				</ul>
+				<span class="navbar-text mob-hide" *ngIf="!globalConfigService.isLoggedIn()">
+					<a class="reg" [routerLink]="['/register']">Create an Account</a>
+				</span>
+				<span class="navbar-text mob-hide" *ngIf="!globalConfigService.isLoggedIn()">
+					<a class="log font-weight-bold" [routerLink]="['/login']">Sign In</a>
+				</span>
+				<span class="navbar-text mob-hide" *ngIf="globalConfigService.isLoggedIn()">
+					<a class="log" href="/member">
+						{{ rest.first_name }} {{ rest.last_name }}
+					</a>
+				</span>
+				<span class="navbar-text mob-hide" *ngIf="globalConfigService.isLoggedIn()">
+					<a class="reg" href="javascript:void(0)" (click)="actionLogout()">Logout</a>
+				</span>
+				<div class="nav-btn-container">
+					<a class="btn-primary btn-rounded btn-md btn-desktop" href="javascript:void(0)" role="button" [routerLink]="['/register']" *ngIf="!globalConfigService.isLoggedIn()">
+						Get Token Now!
+					</a>
+					<a class="btn-primary btn-rounded btn-md btn-desktop" href="javascript:void(0)" role="button" [routerLink]="['/member']" *ngIf="globalConfigService.isLoggedIn()">
+						Get Token Now!
+					</a>
+				</div>
 			</div>
 		</div>
 	</nav>
@@ -60,50 +67,42 @@
 
 <footer>
 	<div class="container">
-		<div class="top-inner">
-			<div class="f-title">Get Whitelisted Now!</div>
-			<div class="row clearfix">
-				<div class="col-md-4">
-					<div class="inner-left">
-						<div class="inner-left-child">
-							<img src="../../../assets/spay_assets/img/footer_email.png" alt="">
-							<span>info@successpay.io</span>
-						</div>
-						<div class="inner-left-child">
-							<a href="#"><img src="../../../assets/spay_assets/img/footer_telegram.png" alt=""></a>
-							<span>Join our Telegram Community </span>
-						</div>
-						<div class="inner-left-child">
-							<a href="#"><img src="../../../assets/spay_assets/img/footer_fb.png" alt=""></a>
-							<span>Like us on facebook</span>
-						</div>
-					</div>
+		<div class="row clearfix">
+			<div class="col-md-6">
+				<div class="navigation-footer">
+					<span>
+						<a href="#">HOME</a>
+					</span>
+					<span>
+						<a href="#">ABOUT</a>
+					</span>
+					<span>
+						<a href="#">AHM-GAMES</a>
+					</span>
+					<span>
+						<a href="#">COIN MARKET CAP</a>
+					</span>
+					<span>
+						<a href="#">ICO NEWS</a>
+					</span>
 				</div>
-				<div class="col-md-4 ftr-brand">
-					<div class="flex-container">
-						<div class="flex-child">
-							<img src="../../../assets/spay_assets/img/logo.png" alt="">
-							<div class="footer-tag t-center">Giving Cryptocurrencies Life</div>
-						</div>
+				<div class="cntct-info">
+					<div class="top-container">
+						<span><i class="fas fa-envelope icon"></i>your.company@email.com</span>
+						<span><i class="fas fa-phone icon"></i>521 - 000 - 0000</span>
 					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="inner-right">
-						<div class="inner-right-child">
-							<a href="#">Privacy Policy</a>
-						</div>
-						<div class="inner-right-child">
-							<a href="#">Terms and Conditions</a>
-						</div>
+					<div class="bottom-container">
+						<span><i class="fas fa-map-marker-alt icon"></i>512 Lorem ipsum, dolor sit amet Lorem Ipsum City, California</span>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="bottom-inner">
-			<span>Copyright © 2018 All Rights Reserved.</span>
-			<span class="float-right">Powered By: Digima Web Solutions</span>
-			<div class="bottom-ftr-mob d-none">Copyright © 2018 All Rights Reserved.</div>
-			<div class="bottom-ftr-mob d-none">Powered By: Digima Web Solutions</div>
+			<div class="col-md-6">
+				<div class="right-container">
+					<img src="../../../assets/ahm_assets/img/logo-footer.png" alt="">
+					<div class="desc">© 2018 ahmtoken All Rights Reserved. </div>	
+					<div class="desc">divowered By: Digima Web Solutions</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </footer>

@@ -225,7 +225,7 @@ class Blockchain
         return $balance;
     }
 
-    public static function checkBalanceBTC($member_id, $sale_stage_id, $token_name = 'Successmall')
+    public static function checkBalanceBTC($member_id, $sale_stage_id, $token_name = 'ahm')
     {
         // wallet information
         $btc_wallet_info        = Tbl_member_address::JoinCoin($member_id, 'bitcoin')->first();
@@ -346,7 +346,7 @@ class Blockchain
         Wallet::recomputeWallet($token_ma_id);
     }
 
-    public static function checkBalanceETH($member_id, $sale_stage_id, $token_name = 'Successmall')
+    public static function checkBalanceETH($member_id, $sale_stage_id, $token_name = 'ahm')
     {
         // wallet information
         $eth_wallet_info        = Tbl_member_address::JoinCoin($member_id, 'ethereum')->first();
