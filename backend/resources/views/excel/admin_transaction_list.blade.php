@@ -18,8 +18,8 @@
                 
                 <td>{{ $transaction->automatic_cash_in_id }}</td>
                 <td>{{ $transaction->first_name }} {{ $transaction->last_name }}</td>
-                <td>{{ $transaction->amount_requested . ' XS'}}</td>
-                <td>{{ $transaction->log_status != "accepted" ? 'No data' : $transaction->log_amount . ' XS'}} </td>
+                <td>{{ $transaction->amount_requested . ' AHM'}}</td>
+                <td>{{ $transaction->log_status != "accepted" ? 'No data' : $transaction->log_amount . ' AHM'}} </td>
                 <td>{{ ucfirst($transaction->log_status) }}</td>
                 <td>{{ date("M/d/Y", strtotime($transaction->log_time))}}</td>
                 <td>{{ date("H:i A", strtotime($transaction->log_time))}}</td>

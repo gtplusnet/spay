@@ -49,7 +49,7 @@
 	</div>
 </div>
 <div class="row ml-1 mb-3">
-	<div class="col-lg-3 col-xs-12 px-2">
+	<!-- <div class="col-lg-3 col-xs-12 px-2">
 		<small class="d-block font-weight-bold">
 			Type of Member
 		</small>
@@ -61,7 +61,7 @@
 			<option value=4>Ambassador</option>
 			<option value=5>Advisor</option>
 		</select>
-	</div>
+	</div> -->
 	<div class="col-lg-3 col-xs-12 px-2">
 		<small class="d-block font-weight-bold">
 			Date - <em class="font-weight-light">From</em>
@@ -93,7 +93,7 @@
 			<tr>
 				<th>#</th>
 				<th>Wallet Address</th>
-				<th>Type Of Member</th>
+				<!-- <th>Type Of Member</th> -->
 				<th>Token Value</th>
 				<th>Remark</th>
 				<th>Date</th>
@@ -126,7 +126,7 @@
 				
 				<td>{{data.member_log_id}}</td>
 				<td>{{data.member_address}}</td>
-				<td>{{data.member_position_name}}</td>
+				<!-- <td>{{data.member_position_name}}</td> -->
 				<td>{{data.log_amount | number:'2.2-8'}}</td>
 				<td>{{data.log_message}}</td>
 				<td>
@@ -220,11 +220,11 @@
 							<div class="col-lg-12 col-xs-12 py-2">
 								<div class="alert alert-warning d-flex flex-column">
 								<small class="font-weight-bold">Name: <span class="font-weight-light">{{data.first_name}} {{data.last_name}}</span></small> 
-								<small class="font-weight-bold">Career: <span class="font-weight-light">{{data.member_position.member_position_name}}</span></small> 
+								<!-- <small class="font-weight-bold">Career: <span class="font-weight-light">{{data.member_position.member_position_name}}</span></small>  -->
 								<small class="font-weight-bold">Email Address: <span class="font-weight-light">{{data.email}}</span></small> 
 								<small class="font-weight-bold">Phone Number: <span class="font-weight-light">{{data.phone_number}}</span></small> 
-								<small class="font-weight-bold">SPAY Wallet Address: <span class="font-weight-light">{{data.member_address}}</span></small> 
-								<small class="font-weight-bold">SPAY Balance: <span class="font-weight-light">{{data.address_balance | number:'2.2-8'}}</span></small> 
+								<small class="font-weight-bold">AHM Wallet Address: <span class="font-weight-light">{{data.member_address}}</span></small> 
+								<small class="font-weight-bold">AHM Balance: <span class="font-weight-light">{{data.address_balance | number:'2.2-8'}}</span></small> 
 								</div>
 							</div>
 						</div>
@@ -248,7 +248,7 @@
 						<div class="row my-1" *ngIf="send_message">
 							<div class="col-lg-12 col-xs-12 py-2">
 								<div class="alert alert-success text-center d-flex flex-column">
-								<small> LOKAL Tokens has been successfully sent to <strong>{{data.first_name}} {{data.last_name}}</strong></small> 
+								<small> AHM Tokens has been successfully sent to <strong>{{data.first_name}} {{data.last_name}}</strong></small> 
 								</div>
 							</div>
 						</div>

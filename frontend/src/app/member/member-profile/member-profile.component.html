@@ -13,10 +13,10 @@
 				<p class="text-center">Member Since {{rest.created_at | date:'MMMM dd, yyyy' }}</p>
 				<div class="d-flex flex-column tab">
 					<button class="btn button-lokal-l {{ profile_page == 'basic-information' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/basic-information']"><i class="fas fa-user mr-2"></i>Basic Information</button>
-					<button class="btn button-lokal-l {{ profile_page == 'google-auth' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/google-auth']"><i class="fab fa-google mr-2"></i>Google Authenticator</button>
+					<!-- <button class="btn button-lokal-l {{ profile_page == 'google-auth' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/google-auth']"><i class="fab fa-google mr-2"></i>Google Authenticator</button> -->
 					<button class="btn button-lokal-l {{ profile_page == 'limits-and-verification' ? 'active-lokal' : kyc_page == 'id' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/limits-and-verification']"><i class="far fa-check-square mr-2"></i>Verification</button>
 					<button class="btn button-lokal-l {{ profile_page == 'change-password' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/change-password']"><i class="fas fa-edit mr-2" ></i>Change Password</button>
-					<button class="btn button-lokal-l {{ profile_page == 'my-referral' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/my-referral']"><i class="far fa-handshake mr-2"></i>My Referral</button>
+					<!-- <button class="btn button-lokal-l {{ profile_page == 'my-referral' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/my-referral']"><i class="far fa-handshake mr-2"></i>My Referral</button> -->
 				</div>
 			</div>
 			<div class="col-md-7">
@@ -94,7 +94,7 @@
 									</option>
 								</select>
 
-								<label class="mb-1 mt-3">Entity</label>
+								<!-- <label class="mb-1 mt-3">Entity</label>
 								<select (change)="entityChange()" name="entity" id="entity" [(ngModel)]="entity" class="form-control form-control-sm input-lokal">
 									<option value="Individual">Individual</option>
 									<option value="Corporate/Business">Corporate/Business</option>
@@ -117,11 +117,10 @@
 
 								<label class="mb-1 mt-3">Desired ETH</label>
 								<input type="number" [(ngModel)]="desired_eth" class="form-control input-lokal" placeholder="Desired ETH (Optional)" value="{{rest.desired_eth}}">	
-							</div>
-						</div>
+							</div>-->
+						</div> 
 					</div>
-
-					<div class="google-auth" *ngIf="profile_page == 'google-auth'">
+					<!--<div class="google-auth" *ngIf="profile_page == 'google-auth'">
 						<div class="top-container">
 							<div class="container">
 								<div class="row clearfix">
@@ -139,11 +138,11 @@
 						<div class="bottom-container">
 							<div class="container">
 								<div class="checkbox checbox-switch switch-success p-3">
-									<!-- <label class="mb-1 mt-3" style="padding-left: 25%; padding-right: 10%">Switch ON/OFF
+									<label class="mb-1 mt-3" style="padding-left: 25%; padding-right: 10%">Switch ON/OFF
 										<input [(ngModel)]="auth_switch" name=""/>
 										<button *ngIf="google_enabled_status" class="btn {{google_enabled_status.type == 'enabled' ? 'btn-primary' : 'btn-danger'}}" (click)="enableGoogle2FA()">Google 2FA {{google_enabled_status.type == 'enabled' ? 'Enabled' : 'Disabled'}}</button>
 										<span></span> 
-									</label> -->
+									</label> 
 									<div class="row">
 										<div class="col-md-8 col-xs-8">
 											Google Two-Factor Authentication 
@@ -155,13 +154,12 @@
 											<button *ngIf="google_2fa_qr.user" class="btn {{ google_2fa_qr.user.google2fa_enabled == '1' ? 'btn-success' : 'btn-danger'}} btn-sm" (click)="switchQrCode(google_auth_enable)">
 												{{ google_2fa_qr.user.google2fa_enabled == '1' ? 'Enabled' : 'Disabled'}}
 											</button>
-											<!-- <label *ngIf="google_2fa_qr.user" class="switch">
+											<label *ngIf="google_2fa_qr.user" class="switch">
 
 												<input name ="google2fa_enabled" type="checkbox" *ngIf="!google2fa_enabled" (click)="switchQrCode(google_auth_enable)">
 												<input name ="google2fa_enabled" type="checkbox" checked="checked" *ngIf="google2fa_enabled" (click)="switchQrCode(google_auth_enable)">
 												<span class="slider round"></span>
-											</label> -->
-											<!--  -->
+											</label>
 										</div>
 										<div class="col-md-8 col-xs-8">
 											Show Pairing QR Code
@@ -186,7 +184,7 @@
 								
 							</div>
 						</div>
-					</div>
+					</div>-->
 					<div class="limits-and-verification" *ngIf="profile_page == 'limits-and-verification'">
 						<div class="top-container">
 							<div class="container  color-lokal">
@@ -217,7 +215,68 @@
 										</div>
 									</div>
 								</div>
-								<div>
+							</div>
+						</div>
+					</div>
+					<div class="change-password" *ngIf="profile_page == 'change-password'">
+						<div class="top-container">
+							<div class="container"> 
+								<div class="row clearfix">
+									<div class="col-md-6 color-lokal">
+										<span class="d-inline-block align-middle">
+											<i class="fas fa-edit mr-2" ></i>
+										</span>
+										<span class="d-inline-block align-middle">
+											<h5 class="font-weight-light mb-0">Change Password</h5>
+										</span> 
+									</div>
+									<div class="col-md-6">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="bottom-container">
+							<div class="container clearfix">
+								<div class="row mb-2" *ngIf="error_message != 'no-message'">
+									<div class="col-xs-12 col-lg-12">
+										<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-danger">
+										<span>{{ error_message }}</span>
+									</div>
+								</div>
+							</div>
+							<div class="row mb-2" *ngIf="success_message != 'no-message'">
+								<div class="col-xs-12 col-lg-12">
+									<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-success">
+										<span>{{ success_message }}</span>
+									</div>
+								</div>
+							</div>
+							<label class="mb-1 mt-3">Current Password</label>
+							<input type="password" [(ngModel)]="current_password" class="form-control input-lokal" placeholder="Current Password">
+
+							<label class="mb-1 mt-3">New Password</label>
+							<input type="password" [(ngModel)]="password" class="form-control input-lokal" placeholder="New Password">
+								
+							<label class="mb-1 mt-3">Confirm Password</label>
+							<input type="password" [(ngModel)]="password_confirmation" class="form-control input-lokal" placeholder="Confirm Password">
+								
+							<button class="btn button-lokal mb-2 mt-3 float-right" (click)="updateMemberPassword()" disabled="{{is_update_submit ? 'disabled' : ''}}">
+								<small *ngIf="is_update_submit">
+									<i class="fas fa-spinner button-loader mr-2"></i>Updating..
+								</small>
+								<small *ngIf="!is_update_submit">
+									<i class="fas fa-edit mr-2"></i>Update
+									</small>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+								<!-- <div>
 									<h5 class="text-center">Level 2</h5>
 								</div>
 								<div class="row">
@@ -296,61 +355,9 @@
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="change-password" *ngIf="profile_page == 'change-password'">
-						<div class="top-container">
-							<div class="container"> 
-								<div class="row clearfix">
-									<div class="col-md-6 color-lokal">
-										<span class="d-inline-block align-middle">
-											<i class="fas fa-edit mr-2" ></i>
-										</span>
-										<span class="d-inline-block align-middle">
-											<h5 class="font-weight-light mb-0">Change Password</h5>
-										</span> 
-									</div>
-									<div class="col-md-6">
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="bottom-container">
-							<div class="container clearfix">
-								<div class="row mb-2" *ngIf="error_message != 'no-message'">
-									<div class="col-xs-12 col-lg-12">
-										<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-danger">
-											<span>{{ error_message }}</span>
-										</div>
-									</div>
-								</div>
-								<div class="row mb-2" *ngIf="success_message != 'no-message'">
-									<div class="col-xs-12 col-lg-12">
-										<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-success">
-											<span>{{ success_message }}</span>
-										</div>
-									</div>
-								</div>
-								<label class="mb-1 mt-3">Current Password</label>
-								<input type="password" [(ngModel)]="current_password" class="form-control input-lokal" placeholder="Current Password">
-
-								<label class="mb-1 mt-3">New Password</label>
-								<input type="password" [(ngModel)]="password" class="form-control input-lokal" placeholder="New Password">
-								
-								<label class="mb-1 mt-3">Confirm Password</label>
-								<input type="password" [(ngModel)]="password_confirmation" class="form-control input-lokal" placeholder="Confirm Password">
-								
-								<button class="btn button-lokal mb-2 mt-3 float-right" (click)="updateMemberPassword()" disabled="{{is_update_submit ? 'disabled' : ''}}">
-									<small *ngIf="is_update_submit">
-										<i class="fas fa-spinner button-loader mr-2"></i>Updating..
-									</small>
-									<small *ngIf="!is_update_submit">
-										<i class="fas fa-edit mr-2"></i>Update
-									</small>
-								</button>
-							</div>
-						</div>
-					</div>
-					<div class="my-referral" *ngIf="profile_page == 'my-referral'">
+					</div> -->
+					
+					<!--<div class="my-referral" *ngIf="profile_page == 'my-referral'">
 						<div class="top-container">
 							<div class="container"> 
 								<div class="row">
@@ -436,8 +443,7 @@
 														<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
 															<button class="dropdown-item" (click)="viewReferralInfo(data.id,view_referral_details)">View Details</button>
 														</div>
-													</div> -->
-													<div class="btn-group" dropdown placement="bottom right">
+													</div> 													<div class="btn-group" dropdown placement="bottom right">
 													  <button id="button-alignment" dropdownToggle type="button"
 													          class="btn btn-outline-dark btn-sm dropdown-toggle" aria-controls="dropdown-alignment">
 													    <small>
@@ -463,7 +469,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 <!-- Id Verification -->
 <ng-template #id_verification let-c="close" let-d="dismiss">
 	<div class="id_verification">
