@@ -35,16 +35,16 @@
                             <div class="nav-alignment-x"><i class="fas fa-user"></i></div> <small>New Member Request <small class="notif-counter-{{admin_notif.new_member_request == 0 ? 'inactive' : 'active'}}">{{ admin_notif.new_member_request }}</small></small>
                         </a>
                     </li>
-                    <li class="dropdown-item py-1">
+                    <!-- <li class="dropdown-item py-1">
                         <a href="javascript:void(0)" [routerLink]="['/admin/business-application']" class="nav-items-lokal d-flex justify-content-center align-items-center" (click)="adminViewedNotif('new_business_application')">
                             <div class="nav-alignment-x"><i class="far fa-handshake"></i></div> <small>Business Application <small class="notif-counter-{{admin_notif.new_business_application == 0 ? 'inactive' : 'active'}}">{{ admin_notif.new_business_application }}</small></small>
                         </a>
-                    </li>
-                    <li class="dropdown-item py-1">
+                    </li> -->
+                   <!--  <li class="dropdown-item py-1">
                         <a href="javascript:void(0)" [routerLink]="['/admin/kyc-verification']" class="nav-items-lokal" (click)="adminViewedNotif('new_kyc')">
                             <div class="nav-alignment-x"><i class="fas fa-id-card"></i></div> <small>Verification Request <small class="notif-counter-{{admin_notif.new_kyc == 0 ? 'inactive' : 'active'}}">{{ admin_notif.new_kyc }}</small></small>
                         </a>
-                    </li>
+                    </li> -->
 
                     <li class="dropdown-item nav-label-lokal p-0 m-0 mt-2 text-center">
                         Account
@@ -105,16 +105,16 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
+                   <!--  <li class="nav-item">
                         <a [routerLink]="['/admin/kyc-verification']" class="nav-link py-1 px-4" (click)="adminViewedNotif('new_kyc')">
                             <div class="nav-alignment-x"><i class="far fa-check-square"></i></div><small>Profile/KYC Verification</small>
                         </a>
-                    </li>
-                     <li class="nav-item">
+                    </li> -->
+                    <!--  <li class="nav-item">
                         <a [routerLink]="['/admin/business-application']" class="nav-link py-1 px-4" (click)="adminViewedNotif('new_business_application')">
                             <div class="nav-alignment-x"><i class="fas fa-briefcase"></i></div><small>Business Application</small>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a [routerLink]="['/admin/communication-board']" class="nav-link py-1 px-4">
                             <div class="nav-alignment-x"><i class="far fa-calendar-alt"></i></div><small>Communication Board</small>
@@ -136,11 +136,11 @@
                                    <small class="ml-1" >Sale Stage Bonus</small> 
                                </a>
                            </li>
-                           <li class="nav-item sub-menu">
+                           <!-- <li class="nav-item sub-menu">
                                <a [routerLink]="['/admin/bonus/referral']" class="nav-link py-0">
                                    <small class="ml-1" >Affiliate Bonus</small> 
                                </a>
-                           </li>
+                           </li> -->
                            <!-- <li class="nav-item sub-menu">
                                <a [routerLink]="['/admin/bonus/role']" class="nav-link py-0">
                                    <small class="ml-1" >Role Bonus</small> 
@@ -158,11 +158,11 @@
                                    <small class="ml-1" >Conversion Settings</small> 
                                </a>
                            </li>
-                           <li class="nav-item sub-menu">
+                          <!--  <li class="nav-item sub-menu">
                                <a [routerLink]="['/admin/settings/referral-settings']" class="nav-link py-0">
                                    <small class="ml-1" >Referral Settings</small> 
                                </a>
-                           </li>
+                           </li> -->
                            <li class="nav-item sub-menu">
                                <a [routerLink]="['/admin/settings/main-wallet-settings']" class="nav-link py-0">
                                    <small class="ml-1" >Main Wallet Settings</small> 

@@ -62,7 +62,7 @@
 </div>
 
 <div class="row mb-3 color-lokal-x">
-	<div class="col-lg-3 col-xs-12 px-2">
+	<div class="col-lg-4 col-xs-12 px-2">
 		<small class="d-block font-weight-bold">
 			Register Platform
 		</small>
@@ -73,7 +73,7 @@
 			<option value="google">Google</option>
 		</select>
 	</div>
-	<div class="col-lg-3 col-xs-12 px-2">
+	<div class="col-lg-4 col-xs-12 px-2">
 		<small class="d-block font-weight-bold">
 			Account Status
 		</small>
@@ -83,7 +83,7 @@
 			<option value="0">Unactivated</option>
 		</select>
 	</div>
-	<div class="col-lg-3 col-xs-12 px-2">
+	<div class="col-lg-4 col-xs-12 px-2">
 		<small class="d-block font-weight-bold">
 			Email Verification Status
 		</small>
@@ -93,7 +93,7 @@
 			<option value="0">Unverified</option>
 		</select>
 	</div>
-	<div class="col-lg-3 col-xs-12 px-2">
+	<!-- <div class="col-lg-3 col-xs-12 px-2">
 		<small class="d-block font-weight-bold">
 			Roles
 		</small>
@@ -102,14 +102,14 @@
 			<option value="1">Administrator</option>
 			<option value="0">Members</option>
 		</select>
-	</div>
-	<div class="col-lg-3 col-xs-12 px-2">
+	</div> -->
+	<div class="col-lg-4 col-xs-12 px-2">
 		<small class="d-block font-weight-bold">
 			Account Name
 		</small>
 		<input type="text" name="search_name" [(ngModel)]="search_name" (keyup)="loadTable()" class="form-control form-control-sm input-lokal-x mb-1" placeholder="Account Name">
 	</div>
-	<div class="col-lg-3 col-xs-12 px-2">
+	<!-- <div class="col-lg-3 col-xs-12 px-2">
 		<small class="d-block font-weight-bold">
 			Career
 		</small>
@@ -121,14 +121,14 @@
 			<option value="4">Ambassador</option>
 			<option value="5">Advisor</option>
 		</select>
-	</div>
-	<div class="col-lg-3 col-xs-12 px-2">
+	</div> -->
+	<div class="col-lg-4 col-xs-12 px-2">
 		<small class="d-block font-weight-bold">
 			Register Date - <em class="font-weight-light">From</em> 
 		</small>
 		<input name="search_date_from" type="date" [(ngModel)]="search_date_from" (change)="loadTable()" class="form-control form-control-sm input-lokal-x mb-1">
 	</div>
-	<div class="col-lg-3 col-xs-12 px-2">
+	<div class="col-lg-4 col-xs-12 px-2">
 		<small class="d-block font-weight-bold">
 			Register Date  - <em class="font-weight-light">To</em>
 		</small>
@@ -241,7 +241,7 @@
 					    <li role="menuitem">
 					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.platform == 'system'" (click)="changeUserPassword(data.id, change_password)">Update Password</a>
 					    </li>
-					    <li role="menuitem">
+					    <!-- <li role="menuitem">
 					    	<a href="javascript:void(0)" class="dropdown-item" (click)="careerSettings(data.id,career_settings)">Career Settings</a>
 					    </li>
 					    <li role="menuitem">
@@ -249,7 +249,7 @@
 					    </li>
 					    <li role="menuitem">
 					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.first_time_login == 0" (click)="getReferrals(data.id, referral_info)">View Referral Information</a>
-					    </li>
+					    </li> -->
 					  </ul>
 					</div>
 				</td>
@@ -285,14 +285,14 @@
 								<small class="font-weight-bold mb-5">Country</small>   
 								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.country_code }}{{ data_focus.phone_number }}</h4>
 								<small class="font-weight-bold mb-5">Mobile Number</small>
-								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.desired_eth == null ? 'N/A' : data_focus.desired_eth }}</h4>
-								<small class="font-weight-bold mb-5">Desire ETH</small>
+								<!-- <h4 class="mb-0 font-weight-light mt-2">{{ data_focus.desired_eth == null ? 'N/A' : data_focus.desired_eth }}</h4>
+								<small class="font-weight-bold mb-5">Desire ETH</small> -->
 								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.birth_date | date : 'MM/dd/yyyy' }}</h4>
 								<small class="font-weight-bold mb-5">Birthday</small>
-								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.company_name == null ? 'N/A': data_focus.company_name }}</h4>
-								<small class="font-weight-bold mb-5">Company</small>
-								<h5 class="mb-0 font-weight-light mt-2">{{ data_focus['lokalize'].member_address != null ? data_focus['lokalize'].member_address : 'N/A' }}</h5>
-								<small class="font-weight-bold mb-5">Lokal Wallet Address</small>
+								<!-- <h4 class="mb-0 font-weight-light mt-2">{{ data_focus.company_name == null ? 'N/A': data_focus.company_name }}</h4>
+								<small class="font-weight-bold mb-5">Company</small> -->
+								<h5 class="mb-0 font-weight-light mt-2">{{ data_focus['Successmall'].member_address != null ? data_focus['Successmall'].member_address : 'N/A' }}</h5>
+								<small class="font-weight-bold mb-5">AHM Wallet Address</small>
 							</div>
 							<div class="col-lg-6 col-xs-12">
 								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.is_admin == 1 ? 'Administrator' : 'Member'}}</h4>
@@ -302,17 +302,17 @@
 								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.verified_mail == 1 ? 'Verified' : 'Unverified' }}</h4>
 								<small class="font-weight-bold mb-5">Email Verification Status</small>
 								<h4 class="mb-0 font-weight-light mt-2">
-									<!-- {{ data_focus.created_at | date: 'MM/dd/yyyy hh:mm:ss a' }} -->
-									{{ rest.formatDate(data.created_at) }} {{ rest.formatTime(data.created_at) }}
+									{{ data_focus.created_at | date: 'MM/dd/yyyy hh:mm:ss a' }}
+									<!-- {{ rest.formatDate(data.created_at) }} {{ rest.formatTime(data.created_at) }} -->
 
 								</h4>
 								<small class="font-weight-bold mb-5">Date Registered</small>
 								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.entity }}</h4>
 								<small class="font-weight-bold mb-5">Entity</small>   
-								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.desired_btc == null ? 'N/A' : data_focus.desired_btc }}</h4>
-								<small class="font-weight-bold mb-5">Desire BTC</small>
-								<h4 class="mb-0 font-weight-light mt-2" *ngIf="refer_data">{{ refer_data.refer == 1 ? 'https://lokalize.io/register?referral=' + refer_data.list.referral_link : 'N/A'}}</h4>
-								<small class="font-weight-bold mb-5"> {{refer_data ? 'Referral Code' : 'Referral Code'}}</small>
+								<!-- <h4 class="mb-0 font-weight-light mt-2">{{ data_focus.desired_btc == null ? 'N/A' : data_focus.desired_btc }}</h4>
+								<small class="font-weight-bold mb-5">Desire BTC</small> -->
+								<!-- <h4 class="mb-0 font-weight-light mt-2" *ngIf="refer_data">{{ refer_data.refer == 1 ? 'https://lokalize.io/register?referral=' + refer_data.list.referral_link : 'N/A'}}</h4> -->
+								<!-- <small class="font-weight-bold mb-5"> {{refer_data ? 'Referral Code' : 'Referral Code'}}</small> -->
 								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.platform | titlecase }}</h4>
 								<small class="font-weight-bold mb-5">Register Platform</small>
 								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.create_ip_address }}</h4>
@@ -327,22 +327,22 @@
 							<div class = "row">
 								<div class="col md-3">
 									<h4 class="mb-0 font-weight-light mt-2" >{{ loading_token_wallet ? '0.00' : w_balance.bought | number:'1.2-8' }}</h4>
-									<small class="font-weight-bold mb-5">LOK Bought Tokens</small> 
+									<small class="font-weight-bold mb-5">AHM Bought Tokens</small> 
 								</div>
 
-								<div class="col md-3">
+								<!-- <div class="col md-3">
 									<h4 class="mb-0 font-weight-light mt-2" >{{  loading_token_wallet ? '0.00' : w_balance.affiliated | number:'1.2-8' }}</h4>
-									<small class="font-weight-bold mb-5">LOK Affiliated Bonus</small> 
-								</div>
+									<small class="font-weight-bold mb-5">AHM Affiliated Bonus</small> 
+								</div> -->
 
 								<div class="col md-3">
 									<h4 class="mb-0 font-weight-light mt-2" >{{ loading_token_wallet ? '0.00' : w_balance.purchased | number:'1.2-8' }}</h4>
-									<small class="font-weight-bold mb-5">LOK Purchase Bonus</small> 
+									<small class="font-weight-bold mb-5">AHM Purchase Bonus</small> 
 								</div>
 
 								<div class="col md-3">
 									<h4 class="mb-0 font-weight-light mt-2" >{{ loading_token_wallet ? '0.00' : w_balance.manual | number:'1.2-8' }}</h4>
-									<small class="font-weight-bold mb-5">LOK Manually Transferred</small> 
+									<small class="font-weight-bold mb-5">AHM Manually Transferred</small> 
 								</div> 
 							</div>
 							
@@ -454,12 +454,12 @@
 											<td>{{ data.automatic_cash_in_id }}</td>
 											<td>{{ data.exchange_rate | number:'1.2-8' }}</td>
 											<td>
-												{{ data.amount_requested }} LOK
+												{{ data.amount_requested }} AHM
 												<small class="d-block">({{ (data.amount_requested*data.exchange_rate) - (data.amount_requested * (data.exchange_rate*(data.sale_stage_discount/100))) | number:'1.2-8'  }} BTC)</small>
 											</td>
 											<td *ngIf="data.log_status != 'accepted'">No data</td>
 											<td *ngIf="data.log_status == 'accepted'">
-												{{ data.log_amount | number:'1.2-8' }} LOK
+												{{ data.log_amount | number:'1.2-8' }} AHM
 												<small class="d-block">({{ data.amount_paid | number:'1.2-8'  }} BTC)</small>
 											</td>
 											<td>
@@ -505,7 +505,7 @@
 					<ng-template ngbTabContent>
 						<div class="bg-light p-3">
 							<div class="row my-2">
-								<!-- <div ngbDropdown placement="bottom-right" class="offset-lg-8 col-lg-4 col-xs-12">
+								<div ngbDropdown placement="bottom-right" class="offset-lg-8 col-lg-4 col-xs-12">
 									<button class="btn btn-sm  button-lokal-x btn-block my-1" id="dropdownBasic1" ngbDropdownToggle>
 										<small>
 											<i class="fas fa-table mr-2"></i>EXPORT DATA
@@ -516,7 +516,7 @@
 
 										<a href="{{ rest.api_url }}/api/member/excel/export_member_transaction_list?login_token={{rest.login_token}}&account_name={{account_name}}&transaction_status={{mem_transaction_status}}&transaction_date_from={{mem_transaction_date_from}}&transaction_date_to={{mem_transaction_date_to}}&log_method=Ethereum&data=filtered&member_id={{mem_id}}&first_name={{data_focus.first_name}}&last_name={{data_focus.last_name}}" class="dropdown-item">Export Filtered Data</a>
 									</div>
-								</div> -->
+								</div> 
 								<div class="offset-lg-8 col-lg-4 col-xs-12 btn-group" dropdown placement="bottom right">
 								  <button id="button-basic" dropdownToggle type="button" class="btn button-lokal-x btn-block my-1 dropdown-toggle"
 								          aria-controls="dropdown-basic">
@@ -561,10 +561,10 @@
 									<input type="date" [(ngModel)]="mem_transaction_date_to" (change)="loadMemberTableEth(data_focus.id)" class="form-control form-control-sm input-lokal-x mb-1">
 								</div>
 								<div class="col-lg-3 col-xs-12 px-2">
-									<!-- <small class="d-block font-weight-bold"> -->
-										<!-- Search by Account Name -->
-									<!-- </small> -->
-									<!-- <input type="text" class="form-control form-control-sm input-lokal-x mb-1" placeholder="Account Name"> -->
+									<!-- <small class="d-block font-weight-bold">-->
+										<!-- Search by Account Name-->
+									<!-- </small>-->
+									<!-- <input type="text" class="form-control form-control-sm input-lokal-x mb-1" placeholder="Account Name">-->
 								</div>
 							</div>
 					<div class="table-responsive">
@@ -609,12 +609,12 @@
 									<td>{{ data.automatic_cash_in_id }}</td>
 									<td>{{ data.exchange_rate | number:'1.2-8' }}</td>
 									<td>
-										{{ data.amount_requested }} LOK
+										{{ data.amount_requested }} AHM
 										<small class="d-block">({{ (data.amount_requested*data.exchange_rate) - (data.amount_requested * (data.exchange_rate*(data.sale_stage_discount/100))) | number:'1.2-8'  }} ETH)</small>
 									</td>
 									<td *ngIf="data.log_status != 'accepted'">No data</td>
 									<td *ngIf="data.log_status == 'accepted'">
-											{{ data.log_amount | number:'1.2-8' }} LOK
+											{{ data.log_amount | number:'1.2-8' }} AHM
 											<small class="d-block">({{ data.amount_paid | number:'1.2-8'  }} ETH)</small>
 									</td>
 									<td>
@@ -629,14 +629,14 @@
 										</span>
 									</td>
 									<td>
-										<!-- {{ data.log_time | date:'MM/dd/yyyy'}} -->
+										<!-- {{ data.log_time | date:'MM/dd/yyyy'}}-->
 										{{ rest.formatDate(data.log_time) }}
 									</td>
 									<td>
-										<!-- {{ data.log_time | date:'HH:mm a '}} -->
+										<!-- {{ data.log_time | date:'HH:mm a '}}  -->
 										{{ rest.formatTime(data.log_time) }}
 									</td>
-									<!-- <td class="text-center">
+									<td class="text-center">
 										<div ngbDropdown placement="bottom-right">
 											<button class="btn button-lokal-x btn-block btn-sm" id="dropdownBasic1" ngbDropdownToggle>
 												<small>
@@ -647,16 +647,16 @@
 												<button class="dropdown-item">Transaction Details</button>
 											</div>
 										</div>
-									</td> -->
+									</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</ng-template>
-		</ngb-tab>
+		</ngb-tab> 
 
-		<ngb-tab title="Affiliate Bonus History">
+		<!-- <ngb-tab title="Affiliate Bonus History">
 			<ng-template ngbTabContent>
 				<div class="table-responsive">
 					<table class="table member-table-x table-hover px-2 admin-db">
@@ -701,7 +701,7 @@
 								<td>{{ data["to"][0].log_amount + " LOK"}}</td>
 								<td>{{data["from"][0].email}}</td>
 								<td>
-									<!-- {{ data["to"][0].log_time | date: 'MM/dd/yyyy HH:mm a '}} -->
+									<!-- {{ data["to"][0].log_time | date: 'MM/dd/yyyy HH:mm a '}} 
 									{{ rest.formatDate(data["to"][0].log_time) }}
 									{{ rest.formatTime(data["to"][0].log_time) }}
 								</td>
@@ -709,8 +709,7 @@
 					</table>
 				</div>
 			</ng-template>
-		</ngb-tab>
-
+		</ngb-tab>-->
 		<ngb-tab title="Login History">
 			<ng-template ngbTabContent>
 				<div class="table-responsive">
@@ -780,7 +779,7 @@
 	</div>
 </ng-template>
 
-<ng-template #career_settings let-c="close" let-d="dismiss">
+<!-- <ng-template #career_settings let-c="close" let-d="dismiss">
 	<div class="view_account_details">
 		<div class="modal-header">
 			<h5 class="modal-title" id="exampleModalLabel">Career Settings</h5>
@@ -899,9 +898,9 @@
 			</button>
 		</div>
 	</div>
-</ng-template>
+</ng-template> -->
 
-<ng-template #change_career_type let-c="close" let-d="dismiss">
+<!-- <ng-template #change_career_type let-c="close" let-d="dismiss">
 	<div class="view_account_details">
 		<div class="modal-header">
 			<h5 class="modal-title" id="exampleModalLabel">Change Career Type</h5>
@@ -937,9 +936,9 @@
 			</div>
 		</div>
 	</div>
-</ng-template>
+</ng-template> -->
 
-<ng-template #referral_info let-c="close" let-d="dismiss">
+<!-- <ng-template #referral_info let-c="close" let-d="dismiss">
 	<div class="view_account_details">
 		<div class="modal-header">
 			<h5 class="modal-title" id="exampleModalLabel">Referral Info</h5>
@@ -1018,7 +1017,7 @@
 
 						</select>
 					</div>
-					<div class="col-lg-6 col-xs-12 p-1"><!-- 
+					<div class="col-lg-6 col-xs-12 p-1">
 						<div ngbDropdown placement="bottom-right">
 							<button class="btn button-lokal-x btn-block my-1" id="dropdownBasic1" ngbDropdownToggle>
 								<small>
@@ -1029,7 +1028,7 @@
 								<a href="{{ rest.api_url }}/api/admin/excel/export_affiliate_history_list?login_token={{rest.login_token}}&id={{id_referral_table}}" class="dropdown-item">Export All Data</a>
 								<a href="{{ rest.api_url }}/api/admin/excel/export_affiliate_history_list?login_token={{rest.login_token}}&career={{search_by_career}}&id={{id_referral_table}}&data=filtered" class="dropdown-item">Export Filtered Data</a>   
 							</div>
-						</div> -->
+						</div>
 						<div class="btn-group offset-lg-8 col-lg-4 col-xs-12" dropdown placement="bottom right">
 						  <button id="button-basic" dropdownToggle type="button" class="btn button-lokal-x btn-block my-1 dropdown-toggle"
 						          aria-controls="dropdown-basic">
@@ -1094,11 +1093,11 @@
 							<td>{{ data.member_position_name }}</td>
 							<td>{{ data.status_account == 1? 'Verified' : 'Not Verified' }}</td>
 							<td>{{ rest.formatDate(data.created_at) }} {{ rest.formatTime(data.created_at) }}</td>
-							<!-- <td>{{ data.created_at | date: 'MM/dd/yyyy hh:mm:ss a'}}</td> -->
+							<!-- <td>{{ data.created_at | date: 'MM/dd/yyyy hh:mm:ss a'}}</td> 
 						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
-</ng-template>
+</ng-template> -->

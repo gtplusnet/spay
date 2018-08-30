@@ -22,61 +22,56 @@ export class MainFuncComponent implements OnInit {
   	var app = this;
     app.initializing = false;
     app.rest.loading = true;
-  	// if(app.globalConfigService.isLoggedIn())
-   //  {
+  	if(app.globalConfigService.isLoggedIn())
+    {
 
-   //    app.rest.serverGetBasicInfo().subscribe(response =>
-   //    {
-   //      app.rest.syncFromServerResponseMember(response);        
-   //      app.rest.serverGetOtherInfo().subscribe(response =>
-   //      {
-   //        app.rest.syncFromServerResponseOther(response);
-
-   //        app.rest.serverGetSaleStage().subscribe(response =>
-   //        {
-   //          app.rest.syncFromServerGetSaleStage(response);
-   //          app.rest.serverGetLiveExchangeRate().subscribe(response=>
-   //          {
-   //            app.rest.syncFromServerGetLiveExchangeRate(response);
-   //            app.rest.serverGetFiles().subscribe(response=>
-   //            {
-   //              app.rest.syncFromServerGetFiles(response);
-   //              app.initializing = false;
-   //              app.rest.loading = true;
-   //            });
-   //          });
-   //        });
+      app.rest.serverGetBasicInfo().subscribe(response =>
+      {
+        app.rest.syncFromServerResponseMember(response);        
+        app.rest.serverGetOtherInfo().subscribe(response =>
+        {
+          app.rest.syncFromServerResponseOther(response);
+          app.rest.serverGetSaleStage().subscribe(response =>
+          {
+            app.rest.syncFromServerGetSaleStage(response);
+            app.rest.serverGetLiveExchangeRate().subscribe(response=>
+            {
+              app.rest.syncFromServerGetLiveExchangeRate(response);
+              app.initializing = false;
+              app.rest.loading = true;
+              // app.rest.serverGetFiles().subscribe(response=>
+              // {
+              //   app.rest.syncFromServerGetFiles(response);
+                
+              // });
+            });
+          });
           
-   //      });
-   //    },
-   //    error =>
-   //    {
-   //      this.actionLogout();
-   //    });
-   //  }
-   //  else
-   //  {
-   //     app.rest.serverGetOtherInfo().subscribe(response =>
-   //      {
-   //        app.rest.syncFromServerResponseOther(response);
-   //        app.rest.serverGetSaleStage().subscribe(response =>
-   //        {
-   //          app.rest.syncFromServerGetSaleStage(response);
-   //          app.rest.serverGetLiveExchangeRate().subscribe(response=>
-   //          {
-   //            app.rest.syncFromServerGetLiveExchangeRate(response);
-              
-   //            app.rest.serverGetFiles().subscribe(response=>
-   //            {
-   //              app.rest.syncFromServerGetFiles(response);
-   //              app.initializing = false;
-   //              app.rest.loading = true;
-   //            });
+        });
+      },
+      error =>
+      {
+        this.actionLogout();
+      });
+    }
+    else
+    {
+       app.rest.serverGetOtherInfo().subscribe(response =>
+        {
+          app.rest.syncFromServerResponseOther(response);
+          app.rest.serverGetSaleStage().subscribe(response =>
+          {
+            app.rest.syncFromServerGetSaleStage(response);
+            app.rest.serverGetLiveExchangeRate().subscribe(response=>
+            {
+              app.rest.syncFromServerGetLiveExchangeRate(response);
+              app.initializing = false;
+              app.rest.loading = true;
 
-   //          });
-   //        });
-   //    });
-   //  }
+            });
+          });
+      });
+    }
   }
 
   actionLogout() : void
