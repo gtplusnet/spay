@@ -218,56 +218,82 @@ body
 				color: #585858;
 			}
 		}
-		.swiper-container 
+		.swiper-ico-news 
 		{
-	      width: 100%;
-	      height: 100%;
+		    .swiper-wrapper
+		    {
+		    	.swiper-slide 
+		    	{
+		    	  font-size: 18px;
+		    	  background: #fff;
+		    	  .news-container
+		    	  {
+		    	  	.img-holder
+		    	  	{
+		    	  		width: 100%;
+		    	  		img
+		    	  		{
+		    	  			width: 100%;
+		    	  		}
+		    	  	}
+		    	  	.info-container
+		    	  	{
+		    	  		padding: 20px 20px 60px 20px;
+		    	  		background-color: $base-color;
+		    	  		.nws-title
+		    	  		{
+		    	  			font-weight: $bold;
+		    	  			font-size: 18px;
+		    	  			color: $secondary-color-dark;
+		    	  			letter-spacing: 0.5px;
+		    	  			min-height: 55px;
+		    	  		}
+		    	  		.nws-desc
+		    	  		{
+		    	  			p
+		    	  			{
+		    	  				font-size: 14px;
+		    	  				color: #585858;
+		    	  				letter-spacing: 1px;
+		    	  			}
+		    	  		}
+		    	  		a
+		    	  		{
+		    	  			text-decoration: none;
+		    	  			color: $secondary-color;
+		    	  			font-size: 16px;
+		    	  			font-weight: $bold;
+		    	  		}
+		    	  	}
+		    	  }
+		    	}
+		    }
 	    }
-	    .swiper-slide 
-	    {
-	      font-size: 18px;
-	      background: #fff;
-	      .news-container
-	      {
-	      	.img-holder
-	      	{
-	      		width: 100%;
-	      		img
-	      		{
-	      			width: 100%;
-	      		}
-	      	}
-	      	.info-container
-	      	{
-	      		padding: 20px 20px 60px 20px;
-	      		background-color: $base-color;
-	      		.nws-title
-	      		{
-	      			font-weight: $bold;
-	      			font-size: 18px;
-	      			color: $secondary-color-dark;
-	      			letter-spacing: 0.5px;
-	      			min-height: 55px;
-	      		}
-	      		.nws-desc
-	      		{
-	      			p
-	      			{
-	      				font-size: 14px;
-	      				color: #585858;
-	      				letter-spacing: 1px;
-	      			}
-	      		}
-	      		a
-	      		{
-	      			text-decoration: none;
-	      			color: $secondary-color;
-	      			font-size: 16px;
-	      			font-weight: $bold;
-	      		}
-	      	}
-	      }
-	    }
+	}
+
+	.s-6
+	{
+		padding: 100px 0px !important;
+		background-image: url('../../../assets/ahm_assets/img/s6-bg.jpg');
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+		.heading
+		{
+			text-align: center;
+			.title
+			{
+				font-size: 30px;
+				color: $base-color;
+				margin-bottom: 30px;
+			}
+			.line
+			{
+				border-bottom: 1px solid $secondary-color;
+				width: 5%;
+				margin: auto;
+			}
+		}
 	}
 }
 
