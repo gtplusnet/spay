@@ -51,8 +51,8 @@ class Seed
 			$seed[2]["created_at"] = Carbon::now();
 			$seed[2]["updated_at"] = Carbon::now();
 
-			$seed[3]["coin_name"]  = "Successmall";
-			$seed[3]["coin_abb"]   = "XS";
+			$seed[3]["coin_name"]  = "ahm";
+			$seed[3]["coin_abb"]   = "AHM";
 			$seed[3]["created_at"] = Carbon::now();
 			$seed[3]["updated_at"] = Carbon::now();
 
@@ -156,7 +156,7 @@ class Seed
 
 		$member_id                      = DB::table("users")->insertGetId($insert);
 
-		$ref_insert["referral_link"] 		  = substr(md5(Carbon::now()."XSTOKEN"), 0, 7);
+		$ref_insert["referral_link"] 		  = substr(md5(Carbon::now()."AHMTOKEN"), 0, 7);
 		$ref_insert["referral_user_id"]       = $member_id;
 		$referral_id = DB::table("tbl_referral")->insertGetId($ref_insert);
 
