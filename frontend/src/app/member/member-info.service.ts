@@ -55,7 +55,7 @@ export class MemberInfoService
 
 		if(isDevMode())
 		{
-			this.api_url 				= "http://ahm.test";
+			this.api_url 				= "http://spay.test";
 		}
 		else
 		{
