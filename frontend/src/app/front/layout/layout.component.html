@@ -3,8 +3,8 @@
 
 	<nav class="navbar bg-transparent fixed-top navbar-expand-lg navbar-dark bg-light">
 		<div class="container">
-			<a class="navbar-brand" href="/">
-				<img src="../../../assets/ahm_assets/img/logo.png" alt="">
+			<a class="navbar-brand logo-holder" href="/">
+				<img src="../../../assets/ahm_assets/img/ahm_logo.svg" alt="">
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -16,16 +16,16 @@
 						 <span class="sr-only">(current)</span></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link nav-link-text navigation__link" href="#benefits">about</a>
+						<a class="nav-link nav-link-text navigation__link" href="#ahm_token">about</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link nav-link-text navigation__link" href="#about">ahmGames</a>
+						<a class="nav-link nav-link-text navigation__link" href="#ahm_e_games">ahmGames</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link nav-link-text navigation__link" href="#how_it_works">coinCap</a>
+						<a class="nav-link nav-link-text navigation__link" href="#coin_market">coinCap</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link nav-link-text navigation__link" href="#how_it_works">icoNews</a>
+						<a class="nav-link nav-link-text navigation__link" href="#ico_news">icoNews</a>
 					</li>
 					<li class="nav-item mob-show">
 						<a class="nav-link" [routerLink]="['/login']" href="javascript:void(0)" *ngIf="!globalConfigService.isLoggedIn()">Login</a>
@@ -98,9 +98,11 @@
 			</div>
 			<div class="col-md-6">
 				<div class="right-container">
-					<img src="../../../assets/ahm_assets/img/logo-footer.png" alt="">
+					<div class="logo-holder">
+						<img src="../../../assets/ahm_assets/img/ahm_logo.svg" alt="">
+					</div>
 					<div class="desc">© 2018 ahmtoken All Rights Reserved. </div>	
-					<div class="desc">divowered By: Digima Web Solutions</div>
+					<div class="desc">Powered By: Digima Web Solutions</div>
 				</div>
 			</div>
 		</div>

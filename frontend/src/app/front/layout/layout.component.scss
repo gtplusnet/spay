@@ -35,7 +35,14 @@ header
 		
 		-webkit-transition: all 0.4s ease;
 		transition: all 0.4s ease;
-
+		.logo-holder
+		{
+			width: 16%;
+			img
+			{
+				width: 100%;
+			}
+		}
 		ul 
 		{
 			li 
@@ -118,9 +125,13 @@ footer
 	.right-container
 	{
 		text-align: right;
-		img
+		.logo-holder
 		{
-			margin-bottom: 10px;
+			width: 100%;
+			img
+			{
+				width: 33%;
+			}
 		}
 		.desc
 		{

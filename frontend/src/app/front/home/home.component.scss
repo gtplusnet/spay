@@ -25,7 +25,7 @@ body
 		height: 100vh;
 		background-color: $base-color;
 		color: white;
-		background-image: url('../../../assets/ahm_assets/img/home_bg.jpg');
+		background-image: url('../../../assets/ahm_assets/img/home_bg_v2.jpg');
 		background-repeat: no-repeat;
 		background-position: center;
 		background-size: cover;
@@ -33,9 +33,13 @@ body
 		.caption-container
 		{
 			width: 80%;
-			img
+			.logo-holder
 			{
-				margin-bottom: 10px;
+				width: 85%;
+				img
+				{
+					width: 100%;
+				}
 			}
 			.c1
 			{
@@ -68,6 +72,30 @@ body
 				}
 			}
 		}
+		.coin-holder
+		{
+			position: relative;
+			.coin-left
+			{
+				@extend .floating-coin-left;
+				position: absolute;
+				top: 50px;
+				left: 10px;
+			}
+			.coin-right
+			{
+				@extend .floating-coin-right;
+				position: absolute;
+				top: 50px;
+				right: 10px;
+			}
+			.coin-middle
+			{
+				@extend .floating-coin-middle;
+				position: absolute;
+				right: 110px !important;
+			}
+		}
 		
 	}
 
@@ -78,6 +106,10 @@ body
 		.inner-holder 
 		{
 			padding: 100px 0px;
+			img
+			{
+				@extend .floating;
+			}
 			.info-container
 			{
 				padding-top: 30px;
@@ -292,6 +324,58 @@ body
 				border-bottom: 1px solid $secondary-color;
 				width: 5%;
 				margin: auto;
+			}
+		}
+		.info-container
+		{
+			padding-top: 25px;
+			text-align: center;
+			input
+			{
+				background: transparent;
+				font-size: 15px;
+				color: rgba($base-color, 0.8);
+				border: 0;
+				outline: 0;
+				border-bottom: 2px solid $base-color;
+				width: 55%;
+				padding: 10px 5px;
+				margin-top: 25px;
+			}
+			textarea
+			{
+				background: transparent;
+				font-size: 15px;
+				color: rgba($base-color, 0.8);
+				border: 0;
+				outline: 0;
+				border-bottom: 2px solid $base-color;
+				width: 55%;
+				padding: 10px 5px;
+				margin-top: 25px;
+				min-height: 200px;
+				max-height: 200px;
+			}
+		}
+		.btn-container
+		{
+			text-align: center;
+			padding-top: 30px;
+			a
+			{
+				font-size: 15px;
+				width: 55%;
+				padding: 12px 0px;
+			}
+		}
+		.social-container
+		{
+			text-align: center;
+			margin-top: 80px;
+			span
+			{
+				vertical-align: middle;
+				margin-right: 20px;
 			}
 		}
 	}
