@@ -255,7 +255,13 @@ kyclevel2Id()
 	this.submitted = true;
 	this.error_message = "no-message";
 	this.success_message = "no-message";
-	if(this.checked)
+	if(!this.expiration_date)
+	{
+		this.success_message = "no-message";
+		this.error_message = "Please fill up all forms to proceed.";
+		this.submitted = false;
+	}
+	else if(this.checked)
 	{
 		var _param = {};
 		const formData = new FormData();

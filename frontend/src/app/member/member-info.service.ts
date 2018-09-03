@@ -55,7 +55,7 @@ export class MemberInfoService
 
 		if(isDevMode())
 		{
-			this.api_url 				= "http://spay.test";
+			this.api_url 				= "http://ico.test";
 		}
 		else
 		{
@@ -294,7 +294,7 @@ export class MemberInfoService
 		var t = time.split(/[- :]/);
 		var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
 		var new_date = new Date(d);
-		var hour = new_date.getHours() + 1;
+		var hour = new_date.getHours();
 		var minute = new_date.getMinutes();
 		var seconds = new_date.getSeconds();
 		var ampm = hour >= 12 ? 'PM' : 'AM';

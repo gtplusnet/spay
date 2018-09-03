@@ -180,9 +180,9 @@
 					<small class="font-weight-bold mb-5">Requested Token</small>  
 					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_status == 'accepted' ? data_focus.log_amount + " LOKAL" : 'No data' }}</h4>
 					<small class="font-weight-bold mb-5">Received Token</small>  
-					<h4 class="mb-0 font-weight-light mt-2">{{ (data_focus.amount_requested*data_focus.exchange_rate) - (data_focus.amount_requested * (data_focus.exchange_rate*(data_focus.sale_stage_discount/100))) | number:'1.2-8'  }} ETH</h4>
+					<h4 class="mb-0 font-weight-light mt-2">{{ (data_focus.amount_requested*data_focus.exchange_rate) - (data_focus.amount_requested * (data_focus.exchange_rate*(data_focus.sale_stage_discount/100))) | number:'1.2-8'  }} BTC</h4>
 					<small class="font-weight-bold mb-5">Expected Payment</small>   
-					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_status == 'accepted' ? data_focus.amount_paid + " ETH" : 'No data' }}</h4>
+					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_status == 'accepted' ? data_focus.amount_paid + " BTC" : 'No data' }}</h4>
 					<small class="font-weight-bold mb-5">Amount Paid</small>
 				</div>
 				<div class="col-lg-6 col-xs-12">
@@ -222,7 +222,7 @@
 		<div class="modal-body text-left  color-lokal-x">
 			<div class=" p-3 row ">
 				<div class=" col-lg-12 col-xs-12 text-center">
-					<h3 class="mb-0 font-weight-light mt-2">{{ data_focus.wallet_address }}</h3>
+					<h3 class="mb-0 font-weight-light mt-2 wallet_address">{{ data_focus.wallet_address }}</h3>
 					<h5 class="font-weight-bold mb-5">Deposit Address</h5>
 				</div>
 			</div>

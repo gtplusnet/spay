@@ -172,7 +172,7 @@ class Wallet
         $data["method"] = $log_method;
         $data["record"] = Tbl_automatic_cash_in::where("automatic_cash_in_id", $automatic_cashin)->first();
 
-        if($log_method == 'Bitcoin')
+        if($log_method == 'Bitcoin' || $log_method == 'Ethereum')
         {
         	Mails::order_placed($data);
         }

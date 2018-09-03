@@ -171,6 +171,7 @@ class MemberApiController extends Controller
     public function get_buy_bonus(Request $request)
     {
         $buy_bonus = Tbl_sale_stage_bonus::where("sale_stage_id", $request->sale_stage_id)->where("buy_coin_bonus_from", "<=", $request->token_amount)->where("buy_coin_bonus_to", ">=", $request->token_amount)->first();
+        // dd($buy_bonus);
         if($buy_bonus)
         {
             $return["percentage"] = $buy_bonus->buy_coin_bonus_percentage;
@@ -190,7 +191,7 @@ class MemberApiController extends Controller
                 $return["message"] = "no bonus";
             }
         }
-
+        // dd($return);
         return json_encode($return);
     }
 
