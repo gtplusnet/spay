@@ -56,6 +56,7 @@ body
 			.mob-coin
 			{
 				display: none;
+				@extend .floating;
 			}
 			.c2
 			{
@@ -617,6 +618,10 @@ body
 				.c1
 				{
 					font-size: 25px;
+				}
+				.c2
+				{
+					margin-top: 35px;
 				}
 				.line
 				{
