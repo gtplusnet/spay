@@ -291,7 +291,7 @@
 								<small class="font-weight-bold mb-5">Birthday</small>
 								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.company_name == null ? 'N/A': data_focus.company_name }}</h4>
 								<small class="font-weight-bold mb-5">Company</small>
-								<h5 class="mb-0 font-weight-light mt-2">{{ data_focus['lokalize'].member_address != null ? data_focus['lokalize'].member_address : 'N/A' }}</h5>
+								<h5 class="mb-0 font-weight-light mt-2">{{ data_focus['Successmall'].member_address != null ? data_focus['Successmall'].member_address : 'N/A' }}</h5>
 								<small class="font-weight-bold mb-5">Lokal Wallet Address</small>
 							</div>
 							<div class="col-lg-6 col-xs-12">
@@ -303,7 +303,7 @@
 								<small class="font-weight-bold mb-5">Email Verification Status</small>
 								<h4 class="mb-0 font-weight-light mt-2">
 									<!-- {{ data_focus.created_at | date: 'MM/dd/yyyy hh:mm:ss a' }} -->
-									{{ rest.formatDate(data.created_at) }} {{ rest.formatTime(data.created_at) }}
+									{{ rest.formatDate(data_focus.created_at) }} {{ rest.formatTime(data_focus.created_at) }}
 
 								</h4>
 								<small class="font-weight-bold mb-5">Date Registered</small>
@@ -311,7 +311,7 @@
 								<small class="font-weight-bold mb-5">Entity</small>   
 								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.desired_btc == null ? 'N/A' : data_focus.desired_btc }}</h4>
 								<small class="font-weight-bold mb-5">Desire BTC</small>
-								<h4 class="mb-0 font-weight-light mt-2" *ngIf="refer_data">{{ refer_data.refer == 1 ? 'https://lokalize.io/register?referral=' + refer_data.list.referral_link : 'N/A'}}</h4>
+								<h4 class="mb-0 font-weight-light mt-2" *ngIf="refer_data">{{ refer_data.refer == 1 ? 'https://successmall.io/register?referral=' + refer_data.list.referral_link : 'N/A'}}</h4>
 								<small class="font-weight-bold mb-5"> {{refer_data ? 'Referral Code' : 'Referral Code'}}</small>
 								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.platform | titlecase }}</h4>
 								<small class="font-weight-bold mb-5">Register Platform</small>
@@ -454,12 +454,12 @@
 											<td>{{ data.automatic_cash_in_id }}</td>
 											<td>{{ data.exchange_rate | number:'1.2-8' }}</td>
 											<td>
-												{{ data.amount_requested }} LOK
+												{{ data.amount_requested }} XS
 												<small class="d-block">({{ (data.amount_requested*data.exchange_rate) - (data.amount_requested * (data.exchange_rate*(data.sale_stage_discount/100))) | number:'1.2-8'  }} BTC)</small>
 											</td>
 											<td *ngIf="data.log_status != 'accepted'">No data</td>
 											<td *ngIf="data.log_status == 'accepted'">
-												{{ data.log_amount | number:'1.2-8' }} LOK
+												{{ data.log_amount | number:'1.2-8' }} XS
 												<small class="d-block">({{ data.amount_paid | number:'1.2-8'  }} BTC)</small>
 											</td>
 											<td>
@@ -609,12 +609,12 @@
 									<td>{{ data.automatic_cash_in_id }}</td>
 									<td>{{ data.exchange_rate | number:'1.2-8' }}</td>
 									<td>
-										{{ data.amount_requested }} LOK
+										{{ data.amount_requested }} XS
 										<small class="d-block">({{ (data.amount_requested*data.exchange_rate) - (data.amount_requested * (data.exchange_rate*(data.sale_stage_discount/100))) | number:'1.2-8'  }} ETH)</small>
 									</td>
 									<td *ngIf="data.log_status != 'accepted'">No data</td>
 									<td *ngIf="data.log_status == 'accepted'">
-											{{ data.log_amount | number:'1.2-8' }} LOK
+											{{ data.log_amount | number:'1.2-8' }} XS
 											<small class="d-block">({{ data.amount_paid | number:'1.2-8'  }} ETH)</small>
 									</td>
 									<td>
@@ -697,8 +697,8 @@
 							</tr>
 							<tr *ngFor="let data of referral_bonus_info | paginate: { itemsPerPage:8, currentPage: page_affiliate_bonus, id : 'page_affiliate_bonus' }; let i = index">
 								<td>{{ i + 1 }}</td>
-								<td>{{ data["from"][0].log_amount == null ? '0 LOK' : data["from"][0].log_amount + ' LOK' }}</td>
-								<td>{{ data["to"][0].log_amount + " LOK"}}</td>
+								<td>{{ data["from"][0].log_amount == null ? '0 XS' : data["from"][0].log_amount + ' XS' }}</td>
+								<td>{{ data["to"][0].log_amount + " XS"}}</td>
 								<td>{{data["from"][0].email}}</td>
 								<td>
 									<!-- {{ data["to"][0].log_time | date: 'MM/dd/yyyy HH:mm a '}} -->

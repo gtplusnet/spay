@@ -240,8 +240,9 @@ export class AdminMemberListComponent implements OnInit {
     this.loadMemberTableEth(id);
     this.viewReferralInfo(id);
     this.data_focus = this.rest.findObjectByKey(this._table, 'id', id);
+    console.log(this.data_focus);
     this.getReferralInfo(id);
-    this.checkTokens(this.data_focus["lokalize"].member_address_id);
+    this.checkTokens(this.data_focus["Successmall"].member_address_id);
     this.openLg(selector);
 
     this._param["id"] = id;

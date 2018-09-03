@@ -6,6 +6,7 @@ import faAddressBook from '@fortawesome/fontawesome-free-regular/';
 import { isDevMode } from '@angular/core';
 import { GoogleAnalyticsService } from './google-analytics.service';
 import { HttpClient, HttpHeaders } 	from '@angular/common/http';
+import { MemberInfoService } from './member/member-info.service';
 
 
 
@@ -17,7 +18,7 @@ import { HttpClient, HttpHeaders } 	from '@angular/common/http';
 
 export class AppComponent {
 	analytics_data : any;
-	constructor(private googleAnalyticsService: GoogleAnalyticsService, private http : HttpClient){
+	constructor(private googleAnalyticsService: GoogleAnalyticsService, private http : HttpClient, private rest : MemberInfoService){
 		fontawesome.library.add(faUser, faBitcoin, faAddressBook);
 		if(isDevMode())
 		{
@@ -40,7 +41,7 @@ export class AppComponent {
 	{
 		console.log(window.name);
 		this.appendGaTrackingCode();
-		var get_analytics = "https://api.lokalize.io/api/google_analytics_data";
+		var get_analytics = this.rest.api_url + "/api/google_analytics_data";
 		this.http.get(get_analytics).subscribe(response=>
 		{
 			this.analytics_data = response;

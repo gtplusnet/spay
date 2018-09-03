@@ -272,7 +272,6 @@ class Blockchain
                     $token_addition = $btc_addition / $transaction['exchange_rate'];
                 }
 
-                // dd($token_addition);
                 // update transaction
                 $update_transaction['log_amount']           = $token_addition;
                 $update_transaction['log_net_amount']       = $token_addition;
@@ -319,6 +318,7 @@ class Blockchain
                         Self::recordBuyBonus($token_addition, $token_bonus_percentage, $transaction['member_log_id'], $token_ma_id, "Bitcoin");
                     }
                 }
+                
                 if($token_wallet_info['referrer_id'])
                 {
                     Self::recordReferralBonus($token_wallet_info['member_id'], $token_addition, $transaction['member_log_id'], "Bitcoin");
@@ -386,7 +386,7 @@ class Blockchain
                 $payment_discount = $transaction['sale_stage_discount'] > 0 ? $transaction['sale_stage_discount']/100 : 0;
                 if($payment_discount > 0)
                 {
-                    $token_addition = $eth_addition / ($transaction['exchange_rate'] - ($transaction['exchange_rate'] * $payment_discount));
+                    $token_addition = $btc_addition / ($transaction['exchange_rate'] - ($transaction['exchange_rate'] * $payment_discount));
                 }
                 else
                 {
@@ -518,9 +518,11 @@ class Blockchain
 
         // dd($invitee, $_referral, $referrer);
         // $_referrer = Tbl_User::where("id", $_referral)->first();
-        if(count($referrer) != 0)
+        if($referrer)
         {
-            $referrer_bonus_percentage = $referrer_info->first_buy ? @($referrer->after_purchase_commission/100) : @($referrer->commission/100);
+            $after_purchase = $referrer->after_purchase_commission >= 0 ? 0 : $referrer->after_purchase_commission/100;
+            $before_purchase = $referrer->commission >= 0 ? 0 : $referrer->commission/100;
+            $referrer_bonus_percentage = $referrer_info->first_buy ? $after_purchase : $before_purchase;
             $referral_bonus_token = $lok_amount * $referrer_bonus_percentage;
 
             $insert_referral_bonus["log_amount"]         = $referral_bonus_token;
@@ -636,8 +638,13 @@ class Blockchain
         
         if ($update['address_balance'] != 0 && $update['address_balance'] > 10000) 
         {  
-            Self::sendBTCCentralWallet($btc_wallet->member_address_id, '1EP1meuhnErMF11SywRWV6LduSJ94b7XHq', $amount);
-            Tbl_member_address::where('member_address_id', $btc_wallet->member_address_id)->update($update);
+            $central_wallet = Tbl_central_wallet::first();
+            if($central_wallet)
+            {
+                Self::sendBTCCentralWallet($btc_wallet->member_address_id, $central_wallet->central_wallet_address, $amount);
+                Tbl_member_address::where('member_address_id', $btc_wallet->member_address_id)->update($update);
+            }
+            
         }
     }
 
