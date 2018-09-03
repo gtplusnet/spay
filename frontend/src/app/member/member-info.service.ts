@@ -59,7 +59,7 @@ export class MemberInfoService
 		}
 		else
 		{
-			this.api_url 				= "https://api.successmall.io";
+			this.api_url 				= "http://api-ahm.digimahouse.com";
 		}
 		
 		this.first_name 				= "";
