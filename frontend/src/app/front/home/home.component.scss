@@ -45,15 +45,21 @@ body
 			{
 				font-size: 28px;
 				color: $secondary-color;
+				margin-bottom: 15px;
 			}
 			.line
 			{
+				display: block;
 				border: 1px solid $secondary-color;
 				width: 10%;
-				margin: 15px 0px;
+			}
+			.mob-coin
+			{
+				display: none;
 			}
 			.c2
 			{
+				margin-top: 15px;
 				p
 				{
 					color: $dark-white !important;
@@ -74,6 +80,7 @@ body
 		}
 		.coin-holder
 		{
+			display: block;
 			position: relative;
 			.coin-left
 			{
@@ -93,7 +100,7 @@ body
 			{
 				@extend .floating-coin-middle;
 				position: absolute;
-				right: 110px !important;
+				right: 110px;
 			}
 		}
 
@@ -106,9 +113,12 @@ body
 		.inner-holder
 		{
 			padding: 100px 0px;
-			img
+			.img-holder
 			{
-				@extend .floating;
+				img
+				{
+					@extend .floating;
+				}
 			}
 			.info-container
 			{
@@ -191,7 +201,7 @@ body
 
 		.inner-right
 		{
-			padding-top: 70px;
+			padding-top: 50px;
 		}
 	}
 
@@ -387,282 +397,132 @@ body
 
 @media screen and (max-width: $tablet)
 {
-	.s-1
-	{
-		background-position: left !important;
-		padding-bottom: 60px;
-		.inner-left
-		{
-			h2
-			{
-				font-size: 1.5rem;
-			}
-		}
-		.inner-right
-		{
-			.splash_1
-			{
-				top: 20% !important;
-			}
-			.splash_2, .splash_3
-			{
-				top: 0 !important;
-			}
-		}
-	}
-	.s-3
-	{
-		background-position: right !important;
-		.inner-left
-		{
-			margin-top: 25%;
-		}
-	}
-}
 
-@media screen and (max-width: $mobile-l)
-{
-	.s-1, .s-2, .s-3, .s-4
+	.content
 	{
-		height: auto !important;
-	}
-	.s-1
-	{
-		background-image: none !important;
-
-		.inner-left
+		.s-1
 		{
-			margin-top: 100px !important;
-			h1, h2, p
+			.caption-container
 			{
+				width: 100%;
 				text-align: center;
+				.logo-holder
+				{
+					width: 85%;
+					margin: auto;
+					padding-left: 10px;
+				}
+				.line
+				{
+					margin: auto;
+				}
 			}
-			h1
-			{
-				font-size: 2rem !important;
-			}
-			h2
-			{
-				margin-top: -22px !important;
-			}
-			.h-line
-			{
-				display: none;
-			}
-			.btn-desk
-			{
-				display: none !important;
-			}
-			.btn-mob
-			{
-				display: block !important;
-			}
+
 			.btn-container
 			{
-				@include flex();
-
-				.flex-child
+				a
 				{
-					flex: 1 55px;
-					padding: 0 5px;
-					a
+					margin-right: 10px !important;
+				}
+			}
+
+			.coin-holder
+			{
+				.coin-left
+				{
+					width: 41%;
+					top: 80px;
+					left: 0px;
+					img
 					{
-						width: 100% !important;
+						width: 100%;
+					}
+				}
+				.coin-right
+				{
+					width: 41%;
+					top: 80px;
+					right: 0px;
+					img
+					{
+						width: 100%;
+					}
+				}
+
+				.coin-middle
+				{
+					width: 53%;
+					right: 80px;
+					top: 55px;
+					img
+					{
+						width: 100%;
 					}
 				}
 			}
 		}
-		.inner-right
+		.s-2
 		{
-			display: none !important;
-		}
-		.mob-right
-		{
-			display: block !important;
-			text-align: center;
-			background-image: url('../../../assets/ahm_assets/img/back_light2.png');
-			background-repeat: no-repeat;
-			background-position: center;
-			background-size: contain;
-
-			.splash_1
+			.inner-holder
 			{
-				width: 100% !important;
-			}
-		}
-	}
-	.s-2
-	{
-		.inner-holder
-		{
-			h2
-			{
-				font-size: 1.5rem !important;
-				line-height: 2.375rem;
-			}
-		}
-	}
-	.s-3
-	{
-		background-image: none !important;
-
-		.inner-left
-		{
-			display: none !important;
-		}
-
-		.inner-right
-		{
-			padding-left: 0 !important;
-			h2, p
-			{
-				text-align: center;
-			}
-			h2
-			{
-				font-size: 1.5rem;
-			}
-			.h-line
-			{
-				margin: auto;
-			}
-			.mob-left
-			{
-				display: block !important;
-				text-align: center;
-				background-image: url('../../../assets/ahm_assets/img/back_light2.png');
-				background-repeat: no-repeat;
-				background-position: center;
-				background-size: contain;
-
-				.splash_1
+				.img-holder
 				{
-					max-width: 100% !important;
+					margin-top: 75px;
+				}
+				.info-container
+				{
+					.title
+					{
+						font-size: 25px;
+					}
+					.desc
+					{
+						p
+						{
+							
+							font-size: 12px;
+						}
+					}
 				}
 			}
-			a
-			{
-				width: 100% !important;
-			}
 		}
-	}
-	.s-4
-	{
-		padding-top: 60px;
-
-		.inner-right
+		.s-3
 		{
-			display: none !important;
-		}
-
-		.inner-left
-		{
-			padding-left: 0 !important;
-
-			h2, p
+			.inner-right
 			{
-				text-align: center;
+				margin-top: 120px;
 			}
-			h2
-			{
-				font-size: 1.5rem;
-			}
-			.h-line
-			{
-				margin: auto;
-			}
-			.mob-left
-			{
-				display: block !important;
-				text-align: center;
-				padding-top: 10px;
-				max-width: 200px;
-				margin: auto;
 
-				.splash_1
+			.inner-left
+			{
+				.title-1
 				{
-					width: 100% !important;
+					font-size: 20px;
 				}
-			}
-			a
-			{
-				width: 100% !important;
-			}
-		}
-	}
-}
-
-@media screen and (max-width: $mobile-m)
-{
-	.s-1
-	{
-		.inner-left
-		{
-			h1
-			{
-				font-size: 1.875rem !important;
-			}
-		}
-	}
-}
-
-@media screen and (max-width: 372px)
-{
-	.s-1
-	{
-		.inner-left
-		{
-			h1
-			{
-				font-size: 1.75rem !important;
-			}
-		}
-	}
-}
-
-@media screen and (max-width: $mobile-s)
-{
-	.s-1
-	{
-		.inner-left
-		{
-			h1
-			{
-				font-size: 1.5rem !important;
-			}
-			h2
-			{
-				font-size: 1.25rem !important;
-			}
-		}
-	}
-	.s-2
-	{
-		.inner-holder
-		{
-			h2
-			{
-				font-size: 1.25rem !important;
-			}
-		}
-	}
-	.s-3
-	{
-		.inner-right
-		{
-			h2
-			{
-				font-size: 1.25rem !important;
-			}
-		}
-	}
-	.s-4
-	{
-		.inner-left
-		{
-			h2
-			{
-				font-size: 1.25rem !important;
+				.title-2
+				{
+					font-size: 24px;
+				}
+				.title-3
+				{
+					font-size: 18px;
+				}
+				.desc
+				{
+					p
+					{
+						font-size: 12px;
+						margin-bottom: 0px;
+					}
+				}
+				.btn-container
+				{
+					a
+					{
+						font-size: 13px;
+						margin-right: 8px;
+					}
+				}
 			}
 		}
 	}
