@@ -12,15 +12,15 @@ import Swiper from 'swiper';
 	styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-	
+
 	constructor(public rest: MemberInfoService, private http : HttpClient, private router:Router, public globalConfigService:GlobalConfigService) { }
-	
+
 	ngOnInit() {
 		this.icoNewsSwiper();
 		this.smooth_scroll();
 		this.stopVideo();
 	}
-	
+
 	icoNewsSwiper(): void
 	{
 		const swiper = new Swiper('.swiper-ico-news',
@@ -51,13 +51,13 @@ export class HomeComponent implements OnInit {
 					spaceBetween: 10
 				}
 			},
-			
+
 			// Navigation arrows
 			navigation: {
 				nextEl: '.swiper-button-next',
 				prevEl: '.swiper-button-prev',
 			},
-			
+
 		});
 	}
 	smooth_scroll(): void
@@ -65,27 +65,26 @@ export class HomeComponent implements OnInit {
 		$(document).on('click', 'a.navigation__link', function(e){
 			e.preventDefault();
 			var link = $(this).attr('href');
-			
+
 			$('html, body').animate({
 				scrollTop: $(link).offset().top - 65}, 800 );
-				return false; 
+				return false;
 			});
 		}
-		
+
 		stopVideo(): void
 		{
 			$(document).ready(function () {
 				$('.modal').each(function () {
 					var src = $(this).find('iframe').attr('src');
-					
+
 					$(this).on('click', function () {
-						
+
 						$(this).find('iframe').attr('src', '');
 						$(this).find('iframe').attr('src', src);
-						
+
 					});
 				});
 			});
 		}
 	}
-	
