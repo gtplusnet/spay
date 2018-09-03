@@ -675,7 +675,7 @@ class ApiController extends Controller
             
             $member_position_log_insert["member_position_id"] = $request->career_id;
             $member_position_log_insert["member_id"] = $member_id;
-            $member_position_log_insert["updated_at"] = Carbon::now();
+            $member_position_log_insert["created_at"] = Carbon::now();
             $member_position_log = Tbl_member_position_log::insert($member_position_log_insert);
 
             $return["message"]  = "no-message";
