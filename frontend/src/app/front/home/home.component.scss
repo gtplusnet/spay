@@ -1,7 +1,7 @@
 @import "../../../assets/ahm_assets/scss/custom";
 
 
-body 
+body
 {
 	@include text-style($body-text, $reg, 0.875rem, 0.01rem, 1.6875rem);
 }
@@ -15,10 +15,10 @@ body
 
 
 //Page
-.content 
+.content
 {
-	
-	.s-1 
+
+	.s-1
 	{
 		@include flex();
 
@@ -103,14 +103,14 @@ body
 				right: 110px;
 			}
 		}
-		
+
 	}
 
 	.s-2
 	{
 		background-color: $base-color;
 
-		.inner-holder 
+		.inner-holder
 		{
 			padding: 100px 0px;
 			.img-holder
@@ -260,11 +260,13 @@ body
 				color: #585858;
 			}
 		}
-		.swiper-ico-news 
+		.swiper-ico-news
 		{
+            overflow: hidden;
+
 		    .swiper-wrapper
 		    {
-		    	.swiper-slide 
+		    	.swiper-slide
 		    	{
 		    	  font-size: 18px;
 		    	  background: #fff;
@@ -312,7 +314,6 @@ body
 		    }
 	    }
 	}
-
 	.s-6
 	{
 		padding: 100px 0px !important;
@@ -396,6 +397,7 @@ body
 
 @media screen and (max-width: $tablet)
 {
+
 	.content
 	{
 		.s-1
@@ -415,6 +417,7 @@ body
 					margin: auto;
 				}
 			}
+
 			.btn-container
 			{
 				a
@@ -422,6 +425,7 @@ body
 					margin-right: 10px !important;
 				}
 			}
+
 			.coin-holder
 			{
 				.coin-left
@@ -444,6 +448,7 @@ body
 						width: 100%;
 					}
 				}
+
 				.coin-middle
 				{
 					width: 53%;
@@ -456,7 +461,6 @@ body
 				}
 			}
 		}
-
 		.s-2
 		{
 			.inner-holder
@@ -488,6 +492,7 @@ body
 			{
 				margin-top: 120px;
 			}
+
 			.inner-left
 			{
 				.title-1
