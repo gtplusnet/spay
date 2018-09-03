@@ -2814,7 +2814,7 @@ tbody.collapse.show {
   color: #444;
   text-align: left;
   list-style: none;
-  background-color: #936801;
+  background-color: #041a2c;
   background-clip: padding-box;
   /*border: 1px solid #dee2e6;*/ }
 
@@ -2909,7 +2909,7 @@ tbody.collapse.show {
 .dropdown-item:focus, .dropdown-item:hover {
   color: #fff;
   text-decoration: none;
-  background-color: #aa7809; }
+  background-color: #0a2942; }
 
 .dropdown-item.active, .dropdown-item:active {
   color: #fff;
@@ -3761,7 +3761,7 @@ tbody.collapse.show {
 .card-header {
   padding: 1rem;
   margin-bottom: 0;
-  background-color: #aa7809;
+  background-color: #0a2942;
   border-bottom: 1px none; }
 
 .card-header + .list-group .list-group-item:first-child {
@@ -7306,7 +7306,7 @@ a.text-dark:focus, a.text-dark:hover {
   -ms-flex-direction: column;
   flex-direction: column;
   width: 240px;
-  background-color: #aa7809;
+  background-color: #0a2942;
   min-height: calc(100vh - 60px);
   -ms-flex-negative: 0;
   flex-shrink: 0;
@@ -7335,7 +7335,7 @@ a.text-dark:focus, a.text-dark:hover {
   position: relative; }
 
 .sidebar .nav-item:hover {
-  background-color: #936801; }
+  background-color: #041a2c; }
 
 .sidebar .nav-link {
   display: block;
@@ -7393,7 +7393,7 @@ a.text-dark:focus, a.text-dark:hover {
   height: 60px;
   width: 100%;
   position: relative;
-  background-color: #936801;
+  background-color: #041a2c;
   -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   margin: 0;
@@ -7432,7 +7432,7 @@ a.text-dark:focus, a.text-dark:hover {
 
 .page-header .navbar-nav .dropdown-menu .dropdown-header {
   padding: .6rem 1rem;
-  background: #936801;
+  background: #041a2c;
   text-align: center;
   border-bottom: 1px solid rgba(222, 226, 230, 0.8); }
 

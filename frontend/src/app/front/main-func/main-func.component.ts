@@ -20,8 +20,7 @@ export class MainFuncComponent implements OnInit {
 
   ngOnInit() {
   	var app = this;
-    app.initializing = false;
-    app.rest.loading = true;
+    app.initializing = true;
   	if(app.globalConfigService.isLoggedIn())
     {
 
