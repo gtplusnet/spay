@@ -112,7 +112,7 @@ class Mails
 		{
 			$message->from(env('MAIL_USERNAME'), 'Successmall');
 			$message->to($data["member"]->email);
-			$message->subject("Lokalize Token Order");
+			$message->subject("Success Mall Token Order");
 		});
 	}
 
@@ -122,7 +122,7 @@ class Mails
 		{
 			$message->from(env('MAIL_USERNAME'), 'Successmall');
 			$message->to($data["member"]->email);
-			$message->subject("Lokalize Token Accepted");
+			$message->subject("Success Mall Token Accepted");
 		});
 	}
 
@@ -150,7 +150,7 @@ class Mails
 		{
 			$message->from(env('MAIL_USERNAME'), 'Successmall');
 			$message->to($data["info"]->email);
-			$message->subject("Lokalize Manual Token Transfer");	
+			$message->subject("Success Mall Manual Token Transfer");	
 		});
 	}
 
