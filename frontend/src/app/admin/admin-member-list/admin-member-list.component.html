@@ -241,15 +241,15 @@
 					    <li role="menuitem">
 					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.platform == 'system'" (click)="changeUserPassword(data.id, change_password)">Update Password</a>
 					    </li>
-					    <li role="menuitem">
+					    <!-- <li role="menuitem">
 					    	<a href="javascript:void(0)" class="dropdown-item" (click)="careerSettings(data.id,career_settings)">Career Settings</a>
-					    </li>
-					    <li role="menuitem">
+					    </li> -->
+					    <!-- <li role="menuitem">
 					    	<a href="javascript:void(0)" class="dropdown-item" (click)="ViewCurrentCareerType(data.id,change_career_type)">Change Career Type</a>
-					    </li>
-					    <li role="menuitem">
+					    </li> -->
+					    <!-- <li role="menuitem">
 					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.first_time_login == 0" (click)="getReferrals(data.id, referral_info)">View Referral Information</a>
-					    </li>
+					    </li> -->
 					  </ul>
 					</div>
 				</td>
@@ -311,8 +311,8 @@
 								<small class="font-weight-bold mb-5">Entity</small>   
 								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.desired_btc == null ? 'N/A' : data_focus.desired_btc }}</h4>
 								<small class="font-weight-bold mb-5">Desire BTC</small>
-								<h4 class="mb-0 font-weight-light mt-2" *ngIf="refer_data">{{ refer_data.refer == 1 ? 'https://successmall.io/register?referral=' + refer_data.list.referral_link : 'N/A'}}</h4>
-								<small class="font-weight-bold mb-5"> {{refer_data ? 'Referral Code' : 'Referral Code'}}</small>
+								<!-- <h4 class="mb-0 font-weight-light mt-2" *ngIf="refer_data">{{ refer_data.refer == 1 ? 'https://successmall.io/register?referral=' + refer_data.list.referral_link : 'N/A'}}</h4>
+								<small class="font-weight-bold mb-5"> {{refer_data ? 'Referral Code' : 'Referral Code'}}</small> -->
 								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.platform | titlecase }}</h4>
 								<small class="font-weight-bold mb-5">Register Platform</small>
 								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.create_ip_address }}</h4>
@@ -330,10 +330,10 @@
 									<small class="font-weight-bold mb-5">LOK Bought Tokens</small> 
 								</div>
 
-								<div class="col md-3">
+								<!-- <div class="col md-3">
 									<h4 class="mb-0 font-weight-light mt-2" >{{  loading_token_wallet ? '0.00' : w_balance.affiliated | number:'1.2-8' }}</h4>
 									<small class="font-weight-bold mb-5">LOK Affiliated Bonus</small> 
-								</div>
+								</div> -->
 
 								<div class="col md-3">
 									<h4 class="mb-0 font-weight-light mt-2" >{{ loading_token_wallet ? '0.00' : w_balance.purchased | number:'1.2-8' }}</h4>
@@ -656,7 +656,7 @@
 			</ng-template>
 		</ngb-tab>
 
-		<ngb-tab title="Affiliate Bonus History">
+		<!-- <ngb-tab title="Affiliate Bonus History">
 			<ng-template ngbTabContent>
 				<div class="table-responsive">
 					<table class="table member-table-x table-hover px-2 admin-db">
@@ -701,7 +701,6 @@
 								<td>{{ data["to"][0].log_amount + " XS"}}</td>
 								<td>{{data["from"][0].email}}</td>
 								<td>
-									<!-- {{ data["to"][0].log_time | date: 'MM/dd/yyyy HH:mm a '}} -->
 									{{ rest.formatDate(data["to"][0].log_time) }}
 									{{ rest.formatTime(data["to"][0].log_time) }}
 								</td>
@@ -709,7 +708,7 @@
 					</table>
 				</div>
 			</ng-template>
-		</ngb-tab>
+		</ngb-tab> -->
 
 		<ngb-tab title="Login History">
 			<ng-template ngbTabContent>

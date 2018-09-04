@@ -218,7 +218,7 @@ export class RegisterComponent implements OnInit {
 
     params.login_key        = this.globalConfigService.apiConfig()["login_key"];
     params.platform         = platform;
-    params.referral_link    = this.referral_link;
+    // params.referral_link    = this.referral_link;
     params.career_id        = this.career;
     params.sale_stage_id    = this.rest._stages.sale_stage_id;
 
@@ -284,7 +284,7 @@ export class RegisterComponent implements OnInit {
     this._params["company_name"]                     = this.company_name;
     this._params["desired_btc"]                      = this.desired_btc;
     this._params["desired_eth"]                      = this.desired_eth;
-    this._params["referral_link"]                    = this.referral_link;
+    // this._params["referral_link"]                    = this.referral_link;
     this._params["career_id"]                        = this.career;
     this._params["sale_stage_id"]                    = this.rest._stages.sale_stage_id;
     // this._params["career"] = this.has_career ? this.career : 1;

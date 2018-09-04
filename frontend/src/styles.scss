@@ -392,3 +392,40 @@ body {
 		font-weight: 200;
 	}
 }
+
+.check_box
+{
+	cursor: pointer;
+	&::before
+	{
+		content: "";
+		width: 1.5px;
+		height: 1.5px;
+		padding: 0px;
+		background: #fff !important;
+		border: 1px solid #333 !important;
+		&:hover
+		{
+			border: 1px solid #3b5998 !important;
+			background: rgba(59, 89, 152, 0.3) !important;
+		}
+	}
+}
+
+.shaded
+{
+	
+	&::before
+	{
+		width: 1.5px;
+		height: 1.5px;
+	}
+	cursor: pointer;
+	background: #3b5998 !important;
+	border: 1px solid #888 !important;
+	&:hover
+	{
+		background: rgba(59, 89, 152, 0.3) !important;
+		border: 1px solid #555 !important;
+	}
+}
