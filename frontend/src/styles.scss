@@ -391,6 +391,12 @@ body {
 		font-size: 14px !important;
 		font-weight: 200;
 	}
+
+	@media screen and (max-width: 390px)
+	{
+		font-size: 10px !important;
+		font-weight: 200;
+	}
 }
 
 .check_box
@@ -402,6 +408,12 @@ body {
 	color: #fff !important;
 	border: 1px solid #333 !important;
 	&:hover
+	{
+		background: #3b5998 !important;
+		color: #3b5998 !important;
+		border: 1px solid #333 !important;
+	}
+	&:active
 	{
 		background: #3b5998 !important;
 		color: #3b5998 !important;
@@ -422,7 +434,13 @@ body {
 	&:hover
 	{
 		border: 1px solid #555 !important;
-		background: rgba(59, 89, 152, 0.3) !important;
+		background: #3b5998 !important;
+		color: transparent !important;
+	}
+	&:active
+	{
+		border: 1px solid #555 !important;
+		background: #3b5998 !important;
 		color: transparent !important;
 	}
 	font-size: 5px;
