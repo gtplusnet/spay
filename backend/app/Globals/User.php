@@ -141,8 +141,12 @@ class User
         $v_id = Tbl_email_verification::insertGetId($email_verification);
         $data["email"] = Tbl_email_verification::where("verification_id",$v_id)->first();
         $data["member"] = Tbl_User::where("email",$data["email"]->verification_email)->first();
-        
+
         Mails::send_register_verification($data);
+        
+        return "success"; //kyc
+        
+
     }
 
 }

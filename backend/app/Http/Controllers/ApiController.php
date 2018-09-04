@@ -1180,13 +1180,14 @@ class ApiController extends Controller
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 
         $data = User::send_email_verification_link($request->email_address, $request->member_id);
-        if($data)
+
+        if($data == "success")
         {
-            $return = "success";
+            $return['status'] = "success";
         }
         else
         {
-            $return = "fail";
+            $return['status'] = "fail";
         }
 
         return $return;
