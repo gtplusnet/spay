@@ -35,8 +35,8 @@ export class MemberDashboardComponent implements OnInit {
   description : string;
   event_title  : string;
   event_sub_title: string;
-  start_date    :string;
-  end_date    : string;
+  start_date    : any;
+  end_date      : any;
   events : boolean;
   getting_bonus : boolean = false;
 
