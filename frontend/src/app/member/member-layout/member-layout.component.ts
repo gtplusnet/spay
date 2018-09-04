@@ -122,7 +122,7 @@ export class MemberLayoutComponent implements OnInit
     },
     error=>
     {
-      console.log(error);
+      // console.log(error);
     });
   }
 
@@ -140,11 +140,11 @@ export class MemberLayoutComponent implements OnInit
     }).subscribe(response=>
     {
       this.notif = response;
-      console.log(localStorage.getItem("new_referral"));
+      // console.log(localStorage.getItem("new_referral"));
       if(parseInt(localStorage.getItem("new_referrals")) != this.notif.new_referrals && this.notif.new_referrals != 0)
       {
         localStorage.setItem("new_referrals", this.notif.new_referrals);
-        console.log(localStorage.getItem("new_referral"));
+        // console.log(localStorage.getItem("new_referral"));
         this.notify("New Referral", "You have received a new referral!");
       }
 

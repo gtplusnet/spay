@@ -518,7 +518,7 @@ export class MemberDashboardComponent implements OnInit {
     this.tos_toggle.c2 = localStorage.getItem('c2')
     this.tos_toggle.c3 = localStorage.getItem('c3')
 
-    console.log(this.tos_toggle.c1, this.tos_toggle.c2, this.tos_toggle.c3);
+    // console.log(this.tos_toggle.c1, this.tos_toggle.c2, this.tos_toggle.c3);
   }
 }
 
