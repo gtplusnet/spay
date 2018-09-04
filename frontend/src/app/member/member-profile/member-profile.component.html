@@ -16,7 +16,7 @@
 					<button class="btn button-lokal-l {{ profile_page == 'google-auth' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/google-auth']"><i class="fab fa-google mr-2"></i>Google Authenticator</button>
 					<button class="btn button-lokal-l {{ profile_page == 'limits-and-verification' ? 'active-lokal' : kyc_page == 'id' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/limits-and-verification']"><i class="far fa-check-square mr-2"></i>Verification</button>
 					<button class="btn button-lokal-l {{ profile_page == 'change-password' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/change-password']"><i class="fas fa-edit mr-2" ></i>Change Password</button>
-					<button class="btn button-lokal-l {{ profile_page == 'my-referral' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/my-referral']"><i class="far fa-handshake mr-2"></i>My Referral</button>
+					<!-- <button class="btn button-lokal-l {{ profile_page == 'my-referral' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/my-referral']"><i class="far fa-handshake mr-2"></i>My Referral</button> -->
 				</div>
 			</div>
 			<div class="col-md-7">
@@ -100,14 +100,14 @@
 									<option value="Corporate/Business">Corporate/Business</option>
 								</select>
 
-								<label class="mb-1 mt-3">Crypto Purchaser</label>
+								<!-- <label class="mb-1 mt-3">Crypto Purchaser</label>
 								<select [(ngModel)]="crypto_purchaser" (change)="cryptoPurchaser(crypto_purchaser_details)" name="crypto_purchaser" id="crypto_purchaser" class="form-control form-control-sm input-lokal">
 									<option value="none">(Optional)</option>
 									<option value="Every Day Crypto Purchaser">Every Day Crypto Purchaser</option>
 									<option value="Adviced Crypto Purchaser">Adviced Crypto Purchaser</option>
 									<option value="Self-Certified Crypto Purchaser">Self-Certified Crypto Purchaser</option>
 									<option value="High Net Worth Crypto Purchaser">High Net Worth Crypto Purchaser</option>
-								</select>
+								</select> -->
 
 								<label class="mb-1 mt-3">Company Name</label>
 								<input type="text" [(ngModel)]="company_name" class="form-control input-lokal" placeholder="Company Name (Optional)" value="{{rest.company_name}}">
@@ -350,7 +350,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="my-referral" *ngIf="profile_page == 'my-referral'">
+					<div class="my-referral" *ngIf="profile_page == 'my-referraldeleted'">
 						<div class="top-container">
 							<div class="container"> 
 								<div class="row">

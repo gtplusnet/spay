@@ -47,7 +47,7 @@
 					<input class="" type="text" name="first_name" id="first_name" [(ngModel)]="system_register.first_name" (keyup)="validate()" placeholder="First Name">
 					<input class="" type="text" name="last_name" id="last_name" [(ngModel)]="system_register.last_name" (keyup)="validate()" placeholder="Last Name">
 					<input class="" type="email" name="email_address" id="email_address" [(ngModel)]="system_register.email" (keyup)="validate()" placeholder="Email Address">
-					<input class="mb-2" type="text" name="referral_link" id="referral_link" [(ngModel)]="referral_link" (keyup)="validate()" placeholder="Referral Code (Optional)">
+					<!-- <input class="mb-2" type="text" name="referral_link" id="referral_link" [(ngModel)]="referral_link" (keyup)="validate()" placeholder="Referral Code (Optional)"> -->
 					<div class="recaptcha">
 						<re-captcha (resolved)="resolved($event)" siteKey="6Leas2sUAAAAAOCewGhpmMFP1yRb7vJ_bSNlh0oN"></re-captcha>
 						<!-- <re-captcha #captchaRef="reCaptcha" siteKey="6LfxQWwUAAAAAK_TrtwMkx34BihD7aA2W1xpX-e7" size="invisible" (resolved)="$event && submitCaptcha($event)"></re-captcha> -->

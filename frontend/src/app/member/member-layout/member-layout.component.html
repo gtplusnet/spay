@@ -43,18 +43,18 @@
                         Notifications
                     </li>
                     <li class="dropdown-divider border-lokal-nav"></li>
-                    <li class="dropdown-item py-1">
+                    <!-- <li class="dropdown-item py-1">
                         <a href="javascript:void(0)" [routerLink]="['/member/profile/my-referral']" (click)="resetNotifications('new_referrals')" class="nav-items-lokal">
                             <div class="nav-alignment-x"><i class="fas fa-sitemap"></i></div> <small>New Referrals <small class="notif-counter-{{notif.new_referrals == 0 ? 'inactive' : 'active' }}">{{notif.new_referrals}}</small></small>
                         </a>
-                    </li>
+                    </li> -->
 
-                    <li class="dropdown-item py-1">
+                    <!-- <li class="dropdown-item py-1">
                         <a href="javascript:void(0)" [routerLink]="['/member/profile/my-referral']" (click)="resetNotifications('new_referral_bonus')" class="nav-items-lokal">
                             <div class="nav-alignment-x"><i class="fas fa-hand-holding-usd"></i></div> <small>New Referral Bonus <small class="notif-counter-{{notif.new_referral_bonus == 0 ? 'inactive' : 'active' }}">{{notif.new_referral_bonus}}</small></small>
                            
                         </a>
-                    </li>
+                    </li> -->
 
                     <li class="dropdown-item py-1">
                         <a href="javascript:void(0)" [routerLink]="['/member/btc-transactions']" (click)="resetNotifications('new_btc_approve')" class="nav-items-lokal d-flex justify-content-center align-items-center">
@@ -81,11 +81,11 @@
                             <div class="nav-alignment-x"><i class="fas fa-user"></i></div> <small>My Account</small>
                         </a>
                     </li>
-                    <li class="dropdown-item py-1">
+                    <!-- <li class="dropdown-item py-1">
                         <a href="javascript:void(0)" [routerLink]="['/member/profile/my-referral']" class="nav-items-lokal">
                             <div class="nav-alignment-x"><i class="far fa-handshake"></i> </div> <small>My Referrals</small>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="dropdown-item py-1">
                         <a href="javascript:void(0)" (click)="actionLogout()" class="nav-items-lokal">
                             <div class="nav-alignment-x"><i class="fas fa-sign-out-alt"></i> </div> <small>Logout</small>
@@ -231,7 +231,7 @@
                             </small>
                             <input type="text" placeholder="Desired ETH Contribution" [(ngModel)]="update_info.desired_eth" class="form-control form-control-sm input-lokal">
                         </div>
-                        <div class="col-xs-12 col-lg-4 p-3">
+                        <!-- <div class="col-xs-12 col-lg-4 p-3">
                             <small class="d-block font-weight-bold">
                                 Crypto Purchaser
                             </small>
@@ -242,7 +242,7 @@
                                 <option value="Self-Certified Crypto Purchaser">Self-Certified Crypto Purchaser</option>
                                 <option value="High Net Worth Crypto Purchaser">High Net Worth Crypto Purchaser</option>
                             </select>
-                        </div>
+                        </div> -->
                         <div class="col-xs-12 col-lg-4 p-3">
                             <button class="btn btn-block btn-lg button-lokal" disabled="{{updating ? 'disabled' : ''}}" (click)="update_information()">
                                 <i class="fas fa-edit"></i> Save Information
