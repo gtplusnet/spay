@@ -8,7 +8,7 @@
 			<h2 class="mob-label d-none">Account Login</h2>
 			<div class="responsive-width py-3">
 				
-				<form #loginForm="ngForm" (submit)="captchaRef.execute()">
+				<form #loginForm="ngForm" (submit)="onSubmit(google_authenticator)">
 					<div class="lokal-forms">
 						<div class="row mb-2 lokal-alerts" *ngIf="error_message != 'no-message'">
 							<div class="col-xs-12 col-lg-12 p-0">
@@ -27,9 +27,9 @@
 						<input class="" name="username" [(ngModel)]="username" type="text" placeholder="Username" required="">
 						<input class="mb-2" name="password" [(ngModel)]="password" type="password" placeholder="Password" required="">
 						<div class="recaptcha">
-							<!-- <re-captcha (resolved)="resolved($event)" siteKey="6Leas2sUAAAAAOCewGhpmMFP1yRb7vJ_bSNlh0oN"></re-captcha> -->
-							<re-captcha #captchaRef="reCaptcha" siteKey="6LfxQWwUAAAAAK_TrtwMkx34BihD7aA2W1xpX-e7" size="invisible" (resolved)="$event && submitCaptcha($event, google_authenticator)"></re-captcha>
-							<input type="hidden" id="reset_captcha" (click)="captchaRef.reset()">
+							<re-captcha (resolved)="resolved($event)" siteKey="6Leas2sUAAAAAOCewGhpmMFP1yRb7vJ_bSNlh0oN"></re-captcha>
+							<!-- <re-captcha #captchaRef="reCaptcha" siteKey="6LfxQWwUAAAAAK_TrtwMkx34BihD7aA2W1xpX-e7" size="invisible" (resolved)="$event && submitCaptcha($event, google_authenticator)"></re-captcha>
+							<input type="hidden" id="reset_captcha" (click)="captchaRef.reset()"> -->
 						</div>
 						<button class=" mt-2 spay-login-button" type="submit" disabled="{{submitted ? 'disabled' : ''}}">Login</button>
 						<button class=" my-2 spay-register-button" [routerLink]="['/register']" disabled="{{submitted ? 'disabled' : ''}}">Sign Up</button>

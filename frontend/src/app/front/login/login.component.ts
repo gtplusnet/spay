@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
   get_datas : any = {};
   captcha : any;
   captchaRef : any;
+  public captchaResp = null;
 
 
   constructor(private http: HttpClient, private globalConfigService:GlobalConfigService, public memberInfoService: MemberInfoService, private router:Router, private modalService: NgbModal, private socialAuthService: AuthService ) // 
@@ -68,6 +69,16 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  public resolved(captchaResponse: string) 
+  {
+    this.http.post(this.memberInfoService.api_url + "/api/verify_captcha", 
+    {
+      response : captchaResponse
+    });
+
+    this.captchaResp = captchaResponse;
+  }
+
   onSubmit(selector) : void
   {
   	var _param = {};
@@ -84,7 +95,12 @@ export class LoginComponent implements OnInit {
   		data =>
   		{
 
-  			if(data['status'] == 'success')
+  			if(!this.captchaResp)
+        {
+          this.error_message = "Captcha is required. If you do not see any captcha please reload the page.";
+          this.submitted = false;
+        }
+        else if(data['status'] == 'success')
   			{
   				this.globalConfigService.login(data["message"], data["name"]);
   				this.submitted 		= false;
@@ -115,14 +131,6 @@ export class LoginComponent implements OnInit {
   submit(captchaResponse: string): void 
   {
     console.log(captchaResponse);
-  }
-
-  resolved(captchaResponse: string) 
-  {
-      if(captchaResponse)
-      {
-        this.captcha = captchaResponse;
-      }
   }
 
   openSm(content)

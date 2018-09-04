@@ -67,6 +67,7 @@ export class RegisterComponent implements OnInit {
   password_approve : boolean = false;
   confirm_password_approve : boolean = false;
   register_approve : boolean = false;
+  public captchaResp = null;
 
   country_loading : boolean;
 
@@ -124,10 +125,12 @@ export class RegisterComponent implements OnInit {
 
   resolved(captchaResponse: string) 
   {
-      if(captchaResponse)
+      this.http.post(this.rest.api_url + "/api/verify_captcha", 
       {
-        this.system_register.captcha = captchaResponse;
-      }
+        response : captchaResponse
+      });
+
+      this.captchaResp = captchaResponse;
   }
 
   socialSignIn(socialPlatform : string) {
@@ -223,7 +226,12 @@ export class RegisterComponent implements OnInit {
       data =>
       {
 
-        if(data['status'] == 'success')
+        if(!this.captchaResp && platform == 'system')
+        {
+          this.error_message = "Captcha is required. If you do not see any captcha please reload the page.";
+          this.submitted = false;
+        }
+        else if(data['status'] == 'success')
         {
           if(platform != "system")
           {
