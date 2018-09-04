@@ -385,7 +385,7 @@ class Blockchain
                 $payment_discount = $transaction['sale_stage_discount'] > 0 ? $transaction['sale_stage_discount']/100 : 0;
                 if($payment_discount > 0)
                 {
-                    $token_addition = $btc_addition / ($transaction['exchange_rate'] - ($transaction['exchange_rate'] * $payment_discount));
+                    $token_addition = $eth_addition / ($transaction['exchange_rate'] - ($transaction['exchange_rate'] * $payment_discount));
                 }
                 else
                 {
@@ -456,7 +456,7 @@ class Blockchain
                 {
                     $member_info = Tbl_other_info::where("user_id", $member_id)->update(["first_buy"=>1]);
                 }
-                Mails::order_accepted($accepted);
+                // Mails::order_accepted($accepted);
             }
         }
         Wallet::recomputeWallet($eth_ma_id);

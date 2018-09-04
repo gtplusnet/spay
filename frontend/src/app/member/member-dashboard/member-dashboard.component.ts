@@ -165,8 +165,6 @@ export class MemberDashboardComponent implements OnInit {
           this.buy_step = "buy_step_2";
           this.buy_loading = false;
         });
-        
-        
       }
       else
       {
