@@ -229,7 +229,7 @@ class Blockchain
     {
         // wallet information
         $btc_wallet_info        = Tbl_member_address::JoinCoin($member_id, 'bitcoin')->first();
-        $token_wallet_info      = Tbl_member_address::JoinCoin($member_id, $token_name)->first();
+        $token_wallet_info      = Tbl_member_address::JoinOther()->JoinCoin($member_id, $token_name)->first();
 
         //set member id variable
         $token_ma_id = $token_wallet_info['member_address_id'];
@@ -283,15 +283,12 @@ class Blockchain
                 // compute sale stage bonus
                 if($sale_stage_id)
                 {
-                    $ss_bonus = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where(function($query) use ($token_addition){
-                        $query
-                        ->where("buy_coin_bonus_from", "<=", $token_addition)
-                        ->where("buy_coin_bonus_to", ">=", $token_addition);
-                    })->first();
-
+                    $round = round($token_addition);
+                    $ss_bonus = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_from", "<=", $round)->where("buy_coin_bonus_to", ">=", $round)->first();
+                    
                     if(!$ss_bonus)
                     {
-                        $higher_amount = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_to", "<", $token_addition)->orderBy("buy_coin_bonus_to", "desc")->first();
+                        $higher_amount = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_to", "<", $round)->orderBy("buy_coin_bonus_to", "desc")->first();
 
                         if($higher_amount)
                         {
@@ -319,8 +316,10 @@ class Blockchain
                     }
                 }
                 
+                // dd($token_wallet_info);
                 if($token_wallet_info['referrer_id'])
                 {
+                    // dd($token_wallet_info);
                     Self::recordReferralBonus($token_wallet_info['member_id'], $token_addition, $transaction['member_log_id'], "Bitcoin");
                 }
 
@@ -350,7 +349,7 @@ class Blockchain
     {
         // wallet information
         $eth_wallet_info        = Tbl_member_address::JoinCoin($member_id, 'ethereum')->first();
-        $token_wallet_info      = Tbl_member_address::JoinCoin($member_id, $token_name)->first();
+        $token_wallet_info      = Tbl_member_address::JoinOther()->JoinCoin($member_id, $token_name)->first();
 
         //set member id variable
         $token_ma_id = $token_wallet_info['member_address_id'];
@@ -386,7 +385,7 @@ class Blockchain
                 $payment_discount = $transaction['sale_stage_discount'] > 0 ? $transaction['sale_stage_discount']/100 : 0;
                 if($payment_discount > 0)
                 {
-                    $token_addition = $btc_addition / ($transaction['exchange_rate'] - ($transaction['exchange_rate'] * $payment_discount));
+                    $token_addition = $eth_addition / ($transaction['exchange_rate'] - ($transaction['exchange_rate'] * $payment_discount));
                 }
                 else
                 {
@@ -404,15 +403,12 @@ class Blockchain
                 // compute sale stage bonus
                 if($sale_stage_id)
                 {
-                    $ss_bonus = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where(function($query) use ($token_addition){
-                        $query
-                        ->where("buy_coin_bonus_from", "<=", $token_addition)
-                        ->where("buy_coin_bonus_to", ">=", $token_addition);
-                    })->first();
+                    $round = round($token_addition);
+                    $ss_bonus = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_from", "<=", $round)->where("buy_coin_bonus_to", ">=", $round)->first();
 
                     if(!$ss_bonus)
                     {
-                        $higher_amount = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_to", "<", $token_addition)->orderBy("buy_coin_bonus_to", "desc")->first();
+                        $higher_amount = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_to", "<", $round)->orderBy("buy_coin_bonus_to", "desc")->first();
 
                         if($higher_amount)
                         {
@@ -520,11 +516,12 @@ class Blockchain
         // $_referrer = Tbl_User::where("id", $_referral)->first();
         if($referrer)
         {
-            $after_purchase = $referrer->after_purchase_commission >= 0 ? 0 : $referrer->after_purchase_commission/100;
-            $before_purchase = $referrer->commission >= 0 ? 0 : $referrer->commission/100;
+            // dd($user_id, $lok_amount, $member_log_id, $payment_type, $invitee, $_referral, $referrer, $referrer_info, $lok_address_id);
+            $after_purchase = $referrer->after_purchase_commission <= 0 ? 0 : $referrer->after_purchase_commission/100;
+            $before_purchase = $referrer->commission <= 0 ? 0 : $referrer->commission/100;
             $referrer_bonus_percentage = $referrer_info->first_buy ? $after_purchase : $before_purchase;
             $referral_bonus_token = $lok_amount * $referrer_bonus_percentage;
-
+            // dd($referrer, $after_purchase, $before_purchase, $referrer_bonus_percentage, $referral_bonus_token);
             $insert_referral_bonus["log_amount"]         = $referral_bonus_token;
             $insert_referral_bonus["log_net_amount"]     = $referral_bonus_token;
             $insert_referral_bonus["log_status"]         = "automatic";

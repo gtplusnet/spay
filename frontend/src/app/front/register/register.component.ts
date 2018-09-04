@@ -67,6 +67,7 @@ export class RegisterComponent implements OnInit {
   password_approve : boolean = false;
   confirm_password_approve : boolean = false;
   register_approve : boolean = false;
+  public captchaResp = null;
 
   country_loading : boolean;
 
@@ -124,10 +125,12 @@ export class RegisterComponent implements OnInit {
 
   resolved(captchaResponse: string) 
   {
-      if(captchaResponse)
+      this.http.post(this.rest.api_url + "/api/verify_captcha", 
       {
-        this.system_register.captcha = captchaResponse;
-      }
+        response : captchaResponse
+      });
+
+      this.captchaResp = captchaResponse;
   }
 
   socialSignIn(socialPlatform : string) {
@@ -215,7 +218,7 @@ export class RegisterComponent implements OnInit {
 
     params.login_key        = this.globalConfigService.apiConfig()["login_key"];
     params.platform         = platform;
-    params.referral_link    = this.referral_link;
+    // params.referral_link    = this.referral_link;
     params.career_id        = this.career;
     params.sale_stage_id    = this.rest._stages.sale_stage_id;
 
@@ -223,7 +226,12 @@ export class RegisterComponent implements OnInit {
       data =>
       {
 
-        if(data['status'] == 'success')
+        if(!this.captchaResp && platform == 'system')
+        {
+          this.error_message = "Captcha is required. If you do not see any captcha please reload the page.";
+          this.submitted = false;
+        }
+        else if(data['status'] == 'success')
         {
           if(platform != "system")
           {
@@ -276,7 +284,7 @@ export class RegisterComponent implements OnInit {
     this._params["company_name"]                     = this.company_name;
     this._params["desired_btc"]                      = this.desired_btc;
     this._params["desired_eth"]                      = this.desired_eth;
-    this._params["referral_link"]                    = this.referral_link;
+    // this._params["referral_link"]                    = this.referral_link;
     this._params["career_id"]                        = this.career;
     this._params["sale_stage_id"]                    = this.rest._stages.sale_stage_id;
     // this._params["career"] = this.has_career ? this.career : 1;

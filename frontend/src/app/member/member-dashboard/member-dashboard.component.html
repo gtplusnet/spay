@@ -117,14 +117,14 @@
 					    </div>
 					    <h6>Affiliated Bonus</h6>
 			    	</div> -->
-			    	<div class="col-md-4 col-xs-12 text-center">
+			    	<div class="col-md-6 col-xs-12 text-center">
 			    		<div class="media-body mx-2 d-flex flex-row align-items-center justify-content-center">
 					      <h4 class="mb-0 font-weight-bold mr-1">{{ w_balance.purchased | number : '1.2-8'}} </h4>
 					      <img src="/assets/img/ahm_token.svg" class="img-fluid mini-coin" width="20" height="20" alt="">
 					    </div>
 					    <h6>Purchase Bonus</h6>
 			    	</div>
-			    	<div class="col-md-4 col-xs-12 text-center">
+			    	<div class="col-md-6 col-xs-12 text-center">
 			    		<div class="media-body mx-2 d-flex flex-row align-items-center justify-content-center">
 					      <h4 class="mb-0 font-weight-bold mr-1">{{ w_balance.manual | number : '1.2-8'}} </h4>
 					      <img src="/assets/img/ahm_token.svg" class="img-fluid mini-coin" width="20" height="20" alt="">
@@ -322,7 +322,7 @@
         		<!-- <input type="hidden" [(ngModel)]="lok_exchange_rate" value="{{ payment_type == 2 ? rest._rates[1].conversion_multiplier : rest._rates[2].conversion_multiplier }}"> -->
         		
         		<!-- <small class="d-block font-weight-bold mb-3 text-muted">USD {{ exchange_rate }}</small> -->
-        		<h6 class="mb-1">
+        		<!-- <h6 class="mb-1">
         			<input type="checkbox" [(ngModel)]="check_toa_1" (click)="check_tos('check_toa_1')"> I agree that I am not a citizen, resident or company over which the laws of the any of the following countries have jurisdiction: United-States of America, China, India, North Korea or South Korea. 
         		</h6>
         		<h6 class="mb-1">
@@ -330,7 +330,16 @@
         		</h6>
         		<h6 class="mb-1">
         			<input type="checkbox" [(ngModel)]="check_toa_3" (click)="check_tos('check_toa_3')"> I have read and agree to the website terms and conditions.
-        		</h6>
+				</h6> -->
+				<div class="h6 mb-1 d-flex justify-content-start align-items-start">
+					<button type="button" class="{{ tos_toggle.c1 ? 'shaded' : 'check_box'}} mr-2" (click)="toggleTos('c1')"><i class="fas fa-check"></i></button> I agree that I am not a citizen, resident or company over which the laws of the any of the following countries have jurisdiction: United-States of America, China, India, North Korea or South Korea. 
+				</div>
+				<div class="h6 mb-1 d-flex justify-content-start align-items-start">
+					<button type="button" class="{{ tos_toggle.c2 ? 'shaded' : 'check_box'}} mr-2" (click)="toggleTos('c2')"><i class="fas fa-check"></i></button> The bitcoin/ethereum price is so volatile that the number of XS token varies time to time it might increase or decrease.
+				</div>
+				<div class="h6 mb-1 d-flex justify-content-start align-items-start">
+					<button type="button" class="{{ tos_toggle.c3 ? 'shaded' : 'check_box'}} mr-2" (click)="toggleTos('c3')"><i class="fas fa-check"></i></button> I have read and agree to the website terms and conditions.
+				</div>
         		<div class="row mt-2">
         			<div class="offset-lg-8 col-lg-4 col-xs-12" *ngIf="rest.verified_mail == '1'">
         				<button  class="btn btn-dark btn-lg btn-block" (click)="buy_step_2()">
@@ -373,7 +382,7 @@
 				<div class="text-center">
 					<h3 class="font-weight-bold">Send Payment</h3>
 	        		<h5 class="mb-1">Copy this wallet address</h5>
-	        		<h3 class="mb-3">{{ payment_type == 2 ? rest._wallet[2].member_address: rest._wallet[3].member_address }}<button class="btn btn-default"><i class="fas fa-copy"></i></button></h3>
+	        		<h3 class="mb-3 wallet_address">{{ payment_type == 2 ? rest._wallet[2].member_address: rest._wallet[3].member_address }}<button class="btn btn-default"><i class="fas fa-copy"></i></button></h3>
 					or
 	        		<h5 class="mb-1 mt-3">Scan this QR Code</h5>
 	        		<span class="mb-3 d-flex justify-content-center align-items-center py-2">
@@ -480,8 +489,8 @@
 			<div class="col-lg-12 col-xs-12">
 					<!-- {{start_date | date:'MM/dd/yyyy'}} -->
 					<!-- {{end_date | date:'MM/dd/yyyy'}} -->
-				<div class="col-lg-12 col-xs-6"><small>Start Date: {{ rest.formatDate(start_date) }}</small></div>
-				<div class="col-lg-12 col-xs-6"><small>End Date: {{ rest.formatDate(end_date) }}</small></div>
+				<div class="col-lg-12 col-xs-6"><small>Start Date: {{ start_date | date:'MM/dd/yyyy' }}</small></div>
+				<div class="col-lg-12 col-xs-6"><small>End Date: {{ end_date | date:'MM/dd/yyyy' }}</small></div>
 			</div>
 		</div>
 	</div>

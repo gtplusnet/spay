@@ -100,14 +100,14 @@
 									<option value="Corporate/Business">Corporate/Business</option>
 								</select>
 
-								<label class="mb-1 mt-3">Crypto Purchaser</label>
+								<!-- <label class="mb-1 mt-3">Crypto Purchaser</label>
 								<select [(ngModel)]="crypto_purchaser" (change)="cryptoPurchaser(crypto_purchaser_details)" name="crypto_purchaser" id="crypto_purchaser" class="form-control form-control-sm input-lokal">
 									<option value="none">(Optional)</option>
 									<option value="Every Day Crypto Purchaser">Every Day Crypto Purchaser</option>
 									<option value="Adviced Crypto Purchaser">Adviced Crypto Purchaser</option>
 									<option value="Self-Certified Crypto Purchaser">Self-Certified Crypto Purchaser</option>
 									<option value="High Net Worth Crypto Purchaser">High Net Worth Crypto Purchaser</option>
-								</select>
+								</select> -->
 
 								<label class="mb-1 mt-3">Company Name</label>
 								<input type="text" [(ngModel)]="company_name" class="form-control input-lokal" placeholder="Company Name (Optional)" value="{{rest.company_name}}">
@@ -355,9 +355,61 @@
 								</div>
 							</div>
 						</div>
-					</div> -->
-					
-					<!--<div class="my-referral" *ngIf="profile_page == 'my-referral'">
+					</div>
+					<div class="change-password" *ngIf="profile_page == 'change-password'">
+						<div class="top-container">
+							<div class="container"> 
+								<div class="row clearfix">
+									<div class="col-md-6 color-lokal">
+										<span class="d-inline-block align-middle">
+											<i class="fas fa-edit mr-2" ></i>
+										</span>
+										<span class="d-inline-block align-middle">
+											<h5 class="font-weight-light mb-0">Change Password</h5>
+										</span> 
+									</div>
+									<div class="col-md-6">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="bottom-container">
+							<div class="container clearfix">
+								<div class="row mb-2" *ngIf="error_message != 'no-message'">
+									<div class="col-xs-12 col-lg-12">
+										<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-danger">
+											<span>{{ error_message }}</span>
+										</div>
+									</div>
+								</div>
+								<div class="row mb-2" *ngIf="success_message != 'no-message'">
+									<div class="col-xs-12 col-lg-12">
+										<div class="d-flex justify-content-center align-items-center p-2 text-center alert alert-success">
+											<span>{{ success_message }}</span>
+										</div>
+									</div>
+								</div>
+								<label class="mb-1 mt-3">Current Password</label>
+								<input type="password" [(ngModel)]="current_password" class="form-control input-lokal" placeholder="Current Password">
+
+								<label class="mb-1 mt-3">New Password</label>
+								<input type="password" [(ngModel)]="password" class="form-control input-lokal" placeholder="New Password">
+								
+								<label class="mb-1 mt-3">Confirm Password</label>
+								<input type="password" [(ngModel)]="password_confirmation" class="form-control input-lokal" placeholder="Confirm Password">
+								
+								<button class="btn button-lokal mb-2 mt-3 float-right" (click)="updateMemberPassword()" disabled="{{is_update_submit ? 'disabled' : ''}}">
+									<small *ngIf="is_update_submit">
+										<i class="fas fa-spinner button-loader mr-2"></i>Updating..
+									</small>
+									<small *ngIf="!is_update_submit">
+										<i class="fas fa-edit mr-2"></i>Update
+									</small>
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="my-referral" *ngIf="profile_page == 'my-referraldeleted'">
 						<div class="top-container">
 							<div class="container"> 
 								<div class="row">
@@ -482,34 +534,34 @@
 		<div class="modal-body color-lokal-x">
 			<div class="row">
 				<div class="col-md-6">
-					<label class="mr-3">Select ID Type : </label>
+					<label class="mr-3">Select ID Type : *</label>
 					<select [(ngModel)]="id_type" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng-valid ng-touched">
 						<option>Passport</option>
 						<option>Other</option>
 					</select>
 				</div>
 				<div class="col-md-6">
-					<label *ngIf="id_type == 'Other'" class="mr-4">Please Specify: </label>
+					<label *ngIf="id_type == 'Other'" class="mr-4">Please Specify: *</label>
 					<input *ngIf="id_type == 'Other'" [(ngModel)]="other_id" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng-valid ng-touched" type="" name="">
 				</div>
 				<div class="col-md-6">
-					<label class="mr-4">ID Number: </label>
+					<label class="mr-4">ID Number: *</label>
 					<input [(ngModel)]="id_number" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng-valid ng-touched" type="" name="">
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-6">
-					<label class="mr-2">Expiration Date : </label>
+					<label class="mr-2">Expiration Date : (Optional)</label>
 					<input [(ngModel)]="expiration_date" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng-valid ng-touched" type="date" name="">
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-12">
 					<label>Upload Image:</label>
 					<div class="form-row">
 						<div class="col-md-6">
-							<input [(ngModel)]="front_image" type="file" (change)="onFileSelectedFront($event)" class="btn btn-primary btn-sm mb-1 w-100">Upload Front ID Image
+							<input [(ngModel)]="front_image" type="file" (change)="onFileSelectedFront($event)" class="btn btn-primary btn-sm mb-1 w-100">Upload Front ID Image *
 						</div>
 						<div class="col-md-6">
-							<input [(ngModel)]="back_image" type="file" (change)="onFileSelectedBack($event)" class="btn btn-primary btn-sm mb-1 w-100">Upload Back ID Image
+							<input [(ngModel)]="back_image" type="file" (change)="onFileSelectedBack($event)" class="btn btn-primary btn-sm mb-1 w-100">Upload Back ID Image *
 						</div>
 					</div>
 				</div>
@@ -560,7 +612,7 @@
 				<small *ngIf="submitted">
 					<i class="fas fa-spinner button-loader"></i>
 				</small>
-				SUBMIT
+				{{ button_text }}
 			</button>
 		</div>
 	</div>

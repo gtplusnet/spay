@@ -456,7 +456,6 @@ class MemberApiController extends Controller
     public function submit_kyc_id_level_2(Request $request)
     {
         $rules["id_type"]           = array("required");
-        $rules["expiration_date"]   = array("required");
         $rules["id_number"]         = array("required");
         $validator                  = Validator::make($request->all(), $rules);
         if($validator->fails())

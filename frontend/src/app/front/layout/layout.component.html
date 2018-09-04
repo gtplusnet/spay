@@ -28,19 +28,19 @@
 						<a class="nav-link nav-link-text navigation__link" href="#ico_news">icoNews</a>
 					</li>
 					<li class="nav-item mob-show">
-						<a class="nav-link" [routerLink]="['/login']" href="javascript:void(0)" *ngIf="!globalConfigService.isLoggedIn()">Login</a>
-						<a class="nav-link" [routerLink]="['/member']" href="javascript:void(0)" *ngIf="globalConfigService.isLoggedIn()">{{ rest.first_name }} {{ rest.last_name }}</a>
+						<a class="nav-link" href="/login" *ngIf="!globalConfigService.isLoggedIn()">Login</a>
+						<a class="nav-link" href="/member" *ngIf="globalConfigService.isLoggedIn()">{{ rest.first_name }} {{ rest.last_name }}</a>
 					</li>
 					<li class="nav-item mob-show">
-						<a class="nav-link" [routerLink]="['/register']" href="javascript:void(0)" *ngIf="!globalConfigService.isLoggedIn()">Register</a>
+						<a class="nav-link" href="/register" *ngIf="!globalConfigService.isLoggedIn()">Register</a>
 						<a class="nav-link" (click)="actionLogout()" href="javascript:void(0)" *ngIf="globalConfigService.isLoggedIn()">Logout</a>
 					</li>
 				</ul>
 				<span class="navbar-text mob-hide" *ngIf="!globalConfigService.isLoggedIn()">
-					<a class="reg" [routerLink]="['/register']">Create an Account</a>
+					<a class="reg" href="/register">Create an Account</a>
 				</span>
 				<span class="navbar-text mob-hide" *ngIf="!globalConfigService.isLoggedIn()">
-					<a class="log font-weight-bold" [routerLink]="['/login']">Sign In</a>
+					<a class="log font-weight-bold" href="/login">Sign In</a>
 				</span>
 				<span class="navbar-text mob-hide" *ngIf="globalConfigService.isLoggedIn()">
 					<a class="log" href="/member">

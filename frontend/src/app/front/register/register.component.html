@@ -9,11 +9,11 @@
 			</div> -->
 			<h2 class="mob-label">Create an Account</h2>
 			<div class="py-3">
-				<!-- 	{{-- <form action="">
+				<!-- 	<form action="">
 						<input class="custom-textfield w-100 my-2 p-2" type="text" placeholder="Email Address">
 						<input class="custom-textfield w-100 p-2" type="text" placeholder="Password">
 						<button class="btn-lokal-sm w-100 mt-3">REGISTER</button>
-				</form> --}} -->
+				</form>  -->
 				<!-- <div *ngIf="error_message != 'no-message'" class="error-message {{ error_message != 'no-message' ? '' : 'transparent' }}">{{ error_message }}</div> -->
 				<!-- <div class="row mb-2 register-section" *ngIf="error_message != 'no-message'">
 					<div class="col-xs-12 col-lg-12">
@@ -47,13 +47,13 @@
 					<input class="" type="text" name="first_name" id="first_name" [(ngModel)]="system_register.first_name" (keyup)="validate()" placeholder="First Name">
 					<input class="" type="text" name="last_name" id="last_name" [(ngModel)]="system_register.last_name" (keyup)="validate()" placeholder="Last Name">
 					<input class="" type="email" name="email_address" id="email_address" [(ngModel)]="system_register.email" (keyup)="validate()" placeholder="Email Address">
-					<input class="mb-2" type="text" name="referral_link" id="referral_link" [(ngModel)]="referral_link" (keyup)="validate()" placeholder="Referral Code (Optional)">
+					<!-- <input class="mb-2" type="text" name="referral_link" id="referral_link" [(ngModel)]="referral_link" (keyup)="validate()" placeholder="Referral Code (Optional)"> -->
 					<div class="recaptcha">
 						<!-- <re-captcha (resolved)="resolved($event)" siteKey="6Leas2sUAAAAAOCewGhpmMFP1yRb7vJ_bSNlh0oN"></re-captcha> -->
 						<re-captcha #captchaRef="reCaptcha" siteKey="6Lc4Z20UAAAAAKmDA1WvXmezAEfspgRa7md3goLa" size="invisible" (resolved)="$event && submitCaptcha($event)"></re-captcha>
 						<input type="hidden" id="reset_captcha" (click)="captchaRef.reset()">
 					</div>
-					<button class=" mt-2 spay-login-button {{ registering ? 'disabled-btn' : '' }}" (click)="captchaRef.execute()" disabled="{{ registering ? 'disabled' : '' }}">Sign Up</button>
+					<button class=" mt-2 spay-login-button {{ registering ? 'disabled-btn' : '' }}" (click)="newRegister()" disabled="{{ registering ? 'disabled' : '' }}">Sign Up</button>
 					<button class=" my-2 spay-register-button {{ registering ? 'disabled-btn' : '' }}" [routerLink]="['/login']" disabled="{{ registering ? 'disabled' : '' }}">Login</button>
 					<div class="or"> OR </div>
 					<button class="btn-lokal-sm facebook-btn my-2" (click)="socialSignIn('facebook')" disabled="{{ registering ? 'disabled' : '' }}"><i class="fab fa-facebook mr-1"></i>Sign Up with Facebook</button>

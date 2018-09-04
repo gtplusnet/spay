@@ -23,6 +23,8 @@ Route::any('/api/get_faqs','ApiController@faqs_list_homepage');
 Route::get('api/decrypts', 'ApiController@decrypt_passwords');
 Route::get('api/get_system_files', 'ApiController@get_system_files');
 Route::get('/test_seed', 'SeedController@test_seed');
+Route::post('/api/verify_captcha', 'ApiController@verify_captcha');
+
 
 
 //Register and Login Route

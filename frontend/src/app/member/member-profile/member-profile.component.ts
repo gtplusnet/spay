@@ -105,6 +105,8 @@ export class MemberProfileComponent implements OnInit {
 
   bonus_tx_date_from = null;
   bonus_tx_date_to = null;
+  button_text							: string;
+
   constructor(private http: HttpClient, public rest:MemberInfoService, private globalConfigService:GlobalConfigService, private route: ActivatedRoute, private modalService:NgbModal) { }
 
 
@@ -158,6 +160,7 @@ export class MemberProfileComponent implements OnInit {
 		this.view_referral_info_url = this.rest.api_url + "/api/member/get_view_referral_info";
 		this.getReferralInfo();
 		this.pairGoogle2FA();
+		this.button_text = "SUBMIT";
 		 this.http.get(this.rest.api_url + "/api/get_country_codes").subscribe(response=>
     		{
     			this.country_codes = response;
@@ -253,15 +256,11 @@ openKycLevel2Selfie(selector)
 kyclevel2Id()
 {
 	this.submitted = true;
+	this.button_text = "Uploading...";
+	this
 	this.error_message = "no-message";
 	this.success_message = "no-message";
-	if(!this.expiration_date)
-	{
-		this.success_message = "no-message";
-		this.error_message = "Please fill up all forms to proceed.";
-		this.submitted = false;
-	}
-	else if(this.checked)
+	if(this.checked)
 	{
 		var _param = {};
 		const formData = new FormData();
@@ -311,6 +310,7 @@ kyclevel2Id()
 			{
 			    if(this.front_link !="" || this.back_link !="")
     			{
+					this.button_text = "Please Wait";
     				_param["member_id"]			= this.member_id;
     				_param["id_type"]  			= this.id_type;
     				_param["id_number"]			= this.id_number;
@@ -334,6 +334,7 @@ kyclevel2Id()
 							this.kyc_status_id = "pending";
 							this.modal_ref.close();
     						this.submitted = false;
+    						this.button_text = "SUBMIT";
     					}
     					// else
     					// {
@@ -346,16 +347,18 @@ kyclevel2Id()
 				      {
 				        this.error_message = JSON.stringify(error.message);
 				        this.submitted = false;
+    					this.button_text = "SUBMIT";
 				      });
     			}
 			},
-			5000);
+			9000);
 		}
 		else
 		{
 			this.success_message = "no-message";
 			this.error_message = "Please select front id picture and back id picture.";
 			this.submitted = false;
+    		this.button_text = "SUBMIT";
 		}
 	}
 	else
@@ -363,6 +366,7 @@ kyclevel2Id()
 		this.success_message = "no-message";
 		this.error_message = "Please check the agreement to proceed.";
 		this.submitted = false;
+		this.button_text = "SUBMIT";
 	}
 
 }
@@ -651,12 +655,21 @@ SendVerification()
 	param["email_address"] = this.rest.email;
 	this.http.post(send_verification_url,param).subscribe(data=>
 	{
-		this.success_message = "Please check your email for verification link."
-		this.submitted_send = false;
+		console.log(data);
+		if(data['status'] == "success")
+		{
+			this.success_message = "Please check your email for verification link."
+			this.submitted_send = false;
+		}
+		else
+		{
+			this.error_message = "Error in sending Email Verification.";
+			this.submitted_send = false;
+		}
 	},
 	error=>
 	{
-		this.error_message = error;
+		this.error_message = "Error in sending Email Verification.";
 		this.submitted_send = false;
 	});
 }

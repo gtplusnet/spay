@@ -35,8 +35,8 @@ export class MemberDashboardComponent implements OnInit {
   description : string;
   event_title  : string;
   event_sub_title: string;
-  start_date    :string;
-  end_date    : string;
+  start_date    : any;
+  end_date      : any;
   events : boolean;
   getting_bonus : boolean = false;
 
@@ -47,6 +47,8 @@ export class MemberDashboardComponent implements OnInit {
   check_toa_1 : boolean;
   check_toa_2 : boolean;
   check_toa_3 : boolean;
+
+  tos_toggle : any = {};
 
   stage_count_down                : any;
 
@@ -81,6 +83,13 @@ export class MemberDashboardComponent implements OnInit {
     this.check_contributions_url = this.rest.api_url + "/api/member/check_contributions";
     this.checkTokens();
     this.checkContributions();
+    localStorage.removeItem('c1');
+    localStorage.removeItem('c2');
+    localStorage.removeItem('c3');
+    this.tos_toggle.c1 = null;
+    this.tos_toggle.c2 = null;
+    this.tos_toggle.c3 = null;
+
   }
 
   dashboard_data()
@@ -138,7 +147,7 @@ export class MemberDashboardComponent implements OnInit {
     }
     else
     {
-      if(this.check_toa_1 && this.check_toa_2 && this.check_toa_3)
+      if(this.tos_toggle.c1 && this.tos_toggle.c2 && this.tos_toggle.c3)
       {
         this.error_message = "no-message";
         var log_method = this.payment_type == 2 ? 'Ethereum' : 'Bitcoin';
@@ -156,8 +165,6 @@ export class MemberDashboardComponent implements OnInit {
           this.buy_step = "buy_step_2";
           this.buy_loading = false;
         });
-        
-        
       }
       else
       {
@@ -485,4 +492,33 @@ export class MemberDashboardComponent implements OnInit {
     })
     
   }
+
+  toggleTos(param)
+  {
+    this.tos_toggle.c1 = localStorage.getItem('c1')
+    this.tos_toggle.c2 = localStorage.getItem('c2')
+    this.tos_toggle.c3 = localStorage.getItem('c3')
+
+    if(param == 'c1')
+    {
+      this.tos_toggle.c1 = this.tos_toggle.c1 ? localStorage.removeItem('c1') : localStorage.setItem('c1', 'checked')
+    }
+
+    else if(param == 'c2')
+    {
+      this.tos_toggle.c2 = this.tos_toggle.c2 ? localStorage.removeItem('c2') : localStorage.setItem('c2', 'checked')
+    }
+
+    else if(param == 'c3')
+    {
+      this.tos_toggle.c3 = this.tos_toggle.c3 ? localStorage.removeItem('c3') : localStorage.setItem('c3', 'checked')
+    }
+
+    this.tos_toggle.c1 = localStorage.getItem('c1')
+    this.tos_toggle.c2 = localStorage.getItem('c2')
+    this.tos_toggle.c3 = localStorage.getItem('c3')
+
+    // console.log(this.tos_toggle.c1, this.tos_toggle.c2, this.tos_toggle.c3);
+  }
 }
+
