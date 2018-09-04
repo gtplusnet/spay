@@ -87,7 +87,7 @@ export class MemberLayoutComponent implements OnInit
           }
           else
           {
-            // this.actionLogout();
+            this.actionLogout();
           }
           
           

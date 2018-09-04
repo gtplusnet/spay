@@ -396,36 +396,35 @@ body {
 .check_box
 {
 	cursor: pointer;
-	&::before
+	width: 1.2rem;
+	height: 1.2rem;
+	background: #fff !important;
+	color: #fff !important;
+	border: 1px solid #333 !important;
+	&:hover
 	{
-		content: "";
-		width: 1.5px;
-		height: 1.5px;
-		padding: 0px;
-		background: #fff !important;
-		border: 1px solid #333 !important;
-		&:hover
-		{
-			border: 1px solid #3b5998 !important;
-			background: rgba(59, 89, 152, 0.3) !important;
-		}
+		border: 1px solid #3b5998 !important;
+		background: rgba(59, 89, 152, 0.3) !important;
+		color: transparent !important;
 	}
+	font-size: 5px;
+	padding: 2px;
 }
 
 .shaded
 {
-	
-	&::before
-	{
-		width: 1.5px;
-		height: 1.5px;
-	}
 	cursor: pointer;
+	width: 1.2rem;
+	height: 1.2rem;
 	background: #3b5998 !important;
-	border: 1px solid #888 !important;
+	color: #3b5998 !important;
+	border: 1px solid #333 !important;
 	&:hover
 	{
-		background: rgba(59, 89, 152, 0.3) !important;
 		border: 1px solid #555 !important;
+		background: rgba(59, 89, 152, 0.3) !important;
+		color: transparent !important;
 	}
+	font-size: 5px;
+	padding: 2px;
 }
