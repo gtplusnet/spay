@@ -476,34 +476,34 @@
 		<div class="modal-body color-lokal-x">
 			<div class="row">
 				<div class="col-md-6">
-					<label class="mr-3">Select ID Type : </label>
+					<label class="mr-3">Select ID Type : *</label>
 					<select [(ngModel)]="id_type" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng-valid ng-touched">
 						<option>Passport</option>
 						<option>Other</option>
 					</select>
 				</div>
 				<div class="col-md-6">
-					<label *ngIf="id_type == 'Other'" class="mr-4">Please Specify: </label>
+					<label *ngIf="id_type == 'Other'" class="mr-4">Please Specify: *</label>
 					<input *ngIf="id_type == 'Other'" [(ngModel)]="other_id" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng-valid ng-touched" type="" name="">
 				</div>
 				<div class="col-md-6">
-					<label class="mr-4">ID Number: </label>
+					<label class="mr-4">ID Number: *</label>
 					<input [(ngModel)]="id_number" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng-valid ng-touched" type="" name="">
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-6">
-					<label class="mr-2">Expiration Date : </label>
+					<label class="mr-2">Expiration Date : (Optional)</label>
 					<input [(ngModel)]="expiration_date" class="form-control form-control-sm input-lokal mb-1 ng-pristine ng-valid ng-touched" type="date" name="">
 				</div>
 				<div class="col-md-12">
 					<label>Upload Image:</label>
 					<div class="form-row">
 						<div class="col-md-6">
-							<input [(ngModel)]="front_image" type="file" (change)="onFileSelectedFront($event)" class="btn btn-primary btn-sm mb-1 w-100">Upload Front ID Image
+							<input [(ngModel)]="front_image" type="file" (change)="onFileSelectedFront($event)" class="btn btn-primary btn-sm mb-1 w-100">Upload Front ID Image *
 						</div>
 						<div class="col-md-6">
-							<input [(ngModel)]="back_image" type="file" (change)="onFileSelectedBack($event)" class="btn btn-primary btn-sm mb-1 w-100">Upload Back ID Image
+							<input [(ngModel)]="back_image" type="file" (change)="onFileSelectedBack($event)" class="btn btn-primary btn-sm mb-1 w-100">Upload Back ID Image *
 						</div>
 					</div>
 				</div>
@@ -554,7 +554,7 @@
 				<small *ngIf="submitted">
 					<i class="fas fa-spinner button-loader"></i>
 				</small>
-				SUBMIT
+				{{ button_text }}
 			</button>
 		</div>
 	</div>
