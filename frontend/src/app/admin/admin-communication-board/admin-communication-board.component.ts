@@ -51,7 +51,7 @@ export class AdminCommunicationBoardComponent implements OnInit {
   id								: number;
   table_loader						: boolean;
   banner_size						: boolean;
-  
+  timeout							: number;
   ngOnInit() {
   	this.cloud_storage_url = "https://aeolus-storage.sgp1.digitaloceanspaces.com/";
   	this.member_position_url = this.rest.api_url + "/api/admin/get_member_positions";
@@ -319,10 +319,14 @@ onSubmit()
 
 onUpdate()
 {
+	console.log("testing");
 	this.error_message = "no-message";
 	this.success_message = "no-message";
-	this._params={}
+	this._params={};
     this.submitted = true;
+    this.banner_size = false;
+    this.timeout = 0;
+
 	if(this.thumbnailImage != null)
 	{
 		const formData = new FormData();
@@ -330,6 +334,7 @@ onUpdate()
 		this.rest.uploadImageOnServer(formData,"cb").subscribe(responseThumbnail=>
 		{
 			this.thumbnail_link = responseThumbnail['full_path'];
+			this.timeout = 5000;
 		},
 			error=>
 			{
@@ -353,6 +358,7 @@ onUpdate()
 		else
 		{
 			this.banner_size = true;
+			this.timeout = 0;
 		}
  	
  		},
@@ -361,10 +367,15 @@ onUpdate()
 				console.log(error);
 			});
 	}
-	setTimeout(function()
+	else
 	{
+		console.log("banner size true");
+		this.banner_size = true;
+	}
+	
 		if(this.banner_size)
 		{
+			console.log("banner size accepted");
 			this._params["selected"]     = this.isChecked;
 			this._params["title"]        = this.title;
 			this._params["subtitle"] 	 = this.subtitle;
@@ -397,7 +408,6 @@ onUpdate()
 				console.log(error);
 			})
 		}
-	},5000);
 }
 }
 
