@@ -1256,4 +1256,36 @@ class ApiController extends Controller
 
         return json_encode($_data);
     }
+
+    public function verify_captcha(Request $request)
+    {
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+
+        $response   = isset($request->response) ? $request->response : null;
+        $privatekey = "6LcawmMUAAAAAP9WKz8f2Gdt8fDRN0u28rQCyrB6";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, array(
+            'secret' => $privatekey,
+            'response' => $response,
+            'remoteip' => $_SERVER['REMOTE_ADDR']
+        ));
+
+        $resp = json_decode(curl_exec($ch));
+        curl_close($ch);
+
+        if ($resp->success) {
+            $return["status"] = "success";
+        } else {
+            $return["status"] = "error";
+        }
+
+        return json_encode($return);
+    }
 }
