@@ -40,4 +40,9 @@ class Tbl_member_address extends Model
 			$query->where('tbl_coin.coin_name', $coin_name);
 		}
 	}
+
+	public function scopeJoinOther($query)
+	{
+		$query->join('tbl_other_info', 'tbl_other_info.user_id', '=', 'tbl_member_address.member_id');
+	}
 }
