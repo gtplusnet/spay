@@ -147,7 +147,7 @@ export class MemberDashboardComponent implements OnInit {
     }
     else
     {
-      if(this.check_toa_1 && this.check_toa_2 && this.check_toa_3)
+      if(this.tos_toggle.c1 && this.tos_toggle.c2 && this.tos_toggle.c3)
       {
         this.error_message = "no-message";
         var log_method = this.payment_type == 2 ? 'Ethereum' : 'Bitcoin';
