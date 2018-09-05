@@ -163,6 +163,20 @@
 		background: #ccc;
 		transition: 200;
 	}
+
+	@media screen and (max-width: 576px) 
+	{
+		width: 45px;
+		height: 45px;
+		font-size: 20px;
+	}
+
+	@media screen and (max-width: 768px) 
+	{
+		width: 75px;
+		height: 75px;
+		font-size: 30px;
+	}
 }
 
 .payment-btn-active

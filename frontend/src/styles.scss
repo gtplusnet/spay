@@ -377,18 +377,24 @@ body {
 
 .wallet_address
 {
-	font-size: 32px;
+	font-size: 32px !important;
 	font-weight: 600;
 	
 	@media screen and (max-width: 1024px)
 	{
-		font-size: 20px;
+		font-size: 18px !important;
 		font-weight: 400;
 	}
 
 	@media screen and (max-width: 500px)
 	{
-		font-size: 16px;
+		font-size: 14px !important;
+		font-weight: 200;
+	}
+
+	@media screen and (max-width: 390px)
+	{
+		font-size: 10px !important;
 		font-weight: 200;
 	}
 }
@@ -396,36 +402,47 @@ body {
 .check_box
 {
 	cursor: pointer;
-	&::before
+	width: 1.2rem;
+	height: 1.2rem;
+	background: #fff !important;
+	color: #fff !important;
+	border: 1px solid #333 !important;
+	&:hover
 	{
-		content: "";
-		width: 1.5px;
-		height: 1.5px;
-		padding: 0px;
-		background: #fff !important;
+		background: #3b5998 !important;
+		color: #3b5998 !important;
 		border: 1px solid #333 !important;
-		&:hover
-		{
-			border: 1px solid #3b5998 !important;
-			background: rgba(59, 89, 152, 0.3) !important;
-		}
 	}
+	&:active
+	{
+		background: #3b5998 !important;
+		color: #3b5998 !important;
+		border: 1px solid #333 !important;
+	}
+	font-size: 5px;
+	padding: 2px;
 }
 
 .shaded
 {
-	
-	&::before
-	{
-		width: 1.5px;
-		height: 1.5px;
-	}
 	cursor: pointer;
+	width: 1.2rem;
+	height: 1.2rem;
 	background: #3b5998 !important;
-	border: 1px solid #888 !important;
+	color: #3b5998 !important;
+	border: 1px solid #333 !important;
 	&:hover
 	{
-		background: rgba(59, 89, 152, 0.3) !important;
 		border: 1px solid #555 !important;
+		background: #3b5998 !important;
+		color: transparent !important;
 	}
+	&:active
+	{
+		border: 1px solid #555 !important;
+		background: #3b5998 !important;
+		color: transparent !important;
+	}
+	font-size: 5px;
+	padding: 2px;
 }
