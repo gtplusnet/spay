@@ -78,7 +78,7 @@
 								<input type="email" [(ngModel)]="email" class="form-control input-lokal" placeholder="Email Address" value="{{rest.email}}" readonly="true">
 
 								<label class="mb-1 mt-3">Birthday</label>
-								<input type="date" class="form-control input-lokal" value="{{ rest.birthday | date:'yyyy-MM-dd' }}" readonly>
+								<input type="text" class="form-control input-lokal" value="{{ rest.formatDate(rest.birthday) }}" readonly>
 								
 								<!-- <label class="mb-1 mt-3">Country</label>
 								<select [(ngModel)]="country" class="form-control input-lokal" placeholder="Select Country">
