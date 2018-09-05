@@ -61,6 +61,8 @@ export class MemberDashboardComponent implements OnInit {
 
   _table_recent_transaction : any;
   _table_recent_transaction_loader : boolean;
+  text_to_copy : string;
+
   constructor(private modalService: NgbModal, public rest : MemberInfoService, private globalConfigService:GlobalConfigService, private http : HttpClient ) 
   { 
   }
@@ -89,7 +91,6 @@ export class MemberDashboardComponent implements OnInit {
     this.tos_toggle.c1 = null;
     this.tos_toggle.c2 = null;
     this.tos_toggle.c3 = null;
-
   }
 
   dashboard_data()
@@ -162,6 +163,7 @@ export class MemberDashboardComponent implements OnInit {
         }).subscribe(response=>
         {
           this.check_pending_transacts = response;
+          this.text_to_copy = this.payment_type == 2 ? this.rest._wallet[2].member_address: this.rest._wallet[3].member_address;
           this.buy_step = "buy_step_2";
           this.buy_loading = false;
         });
@@ -522,5 +524,16 @@ export class MemberDashboardComponent implements OnInit {
 
     console.log(this.tos_toggle.c1, this.tos_toggle.c2, this.tos_toggle.c3);
   }
+
+  copyText(text:string) {
+        const event = (t : ClipboardEvent) => {
+            t.clipboardData.setData('text/plain', text);
+            t.preventDefault();
+            // ...('copy', e), as event is outside scope
+            //document.removeEventListener('copy',t);
+        }
+        document.addEventListener('copy', event);
+        document.execCommand('copy');
+    }
 }
 

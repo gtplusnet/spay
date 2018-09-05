@@ -251,8 +251,15 @@
 		<div class="modal-body text-left  color-lokal-x">
 			<div class=" p-3 row ">
 				<div class=" col-lg-12 col-xs-12 text-center">
-					<h3 class="mb-0 font-weight-light mt-2 wallet_address">{{ data_focus.wallet_address }}</h3>
-					<h5 class="font-weight-bold mb-5">Deposit Address</h5>
+					<div class="input-group mb-3">
+	        		  <input [(ngModel)]="text_to_copy" class="form-control text-center" type="text" readonly>
+	        		  <div class="input-group-append">
+	        		    <button class="btn btn-outline-secondary" type="button" (click)="copyText(text_to_copy)"><i class="fas fa-copy"></i></button>
+	        		  </div>
+	        		</div>
+	        		<h5 class="font-weight-bold mb-5">Copy Deposit Address</h5>
+					<!-- <h3 class="mb-0 font-weight-light mt-2 wallet_address">{{ data_focus.wallet_address }}</h3>
+					<h5 class="font-weight-bold mb-5">Deposit Address</h5> -->
 				</div>
 			</div>
 		</div>

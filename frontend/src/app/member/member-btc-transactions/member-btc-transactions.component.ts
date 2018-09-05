@@ -27,7 +27,7 @@ export class MemberBtcTransactionsComponent implements OnInit {
   transaction_date_to     : any;
   transaction_date_from   : any;
   data_table : any;
-
+  text_to_copy            : string;
 
   constructor(public rest : MemberInfoService, private http : HttpClient, private modalService: NgbModal) { }
 
@@ -96,7 +96,7 @@ export class MemberBtcTransactionsComponent implements OnInit {
   viewTransactionDetails(id, selectorDetails,wallet,selectorWallet)
   {
     this.data_focus = this.rest.findObjectByKey(this._table, 'automatic_cash_in_id', id);
-    this.data_focus["wallet_address"] = this.wallet_address.member_address;
+    this.text_to_copy = this.wallet_address.member_address;
     if(wallet == 1)
     {
       this.openLg(selectorWallet);
@@ -106,5 +106,16 @@ export class MemberBtcTransactionsComponent implements OnInit {
       this.openLg(selectorDetails);
     }
   }
+
+  copyText(text:string) {
+        const event = (t : ClipboardEvent) => {
+            t.clipboardData.setData('text/plain', text);
+            t.preventDefault();
+            // ...('copy', e), as event is outside scope
+            //document.removeEventListener('copy',t);
+        }
+        document.addEventListener('copy', event);
+        document.execCommand('copy');
+    }
 
 }

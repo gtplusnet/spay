@@ -381,8 +381,17 @@
 				<hr>
 				<div class="text-center">
 					<h3 class="font-weight-bold">Send Payment</h3>
-	        		<h5 class="mb-1">Copy this wallet address</h5>
-	        		<h3 class="mb-3">{{ payment_type == 2 ? rest._wallet[2].member_address: rest._wallet[3].member_address }}<button class="btn btn-default"><i class="fas fa-copy"></i></button></h3>
+	        		<h5 class="mb-1">Copy this wallet addresss</h5>
+	        		<!-- <div class="col-md-12 text-center">
+	        			<input class="form-control" type="text" readonly value="{{ payment_type == 2 ? rest._wallet[2].member_address: rest._wallet[3].member_address }}"><button class="btn btn-default"><i class="fas fa-copy"></i></button>
+	        		</div> -->
+
+	        		<div class="input-group mb-3">
+	        		  <input [(ngModel)]="text_to_copy" class="form-control text-center" type="text" readonly>
+	        		  <div class="input-group-append">
+	        		    <button class="btn btn-outline-secondary" type="button" (click)="copyText(text_to_copy)"><i class="fas fa-copy"></i></button>
+	        		  </div>
+	        		</div>
 					or
 	        		<h5 class="mb-1 mt-3">Scan this QR Code</h5>
 	        		<span class="mb-3 d-flex justify-content-center align-items-center py-2">
@@ -445,10 +454,10 @@
 				<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
-		<div class="modal-body text-left  color-lokal-x">
+		<div class="modal-body color-lokal-x">
 			<div class="p-3 row">
 				<div class=" col-lg-12 col-xs-12 text-center">
-					<img class="ml-0" src="https://aeolus-storage.sgp1.digitaloceanspaces.com/{{banner_link}}" style='width:400px;height:100px; object-fit: contain;'/>
+					<img class="ml-0" src="https://aeolus-storage.sgp1.digitaloceanspaces.com/{{banner_link}}" style='display:block; margin-left:auto;margin-right:auto;width:100%;height:100%; object-fit: contain;'/>
 				</div>
 			</div>
 			<div class="p-3 row">
