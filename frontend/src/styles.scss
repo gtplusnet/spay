@@ -1,0 +1,448 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "assets/scss/member-page";
+@import "assets/spay_assets/scss/custom";
+
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: #f1f1f1; 
+
+}
+
+::-webkit-scrollbar-thumb {
+	background: #7f8fa6; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #718093; 
+}
+
+@keyframes rotate-circle {
+	from {transform: rotate(0deg)}
+	to {transform: rotate(360deg)}
+}
+
+.validating
+{
+	color: $base-color;
+	text-align: center;
+	font-size: 15px;
+	.circle
+	{
+		border: 2px dotted $base-color;
+		border-radius: 100%;
+		height: 20px;
+		width: 20px;
+		transform: rotate(0deg);
+		animation: rotate-circle 1500ms linear infinite;
+	}
+}
+
+.load-table {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    .circle {
+        border: 12px dashed rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        height: 100px;
+        width: 100px;
+        transform: rotate(0deg);
+        animation: rotate-circle 1500ms linear infinite;
+    }
+    .text {
+        color: rgba(0, 0, 0, 0.5);
+    }
+}
+
+.error-message {
+    background: rgba(255, 10, 50, 0.3);
+    color: #fff;
+}
+
+.my-pagination {
+    padding: 0;
+    margin: 0;
+    .ngx-pagination {
+        padding: 0;
+        margin: 0;
+        font-size: 13px;
+        .current {}
+    }
+}
+
+.member-loading {
+    position: fixed;
+    width: 100%;
+    min-height: 100vh;
+    background: $base-color;
+    z-index: 999;
+    overflow: hidden;
+    .load-table {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        .circle {
+            border: 12px dashed rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            height: 100px;
+            width: 100px;
+            transform: rotate(0deg);
+            animation: rotate-circle 1500ms linear infinite;
+        }
+        .text {
+            color: rgba(255, 255, 255, 0.5);
+        }
+    }
+}
+
+.button-loader {
+    position: relative;
+    transform: rotate(0deg);
+    animation: rotate-circle 1000ms linear infinite;
+}
+
+.nav-alignment-x {
+    display: inline-block;
+    min-width: 25px;
+    margin-right: 5px;
+    text-align: center;
+}
+
+.main-loader {
+    min-width: 100%;
+    min-height: 100vh;
+    position: fixed;
+    background: $base-color-dark;
+    transition: 300ms;
+    z-index: 9999;
+}
+
+.border_overlay
+{
+	background: red !important;
+	.meshim_widget_widgets_BorderOverlay
+	{
+		background: red !important;
+	}
+	.meshim_widget_widgets_TitleBar
+	{
+		background: red !important;
+	}
+}
+
+.meshim_widget_widgets_TitleBar
+{
+	background: red !important;
+}
+
+@media screen and (max-width: 600px)
+{
+	input[type="date"]:not(.has-value):before{
+		color: lightgray;
+		content: attr(placeholder);
+	}
+}
+
+@media screen and (max-width: 600px) {
+    input[type="date"]:not(.has-value):before {
+        color: lightgray;
+        content: attr(placeholder);
+    }
+}
+
+.nav-items-lokal {
+    font-size: 14px;
+}
+
+.nav-label-lokal {
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.border-lokal-nav {
+    border: 0.5px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.notif-counter-active {
+    background: rgba(255, 0, 0, 0.5);
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.notif-counter-inactive {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px;
+    border-radius: 4px;
+}
+
+
+.facebook-btn
+{
+	background: #3b5998 !important;
+	font-size: 16px !important;
+	transition: 400ms;
+	&:disabled
+	{
+		filter: grayscale(60%) !important;
+		cursor: not-allowed !important;
+		transition: 400ms;
+	}
+}
+
+.google-btn
+{
+	background: #d34836 !important;
+	font-size: 16px !important;
+	transition: 400ms;
+	&:disabled
+	{
+		cursor: not-allowed !important;
+		filter: grayscale(60%) !important;
+		transition: 400ms;
+	}
+}
+
+
+.lokal-forms
+{
+	@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+	font-family: 'Roboto Condensed', sans-serif !important;
+	width: 365px;
+	margin: auto;
+	background: #fff;
+	padding: 25px 15px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	border-top: 5px solid $base-color;
+	border-bottom: 5px solid $base-color;
+	input
+	{
+		width: 301px;
+		height: 38px;
+		margin: 5px 0px;
+		font-size: 13px;
+		padding: 13px;
+		border: 1px solid rgba(147, 104, 1, 0.2);
+		color: $base-color-dark;
+		font-family: 'Roboto Condensed', sans-serif !important;
+	}
+	button
+	{
+		width: 301px !important;
+		border-radius: 0px !important;
+		height: 38px;
+		// margin: 5px 0px;
+		cursor: pointer;
+		text-align: center;
+		font-family: 'Roboto Condensed', sans-serif !important;
+	}
+
+	.or 
+	{
+		display:flex;
+		justify-content:center;
+		align-items: center;
+		color:  rgba(147, 104, 1, 0.5);
+		font-size: 12px;
+		&::after,
+		&::before
+		{
+			content: "";
+			display: block;
+			background: #000 !important;
+			width: 30%;
+			height:1px;
+			margin: 0 10px;
+		}
+	}
+
+	.lokalize-login-button
+	{
+		border: 1px solid $base-color-dark !important;
+		background: $base-color-dark !important;
+		color: #fff !important;
+		transition: 500ms;
+		&:hover
+		{
+			background: $base-color !important;
+			color: #fff !important;
+			transition: 500ms;
+		}
+		&:disabled
+		{
+			background: #393544 !important;
+			color: #fff !important;
+			filter: grayscale(40%);
+			transition: 500ms;
+			cursor: not-allowed;
+		}
+
+
+	}
+
+	.lokalize-register-button
+	{
+		border: 1px solid $base-color-dark !important;
+		background: #fff !important;
+		color: $base-color-dark !important;
+		transition: 500ms;
+		&:hover
+		{
+			background: $base-color-dark !important;
+			color: #fff !important;
+			transition: 500ms;
+		}
+		&:disabled
+		{
+			background: #393544 !important;
+			color: #fff !important;
+			filter: grayscale(40%);
+			transition: 500ms;
+			cursor: not-allowed;
+		}
+	}
+
+	.lokal-alerts
+	{
+		width: 301px !important;
+		font-size: 14px;
+		.lokal-text
+		{
+			color: $base-color-dark !important;
+		}
+	}
+
+	
+}
+
+.lokal-text
+{
+	color: $base-color-dark !important;
+}
+
+.alert-lokalize
+{
+	background: rgba(147, 104, 1, 0.5) !important;
+	border-color: rgba(147, 104, 1, 0.2) !important;
+	border-radius: 0px !important;
+	color: #fff !important;
+	hr
+	{
+		border-color: rgba(147, 104, 1, 0.2) !important;
+	}
+}
+
+
+.cookie-holder
+{
+	padding: 15px;
+	text-align: center;
+	color: #fff;
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	background: rgba(170, 120, 9, 0.7);
+	z-index: 9999;
+	font-size: 13px;
+	.cookie-btn
+	{
+		cursor: pointer;
+		padding: 5px 10px;
+		border: 0;
+		border-radius: 0px;
+		background: red;
+		color: #fff;
+	}
+}
+
+.faq_answer
+{
+	img
+	{
+		width: 100% !important;
+	}
+}
+
+body {
+    padding-right: 0px !important;
+}
+
+.wallet_address
+{
+	font-size: 32px !important;
+	font-weight: 600;
+	
+	@media screen and (max-width: 1024px)
+	{
+		font-size: 18px !important;
+		font-weight: 400;
+	}
+
+	@media screen and (max-width: 500px)
+	{
+		font-size: 14px !important;
+		font-weight: 200;
+	}
+
+	@media screen and (max-width: 390px)
+	{
+		font-size: 10px !important;
+		font-weight: 200;
+	}
+}
+
+.check_box
+{
+	cursor: pointer;
+	width: 1.2rem;
+	height: 1.2rem;
+	background: #fff !important;
+	color: #fff !important;
+	border: 1px solid #333 !important;
+	&:hover
+	{
+		background: #3b5998 !important;
+		color: #3b5998 !important;
+		border: 1px solid #333 !important;
+	}
+	&:active
+	{
+		background: #3b5998 !important;
+		color: #3b5998 !important;
+		border: 1px solid #333 !important;
+	}
+	font-size: 5px;
+	padding: 2px;
+}
+
+.shaded
+{
+	cursor: pointer;
+	width: 1.2rem;
+	height: 1.2rem;
+	background: #3b5998 !important;
+	color: #3b5998 !important;
+	border: 1px solid #333 !important;
+	&:hover
+	{
+		border: 1px solid #555 !important;
+		background: #3b5998 !important;
+		color: transparent !important;
+	}
+	&:active
+	{
+		border: 1px solid #555 !important;
+		background: #3b5998 !important;
+		color: transparent !important;
+	}
+	font-size: 5px;
+	padding: 2px;
+}
