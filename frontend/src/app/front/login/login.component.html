@@ -31,7 +31,7 @@
 							<!-- <re-captcha #captchaRef="reCaptcha" siteKey="6LfxQWwUAAAAAK_TrtwMkx34BihD7aA2W1xpX-e7" size="invisible" (resolved)="$event && submitCaptcha($event, google_authenticator)"></re-captcha>
 							<input type="hidden" id="reset_captcha" (click)="captchaRef.reset()"> -->
 						</div>
-						<button class=" mt-2 spay-login-button" type="submit" disabled="{{submitted ? 'disabled' : ''}}">Login</button>
+						<button class="mt-2 spay-login-button" type="submit" disabled="{{submitted ? 'disabled' : ''}}">Login</button>
 						<button class=" my-2 spay-register-button" [routerLink]="['/register']" disabled="{{submitted ? 'disabled' : ''}}">Sign Up</button>
 						<div class="or"> OR </div>
 						<button class="btn-lokal-sm facebook-btn my-2" (click)="socialSignIn('facebook')" disabled="{{submitted ? 'disabled' : ''}}"><i class="fab fa-facebook mr-1"></i>Login with Facebook</button>
