@@ -320,5 +320,10 @@ export class MemberLayoutComponent implements OnInit
      this._notificationService.generateNotification(data);
    }
 
+  hideNavBar()
+  {
+     $('.page-wrapper').toggleClass('sidebar-hidden');
 
+     $('.page-wrapper').toggleClass('sidebar-mobile-show');
+  }
  }
