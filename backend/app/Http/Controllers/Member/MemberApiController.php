@@ -39,6 +39,7 @@ use App\Tbl_email_verification;
 use App\Globals\Mails;
 use Intervention\Image\Image;
 use stdClass;
+use Excel;
 
 class MemberApiController extends Controller
 {
@@ -1029,5 +1030,34 @@ class MemberApiController extends Controller
         }
 
         return json_encode($return);
+    }
+
+    public function export_member_transaction_list(Request $request)
+    {        
+        if($request->data == "filtered")
+        {
+            $param["account_name"]          = $request->account_name;
+            $param["log_method_accepted"]   = $request->log_method_accepted;
+            $param["transaction_status"]    = $request->transaction_status;
+            $param["transaction_date_from"] = $request->transaction_date_from;
+            $param["transaction_date_to"]   = $request->transaction_date_to;
+            $param["log_method"]            = $request->log_method;
+            $data["list"] = Transactions::getTransactions($param, null, $request->member_id);
+        }
+        else
+        {
+            $param["log_method"]            = $request->log_method;
+            $param["log_method_accepted"]   = $request->log_method_accepted;
+            $data["list"] = Transactions::getTransactions($param, "all", $request->member_id);
+        }
+
+        Excel::create(ucwords($request->first_name." ".$request->last_name." - ".$request->log_method)." Transaction List", function($excel) use ($data)
+        {
+            $excel->sheet("Sheet 1", function($sheet) use ($data)
+            {
+                $sheet->setOrientation('landscape');
+                $sheet->loadView('excel.admin_transaction_list', $data);
+            });
+        })->export('xlsx');
     }
 }
