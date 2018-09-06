@@ -201,11 +201,23 @@ body
 					background-color: $tertiary-color;
 					font-size: 15px;
 					margin-right: 20px;
+					&:hover
+					{							
+						text-decoration: none;
+					    box-shadow: 0 0 15px  $tertiary-color;
+					    transition: all 0.5s ease;
+					}
 				}
 				.btn-outline
 				{
 					background-color: transparent;
 					border: 2px solid $tertiary-color;
+					&:hover
+					{
+						text-shadow: 0 0 15px $base-color;
+						transition: all 0.5s ease;
+						box-shadow: 0 0 15px  $tertiary-color;
+					}
 				}
 			}
 		}
@@ -274,6 +286,7 @@ body
 		}
 		.swiper-ico-news
 		{
+			margin-top: 40px;
             overflow: hidden;
 		    .swiper-wrapper
 		    {
