@@ -154,7 +154,7 @@ Route::post('/api/member/get_referrals','Member\MemberApiController@get_referral
 //Admin Excel API
 Route::get('/api/admin/excel/export_member_list', 'Admin\AdminExcelController@export_member_list');
 Route::get('/api/admin/excel/export_transaction_list', 'Admin\AdminExcelController@export_transaction_list');
-Route::get('/api/member/excel/export_member_transaction_list', 'Member\MemberApiController@export_member_transaction_list');
+Route::get('/api/excel/export_member_transaction_list', 'Admin\AdminExcelController@export_member_transaction_list');
 Route::get('/api/admin/excel/export_btc_transaction', 'Admin\AdminExcelController@export_member_transaction_list');
 Route::get('/api/admin/excel/export_transfer_token', 'Admin\AdminExcelController@export_transfer_token');
 Route::get('/api/admin/excel/export_referral_bonus','Admin\AdminExcelController@export_referral_bonus_list');
