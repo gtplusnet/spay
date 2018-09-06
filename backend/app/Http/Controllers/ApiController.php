@@ -925,7 +925,7 @@ class ApiController extends Controller
                     $update_email_verification["is_used"] = 1;
                     $update_user["verified_mail"]   = 1;
                     $update_user["status_account"]  = $position->member_position_id == 1 ? 1 : 0;
-                    if($data["member"]->password == null && $data["member"]->platform == "system")
+                    if($data["member"]->password == null) // remove platform ($data["member"]->platform == system)
                     {
                         $update_user["password"]        = Hash::make($passkey);
                         Mails::send_temp_pass($data);

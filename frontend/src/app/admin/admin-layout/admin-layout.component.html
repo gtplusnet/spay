@@ -88,7 +88,7 @@
                     <li class="nav-title">Navigation</li>
 
                     <li class="nav-item">
-                        <a [routerLink]="['/admin/dashboard']" class="nav-link py-1 px-4">
+                        <a [routerLink]="['/admin/dashboard']" class="nav-link py-1 px-4" (click)="hideNavBar()">
                             <div class="nav-alignment-x"><i class="fas fa-tachometer-alt"></i></div> <small>Dashboard</small>                        
                           </a>
                     </li>
@@ -100,13 +100,13 @@
                         
                     </li>
                     <li class="nav-item">
-                        <a [routerLink]="['/admin/btc-transactions']" class="nav-link py-1 px-4">
+                        <a [routerLink]="['/admin/btc-transactions']" class="nav-link py-1 px-4" (click)="hideNavBar()">
                             <div class="nav-alignment-x"><i class="fab fa-bitcoin"></i></div> <small>BTC Transaction List</small>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a [routerLink]="['/admin/eth-transactions']" class="nav-link py-1 px-4">
+                        <a [routerLink]="['/admin/eth-transactions']" class="nav-link py-1 px-4" (click)="hideNavBar()">
                             <div class="nav-alignment-x"><i class="fab fa-ethereum"></i></div> <small>ETH Transaction List</small>
                         </a>
                     </li>
@@ -128,23 +128,23 @@
                         </a>
                     </li> -->
                     <li class="nav-item">
-                        <a [routerLink]="['/admin/communication-board']" class="nav-link py-1 px-4">
+                        <a [routerLink]="['/admin/communication-board']" class="nav-link py-1 px-4" (click)="hideNavBar()">
                             <div class="nav-alignment-x"><i class="far fa-calendar-alt"></i></div><small>Communication Board</small>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a [routerLink]="['/admin/transfer-token']" class="nav-link py-1 px-4">
+                        <a [routerLink]="['/admin/transfer-token']" class="nav-link py-1 px-4" (click)="hideNavBar()">
                             <div class="nav-alignment-x"><i class="fas fa-donate"></i></div><small>Transfer Token</small>
                         </a>
                     </li>
                     <li>  
-                        <a [routerLink]="['/admin/bonus']" class="nav-link py-1 px-4">
+                        <a [routerLink]="['/admin/bonus']" class="nav-link py-1 px-4" (click)="hideNavBar()">
                             <div class="nav-alignment-x"><i class="fas fa-user-plus"></i></div> <small>Member Bonus Logs</small>
                         </a>
                     </li>
                        <ul class="nav member-sidenav dropdown-lokal">
                            <li class="nav-item sub-menu">
-                               <a [routerLink]="['/admin/bonus/sale-stage']" class="nav-link py-0">
+                               <a [routerLink]="['/admin/bonus/sale-stage']" class="nav-link py-0" (click)="hideNavBar()">
                                    <small class="ml-1" >Sale Stage Bonus</small> 
                                </a>
                            </li>
@@ -160,13 +160,13 @@
                            </li> -->
                        </ul>
                     <li class="nav-item">
-                        <a [routerLink]="['/admin/settings']" class="nav-link py-1 px-4">
+                        <a [routerLink]="['/admin/settings']" class="nav-link py-1 px-4" (click)="hideNavBar()">
                             <div class="nav-alignment-x"><i class="fas fa-cog"></i></div> <small>Settings</small>
                         </a>
                     </li>
                        <ul class="nav member-sidenav dropdown-lokal">
                            <li class="nav-item sub-menu">
-                               <a [routerLink]="['/admin/settings/conversion-settings']" class="nav-link py-0">
+                               <a [routerLink]="['/admin/settings/conversion-settings']" class="nav-link py-0" (click)="hideNavBar()">
                                    <small class="ml-1" >Conversion Settings</small> 
                                </a>
                            </li>
@@ -176,7 +176,7 @@
                                </a>
                            </li> -->
                            <li class="nav-item sub-menu">
-                               <a [routerLink]="['/admin/settings/main-wallet-settings']" class="nav-link py-0">
+                               <a [routerLink]="['/admin/settings/main-wallet-settings']" class="nav-link py-0" (click)="hideNavBar()">
                                    <small class="ml-1" >Main Wallet Settings</small> 
                                </a>
                            </li>
@@ -186,7 +186,7 @@
                                </a>
                            </li> -->
                            <li class="nav-item sub-menu">
-                               <a [routerLink]="['/admin/settings/system-files']" class="nav-link py-0">
+                               <a [routerLink]="['/admin/settings/system-files']" class="nav-link py-0" (click)="hideNavBar()">
                                    <small class="ml-1" >System Files</small> 
                                </a>
                            </li>

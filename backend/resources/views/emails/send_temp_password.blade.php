@@ -2,7 +2,7 @@
 @section('content')
 <h4 style="margin-bottom: 10px;">Hi {{$member["first_name"]}} {{$member["last_name"]}},</h4>
 <p style="text-indent: 50px;">
-	Thank you for verifying your email address! Please use the temporary password we generated for you. You can change it later in your 'My Account' > 'Profile' page of the website.
+	Thank you for verifying your email address! Please use the temporary password we generated for you. Please Logout if you are currently logged in and You can change it later in your 'My Account' > 'Profile' page of the website.
 </p>
 <div class="text-center"><strong>Temporary Password:</strong> {{$passkey}}</div>
 <div style="text-align: center; padding: 15px 0px;">

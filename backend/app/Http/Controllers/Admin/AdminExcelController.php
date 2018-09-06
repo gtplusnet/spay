@@ -118,7 +118,6 @@ class AdminExcelController extends Controller
             $param["transaction_date_from"] = $request->transaction_date_from;
             $param["transaction_date_to"]   = $request->transaction_date_to;
             $param["log_method"]            = $request->log_method;
-            //dd($param);
             $data["list"] = Transactions::getTransactions($param, null, $request->member_id);
         }
         else

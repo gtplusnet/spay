@@ -150,6 +150,7 @@ export class AdminLayoutComponent implements OnInit {
   {
     var admin_viewed_notif = this.rest.api_url + "/api/admin/admin_viewed_notif";
 
+    this.hideNavBar();
     this.http.post(admin_viewed_notif,
     {
       login_token : this.rest.login_token,
@@ -164,4 +165,9 @@ export class AdminLayoutComponent implements OnInit {
       });
   }
 
+hideNavBar()
+{
+  $('.page-wrapper').toggleClass('sidebar-hidden');
+  $('.page-wrapper').toggleClass('sidebar-mobile-show');
+}
 }

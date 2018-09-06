@@ -40,6 +40,7 @@ use App\Tbl_email_verification;
 use App\Globals\Mails;
 use Intervention\Image\Image;
 use stdClass;
+use Excel;
 
 class MemberApiController extends Controller
 {
