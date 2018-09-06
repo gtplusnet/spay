@@ -9,6 +9,7 @@ import { MemberBtcTransactionsComponent } from '../member-btc-transactions/membe
 import { MemberEthTransactionsComponent } from '../member-eth-transactions/member-eth-transactions.component';
 import { MemberAccountSettingsComponent } from '../member-account-settings/member-account-settings.component';
 import { MemberManualTransfersComponent } from '../member-manual-transfers/member-manual-transfers.component';
+import { MemberBankTransactionsComponent } from '../member-bank-transactions/member-bank-transactions.component';
 const routes: Routes = 
 [
   { path: '', component: MemberLayoutComponent, 
@@ -20,6 +21,7 @@ const routes: Routes =
 	  { path: 'member/profile/kyc/:kyc_page', component: MemberProfileComponent },
 	  { path: 'member/btc-transactions', component: MemberBtcTransactionsComponent },
 	  { path: 'member/eth-transactions', component: MemberEthTransactionsComponent },
+	  { path: 'member/bank-transactions', component: MemberBankTransactionsComponent },
 	  { path: 'member/account-settings', component: MemberAccountSettingsComponent },
 	  { path: 'member/manual-transfer', component: MemberManualTransfersComponent }
   ]},

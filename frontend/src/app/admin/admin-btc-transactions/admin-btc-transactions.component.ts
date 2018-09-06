@@ -29,7 +29,8 @@ export class AdminBtcTransactionsComponent implements OnInit {
 	transaction_date_to : any;
 
 	expected_payment : any = 0;
-
+	
+	processing : boolean = false;
 
 	constructor(public rest : MemberInfoService, private http : HttpClient, private modalService: NgbModal) { }
 
@@ -66,6 +67,7 @@ export class AdminBtcTransactionsComponent implements OnInit {
 			this.countPending();
 			this._table = response;
 			this.table_loader = false;
+			console.log(this._table);
 		},
 			error=>
 			{
@@ -75,6 +77,7 @@ export class AdminBtcTransactionsComponent implements OnInit {
 
 	countPending()
 	{
+		this._param["method"] = "Bitcoin";
 		this.http.post(this.pending_transactions_url, this._param).subscribe(response=>
 		{
 			this.pending_transactions = response;
@@ -99,5 +102,24 @@ export class AdminBtcTransactionsComponent implements OnInit {
 	{
 		this.data_focus = this.rest.findObjectByKey(this._table, 'automatic_cash_in_id', id);
 		this.openLg(selector);
+	}
+
+	processTransaction(status)
+	{
+		this.processing = true
+		this.http.post(this.rest.api_url + "/api/admin/update_transaction",
+		{
+			login_token : this.rest.login_token,
+			action : status,
+			payment : "btc",
+			member_id : this.data_focus.id,
+			member_log_id : this.data_focus.member_log_id,
+			cash_in_date : this.data_focus.log_time
+		}).subscribe(response=>
+		{
+			this.loadTable();
+			this.modal_ref.close();
+			this.processing = false
+		})
 	}
 }

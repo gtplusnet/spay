@@ -153,31 +153,40 @@ class Coin
 
 		if (!$exist) 
 		{
-			$sale_stage[0]["sale_stage_type"] 		= "pre_sales";
-			$sale_stage[0]["sale_stage_start_date"] = Carbon::now();
-			$sale_stage[0]["sale_stage_end_date"] 	= Carbon::now();
-			$sale_stage[0]["sale_stage_discount"] 	= 20;
+			$sale_stage[0]["sale_stage_type"] 			= "pre_sales";
+			$sale_stage[0]["sale_stage_start_date"] 	= Carbon::now();
+			$sale_stage[0]["sale_stage_end_date"] 		= Carbon::now()->addDay();
+			$sale_stage[0]["sale_stage_discount"] 		= 20;
+			$sale_stage[0]["sale_stage_min_purchase"]   = 1;
+			$sale_stage[0]["sale_stage_max_purchase"]   = 10000;
 
-			$sale_stage[1]["sale_stage_type"]       = "private_pre_sales";
-			$sale_stage[1]["sale_stage_start_date"] = Carbon::now();
-			$sale_stage[1]["sale_stage_end_date"]   = Carbon::now();
-			$sale_stage[1]["sale_stage_discount"]   = 15;
+			$sale_stage[1]["sale_stage_type"]       	= "private_pre_sales";
+			$sale_stage[1]["sale_stage_start_date"] 	= Carbon::now()->addDays(2);
+			$sale_stage[1]["sale_stage_end_date"]   	= Carbon::now()->addDays(3);
+			$sale_stage[1]["sale_stage_discount"]   	= 15;
+			$sale_stage[1]["sale_stage_min_purchase"]   = 1;
+			$sale_stage[1]["sale_stage_max_purchase"]   = 10000;
 			
-			$sale_stage[2]["sale_stage_type"]       = "ico_sales";
-			$sale_stage[2]["sale_stage_start_date"] = Carbon::now();
-			$sale_stage[2]["sale_stage_end_date"]   = Carbon::now();
-			$sale_stage[2]["sale_stage_discount"]   = 10;
+			$sale_stage[2]["sale_stage_type"]       	= "ico_sales";
+			$sale_stage[2]["sale_stage_start_date"] 	= Carbon::now()->addDays(4);
+			$sale_stage[2]["sale_stage_end_date"]   	= Carbon::now()->addDays(5);
+			$sale_stage[2]["sale_stage_discount"]   	= 10;
+			$sale_stage[2]["sale_stage_min_purchase"]   = 1;
+			$sale_stage[2]["sale_stage_max_purchase"]   = 10000;
 			
-			$sale_stage[3]["sale_stage_type"]       = "post_sales";
-			$sale_stage[3]["sale_stage_start_date"] = Carbon::now();
-			$sale_stage[3]["sale_stage_end_date"]   = Carbon::now();
-			$sale_stage[3]["sale_stage_discount"]   = 5;
+			$sale_stage[3]["sale_stage_type"]       	= "post_sales";
+			$sale_stage[3]["sale_stage_start_date"] 	= Carbon::now()->addDays(6);
+			$sale_stage[3]["sale_stage_end_date"]   	= Carbon::now()->addDays(7);
+			$sale_stage[3]["sale_stage_discount"]   	= 5;
+			$sale_stage[3]["sale_stage_min_purchase"]   = 1;
+			$sale_stage[3]["sale_stage_max_purchase"]   = 10000;
 
 			$sale_stage[4]["sale_stage_type"]       	= "no_sale_stage";
-			$sale_stage[4]["sale_stage_start_date"] 	= Carbon::now()->subYears(100);
-			$sale_stage[4]["sale_stage_end_date"]   	= Carbon::now()->addYears(100);
+			$sale_stage[4]["sale_stage_start_date"] 	= Carbon::now()->addDays(8);
+			$sale_stage[4]["sale_stage_end_date"]   	= Carbon::now()->addDays(9);
 			$sale_stage[4]["sale_stage_discount"]   	= 0;
-			$sale_stage[4]["sale_stage_max_purchase"]   = 100000;
+			$sale_stage[4]["sale_stage_min_purchase"]   = 1;
+			$sale_stage[4]["sale_stage_max_purchase"]   = 10000;
 
 			foreach ($sale_stage as $key => $value) 
 			{
@@ -197,34 +206,34 @@ class Coin
 			foreach ($_sale_stage as $key => $sale_stage) 
 			{
 				$insert[0]['sale_stage_id']            	   = $sale_stage["sale_stage_id"];
-				$insert[0]['buy_coin_bonus_from']          = 0;
-				$insert[0]['buy_coin_bonus_to']            = 0;
-				$insert[0]['buy_coin_bonus_percentage']    = 0;
+				$insert[0]['buy_coin_bonus_from']          = 1;
+				$insert[0]['buy_coin_bonus_to']            = 2;
+				$insert[0]['buy_coin_bonus_percentage']    = 10;
 
 				$insert[1]['sale_stage_id']            	   = $sale_stage["sale_stage_id"];
-				$insert[1]['buy_coin_bonus_from']          = 0;
-				$insert[1]['buy_coin_bonus_to']            = 0;
-				$insert[1]['buy_coin_bonus_percentage']    = 0;
+				$insert[1]['buy_coin_bonus_from']          = 3;
+				$insert[1]['buy_coin_bonus_to']            = 4;
+				$insert[1]['buy_coin_bonus_percentage']    = 20;
 
 				$insert[2]['sale_stage_id']            	   = $sale_stage["sale_stage_id"];
-				$insert[2]['buy_coin_bonus_from']          = 0;
-				$insert[2]['buy_coin_bonus_to']            = 0;
-				$insert[2]['buy_coin_bonus_percentage']    = 0;
+				$insert[2]['buy_coin_bonus_from']          = 5;
+				$insert[2]['buy_coin_bonus_to']            = 6;
+				$insert[2]['buy_coin_bonus_percentage']    = 30;
 
 				$insert[3]['sale_stage_id']            	   = $sale_stage["sale_stage_id"];
-				$insert[3]['buy_coin_bonus_from']          = 0;
-				$insert[3]['buy_coin_bonus_to']            = 0;
-				$insert[3]['buy_coin_bonus_percentage']    = 0;
+				$insert[3]['buy_coin_bonus_from']          = 7;
+				$insert[3]['buy_coin_bonus_to']            = 8;
+				$insert[3]['buy_coin_bonus_percentage']    = 40;
 
 				$insert[4]['sale_stage_id']            	   = $sale_stage["sale_stage_id"];
-				$insert[4]['buy_coin_bonus_from']          = 0;
-				$insert[4]['buy_coin_bonus_to']            = 0;
-				$insert[4]['buy_coin_bonus_percentage']    = 0;
+				$insert[4]['buy_coin_bonus_from']          = 9;
+				$insert[4]['buy_coin_bonus_to']            = 10;
+				$insert[4]['buy_coin_bonus_percentage']    = 50;
 
 				$insert[5]['sale_stage_id']            	   = $sale_stage["sale_stage_id"];
-				$insert[5]['buy_coin_bonus_from']          = 0;
-				$insert[5]['buy_coin_bonus_to']            = 0;
-				$insert[5]['buy_coin_bonus_percentage']    = 0;
+				$insert[5]['buy_coin_bonus_from']          = 11;
+				$insert[5]['buy_coin_bonus_to']            = 12;
+				$insert[5]['buy_coin_bonus_percentage']    = 60;
 
 				Tbl_sale_stage_bonus::insert($insert);
 			}

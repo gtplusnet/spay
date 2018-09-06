@@ -45,9 +45,11 @@ class Member_log
         {
             $insert["log_status"]          = "pending";
         }
-        $insert["log_message"]         = "Received <b>".$request['received_token']." AHM Tokens</b> via <b>".ucwords($coin).".</b>";
+
+        $method_cur = $coin == 'php' ? 'Bank' : ucwords($coin);
+        $insert["log_message"]         = "Received <b>".$request['received_token']." AHM Tokens</b> via <b>".$method_cur.".</b>";
         $insert["is_viewed"]           = 0;
-        $insert["log_method"]          = ucwords($coin). " Accepted";
+        $insert["log_method"]          = $method_cur. " Accepted";
         $insert["ip_address"]          = $_SERVER['REMOTE_ADDR'];
 
         

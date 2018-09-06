@@ -40,10 +40,10 @@
 		  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu  dropdown-menu-right"
 		      role="menu" aria-labelledby="button-basic">
 		    <li role="menuitem">
-		    	<a href="{{ rest.api_url }}/api/admin/excel/export_transaction_list?login_token={{rest.login_token}}&log_method=ethereum&log_method_accepted=ethereum accepted" class="dropdown-item">Export All Data</a>
+		    	<a href="{{ rest.api_url }}/api/admin/excel/export_transaction_list?login_token={{rest.login_token}}&log_method=ethereum&log_method_accepted=ethereum total" class="dropdown-item">Export All Data</a>
 		    </li>
 		    <li role="menuitem">
-		    	<a href="{{ rest.api_url }}/api/admin/excel/export_transaction_list?login_token={{rest.login_token}}&account_name={{account_name}}&transaction_status={{transaction_status}}&transaction_date_from={{transaction_date_from}}&transaction_date_to={{transaction_date_to}}&log_method=ethereum&log_method_accepted=ethereum accepted&data=filtered" class="dropdown-item">Export Filtered Data</a> 
+		    	<a href="{{ rest.api_url }}/api/admin/excel/export_transaction_list?login_token={{rest.login_token}}&account_name={{account_name}}&transaction_status={{transaction_status}}&transaction_date_from={{transaction_date_from}}&transaction_date_to={{transaction_date_to}}&log_method=ethereum&log_method_accepted=ethereum total&data=filtered" class="dropdown-item">Export Filtered Data</a> 
 		    </li>
 		  </ul>
 		</div>
@@ -65,6 +65,8 @@
 			<option value="pending">Pending</option>
 			<option value="accepted">Accepted</option>
 			<option value="canceled">Canceled</option>
+			<option value="processing">Processing</option>
+			<option value="rejected">Rejected</option>
 		</select>
 	</div>
 	<div class="col-lg-3 col-xs-12 px-2">
@@ -147,6 +149,12 @@
 					<span class="badge badge-danger px-2" *ngIf="data.log_status == 'canceled'">
 						Canceled
 					</span>
+					<span class="badge badge-info px-2" *ngIf="data.log_status == 'processing'">
+							Processing
+						</span>
+					<span class="badge badge-danger px-2" *ngIf="data.log_status == 'rejected'">
+							Rejected
+						</span>
 				</td>
 				<td>
 					<!-- {{ data.log_time | date:'MM/dd/yyyy'}} -->
@@ -211,17 +219,24 @@
 				</div>
 				<div class="col-lg-6 col-xs-12">
 					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.exchange_rate | number:'1.2-8' }} (per token)</h4>
-					<small class="font-weight-bold mb-5">Exchange Rate</small>  
-					<h4 class="mb-0 font-weight-light mt-2">
-					<span class="badge badge-secondary px-2" *ngIf="data_focus.log_status == 'pending'">
-						Pending
-					</span>
-					<span class="badge badge-success px-2" *ngIf="data_focus.log_status == 'accepted'">
-						Accepted
-					</span>
-					<span class="badge badge-danger px-2" *ngIf="data_focus.log_status == 'canceled'">
-						Canceled
-					</span></h4>
+						<small class="font-weight-bold mb-5">Exchange Rate</small>  
+						<h4 class="mb-0 font-weight-light mt-2">
+						<span class="badge badge-secondary px-2" *ngIf="data_focus.log_status == 'pending'">
+							Pending
+						</span>
+						<span class="badge badge-success px-2" *ngIf="data_focus.log_status == 'accepted'">
+							Accepted
+						</span>
+						<span class="badge badge-danger px-2" *ngIf="data_focus.log_status == 'canceled'">
+							Canceled
+						</span>
+						<span class="badge badge-info px-2" *ngIf="data_focus.log_status == 'processing'">
+								Processing
+							</span>
+							<span class="badge badge-danger px-2" *ngIf="data_focus.log_status == 'rejected'">
+									Rejected
+								</span>
+					</h4>
 					<small class="font-weight-bold mb-5">Transaction Status</small>  
 					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_time | date:'MM/dd/yyyy hh:mm:ss a' }}</h4>
 					<small class="font-weight-bold mb-5">Date Requested</small>
@@ -229,6 +244,16 @@
 					<small class="font-weight-bold mb-5">Date Registered</small>   
 					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.create_ip_address }}</h4>
 					<small class="font-weight-bold mb-5">Create IP Address</small> -->
+				</div>
+				<div class="col-lg-6 col-xs-12">
+					<div class="row">
+						<div class="col-lg-6 col-xs-12 p-2" *ngIf="data_focus.log_status == 'processing'">
+							<button class="btn button-lokal-x btn-block" (click)="processTransaction('accepted')" disabled="{{processing ? 'disabled' : ''}}"><i class="fas fa-check mr-2"></i>Approve</button>
+						</div>
+						<div class="col-lg-6 col-xs-12 p-2" *ngIf="data_focus.log_status == 'pending'">
+							<button class="btn button-lokal-x btn-block" (click)="processTransaction('rejected')" disabled="{{processing ? 'disabled' : ''}}"><i class="fas fa-times mr-2"></i>Reject</button>
+						</div>
+					</div>
 				</div>
 			</div>
 

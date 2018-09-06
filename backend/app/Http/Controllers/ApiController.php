@@ -78,13 +78,13 @@ class ApiController extends Controller
 
         $_data_from = Tbl_coin_conversion::join("tbl_coin", "tbl_coin.coin_id", "=", "tbl_coin_conversion.coin_from")
         ->whereColumn("tbl_coin_conversion.coin_from", "!=", "tbl_coin_conversion.coin_to")
-        ->where("tbl_coin_conversion.coin_to", "!=", 1)
-        ->orderBy("tbl_coin_conversion.coin_from", "asc")
+        // ->where("tbl_coin_conversion.coin_to", "!=", 1)
+        ->orderBy("tbl_coin_conversion.coin_conversion_id", "asc")
         ->get();
         
         
         foreach($_data_from as $key => $data){
-            $_data_to = Tbl_coin_conversion::join("tbl_coin", "tbl_coin.coin_id", "=", "tbl_coin_conversion.coin_to")->where("coin_conversion_id", $data->coin_conversion_id)->orderBy("tbl_coin_conversion.coin_from", "asc")->first();
+            $_data_to = Tbl_coin_conversion::join("tbl_coin", "tbl_coin.coin_id", "=", "tbl_coin_conversion.coin_to")->where("coin_conversion_id", $data->coin_conversion_id)->orderBy("tbl_coin_conversion.coin_conversion_id", "asc")->first();
             
             $_data_from[$key]["coin_name_to"] = $_data_to["coin_abb"];
         }

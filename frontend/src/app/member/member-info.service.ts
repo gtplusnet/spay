@@ -177,6 +177,14 @@ export class MemberInfoService
 	{
 		var app = this;
 		this._exchange_rate = response;
+		app.http.get("https://api.exchangeratesapi.io/latest?base=PHP").subscribe(response=>
+		{
+			this._exchange_rate.PHP = response["rates"].USD;
+		})
+
+		
+
+		console.log(this._exchange_rate)
 		//console.log(response);
 	}
 
@@ -189,6 +197,16 @@ export class MemberInfoService
 		form_data.append('for',uploadfor);
 		return app.http.post(sync_url, form_data);
 	}
+
+	uploadProofOnServer(form_data) : Observable<object>
+    {
+        var app                 = this;
+		var sync_url            = app.api_url + "/api/member/upload";
+		
+		// form_data.login_token = app.login_token
+        return app.http.post(sync_url, form_data);
+	}
+	
 	uploadDocumentOnServerForBusiness(form_data) : Observable<object>
 	{
 		var app 				= this;

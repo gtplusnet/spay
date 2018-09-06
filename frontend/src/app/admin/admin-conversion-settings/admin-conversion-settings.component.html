@@ -63,17 +63,23 @@
 		</div>
 		<div class="bg-lokal-x-body my-border-light p-3">
 			<div class="row">
-				<div class="col-lg-6 col-xs-12 mb-2">
+				<div class="col-lg-4 col-xs-12 mb-2">
 					<small class="d-block font-weight-bold">
 						BTC to XS
 					</small>
 					<input type="number" (input)="refresh()" [(ngModel)]="_coin[2].conversion_multiplier" class="form-control input-lokal-x" placeholder="0.00">
 				</div>
-				<div class="col-lg-6 col-xs-12 mb-2">
+				<div class="col-lg-4 col-xs-12 mb-2">
 					<small class="d-block font-weight-bold">
 						ETH to XS
 					</small>
 					<input type="number" (input)="refresh()" [(ngModel)]="_coin[1].conversion_multiplier" class="form-control input-lokal-x" placeholder="0.00">
+				</div>
+				<div class="col-lg-4 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">
+						PHP to XS
+					</small>
+					<input type="number" (input)="refresh()" [(ngModel)]="_coin[0].conversion_multiplier" class="form-control input-lokal-x" placeholder="0.00">
 				</div>
 			</div>
 		</div>

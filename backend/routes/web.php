@@ -76,6 +76,9 @@ Route::post('/api/member/reset_notifications', 'Member\MemberApiController@reset
 Route::post('/api/member/first_update_information', 'Member\MemberApiController@first_update_information');
 Route::post('/api/member/check_pending_order_method', 'Member\MemberApiController@check_pending_order_method');
 Route::post('/api/member/get_buy_bonus', 'Member\MemberApiController@get_buy_bonus');
+Route::post('/api/member/get_bank_methods', 'Member\MemberApiController@get_bank_methods');
+Route::post('/api/member/upload', 'Member\MemberApiController@upload');
+Route::post('/api/member/get_php_transaction', 'Member\MemberApiController@get_php_transaction');
 
 //kyc member
 Route::post('/api/member/upload_file', 'Member\MemberApiController@upload_file');
@@ -147,6 +150,12 @@ Route::post('/api/admin/main_wallet_addresses','Admin\AdminApiController@main_wa
 Route::post('/api/admin/release_wallet','Admin\AdminApiController@release_wallet');
 Route::post('/api/admin/get_file_list','Admin\AdminApiController@get_file_list');
 Route::post('/api/admin/add_new_file','Admin\AdminApiController@add_new_file');
+Route::post('/api/admin/update_transaction', 'Admin\AdminApiController@update_transaction');
+Route::post('/api/admin/add_new_method', 'Admin\AdminApiController@add_new_method');
+Route::post('/api/admin/update_method', 'Admin\AdminApiController@update_method');
+Route::post('/api/admin/archive_method', 'Admin\AdminApiController@archive_method');
+Route::post('/api/admin/get_bank_methods', 'Admin\AdminApiController@get_bank_methods');
+
 
 //member referral API
 Route::post('/api/member/get_referrals','Member\MemberApiController@get_referrals');

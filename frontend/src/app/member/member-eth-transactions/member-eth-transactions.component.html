@@ -38,10 +38,10 @@
 				  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu  dropdown-menu-right"
 				      role="menu" aria-labelledby="button-basic">
 				    <li role="menuitem">
-				    	<a href="{{ rest.api_url }}/api/member/excel/export_member_transaction_list?login_token={{rest.login_token}}&log_method=Ethereum&member_id={{rest.member_id}}&first_name={{rest.first_name}}&last_name={{rest.last_name}}&log_method_accepted=Ethereum" class="dropdown-item">Export All Data</a>
+				    	<a href="{{ rest.api_url }}/api/member/excel/export_member_transaction_list?login_token={{rest.login_token}}&log_method=Ethereum&member_id={{rest.member_id}}&first_name={{rest.first_name}}&last_name={{rest.last_name}}&log_method_accepted=Ethereum Total" class="dropdown-item">Export All Data</a>
 				    </li>
 				    <li role="menuitem">
-				    	<a href="{{ rest.api_url }}/api/member/excel/export_member_transaction_list?login_token={{rest.login_token}}&account_name={{account_name}}&transaction_status={{transaction_status}}&transaction_date_from={{transaction_date_from}}&transaction_date_to={{transaction_date_to}}&log_method=Ethereum&log_method_accepted=Ethereum&data=filtered&member_id={{rest.member_id}}&first_name={{rest.first_name}}&last_name={{rest.last_name}}" class="dropdown-item">Export Filtered Data</a>
+				    	<a href="{{ rest.api_url }}/api/member/excel/export_member_transaction_list?login_token={{rest.login_token}}&account_name={{account_name}}&transaction_status={{transaction_status}}&transaction_date_from={{transaction_date_from}}&transaction_date_to={{transaction_date_to}}&log_method=Ethereum&log_method_accepted=Ethereum Total&data=filtered&member_id={{rest.member_id}}&first_name={{rest.first_name}}&last_name={{rest.last_name}}" class="dropdown-item">Export Filtered Data</a>
 				    </li>
 				  </ul>
 				</div>
@@ -57,6 +57,8 @@
 					<option value="pending">Pending</option>
 					<option value="accepted">Accepted</option>
 					<option value="canceled">Canceled</option>
+					<option value="processing">Processing</option>
+					<option value="rejected">Rejected</option>
 				</select>
 			</div>
 			<div class="col-lg-3 col-xs-12 px-2">
@@ -136,8 +138,14 @@
 						Accepted
 					</span>
 					<span class="badge badge-danger px-2" *ngIf="data.log_status == 'canceled'">
-						Canceled
-					</span>
+							Canceled
+						</span>
+					<span class="badge badge-danger px-2" *ngIf="data.log_status == 'rejected'">
+							Rejected
+						</span>
+					<span class="badge badge-info px-2" *ngIf="data.log_status == 'processing'">
+							Processing
+						</span>
 				</td>
 				<td>
 					<!-- {{ data.log_time | date:'MM/dd/yyyy'}} -->
@@ -201,9 +209,9 @@
 				<div class=" col-lg-6 col-xs-12">
 					<!-- <h4 class="mb-0 font-weight-light mt-2">{{ data_focus.first_name }} {{ data_focus.last_name }}</h4>
 					<small class="font-weight-bold mb-5">Requested By</small>   -->
-					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.amount_requested }} XSAL</h4>
+					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.amount_requested }} XS</h4>
 					<small class="font-weight-bold mb-5">Requested Token</small>  
-					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_status == 'accepted' ? data_focus.log_amount + " LOKAL" : 'No data' }}</h4>
+					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_status == 'accepted' ? data_focus.log_amount + " AHM" : 'No data' }}</h4>
 					<small class="font-weight-bold mb-5">Received Token</small>  
 					<h4 class="mb-0 font-weight-light mt-2">{{ (data_focus.amount_requested*data_focus.exchange_rate) - (data_focus.amount_requested * (data_focus.exchange_rate*(data_focus.sale_stage_discount/100))) | number:'1.2-8'  }} ETH</h4>
 					<small class="font-weight-bold mb-5">Expected Payment</small>   
@@ -214,15 +222,22 @@
 					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.exchange_rate | number:'1.2-8' }} (per token)</h4>
 					<small class="font-weight-bold mb-5">Exchange Rate</small>  
 					<h4 class="mb-0 font-weight-light mt-2">
-					<span class="badge badge-secondary px-2" *ngIf="data_focus.log_status == 'pending'">
-						Pending
-					</span>
-					<span class="badge badge-success px-2" *ngIf="data_focus.log_status == 'accepted'">
-						Accepted
-					</span>
-					<span class="badge badge-danger px-2" *ngIf="data_focus.log_status == 'canceled'">
-						Canceled
-					</span></h4>
+						<span class="badge badge-secondary px-2" *ngIf="data_focus.log_status == 'pending'">
+							Pending
+						</span>
+						<span class="badge badge-success px-2" *ngIf="data_focus.log_status == 'accepted'">
+							Accepted
+						</span>
+						<span class="badge badge-danger px-2" *ngIf="data_focus.log_status == 'canceled'">
+							Canceled
+						</span>
+						<span class="badge badge-info px-2" *ngIf="data_focus.log_status == 'processing'">
+								Processing
+							</span>
+							<span class="badge badge-info px-2" *ngIf="data_focus.log_status == 'rejected'">
+									Rejected
+								</span>
+					</h4>
 					<small class="font-weight-bold mb-5">Transaction Status</small>  
 					<h4 class="mb-0 font-weight-light mt-2">
 						<!-- {{ data_focus.log_time | date:'MM/dd/yyyy hh:mm a' }} -->

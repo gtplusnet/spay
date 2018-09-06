@@ -52,12 +52,23 @@ export class MemberDashboardComponent implements OnInit {
 
   stage_count_down                : any;
 
+  err_msg : any = "no-message";
 
   check_tokens_url : string;
   w_balance : any;
 
   check_contributions_url : string;
   w_contributions : any;
+
+  payment_currency : any = {};
+
+  bank_methods : any = null;
+  bank_info : any = {};
+  cash_in_method : any;
+  form_data 				= null;
+  cash_in_proof : any;
+  tx_number : string;
+  image_uploading : any;
 
   _table_recent_transaction : any;
   _table_recent_transaction_loader : boolean;
@@ -67,6 +78,7 @@ export class MemberDashboardComponent implements OnInit {
 
   ngOnInit() 
   {
+    console.log(this.rest._rates);
     // console.log(this.rest._stages);
     this.sale_stage_name = this.rest._stages.sale_stage_type.replace("_"," ");
   	this.dashboard_data();
@@ -89,7 +101,8 @@ export class MemberDashboardComponent implements OnInit {
     this.tos_toggle.c1 = null;
     this.tos_toggle.c2 = null;
     this.tos_toggle.c3 = null;
-
+    this.cash_in_method = 1;
+    this.get_bank_methods();
   }
 
   dashboard_data()
@@ -111,6 +124,18 @@ export class MemberDashboardComponent implements OnInit {
       {
         console.log(error);
       });
+  }
+  
+  get_bank_methods()
+  {
+    this.http.post(this.rest.api_url + "/api/member/get_bank_methods", 
+    {
+      login_token : this.rest.login_token
+    }).subscribe(response=>
+    {
+      this.bank_methods = response;
+      this.getDepositInfo();
+    })
   }
 
   buy_step_1(id, selector, buy_step = null)
@@ -136,6 +161,12 @@ export class MemberDashboardComponent implements OnInit {
     } 
   }
 
+  getDepositInfo()
+  {
+    this.bank_info = this.rest.findObjectByKey(this.bank_methods, "cash_in_method_id", this.cash_in_method)
+    console.log(this.bank_info);
+  }
+
   buy_step_2()
   {
     this.total_token = this.token_amount;
@@ -150,8 +181,26 @@ export class MemberDashboardComponent implements OnInit {
       if(this.tos_toggle.c1 && this.tos_toggle.c2 && this.tos_toggle.c3)
       {
         this.error_message = "no-message";
-        var log_method = this.payment_type == 2 ? 'Ethereum' : 'Bitcoin';
-        var log_method_accepted = this.payment_type == 2 ? 'Ethereum Total' : 'Bitcoin Total';
+        // var log_method = this.payment_type == 2 ? 'Ethereum' : 'Bitcoin';
+        // var log_method_accepted = this.payment_type == 2 ? 'Ethereum Total' : 'Bitcoin Total';
+
+        var log_method
+        var log_method_accepted
+        switch(this.payment_type)
+        {
+          case 2:
+            log_method = 'Ethereum';
+            log_method_accepted = 'Ethereum Total'
+            break;
+          case 3:
+            log_method = 'Bitcoin';
+            log_method_accepted = 'Bitcoin Total'
+            break;
+          case 1:
+            log_method = 'Bank';
+            log_method_accepted = 'Bank Total'
+            break;
+        }
         var check_message = "no-message";
         this.http.post(this.rest.api_url + "/api/member/check_pending_order_method", 
         {
@@ -209,34 +258,53 @@ export class MemberDashboardComponent implements OnInit {
 
   buy_step_3()
   {
+    this.err_msg = "no-message";
     this.buy_loading = true;
     this.buy_token_url = this.rest.api_url + "/api/member/record_transaction";
 
-    var param = {};
-    param["login_token"] = this.rest.login_token;
-    param["member_id"] = this.rest.member_id;
-    param["amount_to_pay"] = this.to_be_paid;
-    param["token_amount"] = this.token_amount;
-    param["payment_method"] = this.payment_type == 3 ? 'Bitcoin' : 'Ethereum';
-    param["lok_exchange_rate"] = this.lok_exchange_rate;
-    param["sale_stage_id"] = this.rest._stages.sale_stage_id;
-    // param["sale_stage_id"] = this.rest._rates[0].sale_stage_id;    
-
-    this.http.post(this.buy_token_url, param).subscribe(response=>
+    if(this.payment_currency.abbr == 'PHP' && !this.cash_in_proof)
     {
-      this.error_message = response;
-      if(this.error_message.type == "success")
+      this.err_msg = "Deposit slip cannot be blank. Please upload your deposit slip."
+      this.buy_loading = false;
+    }
+    else
+    {
+      var param = {};
+      param["login_token"]        = this.rest.login_token;
+      param["member_id"]          = this.rest.member_id;
+      param["amount_to_pay"]      = this.to_be_paid;
+      param["token_amount"]       = this.token_amount;
+      param["payment_method"]     = this.payment_currency.name;
+      param["lok_exchange_rate"]  = this.lok_exchange_rate;
+      param["sale_stage_id"]      = this.rest._stages.sale_stage_id;
+      param["cash_in_method"]     = this.cash_in_method;
+      param["cash_in_proof_img"]  = this.cash_in_proof;
+      param["cash_in_proof_tx"]   = this.tx_number;
+      // param["sale_stage_id"] = this.rest._rates[0].sale_stage_id;    
+  
+      this.http.post(this.buy_token_url, param).subscribe(response=>
       {
-        this.buy_loading = false;
-        this.buy_step = "buy_step_3";
-      }
-      else
-      {
-        this.buy_loading = false;
+        this.error_message = response;
+        if(this.error_message.type == "success")
+        {
+          this.buy_loading = false;
+          this.buy_step = "buy_step_3";
+          this.cash_in_proof = null;
+          this.tx_number     = null;
+          localStorage.removeItem('c1');
+          localStorage.removeItem('c2');
+          localStorage.removeItem('c3');
+          this.tos_toggle.c1 = null;
+          this.tos_toggle.c2 = null;
+          this.tos_toggle.c3 = null;
+        }
+        else
+        {
+          this.buy_loading = false;
+        }
         
-      }
-      
-    });
+      });
+    }
   }
 
   check_tos(i)
@@ -282,15 +350,28 @@ export class MemberDashboardComponent implements OnInit {
     this.getting_bonus = true;
     if(this.payment_type == 2)
     {
+      this.to_be_paid = parseInt(this.token_amount) * this.rest._rates[1].conversion_multiplier;
+      this.lok_exchange_rate = this.rest._rates[1].conversion_multiplier;
+      this.exchange_rate = this.rest._exchange_rate.ETH.USD;
+      this.payment_currency.abbr = "ETH";
+      this.payment_currency.name = "Ethereum";
+    }
+    else if(this.payment_type == 1)
+    {
       this.to_be_paid = parseInt(this.token_amount) * this.rest._rates[0].conversion_multiplier;
       this.lok_exchange_rate = this.rest._rates[0].conversion_multiplier;
-      this.exchange_rate = this.rest._exchange_rate.ETH.USD;
+      this.exchange_rate = this.rest._exchange_rate.PHP;
+      this.payment_currency.abbr = "PHP";
+      this.payment_currency.name = "Bank";
     }
     else
     {
-      this.to_be_paid = parseInt(this.token_amount) * this.rest._rates[1].conversion_multiplier;
-      this.lok_exchange_rate = this.rest._rates[1].conversion_multiplier;
+      this.to_be_paid = parseInt(this.token_amount) * this.rest._rates[2].conversion_multiplier;
+      this.lok_exchange_rate = this.rest._rates[2].conversion_multiplier;
       this.exchange_rate = this.rest._exchange_rate.BTC.USD;
+      this.payment_currency.abbr = "BTC";
+      this.payment_currency.name = "Bitcoin";
+      
     }
 
     this.discount = (this.rest._stages.sale_stage_discount/100)*this.to_be_paid;
@@ -440,7 +521,7 @@ export class MemberDashboardComponent implements OnInit {
       this.end_date = this.upcoming_event_details.communication_board_end_date;
     })
     this.openLg(selector);
-  }
+}
 
   getRecentTransaction()
   {
@@ -453,6 +534,7 @@ export class MemberDashboardComponent implements OnInit {
     this.http.post(config_url,_param).subscribe(data=>
     {
       this._table_recent_transaction = data;
+      
       this._table_recent_transaction_loader = false;
     });
   }
@@ -490,7 +572,6 @@ export class MemberDashboardComponent implements OnInit {
         }
       })
     })
-    
   }
 
   toggleTos(param)
@@ -520,5 +601,32 @@ export class MemberDashboardComponent implements OnInit {
 
     // console.log(this.tos_toggle.c1, this.tos_toggle.c2, this.tos_toggle.c3);
   }
+
+  openUploadProof()
+  {
+    if(!this.cash_in_proof)
+    {
+      $('#payment_proof').trigger('click')
+    }
+  }
+
+  onFileChange(event)
+	{
+    this.image_uploading = true;
+		this.form_data = new FormData();
+
+		if(event.target.files.length > 0)
+		{
+			this.form_data.append('upload', event.target.files[0]);
+			this.form_data.append('folder', "cash_in_proof");
+			this.form_data.append('login_token', this.rest.login_token);
+
+      this.rest.uploadProofOnServer(this.form_data).subscribe(response =>
+			{
+          this.cash_in_proof = response;
+          this.image_uploading = false;
+			});
+		}
+	}
 }
 

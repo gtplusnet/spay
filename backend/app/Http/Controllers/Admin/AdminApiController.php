@@ -10,11 +10,11 @@ use App\Tbl_coin;
 use App\Tbl_coin_conversion;
 use Carbon\Carbon;
 use App\Globals\Audit;
+use App\Globals\Blockchain;
 use App\Globals\Authenticator;
 use App\Globals\Wallet;
 use App\Globals\User;
 use App\Globals\Mails;
-use App\Globals\Blockchain;
 use App\Globals\Transactions;
 use App\Globals\Member_log;
 use App\Tbl_cash_in_method;
@@ -36,6 +36,7 @@ use App\Tbl_business_application;
 use App\Tbl_member_position_log;
 use App\Tbl_referral_bonus_log;
 use App\Tbl_central_wallet;
+use App\Tbl_sale_stage;
 use App\Tbl_faqs;
 use App\Tbl_files;
 use PragmaRX\Google2FA\Google2FA;
@@ -129,9 +130,9 @@ class AdminApiController extends Controller
         return $data["list"];
     }
 
-    function btc_pending_transactions()
+    function btc_pending_transactions(Request $request)
     {
-        $data = Tbl_member_log::where("log_status", "pending")->where("log_method", "Bitcoin");
+        $data = Tbl_member_log::where("log_status", "pending")->where("log_method", $request->method);
 
         return $data->count();
     }
@@ -923,5 +924,98 @@ class AdminApiController extends Controller
         $return = $data ? "success" : "failed";
         
         return json_encode($return);
+    }
+
+    function update_transaction(Request $request)
+    {
+        // dd(request()->all());
+        $date = date("Y-m-d", strtotime($request->cash_in_date));
+        $ss = Tbl_sale_stage::whereDate("sale_stage_start_date", "<=", $date)->whereDate("sale_stage_end_date", ">=", $date)->first();
+        if($request->payment == 'eth')
+        {
+            if($request->action == "accepted")
+            {
+                $return["data"] = Blockchain::updateBalanceETH($request->action, $request->member_id, $ss->sale_stage_id);
+            }
+            else
+            {
+                $return["data"] = Tbl_member_log::where("member_log_id", $request->member_log_id)->update(["log_status" => "rejected"]);
+            }
+        }
+        else if($request->payment == 'btc')
+        {
+            if($request->action == "accepted")
+            {
+                $return["data"] = Blockchain::updateBalanceBTC($request->action, $request->member_id, $ss->sale_stage_id);
+            }
+            else
+            {
+                $return["data"] = Tbl_member_log::where("member_log_id", $request->member_log_id)->update(["log_status" => "rejected"]);
+            }
+        }
+        else
+        {   
+            $net_amount = Tbl_member_log::where("member_log_id", $request->member_log_id)->first();
+            $amount = $request->amount ? $request->amount : $net_amount->log_net_amount;
+
+            if($request->action == "accepted")
+            {
+                $return["data"] = Blockchain::updateBalancePHP($request->action, $amount, $request->member_id, $ss->sale_stage_id);
+            }
+            else
+            {
+                $return["data"] = Tbl_member_log::where("member_log_id", $request->member_log_id)->update(["log_status" => "rejected"]);
+            }
+        }
+
+        if($request->action == "accepted")
+        {
+            $return["status"] = "success";
+            $return["status_message"] = "Successfully Approved Transaction!";
+        }
+        else
+        {
+            $return["status"] = "failure";
+            $return["status_message"] = "Successfully Rejected Transaction!";
+        }
+        
+        return $return;
+    }
+
+    function add_new_method(Request $request)
+    {
+        $insert["cash_in_method_name"]      = $request->cash_in_method_name     ? $request->cash_in_method_name     : "no data";
+        $insert["cash_in_method_header"]    = $request->cash_in_method_header   ? $request->cash_in_method_header   : "no data";
+        $insert["cash_in_account_name"]     = $request->cash_in_account_name    ? $request->cash_in_account_name    : "no data";
+        $insert["cash_in_account_number"]   = $request->cash_in_account_number  ? $request->cash_in_account_number  : "no data";
+        $insert["cash_in_method_fee"] = 0;
+        $insert["cash_in_method_payment_rule"] = 0;
+        $data = Tbl_cash_in_method::insert($insert);
+    }
+
+    function update_method(Request $request)
+    {
+        $update["cash_in_method_name"]      = $request->cash_in_method_name     ? $request->cash_in_method_name     : "no data";
+        $update["cash_in_method_header"]    = $request->cash_in_method_header   ? $request->cash_in_method_header   : "no data";
+        $update["cash_in_account_name"]     = $request->cash_in_account_name    ? $request->cash_in_account_name    : "no data";
+        $update["cash_in_account_number"]   = $request->cash_in_account_number  ? $request->cash_in_account_number  : "no data";
+        $update["cash_in_method_fee"] = 0;
+        $update["cash_in_method_payment_rule"] = "no data";
+        $data = Tbl_cash_in_method::where("cash_in_method_id", $request->cash_in_method_id)->update($update);
+    }
+
+    function archive_method(Request $request)
+    {
+        $status = $request->status == 0 ? 1 : 0;
+        $data = Tbl_cash_in_method::where("cash_in_method_id", $request->cash_in_method_id)->update(["cash_in_method_payment_rule" => $status]);
+    }
+
+    public function get_bank_methods()
+    {
+        $banks = Tbl_cash_in_method::get();
+        if($banks)
+        {
+            return json_encode($banks);
+        }
     }
 }

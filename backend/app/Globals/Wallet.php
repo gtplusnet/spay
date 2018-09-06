@@ -116,7 +116,7 @@ class Wallet
 		return $suffix . " " . number_format($amount, $decimal);
 	}
 
-	public static function recordTransaction($member_id, $coin_id, $sale_stage_id, $conversion_rate, $amount, $token_amount, $log_method = null, $log, $status = "pending")
+	public static function recordTransaction($member_id, $coin_id, $sale_stage_id, $conversion_rate, $amount, $token_amount, $log_method = null, $log, $status = "pending", $cash_in_method, $cash_in_method_img, $cash_in_method_tx)
 	{
 		$member_address = Tbl_member_address::where("member_id", $member_id)->where("coin_id", $coin_id)->first();
 
@@ -130,6 +130,9 @@ class Wallet
 		$insert["log_message"] 				= $log;
 		$insert["log_status"] 				= $status;
 		$insert["log_method"] 				= $log_method;
+		$insert["cash_in_method"] 			= $cash_in_method;
+		$insert["cash_in_proof_img"] 		= $cash_in_method_img;
+		$insert["cash_in_proof_tx"] 		= $cash_in_method_tx;
 
 		$pending_transaction = Tbl_member_log::where("member_address_id", $member_address->member_address_id)->where("log_status", "pending")->where("log_method", $log_method);
 
@@ -172,9 +175,9 @@ class Wallet
         $data["method"] = $log_method;
         $data["record"] = Tbl_automatic_cash_in::where("automatic_cash_in_id", $automatic_cashin)->first();
 
-        if($log_method == 'Bitcoin' || $log_method == 'Ethereum')
+        if($log_method == 'Bitcoin' || $log_method == 'Ethereum' || $log_method == 'Bank')
         {
-        	Mails::order_placed($data);
+        	// Mails::order_placed($data);
         }
 
 		Self::recomputeWallet($member_address->member_address_id);
@@ -185,11 +188,11 @@ class Wallet
 
 	public static function recomputeWallet($member_address_id)
 	{
-		$total_receive 			= Tbl_member_log::where("member_address_id", $member_address_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "rejected")->where("log_status", "!=", "canceled")->where("log_mode", "receive")->sum("log_amount");
-		$total_send 			= Tbl_member_log::where("member_address_id", $member_address_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "rejected")->where("log_status", "!=", "canceled")->where("log_mode", "send")->sum("log_amount");
-		$total_buy_bonus 		= Tbl_member_log::where("member_address_id", $member_address_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "rejected")->where("log_status", "!=", "canceled")->where("log_mode", "buy bonus")->sum("log_amount");
-		$total_referral_bonus 	= Tbl_member_log::where("member_address_id", $member_address_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "floating")->where("log_status", "!=", "canceled")->where("log_mode", "referral bonus")->sum("log_amount");
-		$total_manual_transfer 	= Tbl_member_log::where("member_address_id", $member_address_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "floating")->where("log_status", "!=", "canceled")->where("log_mode", "manual")->sum("log_amount");
+		$total_receive 			= Tbl_member_log::where("member_address_id", $member_address_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "rejected")->where("log_status", "!=", "canceled")->where("log_status", "!=", "processing")->where("log_mode", "receive")->sum("log_amount");
+		$total_send 			= Tbl_member_log::where("member_address_id", $member_address_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "rejected")->where("log_status", "!=", "canceled")->where("log_status", "!=", "processing")->where("log_mode", "send")->sum("log_amount");
+		$total_buy_bonus 		= Tbl_member_log::where("member_address_id", $member_address_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "rejected")->where("log_status", "!=", "canceled")->where("log_status", "!=", "processing")->where("log_mode", "buy bonus")->sum("log_amount");
+		$total_referral_bonus 	= Tbl_member_log::where("member_address_id", $member_address_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "floating")->where("log_status", "!=", "canceled")->where("log_status", "!=", "processing")->where("log_mode", "referral bonus")->sum("log_amount");
+		$total_manual_transfer 	= Tbl_member_log::where("member_address_id", $member_address_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "floating")->where("log_status", "!=", "canceled")->where("log_status", "!=", "processing")->where("log_mode", "manual")->sum("log_amount");
 		$total_role_bonus 		= 0; //Tbl_member_log::where("member_address_id", $member_address_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "rejected")->where("log_mode", "role bonus")->sum("log_amount");
 		
 		$wallet 			= ($total_receive - $total_send) + ($total_buy_bonus + $total_referral_bonus + $total_role_bonus) + ($total_manual_transfer);

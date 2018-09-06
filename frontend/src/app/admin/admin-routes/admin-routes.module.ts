@@ -18,6 +18,7 @@ import { AdminBusinessApplicationComponent } from '../admin-business-application
 import { AdminTransferTokenComponent } from '../admin-transfer-token/admin-transfer-token.component';
 import { AdminFaqsSettingsComponent } from '../admin-faqs-settings/admin-faqs-settings.component';
 import { AdminFilesComponent } from '../admin-files/admin-files.component';
+import { AdminBankTransactionsComponent } from '../admin-bank-transactions/admin-bank-transactions.component';
 const routes: Routes = 
 [
 	{path: '', component: AdminLayoutComponent,
@@ -28,6 +29,7 @@ const routes: Routes =
 			{ path: 'admin/member-list', component: AdminMemberListComponent },
 			{ path: 'admin/btc-transactions', component: AdminBtcTransactionsComponent },
 			{ path: 'admin/eth-transactions', component: AdminEthTransactionsComponent },
+			{ path: 'admin/bank-transactions', component: AdminBankTransactionsComponent },
 			{ path: 'admin/settings', redirectTo: 'admin/settings/conversion-settings' },
 			{ path: 'admin/settings/conversion-settings', component: AdminConversionSettingsComponent },
 			{ path: 'admin/settings/referral-settings', component: AdminReferralSettingsComponent },

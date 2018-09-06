@@ -143,6 +143,12 @@
 										<span class="badge badge-danger px-2" *ngIf="data.log_status == 'canceled'">
 											Canceled
 										</span>
+										<span class="badge badge-danger px-2" *ngIf="data.log_status == 'processing'">
+											Processing
+										</span>
+										<span class="badge badge-danger px-2" *ngIf="data.log_status == 'rejected'">
+											Rejected
+										</span>
 									</td>
 									<td>
 											{{ rest.formatDate(data.log_time) }} {{ rest.formatTime(data.log_time) }}
@@ -199,6 +205,12 @@
 										</span>
 										<span class="badge badge-danger px-2" *ngIf="data.log_status == 'canceled'">
 											Canceled
+										</span>
+										<span class="badge badge-danger px-2" *ngIf="data.log_status == 'processing'">
+											Processing
+										</span>
+										<span class="badge badge-danger px-2" *ngIf="data.log_status == 'rejected'">
+											Rejected
 										</span>
 									</td>
 									<td>

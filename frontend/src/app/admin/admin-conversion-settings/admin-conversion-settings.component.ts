@@ -25,9 +25,11 @@ export class AdminConversionSettingsComponent implements OnInit
   sale_stage                   : any;
   eth_convertion               : any;
   btc_convertion               : any;
+  php_convertion               : any;
   sale_stage_days_remain       : any;
   eth_discount_equivalent      : any;
   btc_discount_equivalent      : any;
+  php_discount_equivalent      : any;
   array_experiment             : any;
   is_loaded                       : boolean;
   min_purchase                 : number;
@@ -81,6 +83,7 @@ export class AdminConversionSettingsComponent implements OnInit
     this.sale_stage_selected   = this._sale_stage[this.sale_stage_index];
     this.eth_convertion        = this._coin[1].conversion_multiplier;
     this.btc_convertion        = this._coin[2].conversion_multiplier;
+    this.php_convertion        = this._coin[0].conversion_multiplier;
     
     this.refresh();
   
@@ -93,6 +96,7 @@ export class AdminConversionSettingsComponent implements OnInit
     this.sale_stage_days_remain = Math.ceil(Math.abs((new Date(this.sale_stage_selected.sale_stage_start_date).valueOf()) - (new Date(this.sale_stage_selected.sale_stage_end_date).valueOf())) / (1000 * 3600 * 24)) + " days";
     this.eth_discount_equivalent = this._coin[1].conversion_multiplier - (this._coin[1].conversion_multiplier * ( this.sale_stage_selected.sale_stage_discount / 100 ));
     this.btc_discount_equivalent = this._coin[2].conversion_multiplier - (this._coin[2].conversion_multiplier * ( this.sale_stage_selected.sale_stage_discount / 100 ));
+    this.php_discount_equivalent = this._coin[0].conversion_multiplier - (this._coin[0].conversion_multiplier * ( this.sale_stage_selected.sale_stage_discount / 100 ));
   }
 
   update()

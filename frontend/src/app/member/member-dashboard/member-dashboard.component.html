@@ -85,14 +85,15 @@
 			      <small class="mt-0 mb-1 d-block font-weight-bold">1 LOK ~ {{rest._rates[1].conversion_multiplier}} ETH</small>
 			      <small class="mt-0 mb-1 d-block font-weight-bold">DISCOUNT: {{rest._stages.sale_stage_discount}}%</small>
  -->
-			      <small class="mt-0 mb-1 d-block font-weight-bold">1 AHM ~ {{rest._rates[1].conversion_multiplier}} BTC</small>
-			      <small class="mt-0 mb-1 d-block font-weight-bold">1 AHM ~ {{rest._rates[0].conversion_multiplier}} ETH</small>
+			      <small class="mt-0 mb-1 d-block font-weight-bold">1 AHM ~ {{rest._rates[2].conversion_multiplier}} BTC</small>
+			      <small class="mt-0 mb-1 d-block font-weight-bold">1 AHM ~ {{rest._rates[1].conversion_multiplier}} ETH</small>
+			      <small class="mt-0 mb-1 d-block font-weight-bold">1 AHM ~ {{rest._rates[0].conversion_multiplier}} PHP</small>
 			      <small class="mt-0 mb-1 d-block font-weight-bold">DISCOUNT: {{rest._stages.sale_stage_discount}}%</small>
 
 			      <!-- <small class="mt-0 mb-1 d-block font-weight-bold">ACTUAL 1 AHM ~ 0.01 BTC | 0.10 ETH</small> -->
 			    </div>
 			  </div>
-			<small class="mt-0 mb-1 d-block my-1"><em>ACTUAL 1 AHM ~ {{rest._rates[1].conversion_multiplier}} BTC | {{rest._rates[0].conversion_multiplier}} ETH</em></small>
+			<small class="mt-0 mb-1 d-block my-1"><em>ACTUAL 1 AHM ~ {{rest._rates[2].conversion_multiplier}} BTC | {{rest._rates[1].conversion_multiplier}} ETH | {{rest._rates[0].conversion_multiplier}} PHP</em></small>
 			<button class="btn-primary p-2 w-100 my-1" (click)="buy_step_1(rest.member_id, buy_token)">BUY TOKEN</button>
 		</div>
 	</div>
@@ -204,7 +205,7 @@
 						<tr *ngFor="let data of _table_recent_transaction | paginate: { itemsPerPage:15, currentPage: recent_transaction, id: 'recent_transaction'}">
 							<td>{{data.member_log_id}}</td>
 							<td>{{data.log_amount}}</td>
-							<td>{{data.log_method == "Bitcoin Total" || data.log_method == "Bitcoin" ? "Bitcoin" : "Ethereum"}} </td>
+							<td>{{data.log_method }} </td>
 							<td>
 								<span class="badge badge-secondary px-2" *ngIf="data.log_status == 'pending'">
 									Pending
@@ -215,6 +216,12 @@
 								<span class="badge badge-danger px-2" *ngIf="data.log_status == 'canceled'">
 									Canceled
 								</span>
+								<span class="badge badge-info px-2" *ngIf="data.log_status == 'processing'">
+										Processing
+									</span>
+									<span class="badge badge-danger px-2" *ngIf="data.log_status == 'rejected'">
+											Rejected
+										</span>
 							</td>
 							<td>
 								<!-- {{data.log_time | date: 'MM/dd/yyyy'}} -->
@@ -306,6 +313,9 @@
         				</button>
         				<button type="button" (click)="setPaymentType(3)" class="payment-btn {{payment_type == 3 ? 'payment-btn-active' : ''}} ml-2">
         					<i class="fab fa-bitcoin"></i>
+						</button>
+						<button type="button" (click)="setPaymentType(1)" class="payment-btn {{payment_type == 1 ? 'payment-btn-active' : ''}} ml-2">
+        					<i class="fas fa-university"></i>
         				</button>
         			</div>
         		</div>	
@@ -377,20 +387,68 @@
         		<h3 class="mb-3">{{ total_token }} LOK</h3> -->
 
         		<h5 class="mb-1">To be paid</h5>
-        		<h3 class="mb-3">{{ to_be_paid }} {{ payment_type == 2 ? 'ETH' : 'BTC' }}</h3>
+        		<h3 class="mb-3">{{ to_be_paid }} {{ payment_currency.abbr }}</h3>
 				<hr>
 				<div class="text-center">
+					<span class="d-block my-2 p-2 alert alert-danger text-light" *ngIf="err_msg != 'no-message'">
+						{{ err_msg }}
+					</span>
 					<h3 class="font-weight-bold">Send Payment</h3>
-	        		<h5 class="mb-1">Copy this wallet address</h5>
-					<h3 class="mb-3 wallet_address">{{ payment_type == 2 ? rest._wallet[2].member_address: rest._wallet[3].member_address }}</h3>
-					<!-- <button class="btn btn-default"><i class="fas fa-copy"></i></button> -->
-					or
-	        		<h5 class="mb-1 mt-3">Scan this QR Code</h5>
-	        		<span class="mb-3 d-flex justify-content-center align-items-center py-2">
-	        			<qrcode [qrdata]="payment_type == 2 ? rest._wallet[2].member_address: rest._wallet[3].member_address" [size]="150" [level]="'M'"></qrcode>
-	        		</span>
+					<span *ngIf="payment_currency.abbr != 'PHP'" class="d-block mb-2">
+						<h5 class="mb-1">Copy this wallet address</h5>
+						<h3 class="mb-3 wallet_address">{{ payment_type == 2 ? rest._wallet[2].member_address: rest._wallet[3].member_address }}</h3>
+						<!-- <button class="btn btn-default"><i class="fas fa-copy"></i></button> -->
+						or
+						<h5 class="mb-1 mt-3">Scan this QR Code</h5>
+						<span class="mb-3 d-flex justify-content-center align-items-center py-2">
+							<qrcode [qrdata]="payment_type == 2 ? rest._wallet[2].member_address: rest._wallet[3].member_address" [size]="150" [level]="'M'"></qrcode>
+						</span>
+					</span>
+					<span *ngIf="payment_currency.abbr == 'PHP'" class="d-block mb-2 offset-md-2 col-md-8 offset-md-2 col-xs-12">
+						<h5 class="mb-1">Choose A Bank</h5>
+						<select name="" id="" class="form-control mb-3" [(ngModel)]="cash_in_method" (change)="getDepositInfo()">
+							<option *ngFor="let methods of bank_methods" value="{{ methods.cash_in_method_id }}">{{ methods.cash_in_method_name }}</option>
+						</select>
+
+						<h5 class="mb-1" *ngIf="bank_info">Deposit Information</h5>
+						<div class="border-left border-secondary text-left px-3 py-2 mb-3" *ngIf="bank_info">
+							<small class="d-block">
+								<strong>Account Name: </strong> {{bank_info.cash_in_account_name}}
+							</small>
+							<small class="d-block">
+								<strong>Account Number: </strong> {{bank_info.cash_in_account_number}}
+							</small>
+							<small class="d-block">
+								<strong>Account Type: </strong> {{bank_info.cash_in_method_header}}
+							</small>
+						</div>
+
+						<h5 class="mb-1">Transaction Number</h5>
+						<input type="text" class="form-control mb-3 text-center" placeholder="Enter your deposit transaction number" [(ngModel)]="tx_number">
+
+						<h5 class="mb-1">Deposit Slip</h5>
+						<small class="alert alert-warning alert-lokalize my-2 d-block" *ngIf="cash_in_proof">
+							<b class="text-dark">1 Attachment</b>
+							<a href="{{ cash_in_proof }}" target="_blank" class="p-1 ml-2 mr-1">
+								<i class="fas fa-eye"></i>	
+							</a> 
+							<a href="javascript:void" class="p-1" (click)="cash_in_proof = null; form_data = null">
+								<i class="fas fa-times"></i>	
+							</a> 
+						</small>
+						<small class="d-block my-2" *ngIf="image_uploading">
+							<i class="fas fa-spinner button-loader mr-2"></i> Uploading...
+						</small>
+						<button class="btn btn-dark btn-block mb-3" disabled="{{buy_loading ? 'disabled' : ''}}" (click)="openUploadProof()" *ngIf="!image_uploading">
+							<small>
+								Upload Proof <i class="fas fa-cloud-upload-alt ml-2"></i>
+							</small>
+						</button>
+						<input type="file" style="display: none;" id="payment_proof" (change)="onFileChange($event)">
+					</span>
+					
 					<small class="alert alert-warning alert-lokalize mb-4 d-block">
-						<span *ngIf="check_pending_transacts"><b>Note:</b> You already have a pending token order for this payment method. Proceeding with this order will result to cancellation of your previous order.</span>
+						<span *ngIf="check_pending_transacts"><b>Note:</b> You already have a pending/processing token order for this payment method. Proceeding with this order will result to cancellation of your previous order.</span>
 						<hr *ngIf="check_pending_transacts">
 						<b>Note:</b> Your order will expire upon not sending your payment for 2 days.
 					</small>

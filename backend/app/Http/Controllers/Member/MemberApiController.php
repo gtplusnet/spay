@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Crypt;
 use App\Tbl_User;
 use App\Tbl_coin;
 use App\Tbl_coin_conversion;
+use App\Tbl_cash_in_method;
 use App\Tbl_sale_stage;
 use App\Tbl_sale_stage_bonus;
 use App\Tbl_bitcoin_cash_in;
@@ -306,7 +307,7 @@ class MemberApiController extends Controller
 
     public function record_transaction(Request $request)
     {
-
+        // dd($request);
         if($request->token_amount > 0)
         {
             $member_id                          = $request->member_id;
@@ -316,8 +317,11 @@ class MemberApiController extends Controller
             $amount                             = $request->amount_to_pay;
             $token_amount                       = $request->token_amount;
             $log_method                         = $request->payment_method;
+            $cash_in_method                     = $request->cash_in_method;
+            $cash_in_proof_img                  = $request->cash_in_proof_img;
+            $cash_in_proof_tx                   = $request->cash_in_proof_tx;
             $log                                = "Buy <b>". $request->token_amount ." AHM Tokens</b> via <b>" . ucfirst($request->payment_method) . ".</b>";
-            $member_log_id                      = Wallet::recordTransaction($member_id, $coin_id, $sale_stage_id, $conversion_rate, $amount, $token_amount, $log_method, $log);        
+            $member_log_id                      = Wallet::recordTransaction($member_id, $coin_id, $sale_stage_id, $conversion_rate, $amount, $token_amount, $log_method, $log, "pending" ,$cash_in_method, $cash_in_proof_img, $cash_in_proof_tx);        
 
             $return["type"] = "success";
             $return["message"] = "Successfully placed an order.";
@@ -337,6 +341,14 @@ class MemberApiController extends Controller
         $req = request()->all();
         $data["list"] = Transactions::getTransactions($req,null,$request->member_id);
         $data["address"] = Tbl_member_address::where("member_id",$request->member_id)->where("coin_id",3)->select('member_address')->get()->first();
+        return $data;
+    }
+
+    function get_php_transaction(Request $request)
+    {
+        $req = request()->all();
+        $data["list"] = Transactions::getTransactions($req,null,$request->member_id);
+        $data["address"] = Tbl_member_address::where("member_id",$request->member_id)->where("coin_id",1)->select('member_address')->get()->first();
         return $data;
     }
 
@@ -421,7 +433,7 @@ class MemberApiController extends Controller
                 if($file_size < 26214400)
                 {
                     $path_prefix = 'https://aeolus-storage.sgp1.digitaloceanspaces.com/';
-                    $path ="successmall/kycphotos";
+                    $path ="ahm/kycphotos";
                     $storage_path = storage_path();
         
                     if ($request->file('image')->isValid())
@@ -736,10 +748,10 @@ class MemberApiController extends Controller
     public function check_tokens(Request $request)
     {
         $wallet_id = $request->wallet_id;
-        $data["bought"]           = Tbl_member_log::where("member_address_id", $wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "rejected")->where("log_status", "!=", "canceled")->where("log_mode", "receive")->sum("log_amount");
-        $data["purchased"]        = Tbl_member_log::where("member_address_id", $wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "rejected")->where("log_status", "!=", "canceled")->where("log_mode", "buy bonus")->sum("log_amount");
-        $data["affiliated"]   = Tbl_member_log::where("member_address_id", $wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "floating")->where("log_status", "!=", "canceled")->where("log_mode", "referral bonus")->sum("log_amount");
-        $data["manual"]  = Tbl_member_log::where("member_address_id", $wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "floating")->where("log_status", "!=", "canceled")->where("log_mode", "manual")->sum("log_amount");
+        $data["bought"]           = Tbl_member_log::where("member_address_id", $wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "rejected")->where("log_status", "!=", "canceled")->where("log_status", "!=", "processing")->where("log_mode", "receive")->sum("log_amount");
+        $data["purchased"]        = Tbl_member_log::where("member_address_id", $wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "rejected")->where("log_status", "!=", "canceled")->where("log_status", "!=", "processing")->where("log_mode", "buy bonus")->sum("log_amount");
+        $data["affiliated"]   = Tbl_member_log::where("member_address_id", $wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "floating")->where("log_status", "!=", "canceled")->where("log_status", "!=", "processing")->where("log_mode", "referral bonus")->sum("log_amount");
+        $data["manual"]  = Tbl_member_log::where("member_address_id", $wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "floating")->where("log_status", "!=", "canceled")->where("log_status", "!=", "processing")->where("log_mode", "manual")->sum("log_amount");
         return $data;
     }
 
@@ -779,11 +791,34 @@ class MemberApiController extends Controller
            $data = Tbl_member_log::where("id",$id)->where("log_mode","!=","manual");
            $data = $data->where(function($query)
            {
-                $query->Where("log_method","Ethereum")->orWhere("log_method","Bitcoin")->orWhere("log_method", "Bitcoin Total")->orWhere("log_method", "Ethereum Total");
+                $query
+                ->Where("log_method","Ethereum")
+                ->orWhere("log_method","Bitcoin")
+                ->orWhere("log_method","Bank")
+                ->orWhere("log_method", "Bitcoin Total")
+                ->orWhere("log_method", "Bank Total")
+                ->orWhere("log_method", "Ethereum Total");
            });
            //dd($data->Member()->get());
            $data = $data->Member()->orderBy("log_time","DESC")->get();
            //$data["list"] = $member_log->where("log_status","accepted")->get();
+           foreach ($data as $key => $value) {
+                switch($value->log_method)
+                {
+                case "Bitcoin":
+                case "Bitcoin Total":
+                    $data[$key]["log_method"] = "Bitcoin";
+                break;
+                case "Ethereum":
+                case "Ethereum Total":
+                    $data[$key]["log_method"] = "Ethereum";
+                break;
+                case "Bank":
+                case "Bank Total":
+                    $data[$key]["log_method"] = "Bank";
+                break;
+                }
+           }
         }
         else
         {
@@ -1017,7 +1052,10 @@ class MemberApiController extends Controller
 
     public function check_pending_order_method(Request $request)
     {
-        $pending_transaction = Tbl_member_log::where("member_address_id", $request->member_address_id)->where("log_status", "pending")->where("log_method", $request->log_method);
+        $pending_transaction = Tbl_member_log::where("member_address_id", $request->member_address_id)->where("log_method", $request->log_method)->where(function($query)
+    {
+        $query->where("log_status", "pending")->orWhere("log_status", "processing");
+    });
 
         if($pending_transaction->count() == 1)
         {
@@ -1029,5 +1067,30 @@ class MemberApiController extends Controller
         }
 
         return json_encode($return);
+    }
+
+    public function get_bank_methods()
+    {
+        $banks = Tbl_cash_in_method::where("cash_in_method_payment_rule", 0)->get();
+        if($banks)
+        {
+            return json_encode($banks);
+        }
+    }
+
+    public function upload(Request $request)
+    {
+        $file = $request->file('upload');
+
+        $path_prefix = 'https://aeolus-storage.sgp1.digitaloceanspaces.com/';
+        $path = "ahm/".$request->folder;
+        $storage_path = storage_path();
+
+        if ($file->isValid())
+        {
+            $full_path = Storage::disk('s3')->putFile($path, $file, "public");
+            $url = Storage::disk('s3')->url($full_path);
+            return json_encode($url);
+        }
     }
 }

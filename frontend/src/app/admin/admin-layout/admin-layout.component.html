@@ -46,11 +46,7 @@
                             <div class="nav-alignment-x"><i class="far fa-handshake"></i></div> <small>Business Application <small class="notif-counter-{{admin_notif.new_business_application == 0 ? 'inactive' : 'active'}}">{{ admin_notif.new_business_application }}</small></small>
                         </a>
                     </li> -->
-<<<<<<< HEAD
                    <!--  <li class="dropdown-item py-1">
-=======
-                    <li class="dropdown-item py-1">
->>>>>>> f45bb64a6bbb633a94d27ca0de0a5ef5cf0b437d
                         <a href="javascript:void(0)" [routerLink]="['/admin/kyc-verification']" class="nav-items-lokal" (click)="adminViewedNotif('new_kyc')">
                             <div class="nav-alignment-x"><i class="fas fa-id-card"></i></div> <small>Verification Request <small class="notif-counter-{{admin_notif.new_kyc == 0 ? 'inactive' : 'active'}}">{{ admin_notif.new_kyc }}</small></small>
                         </a>
@@ -99,7 +95,7 @@
 
                     <li class="nav-item">
                         <a [routerLink]="['/admin/member-list']" class="nav-link py-1 px-4" (click)="adminViewedNotif('new_member_request')">
-                            <div class="nav-alignment-x"><i class="fas fa-users"></i></div> <small>Member List</small>  
+                        <div class="nav-alignment-x"><i class="fas fa-users"></i></div> <small>Member List</small>  
                         </a>
                         
                     </li>
@@ -112,6 +108,12 @@
                     <li class="nav-item">
                         <a [routerLink]="['/admin/eth-transactions']" class="nav-link py-1 px-4">
                             <div class="nav-alignment-x"><i class="fab fa-ethereum"></i></div> <small>ETH Transaction List</small>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a [routerLink]="['/admin/bank-transactions']" class="nav-link py-1 px-4">
+                            <div class="nav-alignment-x"><i class="fas fa-university"></i></div> <small>Bank Transaction List</small>
                         </a>
                     </li>
 

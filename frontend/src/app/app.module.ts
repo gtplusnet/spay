@@ -85,6 +85,8 @@ import { AdminFaqsSettingsComponent } from './admin/admin-faqs-settings/admin-fa
 import { FaqComponent } from './front/faq/faq.component';
 import { LayoutComponent } from './front/layout/layout.component';
 import { AdminFilesComponent } from './admin/admin-files/admin-files.component';
+import { AdminBankTransactionsComponent } from './admin/admin-bank-transactions/admin-bank-transactions.component';
+import { MemberBankTransactionsComponent } from './member/member-bank-transactions/member-bank-transactions.component';
 
 export function getAuthServiceConfigs() {
 
@@ -151,7 +153,9 @@ export function getAuthServiceConfigs() {
     AdminFaqsSettingsComponent,
     FaqComponent,
     LayoutComponent,
-    AdminFilesComponent
+    AdminFilesComponent,
+    AdminBankTransactionsComponent,
+    MemberBankTransactionsComponent
   ],
   exports: [  ],
   imports: [

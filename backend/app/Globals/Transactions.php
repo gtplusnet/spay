@@ -16,11 +16,19 @@ class Transactions
     {
         
         $methods["log_method"]          = ucfirst($param['log_method']);
+
         if(isset($param['log_method_accepted']))
         {
             $methods["log_method_accepted"] = ucwords($param['log_method_accepted']);
         }
+       
         $data = Tbl_automatic_cash_in::joinTransactions($methods);
+
+        if(isset($param['log_method']) && $param['log_method'] == 'Bank')
+        {
+            $data = $data->join('tbl_cash_in_method', 'tbl_cash_in_method.cash_in_method_id', '=', 'tbl_member_log.cash_in_method');
+        }
+        
 
         if($id != null)
         {
@@ -50,6 +58,12 @@ class Transactions
                 $data = $data->where("log_status", $transaction_status);
             }
 
+            if(isset($param["cash_in_method_id"]) && $param["cash_in_method_id"] != "all")
+            {
+                $cash_in_method_id = $param["cash_in_method_id"];
+                $data = $data->where("cash_in_method_id", $cash_in_method_id);
+            }
+
             if($param["transaction_date_from"] != false)
             {
                 $transaction_date_from = $param["transaction_date_from"];
@@ -66,6 +80,7 @@ class Transactions
 
         $data = $data->orderBy("log_time", "desc");
         $data = $data->get();
+        // dd($data);
         foreach ($data as $key => $value) {
             $bonus = @(($value->sale_stage_bonus/100)+1);
             $paid_amount = (($value->sale_stage_discount/100)*$value->exchange_rate);
@@ -73,11 +88,12 @@ class Transactions
             
             // $data[$key]["amount_paid"] = $paid_amount*$value->log_amount;
             // $data[$key]["expected_payment"] = $value->amount_requested-$exchange_rate;
-
-            $data[$key]["amount_paid"] = $paid_amount*$value->log_amount;
+            
+            $data[$key]["amount_paid"] = ($value->exchange_rate - $paid_amount)*$value->log_amount;
             $data[$key]["expected_payment"] = $value->amount_requested-$exchange_rate;
         }
 
+        
        
         return $data;
     }
