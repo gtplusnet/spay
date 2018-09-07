@@ -56,7 +56,7 @@
 <div class="table-responsive px-0"  style="min-height: 300px;">
 	<table class="table member-table-x admin-db table-hover px-2">
 			<caption class="bg-light m-0 p-0 py-2 px-1">
-				<pagination-controls class="my-pagination"></pagination-controls>
+				<pagination-controls class="my-pagination" (pageChange)="page = $event"></pagination-controls>
 			</caption>
 		<thead>
 			<tr>
@@ -85,7 +85,7 @@
 			<tr *ngIf="!table">
 				<td>No data found.</td>
 			</tr>
-			<tr *ngFor="let data of table">
+			<tr *ngFor="let data of table | paginate: { itemsPerPage:15, currentPage: page }" >
 				<td>{{data.member_address_id}}</td>
 				<td>{{data.coin.coin_abb}}</td>
 				<td>{{data.member_address}}</td>
