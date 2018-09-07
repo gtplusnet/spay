@@ -1,6 +1,5 @@
 @import "../../../assets/ahm_assets/scss/custom";
 
-
 body
 {
 	@include text-style($body-text, $reg, 0.875rem, 0.01rem, 1.6875rem);
@@ -263,6 +262,10 @@ body
 									color: #0c2234;
 									font-size: 13px;
 									text-transform: uppercase;
+									@media screen and (max-width: $tablet)
+									{
+										min-width: 160px;
+									}
 								}
 							}
 						}
