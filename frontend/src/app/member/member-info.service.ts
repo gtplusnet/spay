@@ -181,11 +181,6 @@ export class MemberInfoService
 		{
 			this._exchange_rate.PHP = response["rates"].USD;
 		})
-
-		
-
-		console.log(this._exchange_rate)
-		//console.log(response);
 	}
 
 	uploadImageOnServer(form_data,uploadfor) : Observable<object>
