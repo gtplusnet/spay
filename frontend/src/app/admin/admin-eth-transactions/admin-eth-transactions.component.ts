@@ -107,7 +107,7 @@ export class AdminEthTransactionsComponent implements OnInit {
 		{
 			login_token : this.rest.login_token,
 			action : status,
-			payment : "btc",
+			payment : "eth",
 			member_id : this.data_focus.id,
 			member_log_id : this.data_focus.member_log_id,
 			cash_in_date : this.data_focus.log_time
