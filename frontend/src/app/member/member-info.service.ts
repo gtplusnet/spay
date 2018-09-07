@@ -317,4 +317,24 @@ export class MemberInfoService
 
 		return hour + ":" + minutes + " " + ampm;
 	}
+
+	sumArrayByKey(array, column, key = null , status = null) : any
+    {
+        var sum = 0;
+        array.forEach(data=>
+        {
+            if(key)
+            {
+               if(data[key] == status)
+               {
+                   sum += data[column];
+               }
+            }
+            else
+            {  
+                sum += data[column];
+            }
+        })
+        return sum;
+    }
 }
