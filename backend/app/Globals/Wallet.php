@@ -177,7 +177,7 @@ class Wallet
 
         if($log_method == 'Bitcoin' || $log_method == 'Ethereum' || $log_method == 'Bank')
         {
-        	// Mails::order_placed($data);
+        	Mails::order_placed($data);
         }
 
 		Self::recomputeWallet($member_address->member_address_id);

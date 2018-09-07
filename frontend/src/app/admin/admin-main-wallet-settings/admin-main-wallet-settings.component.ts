@@ -15,7 +15,7 @@ export class AdminMainWalletSettingsComponent implements OnInit {
   table_url : string;
   coin_id : any;
   table_loader : boolean = true;
-
+  page : any;
   //release wallet
   release_url : string;
   released : boolean = true;

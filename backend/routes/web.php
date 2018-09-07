@@ -155,6 +155,7 @@ Route::post('/api/admin/add_new_method', 'Admin\AdminApiController@add_new_metho
 Route::post('/api/admin/update_method', 'Admin\AdminApiController@update_method');
 Route::post('/api/admin/archive_method', 'Admin\AdminApiController@archive_method');
 Route::post('/api/admin/get_bank_methods', 'Admin\AdminApiController@get_bank_methods');
+Route::post('/api/admin/get_all_processing', 'Admin\AdminApiController@get_all_processing');
 
 
 //member referral API

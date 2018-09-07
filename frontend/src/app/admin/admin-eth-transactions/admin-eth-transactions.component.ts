@@ -30,6 +30,10 @@ export class AdminEthTransactionsComponent implements OnInit {
 	expected_payment : any = 0;
 	processing : boolean = false;
 
+	fetching_tx = false;
+	processing_tx = null;
+	p_page : any;
+
 	constructor(public rest : MemberInfoService, private http : HttpClient, private modalService: NgbModal) { }
 
 	ngOnInit() 
@@ -100,7 +104,7 @@ export class AdminEthTransactionsComponent implements OnInit {
 		this.openLg(selector);
 	}
 
-	processTransaction(status)
+	processTransaction(status, process = 'single')
 	{
 		this.processing = true
 		this.http.post(this.rest.api_url + "/api/admin/update_transaction",
@@ -108,14 +112,30 @@ export class AdminEthTransactionsComponent implements OnInit {
 			login_token : this.rest.login_token,
 			action : status,
 			payment : "eth",
-			member_id : this.data_focus.id,
-			member_log_id : this.data_focus.member_log_id,
-			cash_in_date : this.data_focus.log_time
+			member_id : this.data_focus ? this.data_focus.id : null,
+			member_log_id : this.data_focus ? this.data_focus.member_log_id : null,
+			cash_in_date : this.data_focus ? this.data_focus.log_time : null,
+			process_type : process
 		}).subscribe(response=>
 		{
 			this.loadTable();
 			this.modal_ref.close();
 			this.processing = false
+		})
+	}
+
+	getAllProcessings(selector)
+	{
+		this.fetching_tx = true;
+		this.openLg(selector);
+		this.http.post(this.rest.api_url + "/api/admin/get_all_processing", 
+		{
+			login_token : this.rest.login_token,
+			payment: "Ethereum"
+		}).subscribe(response=>
+		{
+			this.processing_tx = response;
+			this.fetching_tx = false;
 		})
 	}
 }

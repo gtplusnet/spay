@@ -15,7 +15,11 @@
       </div>
     </div>
     <div class="col-lg-2 col-xs-12">
-      
+        <button class="btn button-lokal-x btn-block my-1" (click)="getAllProcessings(open_process_all)">
+          <small>
+            <i class="fas fa-check mr-2"></i>Process All
+          </small>
+        </button>
     </div>
   
     <div class="col-lg-3 col-xs-12">
@@ -428,3 +432,64 @@
       </div>
     </div>
   </ng-template>
+
+  <ng-template #open_process_all let-c="close" let-d="dismiss">
+      <div class="view_account_details">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Process All Transactions</h5>
+          <button type="button" class="close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-left color-lokal-x">
+          <div class="p-4" *ngIf="fetching_tx">
+            <div class="load-table d-flex flex-column justify-content-center align-items-center">
+              <div class="circle"></div>
+              <small class="text">LOADING TABLE...</small>
+            </div>
+          </div>
+          <div class="p-2" *ngIf="!fetching_tx">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover small-table">
+                <caption class="bg-light m-0 p-2 text-center">
+                  <small class="text-center p-3 font-weight-bold">
+                    You are about to send {{ rest.sumArrayByKey(processing_tx, 'log_amount') }} AHM to {{ processing_tx.length }} members and receive {{ rest.sumArrayByKey(processing_tx, 'log_net_amount') }} PHP. Would you like to continue?
+                    <small class="font-weight-light d-block">
+                      Note: Total AHM to be sent and PHP to be received may be different after processing if the paid amount is not exactly the same as expected payment.
+                    </small>
+                    <hr class="my-1">
+                    <button class="btn btn-success btn-sm mx-1 font-weight-normal" disabled="{{ processing ? 'disabled' : '' }}" (click)="processTransaction('accepted', 'multiple')">Yes</button>
+                    <button class="btn btn-danger btn-sm mx-1 font-weight-normal" disabled="{{ processing ? 'disabled' : '' }}" (click)="d('Cross click')">No</button>
+                  </small>
+                </caption>
+                <thead>
+                  <tr>
+                    <th>Requested By</th>
+                    <th>Requested Token</th>
+                    <th>Expected Payment</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let tx of processing_tx | paginate: { itemsPerPage:10, currentPage: p_page, id:'p_page' }">
+                    <td>{{ tx.first_name }} {{ tx.last_name }}</td>
+                    <td>{{ tx.log_amount }} AHM</td>
+                    <td>{{ tx.log_net_amount }} PHP</td>
+                    <td>{{ rest.formatDate(tx.log_time) }}</td>
+                    <td>{{ rest.formatTime(tx.log_time) }}</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="5">
+                      <pagination-controls class="my-pagination" (pageChange)="p_page = $event" id="p_page"></pagination-controls>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>

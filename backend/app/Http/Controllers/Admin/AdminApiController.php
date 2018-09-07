@@ -929,42 +929,86 @@ class AdminApiController extends Controller
     function update_transaction(Request $request)
     {
         // dd(request()->all());
-        $date = date("Y-m-d", strtotime($request->cash_in_date));
-        $ss = Tbl_sale_stage::whereDate("sale_stage_start_date", "<=", $date)->whereDate("sale_stage_end_date", ">=", $date)->first();
+        if($request->cash_in_date)
+        {
+            $date = date("Y-m-d", strtotime($request->cash_in_date));
+            $ss = Tbl_sale_stage::whereDate("sale_stage_start_date", "<=", $date)->whereDate("sale_stage_end_date", ">=", $date)->first();
+        }
+        
         if($request->payment == 'eth')
         {
             if($request->action == "accepted")
             {
-                $return["data"] = Blockchain::updateBalanceETH($request->action, $request->member_id, $ss->sale_stage_id);
+                if($request->process_type == 'single')
+                {
+                    Blockchain::updateBalanceETH($request->action, $request->member_id, $ss->sale_stage_id);
+                }
+                else
+                {
+                    $p_tx = Tbl_member_log::MemberAddress()->where("log_status", "processing")->where("log_method", "Ethereum")->get();
+                    foreach ($p_tx as $key => $value) 
+                    {
+                        $date = date("Y-m-d", strtotime($value->log_time));
+                        $ss = Tbl_sale_stage::whereDate("sale_stage_start_date", "<=", $date)->whereDate("sale_stage_end_date", ">=", $date)->first();
+                        Blockchain::updateBalanceETH($request->action, $value->member_id, $ss->sale_stage_id);
+                    }
+                }
             }
             else
             {
-                $return["data"] = Tbl_member_log::where("member_log_id", $request->member_log_id)->update(["log_status" => "rejected"]);
+                Tbl_member_log::where("member_log_id", $request->member_log_id)->update(["log_status" => "rejected"]);
             }
         }
         else if($request->payment == 'btc')
         {
             if($request->action == "accepted")
             {
-                $return["data"] = Blockchain::updateBalanceBTC($request->action, $request->member_id, $ss->sale_stage_id);
+                if($request->process_type == 'single')
+                {
+                    Blockchain::updateBalanceBTC($request->action, $request->member_id, $ss->sale_stage_id);
+                }
+                else
+                {
+                    $p_tx = Tbl_member_log::MemberAddress()->where("log_status", "processing")->where("log_method", "Bitcoin")->get();
+                    
+                    foreach ($p_tx as $key => $value) 
+                    {
+                        $date = date("Y-m-d", strtotime($value->log_time));
+                        $ss = Tbl_sale_stage::whereDate("sale_stage_start_date", "<=", $date)->whereDate("sale_stage_end_date", ">=", $date)->first();
+                        Blockchain::updateBalanceBTC($request->action, $value->member_id, $ss->sale_stage_id);
+                    }
+                }
             }
             else
             {
-                $return["data"] = Tbl_member_log::where("member_log_id", $request->member_log_id)->update(["log_status" => "rejected"]);
+                Tbl_member_log::where("member_log_id", $request->member_log_id)->update(["log_status" => "rejected"]);
             }
         }
         else
         {   
-            $net_amount = Tbl_member_log::where("member_log_id", $request->member_log_id)->first();
-            $amount = $request->amount ? $request->amount : $net_amount->log_net_amount;
-
             if($request->action == "accepted")
             {
-                $return["data"] = Blockchain::updateBalancePHP($request->action, $amount, $request->member_id, $ss->sale_stage_id);
+                if($request->process_type == 'single')
+                {
+                    $net_amount = Tbl_member_log::where("member_log_id", $request->member_log_id)->first();
+                    $amount = $request->amount ? $request->amount : $net_amount->log_net_amount;
+                    Blockchain::updateBalancePHP($request->action, $amount, $request->member_id, $ss->sale_stage_id);
+                }
+                else
+                {
+                    $p_tx = Tbl_member_log::MemberAddress()->where("log_status", "pending")->where("log_method", "Bank")->get();
+                    
+                    foreach ($p_tx as $key => $value) 
+                    {
+                        $date = date("Y-m-d", strtotime($value->log_time));
+                        $ss = Tbl_sale_stage::whereDate("sale_stage_start_date", "<=", $date)->whereDate("sale_stage_end_date", ">=", $date)->first();
+                        Blockchain::updateBalancePHP($request->action, $value->log_net_amount, $value->member_id, $ss->sale_stage_id);
+                    }
+                }
             }
             else
             {
-                $return["data"] = Tbl_member_log::where("member_log_id", $request->member_log_id)->update(["log_status" => "rejected"]);
+                Tbl_member_log::where("member_log_id", $request->member_log_id)->update(["log_status" => "rejected"]);
             }
         }
 
@@ -1010,12 +1054,19 @@ class AdminApiController extends Controller
         $data = Tbl_cash_in_method::where("cash_in_method_id", $request->cash_in_method_id)->update(["cash_in_method_payment_rule" => $status]);
     }
 
-    public function get_bank_methods()
+    function get_bank_methods()
     {
         $banks = Tbl_cash_in_method::get();
         if($banks)
         {
             return json_encode($banks);
         }
+    }
+
+    function get_all_processing(Request $request)
+    {
+        $status = $request->payment == 'Bank' ? "pending" : "processing";
+        $list = Tbl_member_log::Member()->where("log_status", $status)->where("log_method", $request->payment)->get();
+        return json_encode($list);
     }
 }
