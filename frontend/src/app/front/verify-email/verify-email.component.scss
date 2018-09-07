@@ -6,11 +6,19 @@
 	height: 100vh;
 	background-color: $base-color;
 	color: white;
-	background-image: url('../../../assets/ahm_assets/img/back_light2.png');
+	background-image: url('../../../assets/ahm_assets/img/bg_login.jpg');
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: contain;
-
+	background-size: cover;
+	
+	.logo-holder
+	{
+		width: 30%;
+		img
+		{
+			width: 100%;
+		}
+	}
 	.text-link-2
 	{
 		color: white !important;
@@ -92,3 +100,4 @@
 {
 
 }
+
