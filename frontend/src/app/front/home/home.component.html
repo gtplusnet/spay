@@ -114,11 +114,11 @@
 				<div class="coin-market">
 					<!-- <img class="img-fluid" src="../../../assets/ahm_assets/img/s4-img.jpg" alt=""> -->
 					<div class="table-responsive">
-						<table class="table table-bordered">
+						<table class="table">
 							<thead>
-								<tr>
+								<tr class="tbl-title">
 									<th>Ranking</th>
-									<th class="text-left">Cryptocurrency</th>
+									<th>Cryptocurrency</th>
 									<th>Price</th>
 									<th>Direct Vol. 24H</th>
 									<th>Total Vol. 24H</th>
@@ -128,29 +128,39 @@
 								</tr>
 							</thead>
 							<tbody *ngIf="crypto_data">
-								<tr *ngFor="let data of crypto_data; let i = index">
-									<td>{{ i + 1 }}</td>
-									<td class="text-left">
+								<tr *ngFor="let data of crypto_data; let i = index" class="info-per-row">
+									<td class="per-ranking-container">
+										<div class="ranking-container">{{ i + 1 }}</div>
+									</td>
+									<td class="per-crypto-container">
 										<div class="media">
 											<div class="media-left media-middle">
 												<img src="{{ data.icon }}" class="mx-2 media-object" width="24">
 											</div>
 											<div class="media-body">
-												<h6 class="media-heading">{{ data.name }}</h6>
+												<h6 class="media-heading font-weight-bold">{{ data.name }}</h6>
 												<small class="d-block font-weight-bold">
 													{{ data.abbr }}
 												</small>
 											</div>
 										</div>
 									</td>
-									<td>
-										{{ data.d.USD.PRICE }}
+									<td class="per-info-container">
+										<div class="info-container">{{ data.d.USD.PRICE }}</div>
 									</td>
-									<td>{{ data.d.USD.VOLUME24HOUR }}</td>
-									<td>{{ data.d.USD.TOTALVOLUME24H }}</td>
-									<td>{{ data.d.USD.MKTCAP }}</td>
+									<td class="per-info-container">
+										<div class="info-container">{{ data.d.USD.VOLUME24HOUR }}</div>
+									</td>
+									<td class="per-info-container">
+										<div class="info-container">{{ data.d.USD.TOTALVOLUME24H }}</div>
+									</td>
+									<td class="per-info-container">
+										<div class="info-container">{{ data.d.USD.MKTCAP }}</div>
+									</td>
 									<!-- <td>{{ data.d.USD.PRICE }}</td> -->
-									<td class="{{ data.r.USD.CHANGEPCT24HOUR >= 0 ? 'text-success' : 'text-danger' }}">{{  data.d.USD.CHANGEPCT24HOUR }}%</td>
+									<td class="{{ data.r.USD.CHANGEPCT24HOUR >= 0 ? 'text-success' : 'text-danger' }} per-info-container">
+										<div class="info-container">{{  data.d.USD.CHANGEPCT24HOUR }}%</div>
+									</td>
 								</tr>
 							</tbody>
 						</table>

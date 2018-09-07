@@ -249,6 +249,71 @@ body
 			.coin-market
 			{
 				margin-top: 30px !important;
+				.table-responsive
+				{
+					.table
+					{
+						thead
+						{
+							.tbl-title
+							{
+								border-bottom: 5px solid #dee2e6;
+								th
+								{
+									color: #0c2234;
+									font-size: 13px;
+									text-transform: uppercase;
+								}
+							}
+						}
+						tbody
+						{
+							.info-per-row
+							{
+								.per-ranking-container
+								{
+									padding: 12px 35px; 
+									.ranking-container
+									{
+										font-weight: 600;
+										font-size: 13px;
+										color: $base-color;
+										background-color: #5d88a9;
+										padding: 10px 0px;
+									}
+								}
+								.per-crypto-container
+								{
+									.media
+									{
+										.media-body
+										{
+											h6
+											{
+												font-size: 13px;
+												margin-bottom: 0px;
+											}
+											small
+											{
+												color: #f79a35;
+											}
+										}
+									}
+								}
+								.per-info-container
+								{
+									.info-container
+									{
+										font-size: 14px;
+										padding: 5px 0px;
+										background-color: #f5f5f5;
+										border-radius: 5px;
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -257,7 +322,6 @@ body
 	{
 		background-color: $dark-white;
 		padding: 100px 0px;
-		position: relative;
 		.heading
 		{
 			text-align: center;
@@ -288,6 +352,7 @@ body
 		{
 			margin-top: 40px;
             overflow: hidden;
+            position: relative;
 		    .swiper-wrapper
 		    {
 		    	.swiper-slide
@@ -339,14 +404,12 @@ body
 		    .swiper-button-next
 		    {
 				position: absolute;
-				right: 175px;
-				top: 530px;
+				right: 15px;
 		    }
 	        .swiper-button-prev
 	        {
 	    		position: absolute;
-	    		left: 160px;
-	    		top: 530px;
+	    		left: 0px;
 	        }
 	    }
 	}
