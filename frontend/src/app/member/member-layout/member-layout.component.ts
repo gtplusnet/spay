@@ -226,6 +226,17 @@ export class MemberLayoutComponent implements OnInit
      $('.sidebar-mobile-toggle').on('click', function () {
        $('.page-wrapper').toggleClass('sidebar-mobile-show');
      });
+
+    
+     $('.member-sidenav-item').on('click', function (e) {
+       e.preventDefault();
+       $('.page-wrapper').toggleClass('sidebar-hidden');
+     });
+
+     $('.member-sidenav-item').on('click', function (e) {
+       e.preventDefault();
+       $('.page-wrapper').toggleClass('sidebar-mobile-show');
+     });
    }
 
    update_information()
@@ -320,10 +331,10 @@ export class MemberLayoutComponent implements OnInit
      this._notificationService.generateNotification(data);
    }
 
-  hideNavBar()
-  {
-     $('.page-wrapper').toggleClass('sidebar-hidden');
+  // hideNavBar()
+  // {
+  //    $('.page-wrapper').toggleClass('sidebar-hidden');
 
-     $('.page-wrapper').toggleClass('sidebar-mobile-show');
-  }
+  //    $('.page-wrapper').toggleClass('sidebar-mobile-show');
+  // }
  }

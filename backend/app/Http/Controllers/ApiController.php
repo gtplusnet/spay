@@ -999,7 +999,7 @@ class ApiController extends Controller
         if($file_size < 26214400) // max 25mb
         {
             $path_prefix = 'https://aeolus-storage.sgp1.digitaloceanspaces.com/';
-            $path ="lokalize/docs";
+            $path ="successmall/docs";
             $storage_path = storage_path();
 
             if ($request->file('document')->isValid())
