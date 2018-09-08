@@ -46,7 +46,7 @@ class Authenticator
 	}
 
 
-	public static function checkLogin($session_login)
+	public static function checkLogin($session_login, $login_platform = null)
 	{
 
 		if($session_login)
@@ -54,10 +54,14 @@ class Authenticator
 			$login_session 	= explode("-", unserialize(Crypt::decryptString($session_login)));
 			$login_key 		= $login_session[0];
 			$hashed_pw 		= $login_session[1];
-			dd($login_session, $login_key, $hashed_pw);
 			$login 			= Tbl_login::where("login_key", $login_key)->joinMember()->first();
 			
-			if($hashed_pw == $login->password)
+			if($login_platform != null)
+			{
+				unset($login->password);
+				return $login;
+			}
+			else if($hashed_pw == $login->password)
 			{
 				unset($login->password);
 				return $login;
