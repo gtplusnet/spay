@@ -54,7 +54,6 @@ class Authenticator
 			$login_session 	= explode("-", unserialize(Crypt::decryptString($session_login)));
 			$login_key 		= $login_session[0];
 			$hashed_pw 		= $login_session[1];
-
 			$login 			= Tbl_login::where("login_key", $login_key)->joinMember()->first();
 			
 			if($hashed_pw == $login->password)
