@@ -262,6 +262,7 @@ class ApiController extends Controller
                         $return["message"]  = $login_key;  
                         $return["status"]   = "success";
                         $login_info         = Authenticator::checkLogin($login_key);
+                        dd($login_key, $login_info, $check_member->id);
                         $return["name"]     = $login_info->first_name . " " . $login_info->last_name;
                     }
                 }
