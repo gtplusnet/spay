@@ -258,10 +258,17 @@ class ApiController extends Controller
                     }
                     else
                     {
-                        $login_key          = Authenticator::login($check_member->id);
+                        if(!$check_member->password)
+                        {
+                            $login_key          = Authenticator::login($check_member->id);
+                        }
+                        else
+                        {
+                            $login_key          = Authenticator::login($check_member->id, $check_member->password);
+                        }
                         $return["message"]  = $login_key;  
                         $return["status"]   = "success";
-                        $login_info         = Authenticator::checkLogin($login_key, "social");
+                        $login_info         = Authenticator::checkLogin($login_key);
                         $return["name"]     = $login_info->first_name . " " . $login_info->last_name;
                     }
                 }
