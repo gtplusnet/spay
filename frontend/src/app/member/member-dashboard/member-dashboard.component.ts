@@ -241,8 +241,10 @@ export class MemberDashboardComponent implements OnInit {
   {
       var param = {};
       param["login_token"] = this.rest.login_token;
+      console.log(this.rest._wallet);
       param["btc_wallet_id"] = this.rest._wallet[3].member_address_id;
       param["eth_wallet_id"] = this.rest._wallet[2].member_address_id;
+      param["php_wallet_id"] = this.rest._wallet[1].member_address_id;
       this.http.post(this.check_contributions_url, param).subscribe(response=>
       {
         this.w_contributions = response;
@@ -347,60 +349,100 @@ export class MemberDashboardComponent implements OnInit {
       }
     }
   }
-  
-  compute_to_pay()
+
+
+  compute_to_pay(type = null)
   {
     this.getting_bonus = true;
-    if(this.payment_type == 2)
+    if(type)
     {
-      this.to_be_paid = parseInt(this.token_amount) * this.rest._rates[1].conversion_multiplier;
-      this.lok_exchange_rate = this.rest._rates[1].conversion_multiplier;
-      this.exchange_rate = this.rest._exchange_rate.ETH.USD;
-      this.payment_currency.abbr = "ETH";
-      this.payment_currency.name = "Ethereum";
-    }
-    else if(this.payment_type == 1)
-    {
-      this.to_be_paid = parseInt(this.token_amount) * this.rest._rates[0].conversion_multiplier;
-      this.lok_exchange_rate = this.rest._rates[0].conversion_multiplier;
-      this.exchange_rate = this.rest._exchange_rate.PHP;
-      this.payment_currency.abbr = "PHP";
-      this.payment_currency.name = "Bank";
+      if(this.payment_type == 2)
+      {
+        this.token_amount = parseFloat(this.to_be_paid) / this.rest._rates[1].conversion_multiplier;
+        this.lok_exchange_rate = this.rest._rates[1].conversion_multiplier;
+        this.exchange_rate = this.rest._exchange_rate.ETH.USD;
+        this.payment_currency.abbr = "ETH";
+        this.payment_currency.name = "Ethereum";
+      }
+      else if(this.payment_type == 1)
+      {
+        this.token_amount = parseFloat(this.to_be_paid) / this.rest._rates[0].conversion_multiplier;
+        this.lok_exchange_rate = this.rest._rates[0].conversion_multiplier;
+        this.exchange_rate = this.rest._exchange_rate.PHP;
+        this.payment_currency.abbr = "PHP";
+        this.payment_currency.name = "Bank";
+      }
+      else
+      {
+        this.token_amount = parseFloat(this.to_be_paid) / this.rest._rates[2].conversion_multiplier;
+        this.lok_exchange_rate = this.rest._rates[2].conversion_multiplier;
+        this.exchange_rate = this.rest._exchange_rate.BTC.USD;
+        this.payment_currency.abbr = "BTC";
+        this.payment_currency.name = "Bitcoin";
+      }
+
+      this.discount = (this.rest._stages.sale_stage_discount/100);
+      // console.log(this.discount, this.token_amount / this.discount);
+      this.token_amount = this.token_amount + (this.token_amount * this.discount);
+      // this.to_be_paid = this.to_be_paid - this.discount;
+
+      this.exchange_rate = this.exchange_rate * this.to_be_paid;
+      this.exchange_rate = this.exchange_rate.toFixed(2);
     }
     else
     {
-      this.to_be_paid = parseInt(this.token_amount) * this.rest._rates[2].conversion_multiplier;
-      this.lok_exchange_rate = this.rest._rates[2].conversion_multiplier;
-      this.exchange_rate = this.rest._exchange_rate.BTC.USD;
-      this.payment_currency.abbr = "BTC";
-      this.payment_currency.name = "Bitcoin";
-      
-    }
+      console.log(this.to_be_paid)
+      if(this.payment_type == 2)
+      {
+        this.to_be_paid = parseFloat(this.token_amount) * this.rest._rates[1].conversion_multiplier;
+        this.lok_exchange_rate = this.rest._rates[1].conversion_multiplier;
+        this.exchange_rate = this.rest._exchange_rate.ETH.USD;
+        this.payment_currency.abbr = "ETH";
+        this.payment_currency.name = "Ethereum";
+      }
+      else if(this.payment_type == 1)
+      {
+        this.to_be_paid = parseFloat(this.token_amount) * this.rest._rates[0].conversion_multiplier;
+        this.lok_exchange_rate = this.rest._rates[0].conversion_multiplier;
+        this.exchange_rate = this.rest._exchange_rate.PHP;
+        this.payment_currency.abbr = "PHP";
+        this.payment_currency.name = "Bank";
+      }
+      else
+      {
+        this.to_be_paid = parseFloat(this.token_amount) * this.rest._rates[2].conversion_multiplier;
+        this.lok_exchange_rate = this.rest._rates[2].conversion_multiplier;
+        this.exchange_rate = this.rest._exchange_rate.BTC.USD;
+        this.payment_currency.abbr = "BTC";
+        this.payment_currency.name = "Bitcoin";
+        
+      }
+      console.log(this.to_be_paid)
 
-    this.discount = (this.rest._stages.sale_stage_discount/100)*this.to_be_paid;
-    this.to_be_paid = this.to_be_paid - this.discount;
+      this.to_be_paid = parseFloat(this.to_be_paid);
+      console.log(this.to_be_paid)
+
+      this.discount = (this.rest._stages.sale_stage_discount/100)*this.to_be_paid;
+
+      this.to_be_paid = this.to_be_paid - this.discount;
+      console.log(this.to_be_paid)
+
+      if(this.token_amount == 0 || this.token_amount == "" || this.token_amount == null)
+      {
+        this.to_be_paid = 0;
+      }
+      else
+      {
+        this.to_be_paid = this.to_be_paid.toFixed(8);
+      }
+      console.log(this.to_be_paid)
+
+      this.exchange_rate = this.exchange_rate * this.to_be_paid;
+      this.exchange_rate = this.exchange_rate.toFixed(2);
+    }
     
 
-    if(this.token_amount == 0 || this.token_amount == "" || this.token_amount == null)
-    {
-      this.to_be_paid = 0;
-    }
-    else
-    {
-      this.to_be_paid = this.to_be_paid.toFixed(8);
-    }
-    this.exchange_rate = this.exchange_rate * this.to_be_paid;
-    this.exchange_rate = this.exchange_rate.toFixed(2);
-
-
-    this.getBuyBonus(this.rest._stages.sale_stage_id, this.token_amount);
-    // this.bonus = this.rest._stages.bonus;
-    // this.bonus.forEach(response=>{
-    //   if(this.token_amount >= response.buy_coin_bonus_from && this.token_amount <= response.buy_coin_bonus_to)
-    //   {
-    //     this.bonus_percentage = parseInt(response.buy_coin_bonus_percentage);
-    //   }
-    // });    
+    this.getBuyBonus(this.rest._stages.sale_stage_id, this.token_amount); 
   }
 
   setPaymentType(type)

@@ -65,12 +65,17 @@
 
                     <li class="dropdown-item py-1">
                         <a href="javascript:void(0)" [routerLink]="['/member/btc-transactions']" (click)="resetNotifications('new_btc_approve')" class="nav-items-lokal d-flex justify-content-center align-items-center">
-                            <div class="nav-alignment-x"><i class="fas fa-user"></i></div> <small>BTC Transactions <small class="notif-counter-{{notif.new_btc_approve == 0 ? 'inactive' : 'active' }}">{{notif.new_btc_approve}}</small></small>
+                            <div class="nav-alignment-x"><i class="fas fa-bell"></i></div> <small>BTC Transactions <small class="notif-counter-{{notif.new_btc_approve == 0 ? 'inactive' : 'active' }}">{{notif.new_btc_approve}}</small></small>
                         </a>
                     </li>
                     <li class="dropdown-item py-1">
                         <a href="javascript:void(0)" [routerLink]="['/member/eth-transactions']" (click)="resetNotifications('new_eth_approve')" class="nav-items-lokal">
-                            <div class="nav-alignment-x"><i class="far fa-handshake"></i></div> <small>ETH Transactions <small class="notif-counter-{{notif.new_eth_approve == 0 ? 'inactive' : 'active' }}">{{notif.new_eth_approve}}</small></small>
+                            <div class="nav-alignment-x"><i class="fas fa-bell"></i></div> <small>ETH Transactions <small class="notif-counter-{{notif.new_eth_approve == 0 ? 'inactive' : 'active' }}">{{notif.new_eth_approve}}</small></small>
+                        </a>
+                    </li>
+                    <li class="dropdown-item py-1">
+                        <a href="javascript:void(0)" [routerLink]="['/member/eth-transactions']" (click)="resetNotifications('new_bank_approve')" class="nav-items-lokal">
+                            <div class="nav-alignment-x"><i class="fas fa-bell"></i></div> <small>Bank Transactions <small class="notif-counter-{{notif.new_bank_approve == 0 ? 'inactive' : 'active' }}">{{notif.new_bank_approve}}</small></small>
                         </a>
                     </li>
 

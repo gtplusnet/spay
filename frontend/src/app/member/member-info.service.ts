@@ -59,7 +59,7 @@ export class MemberInfoService
 		}
 		else
 		{
-			this.api_url 				= "http://api-ahm.digimahouse.com";
+			this.api_url 				= "https://api.ahmtoken.io";
 		}
 		
 		this.first_name 				= "";

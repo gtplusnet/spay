@@ -154,6 +154,12 @@
 			      <img src="/assets/img/dash_bitcoin.svg" class="img-fluid" width="30" height="30" alt="">
 			    </div>
 			</div>
+			<div class="media d-flex flex-row align-items-center justify-content-center">
+			    <div class="media-body mx-2 d-flex flex-row align-items-center justify-content-center">
+			      <h2 class="mt-0 mb-1 d-block font-weight-bold mx-2"> {{w_contributions.php | number : '1.2-8'}} </h2>
+			      <img src="/assets/img/dash_bitcoin.svg" class="img-fluid" width="30" height="30" alt="">
+			    </div>
+			</div>
 			<h3>Current Contributions</h3>
 		</div>
 	</div>
@@ -322,30 +328,28 @@
         		<div class="row">
 					<div class="col-md-6 col-xs-12">
         				<h5 class="mb-1">Payment Value</h5>
-        				<input type="text" [(ngModel)]="to_be_paid" (keyup)="compute_to_pay()" name="to_be_paid" class="form-control mb-1" value="0">
+        				<input type="text" [(ngModel)]="to_be_paid" (keyup)="compute_to_pay('ok')" name="to_be_paid" class="form-control mb-1" value="0">
 					</div>
 					<div class="col-md-6 col-xs-12">
 						<h5 class="mb-1">US Dollar Value</h5>
-        				<input type="text" min="1" class="form-control mb-3" [(ngModel)]="exchange_rate" name="exchange_rate" disabled="">
+        				<input type="text" min="1" class="form-control mb-3" [(ngModel)]="exchange_rate" name="exchange_rate">
 					</div>
 				</div>
-        		<!-- <input type="hidden" [(ngModel)]="lok_exchange_rate" value="{{ payment_type == 2 ? rest._rates[1].conversion_multiplier : rest._rates[2].conversion_multiplier }}"> -->
-        		
-        		<!-- <small class="d-block font-weight-bold mb-3 text-muted">USD {{ exchange_rate }}</small> -->
-        		<!-- <h6 class="mb-1">
-        			<input type="checkbox" [(ngModel)]="check_toa_1" (click)="check_tos('check_toa_1')"> I agree that I am not a citizen, resident or company over which the laws of the any of the following countries have jurisdiction: United-States of America, China, India, North Korea or South Korea. 
-        		</h6>
-        		<h6 class="mb-1">
-        			<input type="checkbox" [(ngModel)]="check_toa_2" (click)="check_tos('check_toa_2')"> The bitcoin/ethereum price is so volatile that the number of AHM token varies time to time it might increase or decrease.
-        		</h6>
-        		<h6 class="mb-1">
-        			<input type="checkbox" [(ngModel)]="check_toa_3" (click)="check_tos('check_toa_3')"> I have read and agree to the website terms and conditions.
-				</h6> -->
+				<!-- <div class="row">
+					<div class="col-md-6 col-xs-12">
+        				<h5 class="mb-1">Value 1</h5>
+        				<input type="number" [(ngModel)]="value_1" (keyup)="compute_to_pay2('value1')" name="value_1" class="form-control mb-1" value="0">
+					</div>
+					<div class="col-md-6 col-xs-12">
+        				<h5 class="mb-1">Value 2</h5>
+        				<input type="number" [(ngModel)]="value_2" (keyup)="compute_to_pay2('value2')" name="value_2" class="form-control mb-1" value="0">
+					</div>
+				</div> -->
 				<div class="h6 mb-1 d-flex justify-content-start align-items-start">
 					<button type="button" class="{{ tos_toggle.c1 ? 'shaded' : 'check_box'}} mr-2" (click)="toggleTos('c1')"><i class="fas fa-check"></i></button> I agree that I am not a citizen, resident or company over which the laws of the any of the following countries have jurisdiction: United-States of America, China, India, North Korea 
 				</div>
 				<div class="h6 mb-1 d-flex justify-content-start align-items-start">
-					<button type="button" class="{{ tos_toggle.c2 ? 'shaded' : 'check_box'}} mr-2" (click)="toggleTos('c2')"><i class="fas fa-check"></i></button> The bitcoin/ethereum price is so volatile that the number of XS token varies time to time it might increase or decrease.
+					<button type="button" class="{{ tos_toggle.c2 ? 'shaded' : 'check_box'}} mr-2" (click)="toggleTos('c2')"><i class="fas fa-check"></i></button> The bitcoin/ethereum price is so volatile that the number of AHM token varies time to time it might increase or decrease.
 				</div>
 				<div class="h6 mb-1 d-flex justify-content-start align-items-start">
 					<button type="button" class="{{ tos_toggle.c3 ? 'shaded' : 'check_box'}} mr-2" (click)="toggleTos('c3')"><i class="fas fa-check"></i></button> I have read and agree to the website terms and conditions.

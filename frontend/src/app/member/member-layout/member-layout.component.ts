@@ -128,10 +128,11 @@ export class MemberLayoutComponent implements OnInit
 
   checkNotifications() : void
   {
-    localStorage.getItem("new_referrals") ?  localStorage.getItem("new_referrals") : localStorage.setItem("new_referrals", "0");
+    // localStorage.getItem("new_referrals") ?  localStorage.getItem("new_referrals") : localStorage.setItem("new_referrals", "0");
     localStorage.getItem("new_btc_approve") ?  localStorage.getItem("new_btc_approve") : localStorage.setItem("new_btc_approve", "0");
     localStorage.getItem("new_eth_approve") ?  localStorage.getItem("new_eth_approve") : localStorage.setItem("new_eth_approve", "0");
-    localStorage.getItem("new_referral_bonus") ?  localStorage.getItem("new_referral_bonus") : localStorage.setItem("new_referral_bonus", "0");
+    localStorage.getItem("new_php_approve") ?  localStorage.getItem("new_php_approve") : localStorage.setItem("new_php_approve", "0");
+    // localStorage.getItem("new_referral_bonus") ?  localStorage.getItem("new_referral_bonus") : localStorage.setItem("new_referral_bonus", "0");
     var check_notif_url = this.rest.api_url + "/api/member/check_notifications";
     this.http.post(check_notif_url, 
     {
@@ -140,13 +141,12 @@ export class MemberLayoutComponent implements OnInit
     }).subscribe(response=>
     {
       this.notif = response;
-      // console.log(localStorage.getItem("new_referral"));
-      if(parseInt(localStorage.getItem("new_referrals")) != this.notif.new_referrals && this.notif.new_referrals != 0)
-      {
-        localStorage.setItem("new_referrals", this.notif.new_referrals);
-        // console.log(localStorage.getItem("new_referral"));
-        this.notify("New Referral", "You have received a new referral!");
-      }
+
+      // if(parseInt(localStorage.getItem("new_referrals")) != this.notif.new_referrals && this.notif.new_referrals != 0)
+      // {
+      //   localStorage.setItem("new_referrals", this.notif.new_referrals);
+      //   this.notify("New Referral", "You have received a new referral!");
+      // }
 
       if(parseInt(localStorage.getItem("new_btc_approve")) != this.notif.new_btc_approve && this.notif.new_btc_approve != 0)
       {
@@ -160,11 +160,17 @@ export class MemberLayoutComponent implements OnInit
         this.notify("New ETH Transaction", "Your ETH Transaction has been approved!");
       }
 
-      if(parseInt(localStorage.getItem("new_referral_bonus")) != this.notif.new_referral_bonus && this.notif.new_referral_bonus != 0)
+      if(parseInt(localStorage.getItem("new_bank_approve")) != this.notif.new_bank_approve && this.notif.new_bank_approve != 0)
       {
-        localStorage.setItem("new_referral_bonus", this.notif.new_referral_bonus);
-        this.notify("New Referral Bonus", "You have received a new referral bonus!");
+        localStorage.setItem("new_bank_approve", this.notif.new_bank_approve);
+        this.notify("New Bank Transaction", "Your Bank Transaction has been approved!");
       }
+
+      // if(parseInt(localStorage.getItem("new_referral_bonus")) != this.notif.new_referral_bonus && this.notif.new_referral_bonus != 0)
+      // {
+      //   localStorage.setItem("new_referral_bonus", this.notif.new_referral_bonus);
+      //   this.notify("New Referral Bonus", "You have received a new referral bonus!");
+      // }
     },
     error=>
     {
