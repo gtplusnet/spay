@@ -301,6 +301,18 @@ class Wallet
 		$insert_address["address_api_reference"] 	= "NO REFERENCE";
 		Tbl_member_address::insert($insert_address);	
 	}
+	public static function generateWalletDollar($member_id, $coin)
+	{
+		$passkey 									= Self::randomPassword();
+		$insert_address["member_id"] 				= $member_id;
+		$insert_address["member_address"] 			= Self::generateFakeWallet("usd-" . time(), 33);
+		$insert_address["coin_id"] 					= $coin->coin_id;
+		$insert_address["address_balance"] 			= 0;
+		$insert_address["address_actual_balance"] 	= 0;
+		$insert_address["address_api_password"]		= $passkey;
+		$insert_address["address_api_reference"] 	= "NO REFERENCE";
+		Tbl_member_address::insert($insert_address);	
+	}
 	public static function generateWalletBitcoin($member_id, $coin)
 	{
 		$passkey 									= Self::randomPassword();

@@ -56,6 +56,11 @@ class Seed
 			$seed[3]["created_at"] = Carbon::now();
 			$seed[3]["updated_at"] = Carbon::now();
 
+			$seed[4]["coin_name"]  = "dollar";
+			$seed[4]["coin_abb"]   = "USD";
+			$seed[4]["created_at"] = Carbon::now();
+			$seed[4]["updated_at"] = Carbon::now();
+
 			foreach ($seed as $key => $insert) 
 			{
 				DB::table("tbl_coin")->insert($insert);

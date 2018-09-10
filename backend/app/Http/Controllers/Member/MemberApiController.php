@@ -760,8 +760,10 @@ class MemberApiController extends Controller
     {
         $eth_wallet_id = $request->eth_wallet_id;
         $btc_wallet_id = $request->btc_wallet_id;
-        $data["btc"] = Tbl_member_log::where("member_address_id", $btc_wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "rejected")->where("log_status", "!=", "canceled")->where("log_mode", "receive")->where("log_method", "Bitcoin Accepted")->sum("log_amount");
-        $data["eth"] = Tbl_member_log::where("member_address_id", $eth_wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "rejected")->where("log_status", "!=", "canceled")->where("log_mode", "receive")->where("log_method", "Ethereum Accepted")->sum("log_amount");
+        $php_wallet_id = $request->php_wallet_id;
+        $data["btc"] = Tbl_member_log::where("member_address_id", $btc_wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "processing")->where("log_status", "!=", "rejected")->where("log_status", "!=", "canceled")->where("log_mode", "receive")->where("log_method", "Bitcoin Accepted")->sum("log_amount");
+        $data["eth"] = Tbl_member_log::where("member_address_id", $eth_wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "processing")->where("log_status", "!=", "rejected")->where("log_status", "!=", "canceled")->where("log_mode", "receive")->where("log_method", "Ethereum Accepted")->sum("log_amount");
+        $data["php"] = Tbl_member_log::where("member_address_id", $php_wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "processing")->where("log_status", "!=", "rejected")->where("log_status", "!=", "canceled")->where("log_mode", "receive")->where("log_method", "Bank Accepted")->sum("log_amount");
         return $data;
     }
 
@@ -870,8 +872,8 @@ class MemberApiController extends Controller
     }
     public function check_notifications(Request $request)
     {
-        $referral_id = Tbl_referral::where("referral_user_id", $request->user_id)->first();
-        $data["new_referrals"] = Tbl_other_info::where("referrer_id", $referral_id->referral_id)->where("is_viewed", 0)->count();
+        // $referral_id = Tbl_referral::where("referral_user_id", $request->user_id)->first();
+        // $data["new_referrals"] = Tbl_other_info::where("referrer_id", $referral_id->referral_id)->where("is_viewed", 0)->count();
 
         $btc_transactions = Tbl_member_address::where("member_id", $request->user_id)->where("coin_id", 3)->join("tbl_member_log", "tbl_member_log.member_address_id", "=", "tbl_member_address.member_address_id")->where("log_method", "Bitcoin Accepted")->where("is_viewed", 0)->count();
         $data["new_btc_approve"] = $btc_transactions;
@@ -879,8 +881,11 @@ class MemberApiController extends Controller
         $eth_transactions = Tbl_member_address::where("member_id", $request->user_id)->where("coin_id", 2)->join("tbl_member_log", "tbl_member_log.member_address_id", "=", "tbl_member_address.member_address_id")->where("log_method", "Ethereum Accepted")->where("is_viewed", 0)->count();
         $data["new_eth_approve"] = $eth_transactions;
 
-        $referral_bonus = Tbl_member_address::where("member_id", $request->user_id)->where("coin_id", 4)->join("tbl_member_log", "tbl_member_log.member_address_id", "=", "tbl_member_address.member_address_id")->where("log_mode", "referral bonus")->where("is_viewed", 0)->count();
-        $data["new_referral_bonus"] = $referral_bonus;
+        $bank_transactions = Tbl_member_address::where("member_id", $request->user_id)->where("coin_id", 1)->join("tbl_member_log", "tbl_member_log.member_address_id", "=", "tbl_member_address.member_address_id")->where("log_method", "Bank Accepted")->where("is_viewed", 0)->count();
+        $data["new_bank_approve"] = $bank_transactions;
+
+        // $referral_bonus = Tbl_member_address::where("member_id", $request->user_id)->where("coin_id", 4)->join("tbl_member_log", "tbl_member_log.member_address_id", "=", "tbl_member_address.member_address_id")->where("log_mode", "referral bonus")->where("is_viewed", 0)->count();
+        // $data["new_referral_bonus"] = $referral_bonus;
 
         return json_encode($data);
     }
@@ -905,22 +910,31 @@ class MemberApiController extends Controller
             }
             $return["message"] = "ethereum notifications reset";
         }
-        if($request->notif_type == "new_referral_bonus")
+        else if($request->notif_type == "new_bank_approve")
         {
-            $btc_transactions = Tbl_member_address::where("member_id", $request->user_id)->where("coin_id", 4)->join("tbl_member_log", "tbl_member_log.member_address_id", "=", "tbl_member_address.member_address_id")->where("log_mode", "referral bonus")->where("is_viewed", 0)->get();
-            foreach ($btc_transactions as $key => $value) 
+            $bank_transactions = Tbl_member_address::where("member_id", $request->user_id)->where("coin_id", 1)->join("tbl_member_log", "tbl_member_log.member_address_id", "=", "tbl_member_address.member_address_id")->where("log_method", "Bank Accepted")->where("is_viewed", 0)->get();
+            foreach ($bank_transactions as $key => $value) 
             {
                 $data = Tbl_member_log::where("member_log_id", $value->member_log_id)->where("is_viewed", 0)->update(["is_viewed" => 1]);
             }
-            $return["message"] = "new referral bonus notifications reset";
-        }
-        else
-        {
-            $referral_id = Tbl_referral::where("referral_user_id", $request->user_id)->first();
-            $refer = Tbl_other_info::where("referrer_id", $referral_id->referral_id)->where("is_viewed", 0)->update(["is_viewed" => 1]);
-            $return["message"] = "new referrals notifications reset";
+            $return["message"] = "bank notifications reset";
         }
 
+        // if($request->notif_type == "new_referral_bonus")
+        // {
+        //     $btc_transactions = Tbl_member_address::where("member_id", $request->user_id)->where("coin_id", 4)->join("tbl_member_log", "tbl_member_log.member_address_id", "=", "tbl_member_address.member_address_id")->where("log_mode", "referral bonus")->where("is_viewed", 0)->get();
+        //     foreach ($btc_transactions as $key => $value) 
+        //     {
+        //         $data = Tbl_member_log::where("member_log_id", $value->member_log_id)->where("is_viewed", 0)->update(["is_viewed" => 1]);
+        //     }
+        //     $return["message"] = "new referral bonus notifications reset";
+        // }
+        // else
+        // {
+        //     $referral_id = Tbl_referral::where("referral_user_id", $request->user_id)->first();
+        //     $refer = Tbl_other_info::where("referrer_id", $referral_id->referral_id)->where("is_viewed", 0)->update(["is_viewed" => 1]);
+        //     $return["message"] = "new referrals notifications reset";
+        // }
 
         return json_encode($return);
     }
