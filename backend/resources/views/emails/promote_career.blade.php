@@ -5,9 +5,9 @@
 	Your account's career has been promoted to {{ $position["member_position_name"] }}. Thank you for your continuous support!
 </p>
 <small><em>
-	To check your account details. Go to www.ahm.digimahouse.com, <strong>Login</strong> your account and in member dashboard click <strong>My Account</strong>.
+	To check your account details. Go to www.ahmtoken.io, <strong>Login</strong> your account and in member dashboard click <strong>My Account</strong>.
 </em></small>
 <div style="text-align: center; padding: 15px 0px;">
-	<a href="http://ahm.digimahouse.com/login" target="_blank" style="padding: 12px; border: 1px solid #005d12; background: #005d12; color: #eee; cursor: pointer; text-decoration: none; font-size: 13px;">Click Here to Login</a>
+	<a href="http://ahmtoken.io/login" target="_blank" style="padding: 12px; border: 1px solid #005d12; background: #005d12; color: #eee; cursor: pointer; text-decoration: none; font-size: 13px;">Click Here to Login</a>
 </div>
 @endsection

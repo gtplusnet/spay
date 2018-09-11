@@ -13,8 +13,8 @@
 		<img src="https://i.imgur.com/IJAtk2T.png" width="150"  alt="">
 	</div>
 	<div style="margin-top: 20px; font-size: 13px;">
-		<a href="http://ahm.digimahouse.com/" target="_blank" style="text-decoration: none; color: #aa7809; margin: 0px 5px;">Homepage</a> |
-		<a href="http://ahm.digimahouse.com/register" target="_blank" style="text-decoration: none; color: #aa7809; margin: 0px 5px;">Sign Up</a> |
+		<a href="http://ahmtoken.io/" target="_blank" style="text-decoration: none; color: #aa7809; margin: 0px 5px;">Homepage</a> |
+		<a href="http://ahmtoken.io/register" target="_blank" style="text-decoration: none; color: #aa7809; margin: 0px 5px;">Sign Up</a> |
 		<a href="#" style="text-decoration: none; color: #aa7809; margin: 0px 5px;">White Paper</a> |
 		<a href="#" style="text-decoration: none; color: #aa7809; margin: 0px 5px;">Community</a>
 	</div>
