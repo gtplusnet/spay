@@ -273,7 +273,7 @@
             <h4 class="mb-0 font-weight-light mt-2">{{ data_focus.create_ip_address }}</h4>
             <small class="font-weight-bold mb-5">Create IP Address</small> -->
           </div>
-          <div class="col-lg-6 col-xs-12" *ngIf="data_focus.log_status == 'processing' || data_focus.log_status == 'pending'">
+          <div class="col-lg-6 col-xs-12" *ngIf="data_focus.log_status == 'processing'">
             <div class="row">
               <div class="col-lg-6 col-xs-12 p-2">
                 <button class="btn button-lokal-x btn-block" (click)="processTransaction('accepted')" disabled="{{processing ? 'disabled' : ''}}"><i class="fas fa-check mr-2"></i>Approve</button>

@@ -426,29 +426,34 @@
 								<strong>Account Type: </strong> {{bank_info.cash_in_method_header}}
 							</small>
 						</div>
+						<div class="form-check mb-2">
+							<input type="checkbox" [(ngModel)]="checkboxValue" class="form-check-input" id="exampleCheck1" >
+							<label class="form-check-label" for="exampleCheck1">Payment sent already</label>
+						</div>
+						<span *ngIf="checkboxValue">
+							<h5 class="mb-1">Transaction Number (Optional)</h5>
+							<input type="text" class="form-control mb-3 text-center" placeholder="Enter your deposit transaction number" [(ngModel)]="tx_number">
 
-						<h5 class="mb-1">Transaction Number</h5>
-						<input type="text" class="form-control mb-3 text-center" placeholder="Enter your deposit transaction number" [(ngModel)]="tx_number">
-
-						<h5 class="mb-1">Deposit Slip</h5>
-						<small class="alert alert-warning alert-lokalize my-2 d-block" *ngIf="cash_in_proof">
-							<b class="text-dark">1 Attachment</b>
-							<a href="{{ cash_in_proof }}" target="_blank" class="p-1 ml-2 mr-1">
-								<i class="fas fa-eye"></i>	
-							</a> 
-							<a href="javascript:void" class="p-1" (click)="cash_in_proof = null; form_data = null">
-								<i class="fas fa-times"></i>	
-							</a> 
-						</small>
-						<small class="d-block my-2" *ngIf="image_uploading">
-							<i class="fas fa-spinner button-loader mr-2"></i> Uploading...
-						</small>
-						<button class="btn btn-dark btn-block mb-3" disabled="{{buy_loading ? 'disabled' : ''}}" (click)="openUploadProof()" *ngIf="!image_uploading">
-							<small>
-								Upload Proof <i class="fas fa-cloud-upload-alt ml-2"></i>
+							<h5 class="mb-1">Deposit Slip</h5>
+							<small class="alert alert-warning alert-lokalize my-2 d-block" *ngIf="cash_in_proof">
+								<b class="text-dark">1 Attachment</b>
+								<a href="{{ cash_in_proof }}" target="_blank" class="p-1 ml-2 mr-1">
+									<i class="fas fa-eye"></i>	
+								</a> 
+								<a href="javascript:void" class="p-1" (click)="cash_in_proof = null; form_data = null">
+									<i class="fas fa-times"></i>	
+								</a> 
 							</small>
-						</button>
-						<input type="file" style="display: none;" id="payment_proof" (change)="onFileChange($event)">
+							<small class="d-block my-2" *ngIf="image_uploading">
+								<i class="fas fa-spinner button-loader mr-2"></i> Uploading...
+							</small>
+							<button class="btn btn-dark btn-block mb-3" disabled="{{buy_loading ? 'disabled' : ''}}" (click)="openUploadProof()" *ngIf="!image_uploading">
+								<small>
+									Upload Proof <i class="fas fa-cloud-upload-alt ml-2"></i>
+								</small>
+							</button>
+							<input type="file" style="display: none;" id="payment_proof" (change)="onFileChange($event)">
+						</span>
 					</span>
 					
 					<small class="alert alert-warning alert-lokalize mb-4 d-block">

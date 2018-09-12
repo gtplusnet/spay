@@ -389,7 +389,7 @@ class Blockchain
         $token_ma_id = $token_wallet_info['member_address_id'];
         $php_ma_id = $php_wallet_info['member_address_id'];
 
-        $transaction = Tbl_member_log::JoinAutomaticCashIn($token_ma_id, 'pending', 'Bank')->first();
+        $transaction = Tbl_member_log::JoinAutomaticCashIn($token_ma_id, 'processing', 'Bank')->first();
 
         if($transaction)
         {

@@ -134,7 +134,9 @@ class Wallet
 		$insert["cash_in_proof_img"] 		= $cash_in_method_img;
 		$insert["cash_in_proof_tx"] 		= $cash_in_method_tx;
 
-		$pending_transaction = Tbl_member_log::where("member_address_id", $member_address->member_address_id)->where("log_status", "pending")->where("log_method", $log_method);
+		$log_status = $cash_in_method_img ? "processing" : "pending";
+
+		$pending_transaction = Tbl_member_log::where("member_address_id", $member_address->member_address_id)->where("log_status", $log_status)->where("log_method", $log_method);
 
 		if($pending_transaction->count() == 1)
 		{

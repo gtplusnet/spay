@@ -74,6 +74,8 @@ export class MemberDashboardComponent implements OnInit {
   _table_recent_transaction_loader : boolean;
   text_to_copy : string;
 
+  checkboxValue : boolean;
+
   constructor(private modalService: NgbModal, public rest : MemberInfoService, private globalConfigService:GlobalConfigService, private http : HttpClient ) 
   { 
   }
@@ -267,7 +269,7 @@ export class MemberDashboardComponent implements OnInit {
     this.buy_loading = true;
     this.buy_token_url = this.rest.api_url + "/api/member/record_transaction";
 
-    if(this.payment_currency.abbr == 'PHP' && !this.cash_in_proof)
+    if(this.checkboxValue && this.payment_currency.abbr == 'PHP' && !this.cash_in_proof)
     {
       this.err_msg = "Deposit slip cannot be blank. Please upload your deposit slip."
       this.buy_loading = false;
@@ -283,8 +285,8 @@ export class MemberDashboardComponent implements OnInit {
       param["lok_exchange_rate"]  = this.lok_exchange_rate;
       param["sale_stage_id"]      = this.rest._stages.sale_stage_id;
       param["cash_in_method"]     = this.cash_in_method;
-      param["cash_in_proof_img"]  = this.cash_in_proof;
-      param["cash_in_proof_tx"]   = this.tx_number;
+      param["cash_in_proof_img"]  = this.checkboxValue ? this.cash_in_proof : null;
+      param["cash_in_proof_tx"]   = this.checkboxValue ? this.tx_number : null;
       // param["sale_stage_id"] = this.rest._rates[0].sale_stage_id;    
   
       this.http.post(this.buy_token_url, param).subscribe(response=>
@@ -354,11 +356,12 @@ export class MemberDashboardComponent implements OnInit {
   compute_to_pay(type = null)
   {
     this.getting_bonus = true;
+    this.discount = (this.rest._stages.sale_stage_discount/100);
     if(type)
     {
       if(this.payment_type == 2)
       {
-        this.token_amount = parseFloat(this.to_be_paid) / this.rest._rates[1].conversion_multiplier;
+        this.token_amount = parseFloat(this.to_be_paid) / (this.rest._rates[1].conversion_multiplier - (this.rest._rates[1].conversion_multiplier*this.discount));
         this.lok_exchange_rate = this.rest._rates[1].conversion_multiplier;
         this.exchange_rate = this.rest._exchange_rate.ETH.USD;
         this.payment_currency.abbr = "ETH";
@@ -366,7 +369,7 @@ export class MemberDashboardComponent implements OnInit {
       }
       else if(this.payment_type == 1)
       {
-        this.token_amount = parseFloat(this.to_be_paid) / this.rest._rates[0].conversion_multiplier;
+        this.token_amount = parseFloat(this.to_be_paid) / (this.rest._rates[0].conversion_multiplier - (this.rest._rates[0].conversion_multiplier*this.discount));
         this.lok_exchange_rate = this.rest._rates[0].conversion_multiplier;
         this.exchange_rate = this.rest._exchange_rate.PHP;
         this.payment_currency.abbr = "PHP";
@@ -374,16 +377,15 @@ export class MemberDashboardComponent implements OnInit {
       }
       else
       {
-        this.token_amount = parseFloat(this.to_be_paid) / this.rest._rates[2].conversion_multiplier;
+        this.token_amount = parseFloat(this.to_be_paid) / (this.rest._rates[2].conversion_multiplier - (this.rest._rates[2].conversion_multiplier*this.discount));
         this.lok_exchange_rate = this.rest._rates[2].conversion_multiplier;
         this.exchange_rate = this.rest._exchange_rate.BTC.USD;
         this.payment_currency.abbr = "BTC";
         this.payment_currency.name = "Bitcoin";
       }
 
-      this.discount = (this.rest._stages.sale_stage_discount/100);
       // console.log(this.discount, this.token_amount / this.discount);
-      this.token_amount = this.token_amount + (this.token_amount * this.discount);
+      // this.token_amount = this.token_amount + (this.token_amount * this.discount);
       // this.to_be_paid = this.to_be_paid - this.discount;
 
       this.exchange_rate = this.exchange_rate * this.to_be_paid;
@@ -391,7 +393,6 @@ export class MemberDashboardComponent implements OnInit {
     }
     else
     {
-      console.log(this.to_be_paid)
       if(this.payment_type == 2)
       {
         this.to_be_paid = parseFloat(this.token_amount) * this.rest._rates[1].conversion_multiplier;

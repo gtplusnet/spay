@@ -996,7 +996,7 @@ class AdminApiController extends Controller
                 }
                 else
                 {
-                    $p_tx = Tbl_member_log::MemberAddress()->where("log_status", "pending")->where("log_method", "Bank")->get();
+                    $p_tx = Tbl_member_log::MemberAddress()->where("log_status", "processing")->where("log_method", "Bank")->get();
                     
                     foreach ($p_tx as $key => $value) 
                     {
@@ -1065,7 +1065,7 @@ class AdminApiController extends Controller
 
     function get_all_processing(Request $request)
     {
-        $status = $request->payment == 'Bank' ? "pending" : "processing";
+        $status = "processing";
         $list = Tbl_member_log::Member()->where("log_status", $status)->where("log_method", $request->payment)->get();
         return json_encode($list);
     }
