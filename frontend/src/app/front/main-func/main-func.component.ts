@@ -27,26 +27,9 @@ export class MainFuncComponent implements OnInit {
       app.rest.serverGetBasicInfo().subscribe(response =>
       {
         app.rest.syncFromServerResponseMember(response);        
-        app.rest.serverGetOtherInfo().subscribe(response =>
-        {
-          app.rest.syncFromServerResponseOther(response);
-
-          app.rest.serverGetSaleStage().subscribe(response =>
-          {
-            app.rest.syncFromServerGetSaleStage(response);
-            app.rest.serverGetLiveExchangeRate().subscribe(response=>
-            {
-              app.rest.syncFromServerGetLiveExchangeRate(response);
-              app.rest.serverGetFiles().subscribe(response=>
-              {
-                app.rest.syncFromServerGetFiles(response);
-                app.initializing = false;
-                app.rest.loading = true;
-              });
-            });
-          });
-          
-        });
+       
+          app.initializing = false;
+          app.rest.loading = true;
       },
       error =>
       {
@@ -55,26 +38,8 @@ export class MainFuncComponent implements OnInit {
     }
     else
     {
-       app.rest.serverGetOtherInfo().subscribe(response =>
-        {
-          app.rest.syncFromServerResponseOther(response);
-          app.rest.serverGetSaleStage().subscribe(response =>
-          {
-            app.rest.syncFromServerGetSaleStage(response);
-            app.rest.serverGetLiveExchangeRate().subscribe(response=>
-            {
-              app.rest.syncFromServerGetLiveExchangeRate(response);
-              
-              app.rest.serverGetFiles().subscribe(response=>
-              {
-                app.rest.syncFromServerGetFiles(response);
-                app.initializing = false;
-                app.rest.loading = true;
-              });
-
-            });
-          });
-      });
+      app.initializing = false;
+      app.rest.loading = true;
     }
   }
 
