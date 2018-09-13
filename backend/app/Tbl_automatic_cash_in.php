@@ -19,7 +19,7 @@ class Tbl_automatic_cash_in extends Model
 			$query->where('tbl_member_log.log_method', $param["log_method"]);
 			if(isset($param["log_method_accepted"]))
 			{
-				$query->orWhere('tbl_member_log.log_method', $param["log_method_accepted"]);
+				$query->where('tbl_member_log.log_method', $param["log_method_accepted"]);
 			}
 		})
 		->join('tbl_member_address', 'tbl_member_log.member_address_id', '=', 'tbl_member_address.member_address_id')
