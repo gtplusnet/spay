@@ -5,9 +5,9 @@
 <div class="main-container">
 	<div class="container">
 		<div class="row mb-3">
-			<div class="col-lg-3 col-xs-12"></div>
-			<div class="col-lg-3 col-xs-12"></div>
-			<!-- <div class="col-lg-3 col-xs-12"></div> -->
+			<div class="col-lg-2 col-xs-12"></div>
+			<div class="col-lg-2 col-xs-12"></div>
+			<div class="col-lg-2 col-xs-12"></div>
 			<div class="col-lg-3 ol-xs-12 px-1">
 				<button class="btn btn-block button-lokal my-1" (click)="loadTable()">
 					<small>
@@ -15,8 +15,8 @@
 					</small>
 				</button>
 			</div>
-			<div class="col-lg-3 ol-xs-12 px-1">
-				<div class="btn-group" dropdown placement="bottom right">
+			<div class="col-lg-3 ol-xs-12 px-1 btn-group" dropdown placement="bottom right">
+				<!-- <div class="btn-group col-lg-3 ol-xs-12 px-1" dropdown placement="bottom right"> -->
 				  <button id="button-basic" dropdownToggle type="button" class="btn btn-block button-lokal my-1 dropdown-toggle"
 				          aria-controls="dropdown-basic">
 				    <small>
@@ -32,7 +32,7 @@
 				    	<a href="{{ rest.api_url }}/api/member/excel/export_member_transaction_list?login_token={{rest.login_token}}&account_name={{account_name}}&transaction_status={{transaction_status}}&transaction_date_from={{transaction_date_from}}&transaction_date_to={{transaction_date_to}}&log_method=Bitcoin&log_method_accepted=Bitcoin&data=filtered&member_id={{rest.member_id}}&first_name={{rest.first_name}}&last_name={{rest.last_name}}" class="dropdown-item">Export Filtered Data</a>
 				    </li>
 				  </ul>
-				</div>
+				<!-- </div> -->
 			</div>
 		</div>
 		<div class="row mb-3">

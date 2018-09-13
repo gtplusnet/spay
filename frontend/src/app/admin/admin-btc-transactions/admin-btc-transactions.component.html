@@ -17,8 +17,7 @@
 	<div class="col-lg-3 col-xs-12">
 		
 	</div>
-
-	<div class="col-lg-2 col-xs-12">
+	<div class="col-lg-1 col-xs-12">
 		<!-- spacer -->
 	</div>
 
@@ -29,9 +28,9 @@
 			</small>
 		</button>
 	</div>
-	<div class="col-lg-2 col-xs-12 px-1">
-		<div class="btn-group" dropdown placement="bottom right">
-		  <button id="button-basic" dropdownToggle type="button" class="btn button-lokal-x btn-block my-1 dropdown-toggle"
+	<div class="col-lg-2 col-xs-12 px-1 mb-0" dropdown placement="bottom right">
+		<!-- <div class="btn-group" dropdown placement="bottom right"> -->
+		  <button id="button-basic" dropdownToggle type="button" class="btn button-lokal-x btn-block my-1 dropdown-toggle col-lg-12 col-xs-12 px-1 mb-0"
 		          aria-controls="dropdown-basic">
 		    <small>
 					<i class="fas fa-table mr-2"></i>EXPORT DATA <span class="caret"></span>
@@ -46,7 +45,7 @@
 		    	<a href="{{ rest.api_url }}/api/admin/excel/export_transaction_list?login_token={{rest.login_token}}&account_name={{account_name}}&transaction_status={{transaction_status}}&transaction_date_from={{transaction_date_from}}&transaction_date_to={{transaction_date_to}}&log_method=bitcoin&data=filtered&log_method_accepted=bitcoin" class="dropdown-item">Export Filtered Data</a>   
 		    </li>
 		  </ul>
-		</div>
+		<!-- </div> -->
 	</div>
 </div>
 <div class="row mb-3">
