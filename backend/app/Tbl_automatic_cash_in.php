@@ -22,7 +22,6 @@ class Tbl_automatic_cash_in extends Model
 		->where('tbl_member_address.coin_id', 4)
 		->join('users', 'tbl_member_address.member_id', '=', 'users.id');
 
-		
 	}
 
 	// public function scopeJoinMemberLog($query)

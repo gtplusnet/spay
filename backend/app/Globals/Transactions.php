@@ -77,7 +77,6 @@ class Transactions
             $data[$key]["amount_paid"] = $paid_amount*$value->log_amount;
             $data[$key]["expected_payment"] = $value->amount_requested-$exchange_rate;
         }
-
        
         return $data;
     }
