@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto|Rubik');
+
+//Font Family
+$heading-text: 'Rubik', sans-serif;
+$body-text: 'Roboto', sans-serif;
+
+//Font Weight
+$reg: 400;
+
+// Base Font Size
+$bfs: 1rem;
+
+// Colors
+$base-color: #aa7809;
+$base-color-dark: #936801;
+$secondary-color: #005d12;
+$tertiary-color: #f8e679;
+$dark-white: rgba(255,255,255,0.7);
+
+//Devices Breakpoint
+$tablet: 800px;
+$mobile-l: 600px;
+$mobile-m: 375px;
+$mobile-s: 320px;

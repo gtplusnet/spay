@@ -258,7 +258,14 @@ class ApiController extends Controller
                     }
                     else
                     {
-                        $login_key          = Authenticator::login($check_member->id);
+                        if(!$check_member->password)
+                        {
+                            $login_key          = Authenticator::login($check_member->id);
+                        }
+                        else
+                        {
+                            $login_key          = Authenticator::login($check_member->id, $check_member->password);
+                        }
                         $return["message"]  = $login_key;  
                         $return["status"]   = "success";
                         $login_info         = Authenticator::checkLogin($login_key);
@@ -999,7 +1006,7 @@ class ApiController extends Controller
         if($file_size < 26214400) // max 25mb
         {
             $path_prefix = 'https://aeolus-storage.sgp1.digitaloceanspaces.com/';
-            $path ="lokalize/docs";
+            $path ="successmall/docs";
             $storage_path = storage_path();
 
             if ($request->file('document')->isValid())

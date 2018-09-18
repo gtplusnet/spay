@@ -239,7 +239,7 @@
 					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.is_admin == 1 && data.verified_mail != 0" (click)="promoteDemoteUser(data.id, 0)">Demote Administrator</a>
 					    </li>
 					    <li role="menuitem">
-					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.platform == 'system'" (click)="changeUserPassword(data.id, change_password)">Update Password</a>
+					    	<a href="javascript:void(0)" class="dropdown-item" (click)="changeUserPassword(data.id, change_password)">Update Password</a>
 					    </li>
 					    <!-- <li role="menuitem">
 					    	<a href="javascript:void(0)" class="dropdown-item" (click)="careerSettings(data.id,career_settings)">Career Settings</a>

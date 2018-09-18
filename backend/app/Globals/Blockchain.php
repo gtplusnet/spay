@@ -27,7 +27,7 @@ class Blockchain
             if (FALSE === $ch)
                 throw new \Exception('failed to initialize');
 
-            curl_setopt($ch, CURLOPT_URL, "http://206.189.155.9:3000/api/v2/create?password=".$passkey."&api_code=".$api_code);
+            curl_setopt($ch, CURLOPT_URL, "http://128.199.209.141:3000/api/v2/create?password=".$passkey."&api_code=".$api_code);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
             $content = curl_exec($ch);
@@ -88,7 +88,7 @@ class Blockchain
             if (FALSE === $ch)
                 throw new \Exception('failed to initialize');
 
-            curl_setopt($ch, CURLOPT_URL, "http://206.189.155.9:3000/merchant/". $guid ."/balance?password=" . $address_api_password);
+            curl_setopt($ch, CURLOPT_URL, "http://128.199.209.141:3000/merchant/". $guid ."/balance?password=" . $address_api_password);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
             $content = curl_exec($ch);
@@ -158,7 +158,7 @@ class Blockchain
             if (FALSE === $ch)
                 throw new \Exception('failed to initialize');
 
-            curl_setopt($ch, CURLOPT_URL, "http://206.189.155.9:3000/merchant/$guid/payment?password=$main_password&second_password=$second_password&to=$address&amount=$amount&from=$from&fee=$fee");
+            curl_setopt($ch, CURLOPT_URL, "http://128.199.209.141:3000/merchant/$guid/payment?password=$main_password&second_password=$second_password&to=$address&amount=$amount&from=$from&fee=$fee");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
             $content = curl_exec($ch);
@@ -191,7 +191,7 @@ class Blockchain
         $passkey = $address_info->address_api_password;
         $password = hash('sha256', $member_id . "-" . $passkey);
         $guid = $address_info->address_api_reference;
-        //http://206.189.155.9:3000/merchant/$guid/payment?password=$main_password&second_password=$second_password&to=$address&amount=$amount&from=$from&fee=$fee
+        //http://128.199.209.141:3000/merchant/$guid/payment?password=$main_password&second_password=$second_password&to=$address&amount=$amount&from=$from&fee=$fee
         $url = Self::$blockchain_url . '/merchant/' . $guid . "/payment";
 
         $post["password"]   = hash('sha256', $member_id . "-" . $passkey);
@@ -768,7 +768,7 @@ class Blockchain
             $address_from = $address_info->member_address;
         }
 
-        $url = 'http://206.189.155.9:3000/merchant/' . $guid . "/payment";
+        $url = 'http://128.199.209.141:3000/merchant/' . $guid . "/payment";
 
         $post["password"]   = $passkey;
         $post["to"]         = $member_address_to;
