@@ -678,8 +678,8 @@ class AdminApiController extends Controller
 
     function view_all_central_wallet(Request $request)
     {
-        $data = Tbl_central_wallet::where("central_wallet_id", "!=", 0)->orderBy("central_wallet_default", "descending")->get();
-        return $data;
+        $data = Tbl_main_wallet_addresses::where("mwallet_id", "!=", 0)->orderBy("mwallet_default", "descending")->get();
+        return json_encode($data);
     }
 
     function get_admin_notification()
