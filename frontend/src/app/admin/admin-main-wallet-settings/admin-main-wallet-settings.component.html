@@ -7,7 +7,7 @@
 		<div class="alert alert-light p-2 my-border-light">
 			<div class="d-flex flex-row justify-content-center align-items-center h6 mb-0 text-center color-lokal-x">
 				<small class="mx-2">
-					<h4 class="text-center mb-0">0.1243695</h4>
+					<h4 class="text-center mb-0" *ngIf="totals">{{ totals.btc_count | number:'1.8-8' }}</h4>
 					TOTAL BTC IN WEBSITE
 				</small>
 				<i class="fab fa-bitcoin mx-2 h1 mb-0"></i>
@@ -18,7 +18,7 @@
 		<div class="alert alert-light p-2 my-border-light">
 			<div class="d-flex flex-row justify-content-center align-items-center h6 mb-0 text-center color-lokal-x">
 				<small class="mx-2">
-					<h4 class="text-center mb-0">0.1243695</h4>
+					<h4 class="text-center mb-0" *ngIf="totals">{{ totals.eth_count | number:'1.8-8' }}</h4>
 					TOTAL ETH IN WEBSITE
 				</small>
 				<i class="fab fa-ethereum mx-2 h1 mb-0"></i>
@@ -28,14 +28,19 @@
 	<div class="col-lg-3 col-xs-12 px-1">
 		<button class="btn button-lokal-x btn-block my-1" (click)="openLg(configure_addresses)">
 			<small>
-				<i class="fas fa-cogs mr-2"></i>CONFIGURE ADDRESSES
+				<i class="fas fa-cogs mr-2"></i>Central Wallet Settings
+			</small>
+		</button>
+		<button class="btn button-lokal-x btn-block my-1" (click)="open(set_wallet_address)">
+			<small>
+				<i class="fas fa-plus mr-2"></i>Set-Up Wallet Address
 			</small>
 		</button>
 	</div>
 	<div class="col-lg-3 col-xs-12 px-1">
-		<button class="btn button-lokal-x btn-block my-1">
+		<button class="btn button-lokal-x btn-block my-1" (click)="openLg(view_batch_release)">
 			<small>
-				RELEASE WALLET
+				<i class="fas fa-sign-out-alt mr-2"></i>Release All
 			</small>
 		</button>
 	</div>
@@ -56,12 +61,13 @@
 <div class="table-responsive px-0"  style="min-height: 300px;">
 	<table class="table member-table-x admin-db table-hover px-2">
 			<caption class="bg-light m-0 p-0 py-2 px-1">
-				<pagination-controls class="my-pagination" (pageChange)="page = $event"></pagination-controls>
+				<pagination-controls class="my-pagination"></pagination-controls>
 			</caption>
 		<thead>
 			<tr>
 				<th>#</th>
 				<th>Wallet</th>
+				<th>Wallet Owner</th>
 				<th>Wallet Address</th>
 				<th>Wallet Balance</th>
 				<th></th>
@@ -82,11 +88,12 @@
 			</tr>
 		</tbody>
 		<tbody *ngIf="!table_loader">
-			<tr *ngIf="!table">
-				<td>No data found.</td>
+			<tr *ngIf="table.length == 0">
+				<td colspan="5" class="text-center">No data found.</td>
 			</tr>
-			<tr *ngFor="let data of table | paginate: { itemsPerPage:15, currentPage: page }" >
+			<tr *ngFor="let data of table">
 				<td>{{data.member_address_id}}</td>
+				<td>{{data.first_name}} {{data.last_name}}</td>
 				<td>{{data.coin.coin_abb}}</td>
 				<td>{{data.member_address}}</td>
 				<td>{{data.address_actual_balance}}</td>
@@ -111,18 +118,139 @@
 	</table>
 </div>
 
+<ng-template #view_batch_release let-c="close" let-d="dismiss">
+	<div class="view_account_details">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-sign-out-alt mr-2"></i>Batch Release Wallet</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body p-4 text-center">
+			<div class="row" *ngIf="step == 1">
+				<div class="col-md-12 col-xs-12 mb-2 text-center">
+					<h5 class="d-block font-weight-bold my-2">What wallet would you like to release?</h5>
+					<div class="row">
+						<div class="col-md-6 col-xs-12">
+							<button class="btn btn-block btn-lg button-lokal-x" (click)="goToStep('BTC', 2)">
+								<i class="fab fa-bitcoin mr-2"></i>Bitcoin
+							</button>
+						</div>
+						<div class="col-md-6 col-xs-12">
+							<button class="btn btn-block btn-lg button-lokal-x" (click)="goToStep('ETH', 2)">
+								<i class="fab fa-ethereum mr-2"></i>Ethereum
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" *ngIf="step == 2">
+				<div class="col-md-12 col-xs-12 mb-2 text-center">
+					<div class="row">
+						<div class="col-md-12 col-xs-12 mb-3">
+							<div class="table-responsive">
+								<table class="table table-bordered wi100">
+									<thead>
+										<th class="p-2" colspan="2">
+											Wallet Release Receipt
+										</th>
+									</thead>
+									<tbody *ngIf="!release_data">
+										<tr>
+											<td colspan="8">
+												
+											</td>
+										</tr>
+									</tbody>
+									<tbody *ngIf="release_data">
+										<tr>
+											<th class="p-2">Total to be released: </th>
+											<td class="p-2 text-right"> BTC {{ release_data.to_be_released | number:'1.8'}} ($ {{ release_data.to_be_released * rest._exchange_rate.BTC.USD  | number:'1.2'}})</td>
+										</tr>
+										<tr>
+											<th class="p-2">Total fee to be deducted: </th>
+											<td class="p-2 text-right text-danger"> BTC {{ release_data.estimated_fee | number:'1.8'}} ($ {{ release_data.estimated_fee * rest._exchange_rate.BTC.USD  | number:'1.2'}})</td>
+										</tr>
+										<tr>
+											<th class="p-2">Total to be received: </th>
+											<td class="p-2 text-right font-weight-bold"> BTC {{ release_data.to_be_released - release_data.estimated_fee | number:'1.8'}}
+											($ {{ (release_data.to_be_released - release_data.estimated_fee) * rest._exchange_rate.BTC.USD  | number:'1.2'}})</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="col-md-12 col-xs-12 mb-3">
+							<h5 class="mb-1">Select Wallet Receiver</h5>
+							<select class="form-control" [(ngModel)]="wallet_receiver">
+								<option *ngFor="let data of view_central_wallet" disabled="{{data.mwallet_type == wallet ? '' : 'disabled'}}" value="{{data.mwallet_id}}">
+									{{ data.mwallet_owner }} ({{ data.mwallet_address }})
+								</option>
+							</select>
+						</div>
+						<div class="col-md-6 col-xs-12">
+							<button class="btn btn-block btn-lg button-lokal-x" (click)="goToStep(null, 1)" disabled="{{ !released ? 'disabled' : '' }}">
+								<i class="fas fa-angle-double-left mr-2"></i>Back
+							</button>
+						</div>
+						<div class="col-md-6 col-xs-12">
+							<button class="btn btn-block btn-lg button-lokal-x" (click)="batchReleaseWallet()" disabled="{{ !released ? 'disabled' : '' }}">
+								Proceed<i class="fas fa-angle-double-right ml-2"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
 <!-- Release Wallet Pop up -->
 <ng-template #view_release_wallet let-c="close" let-d="dismiss">
 	<div class="view_account_details">
 		<div class="modal-header">
-			<h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-briefcase mr-2"></i>Release Wallet</h5>
+			<h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-sign-out-alt mr-2"></i>Release Wallet</h5>
 			<button type="button" class="close" (click)="d('Cross click')">
 				<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
 		<div class="modal-body p-4 text-center">
 			<h6 class="my-3">Are you sure you want to release all the balance of address <strong>{{release_info.member_address}}</strong>?</h6>
-			<button class="btn button-lokal-x btn-block mb-3" (click)="releaseWallet(release_info.member_address_id, release_info.address_actual_balance)">Confirm Release</button> 	
+			<!-- <div class="row" *ngIf="!released_data">
+				<div class="col-lg-12 col-xs-12">
+					<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+						<div class="circle"></div>
+						<small class="text">LOADING TABLE...</small>
+					</div>
+				</div>
+			</div> -->
+			<div class="row my-1" *ngIf="released_data">
+				<div class="col-md-6 col-xs-6 text-left">
+					<small>Total to be released:</small>
+				</div>
+				<div class="col-md-6 col-xs-6 text-right">
+					<small>BTC {{ release_data.to_be_released | number:'1.8'}} ($ {{ release_data.to_be_released * rest._exchange_rate.BTC.USD  | number:'1.2-2'}})</small>
+				</div>
+				<div class="col-md-6 col-xs-6 text-left">
+					<small>Total fee to be deducted:</small>
+				</div>
+				<div class="col-md-6 col-xs-6 text-right text-danger">
+					<small>BTC {{ release_data.estimated_fee | number:'1.8'}} ($ {{ release_data.estimated_fee * rest._exchange_rate.BTC.USD  | number:'1.2-2'}})</small>
+				</div>
+				<div class="col-md-6 col-xs-6 text-left">
+					<small>Total to be received:</small>
+				</div>
+				<div class="col-md-6 col-xs-6 text-right">
+					<small class="font-weight-bold">BTC {{ release_data.to_be_released - release_data.estimated_fee | number:'1.8'}} ($ {{ (release_data.to_be_released - release_data.estimated_fee) * rest._exchange_rate.BTC.USD  | number:'1.2-2'}})</small>
+				</div>
+			</div>
+			<h5 class="mb-1">Select Wallet Receiver</h5>
+			<select class="form-control mb-2" [(ngModel)]="wallet_receiver">
+				<option *ngFor="let data of view_central_wallet" disabled="{{data.mwallet_type == 'BTC' ? '' : 'disabled'}}" value="{{data.mwallet_id}}">
+					{{ data.mwallet_owner }} ({{ data.mwallet_address }})
+				</option>
+			</select>
+			<button class="btn button-lokal-x btn-block mb-3" (click)="releaseWallet(release_info.member_address_id)" disabled="{{ released ? '' : 'disabled'}}">Confirm Release</button> 	
 		</div>
 	</div>
 </ng-template>
@@ -130,177 +258,166 @@
 <ng-template #configure_addresses let-c="close" let-d="dismiss">
 	<div class="view_account_details">
 		<div class="modal-header">
-			<h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-briefcase mr-2"></i>Configure Main Wallet Addresses</h5>
+			<h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-cog mr-2"></i>Configure Main Wallet Address</h5>
 			<button type="button" class="close" (click)="d('Cross click')">
 				<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
-
-		<div class="modal-body p-2" *ngIf="portion == 'view all'">
-			<div class="row my-3">
-				<div class="offset-md-9 col-md-3">
-					<button class="btn btn-sm btn-block button-lokal-x" (click)="showAddNew()"><i class="fas fa-plus mr-2"></i>Add New</button>
-				</div>
-			</div>
+		<div class="modal-body p-4" *ngIf="view_central_wallet">
 			<div class="table-responsive">
-				<table class="table table-hover table-striped">
+				<table class="table-bordered table-hover mb-2 wallet_records">
 					<thead>
 						<tr>
+							<th>Type</th>
 							<th>Owner</th>
-							<th>Wallet Address</th>
-							<th>Default</th>
-							<th>Date Added</th>
-							<th>Actions</th>
+							<th>Address</th>
+							<th>GUID</th>
+							<th>Email</th>
 						</tr>
 					</thead>
-					<tbody *ngIf="loading">
-						<tr>
-							<td colspan="5" class="text-center">Loading Table...</td>
+					<tbody>
+						<tr *ngFor="let wallet of view_central_wallet" (click)="editWallet(wallet.mwallet_id)" class="{{wallet.mwallet_default ? 'default-address' : ''}}">
+							<td class="p-1">{{ wallet.mwallet_type }}</td>
+							<td class="p-1">{{ wallet.mwallet_owner }}</td>
+							<td class="p-1">{{ wallet.mwallet_address }}</td>
+							<td class="p-1">{{ wallet.mwallet_primary ? wallet.mwallet_primary : 'No data.' }}</td>
+							<td class="p-1">{{ wallet.mwallet_email }}</td>
 						</tr>
 					</tbody>
-					<tbody *ngIf="!loading">
-						<tr *ngFor="let data of view_central_wallet">
-							<td>{{data.central_wallet_owner}}</td>
-							<td>{{data.central_wallet_address}}</td>
-							<td class="{{data.central_wallet_default == 1 ? 'text-success' : 'text-danger'}}">{{data.central_wallet_default == 1 ? 'Yes' : 'No'}}</td>
-							<!-- <td>{{data.date_added | date:'MM/dd/yyyy hh:mm a'}}</td> -->
-							<td>
-								{{ rest.formatDate(data.date_added) }}
-								{{ rest.formatTime(data.date_added) }}
+				</table>
+				<table class="table-bordered table-hover mb-2 wallet_records wi100" *ngIf="edit_wallet">
+					<tbody>
+						<tr>
+							<th class="p-2">Wallet Type</th>
+							<td class="p-2">
+								<select [(ngModel)]="edit_wallet.mwallet_type" class="form-control">
+									<option value="BTC">BTC</option>
+									<option value="ETH">ETH</option>
+								</select>
 							</td>
-							<td>
-								<button class="btn btn-sm btn-block button-lokal-x" (click)="showViewDetails(data.central_wallet_id)"><i class="fas fa-info-circle mr-1"></i>View Details</button>
+						</tr>
+						<tr>
+							<th class="p-2">Wallet Owner</th>
+							<td class="p-2"><input type="text" class="form-control form-control-sm" [(ngModel)]="edit_wallet.mwallet_owner"></td>
+						</tr>
+						<tr>
+							<th class="p-2">Wallet Address</th>
+							<td class="p-2"><input type="text" class="form-control form-control-sm" [(ngModel)]="edit_wallet.mwallet_address"></td>
+						</tr>
+						<tr *ngIf="edit_wallet.mwallet_type == 'BTC'">
+							<th class="p-2">Wallet GUID</th>
+							<td class="p-2"><input type="text" class="form-control form-control-sm" [(ngModel)]="edit_wallet.mwallet_primary"></td>
+						</tr>
+						<tr>
+							<th class="p-2">Wallet Email</th>
+							<td class="p-2"><input type="text" class="form-control form-control-sm" [(ngModel)]="edit_wallet.mwallet_email"></td>
+						</tr>
+						<tr>
+							<td class="p-1">
+								<button *ngIf="!saving_details" class="btn button-lokal-x btn-block" (click)="setAsDefault(edit_wallet.mwallet_id, edit_wallet.mwallet_type)">
+									<i class="fas fa-star mr-2"></i> Set as Default
+								</button> 	
+								<button *ngIf="saving_details" disabled="disabled" class="btn button-lokal-x btn-block">
+									<i class="fas fa-spinner button-loader mr-2"></i>
+								</button> 	
+							</td>
+							<td class="p-1">
+								<button *ngIf="!saving_details" class="btn button-lokal-x btn-block" (click)="updateWallet(edit_wallet.mwallet_id)">
+									<i class="fas fa-save mr-2"></i> Update Wallet
+								</button> 	
+								<button *ngIf="saving_details" disabled="disabled" class="btn button-lokal-x btn-block">
+									<i class="fas fa-spinner button-loader mr-2"></i>
+								</button> 
 							</td>
 						</tr>
 					</tbody>
 				</table>
-			</div>
+			</div>	
+			<!-- <div class="row">
+				<div class="col-md-12 col-xs-12 mb-2">
+					<h5 class="mb-0 font-weight-light">{{ view_central_wallet.central_wallet_owner }}</h5>
+					<small class="d-block font-weight-bold">Wallet Owner</small>
+				</div>
+				<div class="col-md-12 col-xs-12 mb-2">
+					<h5 class="mb-0 font-weight-light">{{ view_central_wallet.central_wallet_address }}</h5>
+					<small class="d-block font-weight-bold">Wallet Address</small>
+				</div>
+				<div class="col-md-12 col-xs-12 mb-2">
+					<h5 class="mb-0 font-weight-light">{{ view_central_wallet.central_wallet_guid }}</h5>
+					<small class="d-block font-weight-bold">Wallet GUID</small>
+				</div>
+			</div> -->
 		</div>
-		
-		<div class="modal-body p-2" *ngIf="portion == 'add new'">
-			<div class="row my-3">
-				<div class="offset-md-9 col-md-3 col-xs-12">
-					<button class="btn btn-sm btn-block button-lokal-x" (click)="showViewAll()"><i class="fas fa-table mr-2"></i>Back to Addresses</button>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6 col-xs-12 py-1">
-					<small class="d-block font-weight-bold">
-						Owner
-					</small>
-					<input type="text" class="form-control input-lokal" [(ngModel)]="new_central_wallet.central_wallet_owner" name="add_central_wallet_owner" placeholder="Owner">
-				</div>
-				<div class="col-md-6 col-xs-12 py-1">
-					<small class="d-block font-weight-bold">
-						Owner Password
-					</small>
-					<input type="text" class="form-control input-lokal" [(ngModel)]="new_central_wallet.central_wallet_owner_password" name="add_central_wallet_owner_password" placeholder="Owner Password">
-				</div>
-				<div class="col-md-6 col-xs-12 py-1">
-					<small class="d-block font-weight-bold">
-						Wallet Address
-					</small>
-					<input type="text" class="form-control input-lokal" [(ngModel)]="new_central_wallet.central_wallet_address" name="add_central_wallet_address" placeholder="Wallet Address">
-				</div>
-				<div class="col-md-6 col-xs-12 py-1">
-					<small class="d-block font-weight-bold">
-						GUID
-					</small>
-					<input type="text" class="form-control input-lokal" [(ngModel)]="new_central_wallet.central_wallet_guid" name="add_central_wallet_guid" placeholder="GUID">
-				</div>
-				<div class="col-md-6 col-xs-12"></div>
-				<div class="col-md-6 col-xs-12 py-2">
-					<button class="btn btn-block button-lokal-x" disabled="{{adding ? 'disabled' : ''}}" (click)="addNew()">
-						<span *ngIf="!adding">
-							<i class="fas fa-save mr-1"></i>Save Address
-						</span>
-						<span *ngIf="adding">
-							<i class="fas fa-spinner button-loader mr-1"></i>Saving...
-						</span>
-					</button>
-				</div>
-			</div>
-		</div>
+	</div>
+</ng-template>
 
-		<div class="modal-body p-2" *ngIf="portion == 'view details'">
-			<div class="row my-3">
-				<div class="offset-md-9 col-md-3 col-xs-12">
-					<button class="btn btn-sm btn-block button-lokal-x" (click)="showViewAll()"><i class="fas fa-table mr-2"></i>Back to Addresses</button>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6 col-xs-12 py-1">
-					<small class="d-block font-weight-bold">
-						Owner
-					</small>
-					<input type="text" class="form-control input-lokal" [(ngModel)]="data_focus.central_wallet_owner" name="central_wallet_owner" id="central_wallet_owner" placeholder="Owner" disabled="{{!editable}}">
-				</div>
-				<div class="col-md-6 col-xs-12 py-1">
-					<small class="d-block font-weight-bold">
-						Owner Password
-					</small>
-					<input type="text" class="form-control input-lokal" [(ngModel)]="data_focus.central_wallet_owner_password" name="central_wallet_owner_password" placeholder="Owner Password" disabled="{{!editable}}">
-				</div>
-				<div class="col-md-6 col-xs-12 py-1">
-					<small class="d-block font-weight-bold">
-						Wallet Address
-					</small>
-					<input type="text" class="form-control input-lokal" [(ngModel)]="data_focus.central_wallet_address" name="central_wallet_address" placeholder="Wallet Address" disabled="{{!editable}}">
-				</div>
-				<div class="col-md-6 col-xs-12 py-1">
-					<small class="d-block font-weight-bold">
-						GUID
-					</small>
-					<input type="text" class="form-control input-lokal" [(ngModel)]="data_focus.central_wallet_guid" name="central_wallet_guid" placeholder="GUID" disabled="{{!editable}}">
-				</div>
-				<div class="col-md-12 col-xs-12 mt-2" *ngIf="!editable">
+<ng-template #set_wallet_address let-c="close" let-d="dismiss">
+	<div class="set_wallet_address">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-cog mr-2"></i>Set-Up Main Wallet Address</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body p-4">
+			<div class="row" *ngIf="step == 1">
+				<div class="col-md-12 col-xs-12 mb-2 text-center">
+					<h5 class="d-block font-weight-bold my-2">What wallet would you like to add?</h5>
 					<div class="row">
-						<div class="col-md-2 col-xs-12 py-2"></div>
-						<div class="col-md-4 col-xs-12 py-2 d-flex justify-content-center align-items-center">
-							<div class="text-right" *ngIf="set_default">
-								<small class="text-{{set_default.prompt}} font-weight-bold">{{ set_default.message != 'no-message' ? set_default.message : '' }}</small>
-							</div>
-						</div>
-						<div class="col-md-3 col-xs-12 py-2">
-							<button class="btn btn-block button-lokal-x" disabled="{{setting_default ? 'disabled' : ''}}" (click)="setAsDefault()">
-								<span *ngIf="!setting_default">
-									<i class="fas fa-cog mr-1"></i>Set as Default
-								</span>
-								<span *ngIf="setting_default">
-									<i class="fas fa-spinner button-loader mr-1"></i>Setting...
-								</span>
+						<div class="col-md-6 col-xs-12">
+							<button class="btn btn-block btn-lg button-lokal-x" (click)="goToStep('BTC', 2)">
+								<i class="fab fa-bitcoin mr-2"></i>Bitcoin
 							</button>
 						</div>
-						<div class="col-md-3 col-xs-12 py-2">
-							<button class="btn btn-block button-lokal-x" (click)="enableEditing()"><i class="fas fa-edit mr-1"></i>Edit Details</button>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-12 col-xs-12 mt-2" *ngIf="editable">
-					<div class="row">
-						<div class="col-md-2 col-xs-12 py-2"></div>
-						<div class="col-md-4 col-xs-12 py-2 d-flex justify-content-center align-items-center">
-							<div class="text-center" *ngIf="saving_output">
-								<small class="text-{{saving_output.prompt}} font-weight-bold">{{ saving_output.message != 'no-message' ? saving_output.message : '' }}</small>
-							</div>
-						</div>
-						<div class="col-md-3 col-xs-12 py-2">
-							<button class="btn btn-block button-lokal-x" (click)="cancelEditing(data_focus.central_wallet_id)"><i class="fas fa-times mr-1"></i>Cancel Editing</button>
-						</div>
-						<div class="col-md-3 col-xs-12 py-2">
-							<button class="btn btn-block button-lokal-x" disabled="{{saving_details ? 'disabled' : ''}}" (click)="saveEditing()">
-								<span *ngIf="!saving_details">
-									<i class="fas fa-save mr-1" ></i>Save Details 
-								</span>
-								<span *ngIf="saving_details">
-									<i class="fas fa-spinner button-loader mr-1" ></i>Saving...
-								</span>
-
+						<div class="col-md-6 col-xs-12">
+							<button class="btn btn-block btn-lg button-lokal-x" (click)="goToStep('ETH', 2)">
+								<i class="fab fa-ethereum mr-2"></i>Ethereum
 							</button>
 						</div>
 					</div>
 				</div>
 			</div>
+			<div class="row" *ngIf="step == 2">
+				<div class="col-md-12 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">Wallet Owner</small>
+					<input type="text" [(ngModel)]="setup_wallet.mwallet_owner" class="form-control form-control-sm">
+				</div>
+				<div class="col-md-12 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">Wallet Address</small>
+					<input type="text" [(ngModel)]="setup_wallet.mwallet_address" class="form-control form-control-sm">
+				</div>
+				<div class="col-md-12 col-xs-12 mb-2" *ngIf="setup_wallet.mwallet_type == 'BTC'">
+					<small class="d-block font-weight-bold">Wallet GUID</small>
+					<input type="text" [(ngModel)]="setup_wallet.mwallet_primary" class="form-control form-control-sm">
+				</div>
+				<div class="col-md-12 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">Owner Email Address</small>
+					<input type="text" [(ngModel)]="setup_wallet.mwallet_email" class="form-control form-control-sm">
+				</div>
+				<div class="col-md-12 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">Owner Password</small>
+					<input type="password" [(ngModel)]="setup_wallet.mwallet_password" class="form-control form-control-sm">
+				</div>
+				<div class="col-md-12 col-xs-12 mb-2">
+					<small class="d-block font-weight-bold">Confirm Owner Password</small>
+					<input type="password" [(ngModel)]="setup_wallet.mwallet_password_confirm" class="form-control form-control-sm">
+				</div>
+				<div class="col-md-6 col-xs-12 mb-2">
+					<button *ngIf="!saving_details" class="btn btn-block btn-lg button-lokal-x" (click)="goToStep(null, 1)">
+						<i class="fas fa-angle-double-left mr-2"></i>Back</button>
+					<button *ngIf="saving_details" disabled="disabled" class="btn button-lokal-x btn-block">
+								<i class="fas fa-spinner button-loader mr-2"></i>
+							</button> 	
+				</div>
+				<div class="col-md-6 col-xs-12 mb-2">
+					<button *ngIf="!saving_details" class="btn btn-block btn-lg button-lokal-x" (click)="setUpWalletAddress()">
+					Set-Up Wallet<i class="fas fa-angle-double-right ml-2"></i></button>
+					<button *ngIf="saving_details" disabled="disabled" class="btn button-lokal-x btn-block">
+						<i class="fas fa-spinner button-loader mr-2"></i>
+					</button> 	
+				</div>
+			</div>
+			
 		</div>
 	</div>
 </ng-template>
