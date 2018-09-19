@@ -11,6 +11,7 @@ use App\Tbl_automatic_cash_in;
 use App\Tbl_other_info;
 use App\Tbl_referral;
 use App\Tbl_referral_bonus_log;
+use App\Tbl_main_wallet_addresses;
 use App\Tbl_User;
 use App\Tbl_position_requirements;
 use App\Globals\Wallet;
@@ -625,24 +626,67 @@ class Blockchain
     }
 
     /*Send all member wallet btc to cental wallet*/
-    public static function sendActualBTCWalletToCentralWallet($member_address_id, $amount)
+    // public static function sendActualBTCWalletToCentralWallet($member_address_id, $amount)
+    // {
+    //     $btc_wallet = Tbl_member_address::where("member_address_id", $member_address_id)->first();
+    //     // $btc_central_wallet = Tbl_central_wallet::where('coin_name', 'bitcoin')->first();
+        
+    //     $update                         = null;
+    //     $update['address_balance']      = @(Self::get_blockchain_bitcoin_balance($btc_wallet->guid, $btc_wallet->address_api_password) / 100000000);
+        
+    //     if ($update['address_balance'] != 0 && $update['address_balance'] > 10000) 
+    //     {  
+    //         $central_wallet = Tbl_central_wallet::first();
+    //         if($central_wallet)
+    //         {
+    //             Self::sendBTCCentralWallet($btc_wallet->member_address_id, $central_wallet->central_wallet_address, $amount);
+    //             Tbl_member_address::where('member_address_id', $btc_wallet->member_address_id)->update($update);
+    //         }
+            
+    //     }
+    // }
+
+    public static function sendActualBTCWalletToCentralWallet($member_address_id, $amount, $receiver = null, $usd = null)
     {
         $btc_wallet = Tbl_member_address::where("member_address_id", $member_address_id)->first();
         // $btc_central_wallet = Tbl_central_wallet::where('coin_name', 'bitcoin')->first();
-        
+        // dd($btc_wallet, $amount, $member_address_id, $receiver, $usd);
         $update                         = null;
-        $update['address_balance']      = @(Self::get_blockchain_bitcoin_balance($btc_wallet->guid, $btc_wallet->address_api_password) / 100000000);
-        
-        if ($update['address_balance'] != 0 && $update['address_balance'] > 10000) 
+        $update['address_actual_balance']      = @(Self::get_blockchain_bitcoin_balance($btc_wallet->guid, $btc_wallet->address_api_password) / 100000000);
+        if ($update['address_actual_balance'] > 0) 
         {  
-            $central_wallet = Tbl_central_wallet::first();
-            if($central_wallet)
+            $mwallet = Tbl_main_wallet_addresses::where("mwallet_id", $receiver)->first();
+            if($mwallet)
             {
-                Self::sendBTCCentralWallet($btc_wallet->member_address_id, $central_wallet->central_wallet_address, $amount);
-                Tbl_member_address::where('member_address_id', $btc_wallet->member_address_id)->update($update);
+                $fee = Self::calculateBTCFee($amount, $usd);
+                $response = Self::sendBTCCentralWallet($btc_wallet->member_address_id, $mwallet->mwallet_address, $amount, $fee);
+                // Tbl_member_address::where('member_address_id', $btc_wallet->member_address_id)->update($update);
+                return $response;
             }
-            
+            else
+            {
+                dd(123);
+            }
         }
+        else
+        {
+            dd(456);
+        }
+    }
+
+    public static function calculateBTCFee($amount = 0, $usd)
+    {
+        // $amount = $amount * 100000000;
+        $amt = $amount * $usd;
+
+        $rate = $amt*1200;
+
+        // $original = $amount * 100000000;
+        
+        // $total = $original - $rate;
+
+        // dd($amt, $rate, $original, $total);
+        return $rate/100000000;
     }
 
 }

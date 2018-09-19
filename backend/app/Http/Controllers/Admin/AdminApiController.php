@@ -34,6 +34,7 @@ use App\Tbl_communication_board;
 use App\Tbl_position_requirements;
 use App\Tbl_business_application;
 use App\Tbl_member_position_log;
+use App\Tbl_main_wallet_addresses;
 use App\Tbl_referral_bonus_log;
 use App\Tbl_central_wallet;
 use App\Tbl_faqs;
@@ -642,32 +643,37 @@ class AdminApiController extends Controller
         return $referral_info;
     }
 
-    function add_new_central_wallet(Request $request)
+    function setup_wallet_address(Request $request)
     {
         
         $google2fa = new Google2FA();
         $secret_key = $google2fa->generateSecretKey();
 
-        $insert["central_wallet_owner"] = $request->central_wallet_owner;
-        $insert["central_wallet_owner_password"] = $request->central_wallet_owner_password;
-        $insert["central_wallet_address"] = $request->central_wallet_address;
-        $insert["central_wallet_guid"] = $request->central_wallet_guid;
-        $insert["google2fa_secret_key"] = $secret_key;
-        $insert["date_added"] = Carbon::now();
+        $insert["mwallet_type"]              = $request->mwallet_type;
+        $insert["mwallet_owner"]             = $request->mwallet_owner;
+        $insert["mwallet_password"]          = Hash::make($request->mwallet_password);
+        $insert["mwallet_address"]           = $request->mwallet_address;
+        $insert["mwallet_primary"]           = $request->mwallet_primary;
+        $insert["mwallet_email"]             = $request->mwallet_email;
+        $insert["g2fa_key"]                  = $secret_key;
+        $insert["date_added"]                = Carbon::now('Asia/Manila');
 
-        $data = Tbl_central_wallet::insert($insert);
-
+        $data = Tbl_main_wallet_addresses::insert($insert);
+        // Mails::setup_wallet_address($insert);
         if($data)
         {
-            $return["message"] = "success";
+            $return["status"] = "success";
+            $return["status_message"] = "Successfully added wallet address.";
         }
         else
         {
-            $return["message"] = "fail";
+            $return["status"] = "fail";
+            $return["status_message"] = "Something went wrong. Please try again.";
         }
 
         return $return;
     }
+
 
     function view_all_central_wallet(Request $request)
     {
@@ -675,28 +681,6 @@ class AdminApiController extends Controller
         return $data;
     }
 
-    function edit_central_wallet(Request $request)
-    {
-        $update_wallet["central_wallet_owner"]          = $request->central_wallet_owner;
-        $update_wallet["central_wallet_owner_password"] = $request->central_wallet_owner_password;
-        $update_wallet["central_wallet_address"]        = $request->central_wallet_address;
-        $update_wallet["central_wallet_guid"]           = $request->central_wallet_guid;
-        $data = Tbl_central_wallet::where("central_wallet_id", $request->central_wallet_id)->update($update_wallet);
-        if($data)
-        {
-            $return["message"] = "Success! Details updated.";
-            $return["prompt"] = "success";
-        }
-        else
-        {
-            $return["message"] = "Error! No changes have been made.";
-            $return["prompt"] = "danger";
-        }
-
-        return json_encode($return);
-    }
-
-    
     function get_admin_notification()
     {
         $return["new_member_request"] = Tbl_user::where("notif_status",1)->count();
@@ -841,9 +825,13 @@ class AdminApiController extends Controller
 
     function setting_default_wallet_central(Request $request)
     {
-        $data["set_as_default"] = Tbl_central_wallet::where("central_wallet_id", $request->wallet_id)->update(["central_wallet_default"=>1]);
-        $data["reset_others"] = Tbl_central_wallet::where("central_wallet_id", "!=", $request->wallet_id)->update(["central_wallet_default"=>0]);
-        if($data)
+        //set wallet defgault
+        Tbl_main_wallet_addresses::where("mwallet_id", $request->wallet_id)->where("mwallet_type", $request->wallet_type)->update(["mwallet_default"=>1]);
+
+        //unset other wallets
+        Tbl_main_wallet_addresses::where("mwallet_id", "!=", $request->wallet_id)->where("mwallet_type", $request->wallet_type)->update(["mwallet_default"=>0]);
+
+        if(true)
         {
             $return["message"] = "Wallet set to default";
             $return["prompt"] = "success";
@@ -857,9 +845,61 @@ class AdminApiController extends Controller
         return json_encode($return);
     }
 
+    function setting_update_wallet_central(Request $request)
+    {
+        $update["mwallet_type"] = $request->mwallet_type;
+        $update["mwallet_owner"] = $request->mwallet_owner;
+        $update["mwallet_email"] = $request->mwallet_email;
+        $update["mwallet_address"] = $request->mwallet_address;
+        $update["mwallet_primary"] = $request->mwallet_primary;
+
+        //set wallet defgault
+        Tbl_main_wallet_addresses::where("mwallet_id", $request->mwallet_id)->update($update);
+
+
+        if(true)
+        {
+            $return["message"] = "Wallet updated";
+            $return["prompt"] = "success";
+        }
+        else
+        {
+            $return["message"] = "Something went wrong. Please try again.";
+            $return["prompt"] = "danger";
+        }
+
+        return json_encode($return);
+    }
+
+    function get_estimated_tx(Request $request)
+    {
+        $data["to_be_released"] = 0;
+        $data["estimated_fee"] = 0;
+        if($request->member_address_id)
+        {
+            $first = Tbl_member_address::where("member_address_id", $request->member_address_id)->where("coin_id", $request->coin_id)->where("address_actual_balance", ">", 0)->first();
+            $data["to_be_released"] += $first->address_actual_balance;
+            $data["estimated_fee"]  += Blockchain::calculateBTCFee($first->address_actual_balance, $request->usd);
+        }
+        else
+        {
+            $list = Tbl_member_address::where("coin_id", $request->coin_id)->where("address_actual_balance", ">", 0)->get();
+        
+            foreach ($list as $key => $value) 
+            {
+                $data["to_be_released"] += $value->address_actual_balance;
+                $data["estimated_fee"]  += Blockchain::calculateBTCFee($value->address_actual_balance, $request->usd);
+            }
+        }
+
+        
+        return json_encode($data);
+    }
+
     function main_wallet_addresses(Request $request)
     {
-        $balance = Tbl_member_address::where("address_actual_balance", "!=", 0);
+        $minimum_balance = 0.0001;
+        $balance = Tbl_member_address::join('users', 'users.id', '=', 'tbl_member_address.member_id')->where("address_actual_balance", ">=", $minimum_balance);
         if($request->coin_id != 0)
         {
             $balance = $balance->where("coin_id", $request->coin_id);
@@ -882,19 +922,35 @@ class AdminApiController extends Controller
 
     function release_wallet(Request $request)
     {
-        $release_amt = ($request->address_actual_balance * 100000000) - 10000;
-        $data = Blockchain::sendActualBTCWalletToCentralWallet($request->member_address_id, $release_amt);
+        $coin = $request->wallet == "BTC" ? 3 : 2;
+        $list = Tbl_member_address::where("member_address_id", $request->member_address_id)->first();
+        $release_amt = $list->address_actual_balance * 100000000;
+        $data = Blockchain::sendActualBTCWalletToCentralWallet($list->member_address_id, $release_amt, $request->wallet_receiver, $request->usd);
 
-        if($data)
+        return $data;
+    }
+
+    function batch_release_wallet(Request $request)
+    {
+        $coin = $request->wallet == "BTC" ? 3 : 2;
+
+        $list = Tbl_member_address::where("coin_id", $coin)->where("address_actual_balance", ">", 0)->get();
+
+        foreach ($list as $key => $value) 
         {
-            $return = "success";
-        }
-        else
-        {
-            $return = "fail";
+            $balance = $value->address_actual_balance * 100000000;
+            $data = Blockchain::sendActualBTCWalletToCentralWallet($value->member_address_id, $balance, $request->wallet_receiver, $request->usd);
         }
 
-        return $return;
+        return $data;
+    }
+
+    function get_total_crypto()
+    {
+        $data["btc_count"] = Tbl_member_address::where("coin_id", 3)->sum("address_actual_balance");
+        $data["eth_count"] = Tbl_member_address::where("coin_id", 2)->sum("address_actual_balance");
+
+        return json_encode($data);
     }
 
     function get_file_list(Request $request)
