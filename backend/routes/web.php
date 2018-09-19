@@ -141,12 +141,23 @@ Route::post('/api/admin/admin_viewed_notif','Admin\AdminApiController@admin_view
 Route::post('/api/admin/get_faqs','Admin\AdminApiController@get_faqs');
 Route::post('/api/admin/add_faqs','Admin\AdminApiController@add_faqs');
 Route::post('/api/admin/edit_faqs','Admin\AdminApiController@edit_faqs');
+// Route::post('/api/admin/get_referral_count_by_career','Admin\AdminApiController@get_referral_count_by_career');
+// Route::post('/api/admin/setting_default_wallet_central','Admin\AdminApiController@setting_default_wallet_central');
+// Route::post('/api/admin/main_wallet_addresses','Admin\AdminApiController@main_wallet_addresses');
+// Route::post('/api/admin/release_wallet','Admin\AdminApiController@release_wallet');
+// Route::post('/api/admin/get_file_list','Admin\AdminApiController@get_file_list');
+// Route::post('/api/admin/add_new_file','Admin\AdminApiController@add_new_file');
 Route::post('/api/admin/get_referral_count_by_career','Admin\AdminApiController@get_referral_count_by_career');
 Route::post('/api/admin/setting_default_wallet_central','Admin\AdminApiController@setting_default_wallet_central');
+Route::post('/api/admin/setting_update_wallet_central','Admin\AdminApiController@setting_update_wallet_central');
 Route::post('/api/admin/main_wallet_addresses','Admin\AdminApiController@main_wallet_addresses');
 Route::post('/api/admin/release_wallet','Admin\AdminApiController@release_wallet');
+Route::post('/api/admin/batch_release_wallet','Admin\AdminApiController@batch_release_wallet');
 Route::post('/api/admin/get_file_list','Admin\AdminApiController@get_file_list');
 Route::post('/api/admin/add_new_file','Admin\AdminApiController@add_new_file');
+Route::post('/api/admin/setup_wallet_address','Admin\AdminApiController@setup_wallet_address');
+Route::post('/api/admin/get_estimated_tx','Admin\AdminApiController@get_estimated_tx');
+Route::post('/api/admin/get_total_crypto','Admin\AdminApiController@get_total_crypto');
 
 //member referral API
 Route::post('/api/member/get_referrals','Member\MemberApiController@get_referrals');
