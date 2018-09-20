@@ -663,14 +663,6 @@ class Blockchain
                 // Tbl_member_address::where('member_address_id', $btc_wallet->member_address_id)->update($update);
                 return $response;
             }
-            else
-            {
-                dd(123);
-            }
-        }
-        else
-        {
-            dd(456);
         }
     }
 
