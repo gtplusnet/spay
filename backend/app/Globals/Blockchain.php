@@ -622,7 +622,17 @@ class Blockchain
         $return = new stdClass();
         $balance = @($json_feed->balance);
         
-        return $json_feed;
+        if($json_feed)
+        {
+            Tbl_member_address::where("member_address_id", $member_address_id)->update(["address_actual_balance" => 0]);
+            $msg_response    = "Bitcoin has been sent";
+        }
+        else
+        {
+            $msg_response   = "Unexpected error, Please try again.";
+        }
+
+        return $msg_response;
     }
 
     /*Send all member wallet btc to cental wallet*/
