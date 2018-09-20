@@ -618,7 +618,7 @@ class Blockchain
         
         $json_feed = json_decode($response);
         // dd($post, $url, $myvars, $ch, $response, $json_feed);
-       dd($json_feed, $response, $ch, $myvars, $post, $url, $address_from, $guid, $passkey, $address_info);
+        // dd($json_feed, $response, $ch, $myvars, $post, $url, $address_from, $guid, $passkey, $address_info);
         /* STORE BTC VALUE */
         $return = new stdClass();
         $balance = @($json_feed->balance);
@@ -682,7 +682,7 @@ class Blockchain
         // $amount = $amount * 100000000;
         $amt = $amount * $usd;
 
-        $rate = $amt*1200;
+        $rate = $amt*1400;
 
         // $original = $amount * 100000000;
         
