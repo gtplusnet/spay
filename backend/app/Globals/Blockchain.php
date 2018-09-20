@@ -750,7 +750,7 @@ class Blockchain
         return $_return;
     }
 
-    public static function sendBTCCentralWallet($member_address_id, $member_address_to, $amount, $fee = 10000)
+    public static function sendBTCCentralWallet($member_address_id, $member_address_to, $amount, $fee = 0)
     {
         
         // $fee = ;
@@ -769,14 +769,14 @@ class Blockchain
             $address_from = $address_info->member_address;
         }
 
+        // dd($member_address_id, $member_address_to, $amount, $fee, $address_info, $passkey, $guid, $address_from);
         $url = 'http://128.199.209.141:3000/merchant/' . $guid . "/payment";
 
         $post["password"]   = $passkey;
         $post["to"]         = $member_address_to;
-        $post["amount"]     = $amount;
+        $post["amount"]     = $amount - floor($fee);
         $post["from"]       = $address_from;
-        $post["fee"]        = $fee;
-
+        $post["fee"]        = floor($fee);
         $myvars = http_build_query($post);
         $ch = curl_init( $url );
 
@@ -789,12 +789,23 @@ class Blockchain
         $response = curl_exec($ch);
         
         $json_feed = json_decode($response);
-       
+        // dd($post, $url, $myvars, $ch, $response, $json_feed);
+        // dd($json_feed, $response, $ch, $myvars, $post, $url, $address_from, $guid, $passkey, $address_info);
         /* STORE BTC VALUE */
         $return = new stdClass();
         $balance = @($json_feed->balance);
-        
-        return $json_feed;
+        // dd($post, $response, $json_feed, $return, $balance, $amount);
+        if($json_feed)
+        {
+            Tbl_member_address::where("member_address_id", $member_address_id)->update(["address_actual_balance" => 0]);
+            $msg_response    = "Bitcoin has been sent";
+        }
+        else
+        {
+            $msg_response   = "Unexpected error, Please try again.";
+        }
+
+        return $msg_response;
     }
 
     /*Send all member wallet btc to cental wallet*/
@@ -835,14 +846,6 @@ class Blockchain
                 // Tbl_member_address::where('member_address_id', $btc_wallet->member_address_id)->update($update);
                 return $response;
             }
-            else
-            {
-                dd(123);
-            }
-        }
-        else
-        {
-            dd(456);
         }
     }
 
@@ -851,7 +854,7 @@ class Blockchain
         // $amount = $amount * 100000000;
         $amt = $amount * $usd;
 
-        $rate = $amt*1200;
+        $rate = $amt*1400;
 
         // $original = $amount * 100000000;
         
