@@ -357,7 +357,7 @@ export class MemberDashboardComponent implements OnInit {
   {
     this.getting_bonus = true;
     this.discount = (this.rest._stages.sale_stage_discount/100);
-    if(type)
+    if(type == 'paymentval')
     {
       if(this.payment_type == 2)
       {
@@ -384,12 +384,40 @@ export class MemberDashboardComponent implements OnInit {
         this.payment_currency.name = "Bitcoin";
       }
 
-      // console.log(this.discount, this.token_amount / this.discount);
-      // this.token_amount = this.token_amount + (this.token_amount * this.discount);
-      // this.to_be_paid = this.to_be_paid - this.discount;
-
       this.exchange_rate = this.exchange_rate * this.to_be_paid;
       this.exchange_rate = this.exchange_rate.toFixed(2);
+    }
+    else if(type == 'dollarval')
+    {
+      if(this.payment_type == 2)
+      {
+        
+        this.to_be_paid =  this.exchange_rate /this.rest._exchange_rate.ETH.USD;
+        this.token_amount = parseFloat(this.to_be_paid) / (this.rest._rates[1].conversion_multiplier - (this.rest._rates[1].conversion_multiplier*this.discount));
+        console.log(this.to_be_paid, this.token_amount)
+        
+        this.payment_currency.abbr = "ETH";
+        this.payment_currency.name = "Ethereum";
+      }
+      else if(this.payment_type == 1)
+      {
+        
+        this.to_be_paid =  this.exchange_rate /this.rest._exchange_rate.PHP;
+        this.token_amount = parseFloat(this.to_be_paid) / (this.rest._rates[0].conversion_multiplier - (this.rest._rates[0].conversion_multiplier*this.discount));
+        this.payment_currency.abbr = "PHP";
+        this.payment_currency.name = "Bank";
+      }
+      else
+      {
+        
+        this.to_be_paid =  this.exchange_rate /this.rest._exchange_rate.BTC.USD;
+        this.token_amount = parseFloat(this.to_be_paid) / (this.rest._rates[2].conversion_multiplier - (this.rest._rates[2].conversion_multiplier*this.discount));
+        this.payment_currency.abbr = "BTC";
+        this.payment_currency.name = "Bitcoin";
+      }
+
+      // this.exchange_rate = this.exchange_rate * this.to_be_paid;
+      // this.exchange_rate = this.exchange_rate.toFixed(2);
     }
     else
     {
@@ -416,17 +444,13 @@ export class MemberDashboardComponent implements OnInit {
         this.exchange_rate = this.rest._exchange_rate.BTC.USD;
         this.payment_currency.abbr = "BTC";
         this.payment_currency.name = "Bitcoin";
-        
       }
-      console.log(this.to_be_paid)
 
       this.to_be_paid = parseFloat(this.to_be_paid);
-      console.log(this.to_be_paid)
 
       this.discount = (this.rest._stages.sale_stage_discount/100)*this.to_be_paid;
 
       this.to_be_paid = this.to_be_paid - this.discount;
-      console.log(this.to_be_paid)
 
       if(this.token_amount == 0 || this.token_amount == "" || this.token_amount == null)
       {
@@ -436,7 +460,6 @@ export class MemberDashboardComponent implements OnInit {
       {
         this.to_be_paid = this.to_be_paid.toFixed(8);
       }
-      console.log(this.to_be_paid)
 
       this.exchange_rate = this.exchange_rate * this.to_be_paid;
       this.exchange_rate = this.exchange_rate.toFixed(2);

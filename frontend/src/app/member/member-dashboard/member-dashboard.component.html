@@ -328,11 +328,11 @@
         		<div class="row">
 					<div class="col-md-6 col-xs-12">
         				<h5 class="mb-1">Payment Value</h5>
-        				<input type="text" [(ngModel)]="to_be_paid" (keyup)="compute_to_pay('ok')" name="to_be_paid" class="form-control mb-1" value="0">
+        				<input type="text" [(ngModel)]="to_be_paid" (keyup)="compute_to_pay('paymentval')" name="to_be_paid" class="form-control mb-1" value="0">
 					</div>
 					<div class="col-md-6 col-xs-12">
 						<h5 class="mb-1">US Dollar Value</h5>
-        				<input type="text" min="1" class="form-control mb-3" [(ngModel)]="exchange_rate" name="exchange_rate">
+        				<input type="text" min="1" class="form-control mb-3" [(ngModel)]="exchange_rate" (keyup)="compute_to_pay('dollarval')" name="exchange_rate">
 					</div>
 				</div>
 				<!-- <div class="row">
