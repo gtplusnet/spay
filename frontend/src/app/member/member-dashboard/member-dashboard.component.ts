@@ -76,13 +76,15 @@ export class MemberDashboardComponent implements OnInit {
 
   checkboxValue : boolean;
 
+  c_num : any;
+  c_scale : any;
+
   constructor(private modalService: NgbModal, public rest : MemberInfoService, private globalConfigService:GlobalConfigService, private http : HttpClient ) 
   { 
   }
 
   ngOnInit() 
   {
-    console.log(this.rest._rates);
     // console.log(this.rest._stages);
     this.sale_stage_name = this.rest._stages.sale_stage_type.replace("_"," ");
   	this.dashboard_data();
@@ -94,7 +96,6 @@ export class MemberDashboardComponent implements OnInit {
     this.sale_stage_count_down();
     this.getUpcomingEvent(this.rest.member_id);
     this.getRecentTransaction();
-    console.log(this._table_recent_transaction);
     this.check_tokens_url = this.rest.api_url + "/api/member/check_tokens";
     this.check_contributions_url = this.rest.api_url + "/api/member/check_contributions";
     this.checkTokens();
@@ -168,7 +169,6 @@ export class MemberDashboardComponent implements OnInit {
   getDepositInfo()
   {
     this.bank_info = this.rest.findObjectByKey(this.bank_methods, "cash_in_method_id", this.cash_in_method)
-    console.log(this.bank_info);
   }
 
   buy_step_2()
@@ -243,7 +243,6 @@ export class MemberDashboardComponent implements OnInit {
   {
       var param = {};
       param["login_token"] = this.rest.login_token;
-      console.log(this.rest._wallet);
       param["btc_wallet_id"] = this.rest._wallet[3].member_address_id;
       param["eth_wallet_id"] = this.rest._wallet[2].member_address_id;
       param["php_wallet_id"] = this.rest._wallet[1].member_address_id;
@@ -352,16 +351,44 @@ export class MemberDashboardComponent implements OnInit {
     }
   }
 
+  roundNumber(num, scale) 
+  {
+    // num : any;
+    var c_num : any = num + "e+" + scale;
+    // c_num = parseInt(c_num);
+
+    var c_scale : any = "e-" + scale;
+    // c_scale = parseInt(c_scale);
+
+    var c_arr : any;
+
+    if(!("" + num).includes("e")) {
+      return +(Math.round(c_num) + c_scale);
+    } else {
+      var arr = ("" + num).split("e");
+      var sig = ""
+      if(+arr[1] + scale > 0) {
+        sig = "+";
+      }
+
+      c_arr = +arr[0] + "e" + sig + (+arr[1] + scale);
+
+      return +(Math.round(c_arr) + c_scale);
+    }
+  }
 
   compute_to_pay(type = null)
   {
+    
+
     this.getting_bonus = true;
     this.discount = (this.rest._stages.sale_stage_discount/100);
+
     if(type == 'paymentval')
     {
       if(this.payment_type == 2)
       {
-        this.token_amount = parseFloat(this.to_be_paid) / (this.rest._rates[1].conversion_multiplier - (this.rest._rates[1].conversion_multiplier*this.discount));
+        this.token_amount = this.to_be_paid / (this.rest._rates[1].conversion_multiplier - (this.rest._rates[1].conversion_multiplier*this.discount));
         this.lok_exchange_rate = this.rest._rates[1].conversion_multiplier;
         this.exchange_rate = this.rest._exchange_rate.ETH.USD;
         this.payment_currency.abbr = "ETH";
@@ -369,7 +396,7 @@ export class MemberDashboardComponent implements OnInit {
       }
       else if(this.payment_type == 1)
       {
-        this.token_amount = parseFloat(this.to_be_paid) / (this.rest._rates[0].conversion_multiplier - (this.rest._rates[0].conversion_multiplier*this.discount));
+        this.token_amount = this.to_be_paid / (this.rest._rates[0].conversion_multiplier - (this.rest._rates[0].conversion_multiplier*this.discount));
         this.lok_exchange_rate = this.rest._rates[0].conversion_multiplier;
         this.exchange_rate = this.rest._exchange_rate.PHP;
         this.payment_currency.abbr = "PHP";
@@ -377,7 +404,7 @@ export class MemberDashboardComponent implements OnInit {
       }
       else
       {
-        this.token_amount = parseFloat(this.to_be_paid) / (this.rest._rates[2].conversion_multiplier - (this.rest._rates[2].conversion_multiplier*this.discount));
+        this.token_amount = this.to_be_paid / (this.rest._rates[2].conversion_multiplier - (this.rest._rates[2].conversion_multiplier*this.discount));
         this.lok_exchange_rate = this.rest._rates[2].conversion_multiplier;
         this.exchange_rate = this.rest._exchange_rate.BTC.USD;
         this.payment_currency.abbr = "BTC";
@@ -385,7 +412,6 @@ export class MemberDashboardComponent implements OnInit {
       }
 
       this.exchange_rate = this.exchange_rate * this.to_be_paid;
-      this.exchange_rate = this.exchange_rate.toFixed(2);
     }
     else if(type == 'dollarval')
     {
@@ -393,8 +419,9 @@ export class MemberDashboardComponent implements OnInit {
       {
         
         this.to_be_paid =  this.exchange_rate /this.rest._exchange_rate.ETH.USD;
-        this.token_amount = parseFloat(this.to_be_paid) / (this.rest._rates[1].conversion_multiplier - (this.rest._rates[1].conversion_multiplier*this.discount));
-        console.log(this.to_be_paid, this.token_amount)
+        this.token_amount = this.to_be_paid / (this.rest._rates[1].conversion_multiplier - (this.rest._rates[1].conversion_multiplier*this.discount));
+        this.lok_exchange_rate = this.rest._rates[1].conversion_multiplier;
+
         
         this.payment_currency.abbr = "ETH";
         this.payment_currency.name = "Ethereum";
@@ -403,7 +430,9 @@ export class MemberDashboardComponent implements OnInit {
       {
         
         this.to_be_paid =  this.exchange_rate /this.rest._exchange_rate.PHP;
-        this.token_amount = parseFloat(this.to_be_paid) / (this.rest._rates[0].conversion_multiplier - (this.rest._rates[0].conversion_multiplier*this.discount));
+        this.token_amount = this.to_be_paid / (this.rest._rates[0].conversion_multiplier - (this.rest._rates[0].conversion_multiplier*this.discount));
+        this.lok_exchange_rate = this.rest._rates[0].conversion_multiplier;
+
         this.payment_currency.abbr = "PHP";
         this.payment_currency.name = "Bank";
       }
@@ -411,19 +440,19 @@ export class MemberDashboardComponent implements OnInit {
       {
         
         this.to_be_paid =  this.exchange_rate /this.rest._exchange_rate.BTC.USD;
-        this.token_amount = parseFloat(this.to_be_paid) / (this.rest._rates[2].conversion_multiplier - (this.rest._rates[2].conversion_multiplier*this.discount));
+        this.token_amount = this.to_be_paid / (this.rest._rates[2].conversion_multiplier - (this.rest._rates[2].conversion_multiplier*this.discount));
+        this.lok_exchange_rate = this.rest._rates[2].conversion_multiplier;
+
         this.payment_currency.abbr = "BTC";
         this.payment_currency.name = "Bitcoin";
       }
 
-      // this.exchange_rate = this.exchange_rate * this.to_be_paid;
-      // this.exchange_rate = this.exchange_rate.toFixed(2);
     }
     else
     {
       if(this.payment_type == 2)
       {
-        this.to_be_paid = parseFloat(this.token_amount) * this.rest._rates[1].conversion_multiplier;
+        this.to_be_paid = this.token_amount * this.rest._rates[1].conversion_multiplier;
         this.lok_exchange_rate = this.rest._rates[1].conversion_multiplier;
         this.exchange_rate = this.rest._exchange_rate.ETH.USD;
         this.payment_currency.abbr = "ETH";
@@ -431,7 +460,7 @@ export class MemberDashboardComponent implements OnInit {
       }
       else if(this.payment_type == 1)
       {
-        this.to_be_paid = parseFloat(this.token_amount) * this.rest._rates[0].conversion_multiplier;
+        this.to_be_paid = this.token_amount * this.rest._rates[0].conversion_multiplier;
         this.lok_exchange_rate = this.rest._rates[0].conversion_multiplier;
         this.exchange_rate = this.rest._exchange_rate.PHP;
         this.payment_currency.abbr = "PHP";
@@ -439,32 +468,27 @@ export class MemberDashboardComponent implements OnInit {
       }
       else
       {
-        this.to_be_paid = parseFloat(this.token_amount) * this.rest._rates[2].conversion_multiplier;
+        this.to_be_paid = this.token_amount * this.rest._rates[2].conversion_multiplier;
         this.lok_exchange_rate = this.rest._rates[2].conversion_multiplier;
         this.exchange_rate = this.rest._exchange_rate.BTC.USD;
         this.payment_currency.abbr = "BTC";
         this.payment_currency.name = "Bitcoin";
       }
 
-      this.to_be_paid = parseFloat(this.to_be_paid);
+      this.to_be_paid = this.to_be_paid;
 
       this.discount = (this.rest._stages.sale_stage_discount/100)*this.to_be_paid;
 
       this.to_be_paid = this.to_be_paid - this.discount;
 
-      if(this.token_amount == 0 || this.token_amount == "" || this.token_amount == null)
-      {
-        this.to_be_paid = 0;
-      }
-      else
-      {
-        this.to_be_paid = this.to_be_paid.toFixed(8);
-      }
-
+      
       this.exchange_rate = this.exchange_rate * this.to_be_paid;
-      this.exchange_rate = this.exchange_rate.toFixed(2);
+
     }
-    
+
+    this.exchange_rate = this.exchange_rate ? this.roundNumber(this.exchange_rate, 8) : 0;
+    this.to_be_paid = this.to_be_paid ? this.roundNumber(this.to_be_paid, 8) : 0;
+    this.token_amount = this.token_amount ? this.roundNumber(this.token_amount, 8) : 0;
 
     this.getBuyBonus(this.rest._stages.sale_stage_id, this.token_amount); 
   }
@@ -526,7 +550,6 @@ export class MemberDashboardComponent implements OnInit {
       $("#days").html(days + "");
       $("#hours").html(hours + "");
       $("#minutes").html(minutes + "");
-      
       $("#seconds").html(seconds + "");
      
       // If the count down is finished, write some text 

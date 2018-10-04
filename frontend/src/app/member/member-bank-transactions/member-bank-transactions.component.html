@@ -111,12 +111,22 @@
           <!-- <td>{{ data.exchange_rate | number:'1.2-8' }}</td> -->
           <td>
             {{ data.amount_requested }} XS
-            <small class="d-block">({{ (data.amount_requested*data.exchange_rate) - (data.amount_requested * (data.exchange_rate*(data.sale_stage_discount/100))) | number:'1.2-8'  }} PHP)</small>
+            <small class="d-block">
+              <strong>
+              {{ ((data.amount_requested*data.exchange_rate) - (data.amount_requested * (data.exchange_rate*(data.sale_stage_discount/100))))*rest._exchange_rate.PHP | number:'1.2-3'  }} USD
+              </strong>
+              ({{ (data.amount_requested*data.exchange_rate) - (data.amount_requested * (data.exchange_rate*(data.sale_stage_discount/100))) | number:'1.2-8'  }} PHP)
+            </small>
           </td>
           <td *ngIf="data.log_status != 'accepted'">No data</td>
           <td *ngIf="data.log_status == 'accepted'">
             {{ data.log_amount | number:'1.2-8' }} XS
-            <small class="d-block">({{ data.amount_paid | number:'1.2-8'  }} PHP)</small>
+            <small class="d-block">
+              <strong>
+              {{ data.amount_paid*rest._exchange_rate.PHP | number:'1.2-3'  }} USD 
+              </strong>
+              ({{ data.amount_paid | number:'1.2-8'  }} PHP)
+            </small>
           </td>
           <td>
             <span class="badge badge-secondary px-2" *ngIf="data.log_status == 'pending'">
@@ -158,8 +168,12 @@
                   <a href="javascript:void" class="dropdown-item" (click)="viewTransactionDetails(data.automatic_cash_in_id, view_transaction_details,0,wallet_deposit)">Transaction Details</a>
                 </li>
                 <li role="menuitem">
+                  <a href="javascript:void" class="dropdown-item" *ngIf="data.log_status == 'pending'" (click)="openUpdatePayment(update_payment_modal, data.member_log_id)">Update Payment</a>
+                </li>
+                <li role="menuitem">
                   <a href="javascript:void" class="dropdown-item" *ngIf="data.log_status == 'pending'" (click)="cancelTransaction(data.member_log_id)">Cancel Transaction</a>
-                <!-- </li>
+                </li>
+                <!--
                 <li role="menuitem">
                   <a href="javascript:void" class="dropdown-item" *ngIf="data.log_status == 'pending'" (click)="viewTransactionDetails(data.automatic_cash_in_id, view_transaction_details,1,wallet_deposit)">View Deposit Address</a>
                 </li> -->
@@ -188,17 +202,30 @@
             <small class="font-weight-bold mb-5">Requested Token</small>  
             <h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_status == 'accepted' ? data_focus.log_amount + " AHM" : 'No data' }}</h4>
             <small class="font-weight-bold mb-5">Received Token</small>  
-            <h4 class="mb-0 font-weight-light mt-2">{{ (data_focus.amount_requested*data_focus.exchange_rate) - (data_focus.amount_requested * (data_focus.exchange_rate*(data_focus.sale_stage_discount/100))) | number:'1.2-8'  }} PHP</h4>
+            <h4 class="mb-0 font-weight-light mt-2">
+              <strong>
+                {{ ((data_focus.amount_requested*data_focus.exchange_rate) - (data_focus.amount_requested * (data_focus.exchange_rate*(data_focus.sale_stage_discount/100))))* rest._exchange_rate.PHP | number:'1.2-3'  }} USD
+              </strong>
+              ({{ (data_focus.amount_requested*data_focus.exchange_rate) - (data_focus.amount_requested * (data_focus.exchange_rate*(data_focus.sale_stage_discount/100))) | number:'1.2-8'  }} PHP)
+            </h4>
             <small class="font-weight-bold mb-5">Expected Payment</small>   
-            <h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_status == 'accepted' ? data_focus.amount_paid + " PHP" : 'No data' }}</h4>
+            <h4 class="mb-0 font-weight-light mt-2">
+              <span *ngIf="data_focus.log_status == 'accepted'">
+                <strong>{{data_focus.amount_paid * rest._exchange_rate.PHP | number:'1.2-3'}} USD</strong>
+                ({{data_focus.amount_paid | number:'1.2-8'}} PHP)
+              </span>
+              <span *ngIf="data_focus.log_status != 'accepted'">
+                No data
+              </span>
+            </h4>
             <small class="font-weight-bold mb-5">Amount Paid</small>
           </div>
           <div class="col-lg-6 col-xs-12">
-            <h4 class="mb-0 font-weight-light mt-2">{{ data_focus.exchange_rate | number:'1.2-8' }} (per token)</h4>
+            <h4 class="mb-0 font-weight-light mt-2">PHP {{ data_focus.exchange_rate | number:'1.2-8' }} per token</h4>
             <small class="font-weight-bold mb-5">Exchange Rate</small>  
             <h4 class="mb-0 font-weight-light mt-2">{{ data_focus.cash_in_method_name }}</h4>
             <small class="font-weight-bold mb-5">Bank Name</small>
-            <h4 class="mb-0 font-weight-light mt-2"><a href="{{ data_focus.cash_in_proof_img }}" target="_blank" class="nav-link m-0 p-0"><i class="fas fa-link mr-2"></i>View Image</a></h4>
+            <h4 class="mb-0 font-weight-light mt-2"><a *ngIf="data_focus.cash_in_proof_img" href="{{ data_focus.cash_in_proof_img }}" target="_blank" class="nav-link m-0 p-0"><i class="fas fa-link mr-2"></i>View Image</a> <span *ngIf="!data_focus.cash_in_proof_img">No data.</span></h4>
             <small class="font-weight-bold mb-5">Deposit Slip</small>
             <h4 class="mb-0 font-weight-light mt-2">{{ data_focus.cash_in_proof_tx ? data_focus.cash_in_proof_tx : 'No data.' }}</h4>
             <small class="font-weight-bold mb-5">Transaction Number</small>  
@@ -232,10 +259,10 @@
     </div>
   </ng-template>
   
-  <!-- <ng-template #wallet_deposit let-c="close" let-d="dismiss">
+  <ng-template #update_payment_modal let-c="close" let-d="dismiss">
     <div class="view_account_details">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Deposit Address</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Update Payment</h5>
         <button type="button" class="close" (click)="d('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -243,11 +270,43 @@
       <div class="modal-body text-left  color-lokal-x">
         <div class=" p-3 row ">
           <div class=" col-lg-12 col-xs-12 text-center">
-            <h3 class="mb-0 font-weight-light mt-2 wallet_address">{{ data_focus.wallet_address }}</h3>
-            <h5 class="font-weight-bold mb-5">Deposit Address</h5>
+            <div class="alert alert-danger p-2 text-center" *ngIf="error_message != 'no-message'">
+              <small>{{ error_message }}</small>
+            </div>
+            <h5 class="mb-1">Transaction Number (Optional)</h5>
+            <input type="text" class="form-control mb-3 text-center" placeholder="Enter your deposit transaction number" [(ngModel)]="tx_number">
+
+            <h5 class="mb-1">Deposit Slip</h5>
+            <small class="alert alert-warning alert-lokalize my-2 d-block" *ngIf="cash_in_proof">
+              <b class="text-dark">1 Attachment</b>
+              <a href="{{ cash_in_proof }}" target="_blank" class="p-1 ml-2 mr-1">
+                <i class="fas fa-eye"></i>  
+              </a> 
+              <a href="javascript:void" class="p-1" (click)="cash_in_proof = null; form_data = null">
+                <i class="fas fa-times"></i>  
+              </a> 
+            </small>
+            <small class="d-block my-2" *ngIf="image_uploading">
+              <i class="fas fa-spinner button-loader mr-2"></i> Uploading...
+            </small>
+            <button class="btn btn-dark btn-block mb-3" disabled="{{updating ? 'disabled' : ''}}" (click)="openUploadProof()" *ngIf="!image_uploading">
+              <small>
+                Upload Proof <i class="fas fa-cloud-upload-alt ml-2"></i>
+              </small>
+            </button>
+            <input type="file" style="display: none;" id="payment_proof" (change)="onFileChange($event)">
+            <hr class="my-2">
+            <button class="btn btn-dark btn-lg btn-block" disabled="{{updating ? 'disabled' : ''}}" (click)="updatePayment()" *ngIf="cash_in_proof">
+              <small *ngIf="updating">
+                <i class="fas fa-spinner button-loader"></i>
+              </small>
+              <small *ngIf="!updating">
+                <i class="fas fa-save ml-2"></i> Update Payment
+              </small>
+            </button>
           </div>
         </div>
       </div>
     </div>
-  </ng-template> -->
+  </ng-template>
   

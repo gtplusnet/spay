@@ -62,16 +62,13 @@ export class AdminBankTransactionsComponent implements OnInit {
 		this.bank_name = "all";
 		this.countPending();
 		this.loadTable();
-		this.get_bank_methods();
 	}
 
 	get_bank_methods()
 	{
 		this.fetching_methods = true;
-		this.http.post(this.rest.api_url + "/api/admin/get_bank_methods", 
-		{
-		login_token : this.rest.login_token
-		}).subscribe(response=>
+		this.http.post(this.rest.api_url + "/api/member/get_bank_methods", 
+		this._param).subscribe(response=>
 		{
 			this.bank_methods = response;
 			this.bank_new = {};
@@ -94,9 +91,9 @@ export class AdminBankTransactionsComponent implements OnInit {
 		this.http.post(this.table_url, this._param).subscribe(response =>
 		{
 			this.countPending();
+			this.get_bank_methods();
 			this._table = response;
 			this.table_loader = false;
-			console.log(this._table);
 		},
 			error=>
 			{

@@ -123,12 +123,24 @@
 				<!-- <td>{{ data.exchange_rate | number:'1.2-8' }}</td> -->
 				<td>
 					{{ data.amount_requested }} XS
-					<small class="d-block">({{ (data.amount_requested*data.exchange_rate) - (data.amount_requested * (data.exchange_rate*(data.sale_stage_discount/100))) | number:'1.2-8'  }} ETH)</small>
+					<small class="d-block">
+						<!-- ({{ (data.amount_requested*data.exchange_rate) - (data.amount_requested * (data.exchange_rate*(data.sale_stage_discount/100))) | number:'1.2-8'  }} BTC) -->
+
+						<strong>
+			              {{ ((data.amount_requested*data.exchange_rate) - (data.amount_requested * (data.exchange_rate*(data.sale_stage_discount/100))))*rest._exchange_rate.ETH.USD | number:'1.2-3'  }} USD
+			            </strong>
+			              ({{ (data.amount_requested*data.exchange_rate) - (data.amount_requested * (data.exchange_rate*(data.sale_stage_discount/100))) | number:'1.2-8'  }} ETH)
+					</small>
 				</td>
 				<td *ngIf="data.log_status != 'accepted'">No data</td>
 				<td *ngIf="data.log_status == 'accepted'">
 					{{ data.log_amount | number:'1.2-8' }} XS
-					<small class="d-block">({{ data.amount_paid | number:'1.2-8'  }} ETH)</small>
+					<small class="d-block">
+		              <strong>
+		              {{ data.amount_paid*rest._exchange_rate.ETH.USD | number:'1.2-3'  }} USD 
+		              </strong>
+		              ({{ data.amount_paid | number:'1.2-8'  }} ETH)
+		            </small>
 				</td>
 				<td>
 					<span class="badge badge-secondary px-2" *ngIf="data.log_status == 'pending'">
@@ -213,13 +225,28 @@
 					<small class="font-weight-bold mb-5">Requested Token</small>  
 					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_status == 'accepted' ? data_focus.log_amount + " AHM" : 'No data' }}</h4>
 					<small class="font-weight-bold mb-5">Received Token</small>  
-					<h4 class="mb-0 font-weight-light mt-2">{{ (data_focus.amount_requested*data_focus.exchange_rate) - (data_focus.amount_requested * (data_focus.exchange_rate*(data_focus.sale_stage_discount/100))) | number:'1.2-8'  }} ETH</h4>
+					<h4 class="mb-0 font-weight-light mt-2">
+						<!-- {{ (data_focus.amount_requested*data_focus.exchange_rate) - (data_focus.amount_requested * (data_focus.exchange_rate*(data_focus.sale_stage_discount/100))) | number:'1.2-8'  }} BTC -->
+						<strong>
+			                {{ ((data_focus.amount_requested*data_focus.exchange_rate) - (data_focus.amount_requested * (data_focus.exchange_rate*(data_focus.sale_stage_discount/100))))* rest._exchange_rate.ETH.USD | number:'1.2-3'  }} USD
+			              </strong>
+			              ({{ (data_focus.amount_requested*data_focus.exchange_rate) - (data_focus.amount_requested * (data_focus.exchange_rate*(data_focus.sale_stage_discount/100))) | number:'1.2-8'  }} ETH)
+					</h4>
 					<small class="font-weight-bold mb-5">Expected Payment</small>   
-					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_status == 'accepted' ? data_focus.amount_paid + " ETH" : 'No data' }}</h4>
+					<h4 class="mb-0 font-weight-light mt-2">
+						<!-- {{ data_focus.log_status == 'accepted' ? data_focus.amount_paid + " ETH" : 'No data' }} -->
+						<span *ngIf="data_focus.log_status == 'accepted'">
+			                <strong>{{data_focus.amount_paid * rest._exchange_rate.ETH.USD | number:'1.2-3'}} USD</strong>
+			                ({{data_focus.amount_paid | number:'1.2-8'}} ETH)
+			              </span>
+			              <span *ngIf="data_focus.log_status != 'accepted'">
+			                No data
+			              </span>
+					</h4>
 					<small class="font-weight-bold mb-5">Amount Paid</small>
 				</div>
 				<div class="col-lg-6 col-xs-12">
-					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.exchange_rate | number:'1.2-8' }} (per token)</h4>
+					<h4 class="mb-0 font-weight-light mt-2">ETH {{ data_focus.exchange_rate | number:'1.2-8' }} per token</h4>
 					<small class="font-weight-bold mb-5">Exchange Rate</small>  
 					<h4 class="mb-0 font-weight-light mt-2">
 						<span class="badge badge-secondary px-2" *ngIf="data_focus.log_status == 'pending'">

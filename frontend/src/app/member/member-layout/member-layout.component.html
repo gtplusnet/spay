@@ -16,7 +16,7 @@
             <i class="fa fa-bars"></i>
         </a>
 
-        <a class="navbar-brand" href="/member">
+        <a class="navbar-brand" href="{{ !rest.is_admin ? '/member' : '/admin'}}">
             <img src="/assets/ahm_assets/img/logo-home.png" width="156" height="30" alt="logo">
         </a>
 

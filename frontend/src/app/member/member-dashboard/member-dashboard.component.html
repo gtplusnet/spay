@@ -81,7 +81,7 @@
 			    <img class="mr-3 img-fluid mx-2" src="/assets/ahm_assets/img/splash-coin-middle.png" width="100" height="100" alt="45x45">
 			    <div class="media-body mx-2">
 
-<!-- 			      <small class="mt-0 mb-1 d-block font-weight-bold">1 AHM ~ {{rest._rates[2].conversion_multiplier}} BTC</small>
+<!-- 			  <small class="mt-0 mb-1 d-block font-weight-bold">1 AHM ~ {{rest._rates[2].conversion_multiplier}} BTC</small>
 			      <small class="mt-0 mb-1 d-block font-weight-bold">1 LOK ~ {{rest._rates[1].conversion_multiplier}} ETH</small>
 			      <small class="mt-0 mb-1 d-block font-weight-bold">DISCOUNT: {{rest._stages.sale_stage_discount}}%</small>
  -->
@@ -94,6 +94,7 @@
 			    </div>
 			  </div>
 			<small class="mt-0 mb-1 d-block my-1"><em>ACTUAL 1 AHM ~ {{rest._rates[2].conversion_multiplier}} BTC | {{rest._rates[1].conversion_multiplier}} ETH | {{rest._rates[0].conversion_multiplier}} PHP</em></small>
+			<small class="mt-0 mb-1 d-block my-1"><em>ACTUAL 1 USD ~ {{1/rest._exchange_rate.BTC.USD | number:'1.2-8'}} BTC | {{1/rest._exchange_rate.ETH.USD | number:'1.2-8'}} ETH | {{1/rest._exchange_rate.PHP | number:'1.2-2'}} PHP</em></small>
 			<button class="btn-primary p-2 w-100 my-1" (click)="buy_step_1(rest.member_id, buy_token)">BUY TOKEN</button>
 		</div>
 	</div>
@@ -299,7 +300,7 @@
 				<div class="row">
 					<div class="col-md-6 col-xs-12">
 						<h5 class="mb-1">Amount of Tokens</h5>
-        				<input type="number" min="1" class="form-control mb-3" placeholder="Min. {{rest._stages.sale_stage_min_purchase}}" [(ngModel)]="token_amount" (keyup)="compute_to_pay()" name="token_amount">
+        				<input type="number" min="1" class="form-control mb-3" placeholder="Min. {{rest._stages.sale_stage_min_purchase}}" [(ngModel)]="token_amount" (change)="compute_to_pay()" name="token_amount">
 					</div>
 					<div class="col-md-6 col-xs-12">
 						<h5 class="mb-1">Purchase Bonus</h5>
@@ -328,11 +329,11 @@
         		<div class="row">
 					<div class="col-md-6 col-xs-12">
         				<h5 class="mb-1">Payment Value</h5>
-        				<input type="text" [(ngModel)]="to_be_paid" (keyup)="compute_to_pay('paymentval')" name="to_be_paid" class="form-control mb-1" value="0">
+        				<input type="text" [(ngModel)]="to_be_paid" (change)="compute_to_pay('paymentval')" name="to_be_paid" class="form-control mb-1" value="0">
 					</div>
 					<div class="col-md-6 col-xs-12">
 						<h5 class="mb-1">US Dollar Value</h5>
-        				<input type="text" min="1" class="form-control mb-3" [(ngModel)]="exchange_rate" (keyup)="compute_to_pay('dollarval')" name="exchange_rate">
+        				<input type="text" min="1" class="form-control mb-3" [(ngModel)]="exchange_rate" (change)="compute_to_pay('dollarval')" name="exchange_rate">
 					</div>
 				</div>
 				<!-- <div class="row">
@@ -391,7 +392,7 @@
         		<h3 class="mb-3">{{ total_token }} LOK</h3> -->
 
         		<h5 class="mb-1">To be paid</h5>
-        		<h3 class="mb-3">{{ to_be_paid }} {{ payment_currency.abbr }}</h3>
+        		<h3 class="mb-3"><strong>{{ exchange_rate }} USD</strong> / {{ to_be_paid }} {{ payment_currency.abbr }} </h3>
 				<hr>
 				<div class="text-center">
 					<span class="d-block my-2 p-2 alert alert-danger text-light" *ngIf="err_msg != 'no-message'">

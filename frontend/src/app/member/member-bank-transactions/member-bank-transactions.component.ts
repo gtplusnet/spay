@@ -29,6 +29,16 @@ export class MemberBankTransactionsComponent implements OnInit {
   transaction_date_from   : any;
   data_table : any;
 
+  //update payment
+  bank_methods : any = null;
+  bank_info : any = {};
+  cash_in_method : any;
+  form_data         = null;
+  cash_in_proof : any;
+  tx_number : string;
+  image_uploading : any;
+  updating : boolean = false;
+  update_focus : any;
 
   constructor(public rest : MemberInfoService, private http : HttpClient, private modalService: NgbModal) { }
 
@@ -84,6 +94,48 @@ export class MemberBankTransactionsComponent implements OnInit {
       });
   }
 
+  openUpdatePayment(selector, t_id)
+  {
+    this.error_message = "no-message";
+    this.update_focus = this.rest.findObjectByKey(this._table, 'member_log_id', t_id);
+    this.cash_in_proof = null;
+    this.tx_number = null;
+    this.open(selector);
+  }
+
+  updatePayment()
+  {
+    this.error_message = "no-message";
+    this.updating = true;
+    if(this.cash_in_proof && this.tx_number)
+    {
+      this.http.post(this.rest.api_url + "/api/member/update_payment_proof",
+      {
+        login_token : this.rest.login_token,
+        id : this.update_focus.member_log_id,
+        img_proof : this.cash_in_proof,
+        tx_proof : this.tx_number
+      }).subscribe(response=>
+      {
+        if(response["status"] == 'success')
+        {
+          this.modal_ref.close();
+          this.loadTable();
+        }
+        else
+        {
+          this.error_message = response["status_message"];
+        }
+      })
+    }
+    else
+    {
+      this.error_message = "Proof Image/Transaction Number cannot be blank."
+      this.updating = false;
+    }
+    
+  }
+
   open(content)
   {
     this.modal_ref = this.modalService.open(content);
@@ -105,6 +157,43 @@ export class MemberBankTransactionsComponent implements OnInit {
     else
     {
       this.openLg(selectorDetails);
+    }
+  }
+
+  onFileChange(event)
+  {
+    this.image_uploading = true;
+    this.form_data = new FormData();
+
+    if(event.target.files.length > 0)
+    {
+      this.form_data.append('upload', event.target.files[0]);
+      this.form_data.append('folder', "cash_in_proof");
+      this.form_data.append('login_token', this.rest.login_token);
+
+      this.rest.uploadProofOnServer(this.form_data).subscribe(
+      response =>
+      {
+          this.cash_in_proof = response;
+          this.image_uploading = false;
+      },
+      error =>
+      {
+          this.image_uploading = false;
+      });
+    }
+    else
+    {
+      this.image_uploading = false;
+    }
+
+  }
+
+  openUploadProof()
+  {
+    if(!this.cash_in_proof)
+    {
+      $('#payment_proof').trigger('click')
     }
   }
 }
