@@ -178,10 +178,6 @@ export class AdminBankTransactionsComponent implements OnInit {
 			this.bank_focus = {};
 			this.bank_focus = this.rest.findObjectByKey(this.bank_methods, 'cash_in_method_id', id);
 		}
-		// else if(event == 'add')
-		// {
-
-		// }
 	}
 
 	addMethod()

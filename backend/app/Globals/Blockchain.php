@@ -284,11 +284,11 @@ class Blockchain
                 if($sale_stage_id)
                 {
                     $round = round($token_addition);
-                    $ss_bonus = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_from", "<=", $round)->where("buy_coin_bonus_to", ">=", $round)->first();
+                    $ss_bonus = Tbl_sale_stage_bonus::where("buy_coin_bonus_from", ">", 0)->where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_from", "<=", $round)->where("buy_coin_bonus_to", ">=", $round)->first();
                     
                     if(!$ss_bonus)
                     {
-                        $higher_amount = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_to", "<", $round)->orderBy("buy_coin_bonus_to", "desc")->first();
+                        $higher_amount = Tbl_sale_stage_bonus::where("buy_coin_bonus_from", ">", 0)->where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_to", "<", $round)->orderBy("buy_coin_bonus_to", "desc")->first();
 
                         if($higher_amount)
                         {
@@ -423,11 +423,11 @@ class Blockchain
             if($sale_stage_id)
             {
                 $round = round($token_addition);
-                $ss_bonus = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_from", "<=", $round)->where("buy_coin_bonus_to", ">=", $round)->first();
+                $ss_bonus = Tbl_sale_stage_bonus::where("buy_coin_bonus_from", ">", 0)->where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_from", "<=", $round)->where("buy_coin_bonus_to", ">=", $round)->first();
 
                 if(!$ss_bonus)
                 {
-                    $higher_amount = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_to", "<", $round)->orderBy("buy_coin_bonus_to", "desc")->first();
+                    $higher_amount = Tbl_sale_stage_bonus::where("buy_coin_bonus_from", ">", 0)->where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_to", "<", $round)->orderBy("buy_coin_bonus_to", "desc")->first();
 
                     if($higher_amount)
                     {
@@ -540,11 +540,11 @@ class Blockchain
                 if($sale_stage_id)
                 {
                     $round = round($token_addition);
-                    $ss_bonus = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_from", "<=", $round)->where("buy_coin_bonus_to", ">=", $round)->first();
+                    $ss_bonus = Tbl_sale_stage_bonus::where("buy_coin_bonus_from", ">", 0)->where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_from", "<=", $round)->where("buy_coin_bonus_to", ">=", $round)->first();
 
                     if(!$ss_bonus)
                     {
-                        $higher_amount = Tbl_sale_stage_bonus::where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_to", "<", $round)->orderBy("buy_coin_bonus_to", "desc")->first();
+                        $higher_amount = Tbl_sale_stage_bonus::where("buy_coin_bonus_from", ">", 0)->where("sale_stage_id", $sale_stage_id)->where("buy_coin_bonus_to", "<", $round)->orderBy("buy_coin_bonus_to", "desc")->first();
 
                         if($higher_amount)
                         {

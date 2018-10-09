@@ -161,9 +161,18 @@ class MemberApiController extends Controller
     {
         $date_now = date("Y-m-d", strtotime(Carbon::now('Asia/Manila')));
        
-        
         $_current_stage = Tbl_sale_stage::whereDate("sale_stage_start_date", "<=", $date_now)->whereDate("sale_stage_end_date", ">=", $date_now)->first();
-        $_current_stage_count = Tbl_sale_stage::whereDate("sale_stage_start_date", "<=", $date_now)->whereDate("sale_stage_end_date", ">=", $date_now)->count();
+
+        if($_current_stage)
+        {
+            $_current_stage_count = Tbl_sale_stage::whereDate("sale_stage_start_date", "<=", $date_now)->whereDate("sale_stage_end_date", ">=", $date_now)->count();
+        }
+        else
+        {
+            $_current_stage = Tbl_sale_stage::where("sale_stage_type", "no_sale_stage")->first();
+            $_current_stage_count = Tbl_sale_stage::where("sale_stage_type", "no_sale_stage")->first();
+        }
+        
         $bonus = Tbl_sale_stage_bonus::where("sale_stage_id", $_current_stage_count != 0 ? $_current_stage->sale_stage_id : 1)->get();
         $_current_stage["bonus"] = $bonus;
 
@@ -172,7 +181,7 @@ class MemberApiController extends Controller
 
     public function get_buy_bonus(Request $request)
     {
-        $buy_bonus = Tbl_sale_stage_bonus::where("sale_stage_id", $request->sale_stage_id)->where("buy_coin_bonus_from", "<=", $request->token_amount)->where("buy_coin_bonus_to", ">=", $request->token_amount)->first();
+        $buy_bonus = Tbl_sale_stage_bonus::where("buy_coin_bonus_from", ">", 0)->where("sale_stage_id", $request->sale_stage_id)->where("buy_coin_bonus_from", "<=", $request->token_amount)->where("buy_coin_bonus_to", ">=", $request->token_amount)->first();
         // dd($buy_bonus);
         if($buy_bonus)
         {
@@ -181,7 +190,7 @@ class MemberApiController extends Controller
         }
         else
         {
-            $buy_bonus = Tbl_sale_stage_bonus::where("sale_stage_id", $request->sale_stage_id)->where("buy_coin_bonus_to", "<=", $request->token_amount)->orderBy("buy_coin_bonus_to", "desc")->first();
+            $buy_bonus = Tbl_sale_stage_bonus::where("buy_coin_bonus_from", ">", 0)->where("sale_stage_id", $request->sale_stage_id)->where("buy_coin_bonus_to", "<=", $request->token_amount)->orderBy("buy_coin_bonus_to", "desc")->first();
             if($buy_bonus)
             {
                 $return["percentage"] = $buy_bonus->buy_coin_bonus_percentage;
@@ -326,7 +335,6 @@ class MemberApiController extends Controller
 
             $return["type"] = "success";
             $return["message"] = "Successfully placed an order.";
-
         }
         else
         {
@@ -861,7 +869,6 @@ class MemberApiController extends Controller
                 }
             }
         }
-
         return json_encode($level);
     }
 
@@ -870,11 +877,9 @@ class MemberApiController extends Controller
         $data = Member_log::manualTransferList($request->all(),$request->id);
         return $data;
     }
+
     public function check_notifications(Request $request)
     {
-        // $referral_id = Tbl_referral::where("referral_user_id", $request->user_id)->first();
-        // $data["new_referrals"] = Tbl_other_info::where("referrer_id", $referral_id->referral_id)->where("is_viewed", 0)->count();
-
         $btc_transactions = Tbl_member_address::where("member_id", $request->user_id)->where("coin_id", 3)->join("tbl_member_log", "tbl_member_log.member_address_id", "=", "tbl_member_address.member_address_id")->where("log_method", "Bitcoin Accepted")->where("is_viewed", 0)->count();
         $data["new_btc_approve"] = $btc_transactions;
 
@@ -883,9 +888,6 @@ class MemberApiController extends Controller
 
         $bank_transactions = Tbl_member_address::where("member_id", $request->user_id)->where("coin_id", 1)->join("tbl_member_log", "tbl_member_log.member_address_id", "=", "tbl_member_address.member_address_id")->where("log_method", "Bank Accepted")->where("is_viewed", 0)->count();
         $data["new_bank_approve"] = $bank_transactions;
-
-        // $referral_bonus = Tbl_member_address::where("member_id", $request->user_id)->where("coin_id", 4)->join("tbl_member_log", "tbl_member_log.member_address_id", "=", "tbl_member_address.member_address_id")->where("log_mode", "referral bonus")->where("is_viewed", 0)->count();
-        // $data["new_referral_bonus"] = $referral_bonus;
 
         return json_encode($data);
     }
@@ -919,22 +921,6 @@ class MemberApiController extends Controller
             }
             $return["message"] = "bank notifications reset";
         }
-
-        // if($request->notif_type == "new_referral_bonus")
-        // {
-        //     $btc_transactions = Tbl_member_address::where("member_id", $request->user_id)->where("coin_id", 4)->join("tbl_member_log", "tbl_member_log.member_address_id", "=", "tbl_member_address.member_address_id")->where("log_mode", "referral bonus")->where("is_viewed", 0)->get();
-        //     foreach ($btc_transactions as $key => $value) 
-        //     {
-        //         $data = Tbl_member_log::where("member_log_id", $value->member_log_id)->where("is_viewed", 0)->update(["is_viewed" => 1]);
-        //     }
-        //     $return["message"] = "new referral bonus notifications reset";
-        // }
-        // else
-        // {
-        //     $referral_id = Tbl_referral::where("referral_user_id", $request->user_id)->first();
-        //     $refer = Tbl_other_info::where("referrer_id", $referral_id->referral_id)->where("is_viewed", 0)->update(["is_viewed" => 1]);
-        //     $return["message"] = "new referrals notifications reset";
-        // }
 
         return json_encode($return);
     }
@@ -985,9 +971,7 @@ class MemberApiController extends Controller
                 $return["message"]  = "Oops something went wrong. Please check your entries and try again.";
                 $return["status"]   = "fail";
             }
-
         }
-
         return json_encode($return);
     }
 
@@ -1048,7 +1032,6 @@ class MemberApiController extends Controller
                     $update_user["verified_mail"]   = 1;
                     Tbl_email_verification::where('verification_code', $email_data->verification_code)->update($update_email_verification);
                     Tbl_User::where('email', $email_data->verification_email)->update($update_user);
-                    
                 }
             }
             else
@@ -1107,5 +1090,26 @@ class MemberApiController extends Controller
             $url = Storage::disk('s3')->url($full_path);
             return json_encode($url);
         }
+    }
+
+    public function update_payment_proof(Request $request)
+    {
+        $update["cash_in_proof_img"]    = $request->img_proof;
+        $update["cash_in_proof_tx"]     = $request->tx_proof;
+        $update["log_status"]           = "processing";
+        $data = Tbl_member_log::where("member_log_id", $request->id)->update($update);
+
+        if($data)
+        {
+            $return["status"]           = "success";
+            $return["status_message"]   = "Successfully Updated";
+        }
+        else
+        {
+            $return["status"]           = "error";
+            $return["status_message"]   = "Something went wrong. Please try again";
+        }
+
+        return json_encode($return);
     }
 }

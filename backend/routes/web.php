@@ -79,6 +79,7 @@ Route::post('/api/member/get_buy_bonus', 'Member\MemberApiController@get_buy_bon
 Route::post('/api/member/get_bank_methods', 'Member\MemberApiController@get_bank_methods');
 Route::post('/api/member/upload', 'Member\MemberApiController@upload');
 Route::post('/api/member/get_php_transaction', 'Member\MemberApiController@get_php_transaction');
+Route::post('/api/member/update_payment_proof', 'Member\MemberApiController@update_payment_proof');
 
 //kyc member
 Route::post('/api/member/upload_file', 'Member\MemberApiController@upload_file');
@@ -161,6 +162,7 @@ Route::post('/api/admin/add_new_file','Admin\AdminApiController@add_new_file');
 Route::post('/api/admin/setup_wallet_address','Admin\AdminApiController@setup_wallet_address');
 Route::post('/api/admin/get_estimated_tx','Admin\AdminApiController@get_estimated_tx');
 Route::post('/api/admin/get_total_crypto','Admin\AdminApiController@get_total_crypto');
+Route::post('/api/admin/get_all_processing','Admin\AdminApiController@get_all_processing');
 
 //member referral API
 Route::post('/api/member/get_referrals','Member\MemberApiController@get_referrals');
