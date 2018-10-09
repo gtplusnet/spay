@@ -3,7 +3,7 @@
 	<div class="container">
 		<div class="login-form-holder d-flex flex-column align-items-center justify-content-center">
 			<div class="logo-holder">
-				<img src="/assets/spay_assets/img/login_logo.png" width="150">
+				<img style="width: 100%;" src="/assets/spay_assets/img/login_logo.png" width="150">
 			</div>
 			<h2 class="mob-label d-none">Account Login</h2>
 			<div class="responsive-width py-3">
@@ -33,10 +33,10 @@
 						</div>
 						<button class="mt-2 spay-login-button" type="submit" disabled="{{submitted ? 'disabled' : ''}}">Login</button>
 						<button class=" my-2 spay-register-button" [routerLink]="['/register']" disabled="{{submitted ? 'disabled' : ''}}">Sign Up</button>
-						<div class="or"> OR </div>
+						<!-- <div class="or"> OR </div>
 						<button class="btn-lokal-sm facebook-btn my-2" (click)="socialSignIn('facebook')" disabled="{{submitted ? 'disabled' : ''}}"><i class="fab fa-facebook mr-1"></i>Login with Facebook</button>
 						<button class="btn-lokal-sm google-btn mb-2" (click)="socialSignIn('google')" disabled="{{submitted ? 'disabled' : ''}}"><i class="fab fa-google mr-1"></i>Login with Google</button>
-						<div class="content-text text-center pt-1"><a class="text-link-1 lokal-text" [routerLink]="['/forgot-password']">Forgot Password?</a></div>
+						<div class="content-text text-center pt-1"><a class="text-link-1 lokal-text" [routerLink]="['/forgot-password']">Forgot Password?</a></div> -->
 					</div>
 				</form>
 				<div class="content-text text-center pt-4"><a [routerLink]="['']" class="text-link-2">« Back to Homepage</a></div>
