@@ -715,6 +715,7 @@ class Blockchain
 
         $gasprice = 21000000000;
         $amt = $amt - $gasprice;
+        $amt = (int)$amt;
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
