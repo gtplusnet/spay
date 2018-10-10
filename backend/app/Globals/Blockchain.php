@@ -741,20 +741,16 @@ class Blockchain
         if ($err) {
            $return["message"] = "cURL Error #:" . $err;
         } else {
+
             $json_feed = json_decode($response);
             
-            
-            if($json_feed)
-            {
-                $funds = Tbl_member_address::where("member_address", $sender)->first();
-                $pvkey = Crypt::decryptString($funds->address_api_password);
-                $sign_transaction = Self::eth_sign_transaction($json_feed, $pvkey);
-            }
+            $funds = Tbl_member_address::where("member_address", $sender)->first();
+            $pvkey = Crypt::decryptString($funds->address_api_password);
+            $sign_transaction = Self::eth_sign_transaction($json_feed, $pvkey);
 
-            $return["message"] = "success";
         }
 
-        return $return;
+        return $sign_transaction;
 
         // $post["inputs"]["addresses"]             = [substr($sender, 2)];
         // $post["outputs"]["addresses"]            = [substr($receiver, 2)];
