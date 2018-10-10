@@ -13,7 +13,8 @@
         "laravel/tinker": "~1.0",
         "league/flysystem-aws-s3-v3": "^1.0",
         "maatwebsite/excel": "~2.1.0",
-        "pragmarx/google2fa": "^3.0"
+        "pragmarx/google2fa": "^3.0",
+        "laravelcollective/remote": "~5.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
