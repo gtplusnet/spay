@@ -747,6 +747,7 @@ class Blockchain
             
             $funds = Tbl_member_address::where("member_address", $sender)->first();
             $pvkey = Crypt::decryptString($funds->address_api_password);
+            dd($json_feed, $pvkey, $response, $curl, $amt, $url, $api_code, $sender, $receiver, $amt);
             $sign_transaction = Self::eth_sign_transaction($json_feed, $pvkey);
 
         }
