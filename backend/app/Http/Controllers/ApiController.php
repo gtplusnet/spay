@@ -1152,8 +1152,8 @@ class ApiController extends Controller
 
     public function decrypt_passwords()
     {
-        dd(Hash::make('water123'));
-        $string = "eyJpdiI6IlNXVEZGdUJjODBzd3NMdFA4MVRmUFE9PSIsInZhbHVlIjoiTEE3ZDNXWFBkd2FReUJMYnNtN0ZiQT09IiwibWFjIjoiYTU4MGFhZTRkMjYyNDQ0MjNkZjdjOTE5YjNjMzI1NjZmM2I1YmM4NzEyNmQ1ZTQzMWEzODAyMGJhZjcxOTA5MCJ9";
+        // dd(Hash::make('water123'));
+        $string = "eyJpdiI6InpwVlJscWZIUzJTM1A0NjlPOUJDM3c9PSIsInZhbHVlIjoicEc3cWd4R1J3U0FtNlRvMFhQUWZTUytsTjk4WWYrOGxSQ0ZSRlRwaGQ5NktmaXFmSkFUbzlwd0lRZU5IeDE2a1FIbnBKRHIzdlMzYnNcL0pWOFZLaGVYV0FYcVNkT3pjYjFEK1BZRmRzTmkwPSIsIm1hYyI6ImQ3MWMwM2U3OTE4Zjk2MjYwYjY1ODY5OTZhYWM3MmE5Y2MxOWRkNWJjZmM0YTU5M2QxMzJkZjcyZTQ4NzU5NzYifQ==";
         $data = Crypt::decryptString($string);
         dd($data);
         $__btc = [];
