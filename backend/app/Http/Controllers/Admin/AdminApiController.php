@@ -924,8 +924,17 @@ class AdminApiController extends Controller
     {
         $coin = $request->wallet == "BTC" ? 3 : 2;
         $list = Tbl_member_address::where("member_address_id", $request->member_address_id)->first();
-        $release_amt = $list->address_actual_balance * 100000000;
-        $data = Blockchain::sendActualBTCWalletToCentralWallet($list->member_address_id, $release_amt, $request->wallet_receiver, $request->usd);
+
+        if($request->wallet == "BTC")
+        {
+            $release_amt = $list->address_actual_balance * 100000000;
+            $data = Blockchain::sendActualBTCWalletToCentralWallet($list->member_address_id, $release_amt, $request->wallet_receiver, $request->usd);
+        }
+        else
+        {
+            $release_amt = $list->address_actual_balance * 1000000000000000000;
+            $data = Blockchain::sendActualETHWalletToCentralWallet($list->member_address_id, $release_amt, $request->wallet_receiver, $request->usd);
+        }
 
         return $data;
     }
@@ -980,4 +989,6 @@ class AdminApiController extends Controller
         
         return json_encode($return);
     }
+
+
 }

@@ -246,7 +246,7 @@
 			</div>
 			<h5 class="mb-1">Select Wallet Receiver</h5>
 			<select class="form-control mb-2" [(ngModel)]="wallet_receiver">
-				<option *ngFor="let data of view_central_wallet" disabled="{{data.mwallet_type == 'BTC' ? '' : 'disabled'}}" value="{{data.mwallet_id}}">
+				<option *ngFor="let data of view_central_wallet" value="{{data.mwallet_id}}">
 					{{ data.mwallet_owner }} ({{ data.mwallet_address }})
 				</option>
 			</select>

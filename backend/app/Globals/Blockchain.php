@@ -17,7 +17,7 @@ use App\Tbl_position_requirements;
 use App\Globals\Wallet;
 use App\Globals\Member_log;
 use Illuminate\Support\Facades\Crypt;
-
+use SSH;
 class Blockchain
 {
     public static function generate_blockchain_bitcoin_address($passkey)
@@ -690,6 +690,150 @@ class Blockchain
 
         // dd($amt, $rate, $original, $total);
         return $rate/100000000;
+    }
+
+    public static function sendActualETHWalletToCentralWallet($member_address_id, $amount, $receiver = null, $usd = null)
+    {
+        $eth_wallet = Tbl_member_address::where("member_address_id", $member_address_id)->first();
+        $actual_balance       = @(Self::get_blockchain_ethereum_balance($eth_wallet->member_address)/1000000000000000000);
+        if ($actual_balance >= 0) 
+        {  
+            $mwallet = Tbl_main_wallet_addresses::where("mwallet_id", $receiver)->first();
+            if($mwallet)
+            {
+                $response = Self::eth_create_transaction($eth_wallet->member_address, $mwallet->mwallet_address, $amount);
+                return $response;
+            }
+        }
+    }
+
+    public static function eth_create_transaction($sender, $receiver, $amt)
+    {
+        $api_code = "7e7ea4a09e96460b8b20c915a48bcfb6";
+
+        $url = "https://api.blockcypher.com/v1/eth/main/txs/new?token=".$api_code;
+
+        $gasprice = 21000000000;
+        $amt = $amt - $gasprice;
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => $url,
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => "",
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 30,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => "POST",
+          CURLOPT_POSTFIELDS => "{\n\t\"inputs\":\n\t\t[{\n\t\t\t\"addresses\": [\"".$sender."\"]\n\t\t}],\n\t\"outputs\":\n\t\t[{\n\t\t\t\"addresses\": [\"".$receiver."\"], \n\t\t\t\"value\": ".$amt."\n\t\t}]\n\t\n}",
+          CURLOPT_HTTPHEADER => array(
+            "Cache-Control: no-cache",
+            "Content-Type: application/json",
+            "Postman-Token: 12ec0fb8-a763-4fe6-be80-461db63636cf"
+          ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+           $return["message"] = "cURL Error #:" . $err;
+        } else {
+            $json_feed = json_decode($response);
+            
+            
+            if($json_feed)
+            {
+                $funds = Tbl_member_address::where("member_address", $sender)->first();
+                $pvkey = Crypt::decryptString($funds->address_api_password);
+                $sign_transaction = Self::eth_sign_transaction($json_feed, $pvkey);
+            }
+
+            $return["message"] = "success";
+        }
+
+        return $return;
+
+        // $post["inputs"]["addresses"]             = [substr($sender, 2)];
+        // $post["outputs"]["addresses"]            = [substr($receiver, 2)];
+        // $post["value"]                           = ;
+
+        // // $post["inputs"]             = 
+        // // {
+        // //     "addresses" : [substr($sender, 2)]
+        // // };
+        // // $post["outputs"]            = 
+        // // {
+        // //     "addresses" : [substr($receiver, 2)]
+        // // };
+        // // $post["value"]                           = $amt;
+        // $myvars = http_build_query($post);
+        // // $myvars = json_encode($myvars);
+
+        // $ch = curl_init( $url );
+
+        // curl_setopt( $ch, CURLOPT_POST, 1);
+        // curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
+        // curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
+        // curl_setopt( $ch, CURLOPT_HEADER, 0);
+        // curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
+
+        // $response = curl_exec($ch);
+        
+        // $json_feed = json_decode($response);
+
+        // dd($post, $ch, $myvars, $response, $json_feed,$sender, $receiver, $amt);
+    }
+
+    public static function eth_sign_transaction($data, $pk)
+    {
+        $signer = "./signer ".$data->tosign[0]." ".$pk;
+        $commands = ["cd btcutils/signer", $signer];
+        
+        $_data["tx"]         = $data->tx;
+        $_data["tosign"]     = [$data->tosign[0]];
+
+        SSH::into('production')->run($commands, function($line) use ($_data)
+        {
+            $line = str_replace("\n", "", $line);
+            $_data["signatures"] = [$line];
+            $send_transaction = Self::eth_send_transaction($_data);
+        });
+
+
+    }
+
+    public static function eth_send_transaction($params)
+    {
+        $api_code = "7e7ea4a09e96460b8b20c915a48bcfb6";
+
+        $url = "https://api.blockcypher.com/v1/eth/main/txs/send?token=".$api_code;
+
+        $post["tx"]             = $params["tx"];
+        $post["tosign"]         = $params["tosign"];
+        $post["signatures"]     = $params["signatures"];
+
+        $myvars = http_build_query($post);
+        $ch = curl_init( $url );
+
+        curl_setopt( $ch, CURLOPT_POST, 1);
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
+        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt( $ch, CURLOPT_HEADER, 0);
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $response = curl_exec($ch);
+        
+        $json_feed = json_decode($response);
+        
+
+        if($json_feed)
+        {
+            $return = "success";
+            return $return;
+        }
     }
 
 }

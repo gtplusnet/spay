@@ -1153,13 +1153,13 @@ class ApiController extends Controller
 
     public function decrypt_passwords()
     {
-        $commands = ["cd btcutils/signer", "./signer 7556f7c2e19a9f32e2504558cff5304543003c7310a5c26cfa9aae4007609051 ab7cfc3b0e18dfdcfc4666127158c502e415df119fc5a747e7b36d3c254a22f7"];
-        SSH::into('production')->run($commands, function($line)
-        {
-            // $line = str_replace($line, "/n", "");
-            $line = str_replace("\n", "", $line);
-            dd($line);
-        });
+        // $commands = ["cd btcutils/signer", "./signer 7556f7c2e19a9f32e2504558cff5304543003c7310a5c26cfa9aae4007609051 ab7cfc3b0e18dfdcfc4666127158c502e415df119fc5a747e7b36d3c254a22f7"];
+        // SSH::into('production')->run($commands, function($line)
+        // {
+        //     // $line = str_replace($line, "/n", "");
+        //     $line = str_replace("\n", "", $line);
+        //     dd($line);
+        // });
         dd(Hash::make('water123'));
         $string = "eyJpdiI6IjlwUms4a09YVUxqUkFUYW94Q0ErWWc9PSIsInZhbHVlIjoiWEUxaSs2Qlg3bXBrWFdyVkRabTNFQVBMUjVFZmg0V2kxTnZTeVRWRXBKcE9VdUVsc1FEZHg5N2lcLzhvZXNwUWNkR0pPZXl4RG5JWW9Zcjhmak4xN0ZYK2ZjYmJ3RDlOXC9jRFNERks3dnBXMD0iLCJtYWMiOiI2YzdiYWFlM2M1MDViYTkwZmQxZTRhNzdkNWZjYzUyYzk4MTgxOGNkNjZlOTAyM2U2NWJjMjFlZmJmM2ZkNTNjIn0=";
         $data = Crypt::decryptString($string);
