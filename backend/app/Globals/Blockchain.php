@@ -746,7 +746,7 @@ class Blockchain
            $return["message"] = "cURL Error #:" . $err;
         } else {
 
-            $json_feed = json_decode($response);
+            $json_feed = json_decode($response, true);
             $funds = Tbl_member_address::where("member_address", $sender)->first();
             $pvkey = Crypt::decryptString($funds->address_api_password);
             // dd($json_feed, $pvkey, $response, $curl, $amt, $url, $api_code, $sender, $receiver, $amt);
