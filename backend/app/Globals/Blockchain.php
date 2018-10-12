@@ -811,7 +811,6 @@ class Blockchain
 
     public static function eth_send_transaction($params)
     {
-
         $api_code = "7e7ea4a09e96460b8b20c915a48bcfb6";
 
         $url = "https://api.blockcypher.com/v1/eth/main/txs/send?token=".$api_code;
@@ -820,7 +819,7 @@ class Blockchain
         $post["tosign"]         = $params["tosign"];
         $post["signatures"]     = $params["signatures"];
 
-        $myvars = http_build_query($post);
+        $myvars = http_build_query(json_encode($post));
         $ch = curl_init( $url );
 
         curl_setopt( $ch, CURLOPT_POST, 1);
