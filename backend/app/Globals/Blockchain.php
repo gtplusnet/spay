@@ -807,6 +807,7 @@ class Blockchain
 
     public static function eth_send_transaction($params)
     {
+        $params = json_encode($params);
         $api_code = "7e7ea4a09e96460b8b20c915a48bcfb6";
 
         $url = "https://api.blockcypher.com/v1/eth/main/txs/send?token=".$api_code;
@@ -831,13 +832,13 @@ class Blockchain
 
         if($json_feed)
         {
-            dd($json_feed, $params, json_encode($params), 123);
+            dd($json_feed, $params, 123);
             $return = "success";
             return $return;
         }
         else
         {
-            dd($response, $params, json_encode($params), 123);
+            dd($response, $params, 123);
 
         }
     }
