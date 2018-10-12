@@ -811,7 +811,7 @@ class Blockchain
 
     public static function eth_send_transaction($params)
     {
-        dd($params, $params["tx"]);
+        dd($params, $params["tx"], $params["tx"]->addresses[0]);
         $api_code = "7e7ea4a09e96460b8b20c915a48bcfb6";
 
         $url = "https://api.blockcypher.com/v1/eth/main/txs/send?token=".$api_code;
