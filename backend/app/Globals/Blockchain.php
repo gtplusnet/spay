@@ -801,7 +801,8 @@ class Blockchain
             $_data["signatures"] = [$line];
             if($line)
             {
-                $send_transaction = Self::eth_send_transaction($_data);
+
+                $send_transaction = Self::eth_send_transaction(json_encode($_data));
             }
         });
 
