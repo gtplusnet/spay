@@ -713,8 +713,11 @@ class Blockchain
 
         $url = "https://api.blockcypher.com/v1/eth/main/txs/new?token=".$api_code;
 
-        $gasprice = 21000000000;
-        $amt = $amt - $gasprice;
+        //fee calculation
+        $gaslimit = 21000;
+        $tx_fee = ($gaslimit * (5/$gaslimit))*1000000000000000000;
+
+        $amt = $amt-$tx_fee;
         $amt = (int)$amt;
         $curl = curl_init();
 
@@ -744,7 +747,6 @@ class Blockchain
         } else {
 
             $json_feed = json_decode($response);
-            
             $funds = Tbl_member_address::where("member_address", $sender)->first();
             $pvkey = Crypt::decryptString($funds->address_api_password);
             // dd($json_feed, $pvkey, $response, $curl, $amt, $url, $api_code, $sender, $receiver, $amt);
@@ -797,7 +799,11 @@ class Blockchain
         {
             $line = str_replace("\n", "", $line);
             $_data["signatures"] = [$line];
-            $send_transaction = Self::eth_send_transaction($_data);
+            if($line)
+            {
+
+                $send_transaction = Self::eth_send_transaction($_data);
+            }
         });
 
 
@@ -813,7 +819,7 @@ class Blockchain
         $post["tosign"]         = $params["tosign"];
         $post["signatures"]     = $params["signatures"];
 
-        $myvars = http_build_query($post);
+        $myvars = json_encode($post);
         $ch = curl_init( $url );
 
         curl_setopt( $ch, CURLOPT_POST, 1);
@@ -825,11 +831,11 @@ class Blockchain
         $response = curl_exec($ch);
         
         $json_feed = json_decode($response);
-        
 
         if($json_feed)
         {
-            $return = "success";
+            $return["message"] = "success";
+            $return["data"] = Self::get_blockchain_ethereum_balance($params["tx"]["addresses"][0]);
             return $return;
         }
     }
