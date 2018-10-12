@@ -799,7 +799,6 @@ class Blockchain
         {
             $line = str_replace("\n", "", $line);
             $_data["signatures"] = [$line];
-            dd($_data, $line);
             $send_transaction = Self::eth_send_transaction($_data);
         });
 
@@ -834,6 +833,10 @@ class Blockchain
         {
             $return = "success";
             return $return;
+        }
+        else
+        {
+            dd($response);
         }
     }
 
