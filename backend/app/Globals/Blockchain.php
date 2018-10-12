@@ -791,7 +791,7 @@ class Blockchain
     {
         $signer = "./signer ".$data->tosign[0]." ".$pk;
         $commands = ["cd btcutils/signer", $signer];
-        dd($signer, $commands, $data, $pk);
+        
         $_data["tx"]         = $data->tx;
         $_data["tosign"]     = [$data->tosign[0]];
 
@@ -799,6 +799,7 @@ class Blockchain
         {
             $line = str_replace("\n", "", $line);
             $_data["signatures"] = [$line];
+            dd($_data, $line);
             $send_transaction = Self::eth_send_transaction($_data);
         });
 
