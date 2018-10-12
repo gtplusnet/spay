@@ -746,7 +746,7 @@ class Blockchain
            $return["message"] = "cURL Error #:" . $err;
         } else {
 
-            $json_feed = json_decode($response, true);
+            $json_feed = json_decode($response);
             $funds = Tbl_member_address::where("member_address", $sender)->first();
             $pvkey = Crypt::decryptString($funds->address_api_password);
             // dd($json_feed, $pvkey, $response, $curl, $amt, $url, $api_code, $sender, $receiver, $amt);
@@ -811,8 +811,7 @@ class Blockchain
 
     public static function eth_send_transaction($params)
     {
-        $params = json_encode($params);
-        $params = json_decode($params);
+        
         $api_code = "7e7ea4a09e96460b8b20c915a48bcfb6";
 
         $url = "https://api.blockcypher.com/v1/eth/main/txs/send?token=".$api_code;
