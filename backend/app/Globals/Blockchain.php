@@ -740,7 +740,6 @@ class Blockchain
         $response = curl_exec($curl);
         $err = curl_error($curl);
 
-        dd($response);
         curl_close($curl);
 
         if ($err) {
@@ -792,7 +791,7 @@ class Blockchain
     {
         $signer = "./signer ".$data->tosign[0]." ".$pk;
         $commands = ["cd btcutils/signer", $signer];
-        
+        dd($signer, $commands, $data, $pk);
         $_data["tx"]         = $data->tx;
         $_data["tosign"]     = [$data->tosign[0]];
 
