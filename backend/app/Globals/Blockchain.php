@@ -836,7 +836,12 @@ class Blockchain
         if($json_feed)
         {
             $return["message"] = "success";
-            $return["data"] = Self::get_blockchain_ethereum_balance($params["tx"]->addresses[0]);
+            $balance = Self::get_blockchain_ethereum_balance($params["tx"]->addresses[0]);
+            if($balance->balance <= 0)
+            {
+                $update["address_actual_balance"] = 0;
+                Tbl_member_address::where("member_address", $params["tx"]->addresses[0])->update($update);
+            }
             return $return;
         }
     }
