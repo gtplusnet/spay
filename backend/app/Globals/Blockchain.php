@@ -789,11 +789,11 @@ class Blockchain
 
     public static function eth_sign_transaction($data, $pk)
     {
-        $signer = "./signer ".$data->tosign[0]." ".$pk;
+        $signer = "./signer ".$data["tosign"][0]." ".$pk;
         $commands = ["cd btcutils/signer", $signer];
         
-        $_data["tx"]         = $data->tx;
-        $_data["tosign"]     = [$data->tosign[0]];
+        $_data["tx"]         = $data["tx"];
+        $_data["tosign"]     = [$data["tosign"][0]];
 
         SSH::into('production')->run($commands, function($line) use ($_data)
         {
