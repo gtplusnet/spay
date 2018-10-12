@@ -799,7 +799,7 @@ class Blockchain
         {
             $line = str_replace("\n", "", $line);
             $_data["signatures"] = [$line];
-            $send_transaction = Self::eth_send_transaction(json_encode($_data));
+            $send_transaction = Self::eth_send_transaction($_data);
         });
 
 
@@ -807,7 +807,7 @@ class Blockchain
 
     public static function eth_send_transaction($params)
     {
-        dd($params);
+        dd($params, json_encode($params));
         $api_code = "7e7ea4a09e96460b8b20c915a48bcfb6";
 
         $url = "https://api.blockcypher.com/v1/eth/main/txs/send?token=".$api_code;
