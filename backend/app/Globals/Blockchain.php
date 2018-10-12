@@ -836,7 +836,7 @@ class Blockchain
         }
         else
         {
-            dd($response);
+            dd($response, $params);
         }
     }
 
