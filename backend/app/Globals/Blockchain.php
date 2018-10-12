@@ -830,7 +830,7 @@ class Blockchain
         $response = curl_exec($ch);
         
         $json_feed = json_decode($response);
-        dd($json_feed, $response, $ch, $myvars, $post, $url, $api_code, $params);
+        dd($json_feed, $response, $ch, $myvars, $post, $url, $api_code, $params, json_encode($params));
 
         if($json_feed)
         {
