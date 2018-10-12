@@ -799,7 +799,10 @@ class Blockchain
         {
             $line = str_replace("\n", "", $line);
             $_data["signatures"] = [$line];
-            $send_transaction = Self::eth_send_transaction($_data);
+            if($line)
+            {
+                $send_transaction = Self::eth_send_transaction($_data);
+            }
         });
 
 
