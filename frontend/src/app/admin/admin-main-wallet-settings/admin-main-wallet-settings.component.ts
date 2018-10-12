@@ -103,7 +103,7 @@ export class AdminMainWalletSettingsComponent implements OnInit {
    openRelease(id, selector)
    {
      this.release_info = this.rest.findObjectByKey(this.table, 'member_address_id', id);
-     
+
      this.open(selector);
      this.getEstimation(id);
    }
@@ -116,7 +116,7 @@ export class AdminMainWalletSettingsComponent implements OnInit {
        login_token: this.rest.login_token,
        member_address_id: address_id,
        usd : this.rest._exchange_rate.BTC.USD,
-       wallet : this.wallet,
+       wallet : this.release_info.coin.coin_abb,
        wallet_receiver : this.wallet_receiver
      }).subscribe(
      response=>
