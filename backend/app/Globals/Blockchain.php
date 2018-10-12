@@ -831,13 +831,13 @@ class Blockchain
 
         if($json_feed)
         {
-            dd($json_feed, $params, 123);
+            dd($json_feed, $params, json_encode($params), 123);
             $return = "success";
             return $return;
         }
         else
         {
-            dd($response, $params, 123);
+            dd($response, $params, json_encode($params), 123);
 
         }
     }
