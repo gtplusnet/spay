@@ -819,7 +819,7 @@ class Blockchain
         $post["tosign"]         = $params["tosign"];
         $post["signatures"]     = $params["signatures"];
 
-        $myvars = http_build_query(json_encode($post));
+        $myvars = json_encode($post);
         $ch = curl_init( $url );
 
         curl_setopt( $ch, CURLOPT_POST, 1);
