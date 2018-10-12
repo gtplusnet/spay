@@ -834,10 +834,7 @@ class Blockchain
             $return = "success";
             return $return;
         }
-        else
-        {
-            dd($response, $params);
-        }
+        dd($response, $params, 123);
     }
 
 }
