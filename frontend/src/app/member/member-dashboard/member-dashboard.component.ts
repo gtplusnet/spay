@@ -93,6 +93,15 @@ export class MemberDashboardComponent implements OnInit {
     this.tos_toggle.c3 = null;
   }
 
+  strReplace(text)
+  {
+    if(text == 'private_pre_sales')
+    {
+      text = 'private_sale'
+    }
+    return text.replace(/_/g, ' ').toUpperCase()
+  }
+
   dashboard_data()
   {
   	var _param = {};

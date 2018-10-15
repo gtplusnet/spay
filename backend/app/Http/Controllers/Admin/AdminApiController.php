@@ -879,7 +879,15 @@ class AdminApiController extends Controller
         {
             $first = Tbl_member_address::where("member_address_id", $request->member_address_id)->where("coin_id", $request->coin_id)->where("address_actual_balance", ">", 0)->first();
             $data["to_be_released"] += $first->address_actual_balance;
-            $data["estimated_fee"]  += Blockchain::calculateBTCFee($first->address_actual_balance, $request->usd);
+
+            if($request->coin_id == 3)
+            {
+                $data["estimated_fee"]  += Blockchain::calculateBTCFee($first->address_actual_balance, $request->usd);
+            }
+            else
+            {
+                $data["estimated_fee"]  += Blockchain::calculateETHFee($first->address_actual_balance, $request->usd);
+            }
         }
         else
         {
@@ -888,7 +896,14 @@ class AdminApiController extends Controller
             foreach ($list as $key => $value) 
             {
                 $data["to_be_released"] += $value->address_actual_balance;
-                $data["estimated_fee"]  += Blockchain::calculateBTCFee($value->address_actual_balance, $request->usd);
+                if($request->coin_id == 3)
+                {
+                    $data["estimated_fee"]  += Blockchain::calculateBTCFee($first->address_actual_balance, $request->usd);
+                }
+                else
+                {
+                    $data["estimated_fee"]  += Blockchain::calculateETHFee($first->address_actual_balance, $request->usd);
+                }
             }
         }
 
@@ -945,10 +960,20 @@ class AdminApiController extends Controller
 
         $list = Tbl_member_address::where("coin_id", $coin)->where("address_actual_balance", ">", 0)->get();
 
-        foreach ($list as $key => $value) 
+        
+
+        if($request->wallet == "BTC")
         {
-            $balance = $value->address_actual_balance * 100000000;
-            $data = Blockchain::sendActualBTCWalletToCentralWallet($value->member_address_id, $balance, $request->wallet_receiver, $request->usd);
+            foreach ($list as $key => $value) 
+            {
+                $balance = $value->address_actual_balance * 100000000;
+                $data = Blockchain::sendActualBTCWalletToCentralWallet($value->member_address_id, $balance, $request->wallet_receiver, $request->usd);
+            }
+        }
+        else
+        {
+            $release_amt = $list->address_actual_balance * 1000000000000000000;
+            $data = Blockchain::sendActualETHWalletToCentralWallet($list->member_address_id, $release_amt, $request->wallet_receiver, $request->usd);
         }
 
         return $data;
