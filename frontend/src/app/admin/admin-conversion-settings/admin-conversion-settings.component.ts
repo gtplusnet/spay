@@ -74,6 +74,11 @@ export class AdminConversionSettingsComponent implements OnInit
       });
   }
 
+  strReplace(text)
+  {
+    return text.replace(/_/g, ' ').toUpperCase()
+  }
+
   changeSaleStage()
   {
 

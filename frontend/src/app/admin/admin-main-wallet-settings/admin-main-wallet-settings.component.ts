@@ -224,8 +224,8 @@ export class AdminMainWalletSettingsComponent implements OnInit {
    {
      this.http.post(this.rest.api_url + "/api/admin/get_estimated_tx",
      {
-       coin_id : 3,
-       usd : this.rest._exchange_rate.BTC.USD,
+       coin_id : this.wallet == 'BTC' ? 3 : 2,
+       usd : this.wallet == 'BTC' ? this.rest._exchange_rate.BTC.USD : this.rest._exchange_rate.ETH.USD,
        login_token : this.rest.login_token,
        member_address_id : id
      }).subscribe(response=>

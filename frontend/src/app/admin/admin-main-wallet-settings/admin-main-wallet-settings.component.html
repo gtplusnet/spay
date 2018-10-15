@@ -165,15 +165,15 @@
 									<tbody *ngIf="release_data">
 										<tr>
 											<th class="p-2">Total to be released: </th>
-											<td class="p-2 text-right"> BTC {{ release_data.to_be_released | number:'1.8'}} ($ {{ release_data.to_be_released * rest._exchange_rate.BTC.USD  | number:'1.2'}})</td>
+											<td class="p-2 text-right"> {{ wallet }} {{ release_data.to_be_released | number:'1.8'}} ($ {{ release_data.to_be_released * rest._exchange_rate.BTC.USD  | number:'1.2'}})</td>
 										</tr>
 										<tr>
 											<th class="p-2">Total fee to be deducted: </th>
-											<td class="p-2 text-right text-danger"> BTC {{ release_data.estimated_fee | number:'1.8'}} ($ {{ release_data.estimated_fee * rest._exchange_rate.BTC.USD  | number:'1.2'}})</td>
+											<td class="p-2 text-right text-danger"> {{ wallet }} {{ release_data.estimated_fee | number:'1.8'}} ($ {{ release_data.estimated_fee * rest._exchange_rate.BTC.USD  | number:'1.2'}})</td>
 										</tr>
 										<tr>
 											<th class="p-2">Total to be received: </th>
-											<td class="p-2 text-right font-weight-bold"> BTC {{ release_data.to_be_released - release_data.estimated_fee | number:'1.8'}}
+											<td class="p-2 text-right font-weight-bold"> {{ wallet }} {{ release_data.to_be_released - release_data.estimated_fee | number:'1.8'}}
 											($ {{ (release_data.to_be_released - release_data.estimated_fee) * rest._exchange_rate.BTC.USD  | number:'1.2'}})</td>
 										</tr>
 									</tbody>

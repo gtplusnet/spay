@@ -845,4 +845,16 @@ class Blockchain
         }
     }
 
+    public static function calculateETHFee($amount = 0, $usd)
+    {
+
+        $gaslimit = 21000;
+        $tx_fee = ($gaslimit * (5/$gaslimit))*1000000000000000000;
+
+        $amt = $amt-$tx_fee;
+        $amt = (int)$amt;
+        
+        return $rate/100000000;
+    }
+
 }
