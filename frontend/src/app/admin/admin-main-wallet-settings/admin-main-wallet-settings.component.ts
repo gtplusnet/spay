@@ -79,7 +79,7 @@ export class AdminMainWalletSettingsComponent implements OnInit {
     this.saving_output.message = "no-message";
     this.step = 1;
     this.wallet = null;
-    this.getEstimation();
+    
    	this.modal_ref = this.modalService.open(content, {'size': 'lg'});
    }
 
@@ -180,9 +180,11 @@ export class AdminMainWalletSettingsComponent implements OnInit {
 
    goToStep(param = null, step)
    {
+
     this.step = step; 
     this.setup_wallet.mwallet_type = param;
     this.wallet = param;
+    this.getEstimation();
    }
 
    editWallet(id)
@@ -222,6 +224,7 @@ export class AdminMainWalletSettingsComponent implements OnInit {
 
    getEstimation(id = null)
    {
+     console.log(this.wallet);
      this.http.post(this.rest.api_url + "/api/admin/get_estimated_tx",
      {
        coin_id : this.wallet == 'BTC' ? 3 : 2,
