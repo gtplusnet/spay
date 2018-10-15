@@ -898,11 +898,11 @@ class AdminApiController extends Controller
                 $data["to_be_released"] += $value->address_actual_balance;
                 if($request->coin_id == 3)
                 {
-                    $data["estimated_fee"]  += Blockchain::calculateBTCFee($first->address_actual_balance, $request->usd);
+                    $data["estimated_fee"]  += Blockchain::calculateBTCFee($value->address_actual_balance, $request->usd);
                 }
                 else
                 {
-                    $data["estimated_fee"]  += Blockchain::calculateETHFee($first->address_actual_balance, $request->usd);
+                    $data["estimated_fee"]  += Blockchain::calculateETHFee($value->address_actual_balance, $request->usd);
                 }
             }
         }
