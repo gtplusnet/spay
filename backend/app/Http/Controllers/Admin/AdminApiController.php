@@ -980,7 +980,16 @@ class AdminApiController extends Controller
                 // $balance = $value->address_actual_balance * 100000000;
                 // $data = Blockchain::sendActualBTCWalletToCentralWallet($value->member_address_id, $balance, $request->wallet_receiver, $request->usd);
                 $release_amt = $value->address_actual_balance * 1000000000000000000;
-                $data = Blockchain::sendActualETHWalletToCentralWallet($value->member_address_id, $release_amt, $request->wallet_receiver, $request->usd);
+                $balance = Self::get_blockchain_ethereum_balance($value->member_address);
+                if($balance->balance > 0)
+                {
+                    $data = Blockchain::sendActualETHWalletToCentralWallet($value->member_address_id, $release_amt, $request->wallet_receiver, $request->usd);
+                }
+                else
+                {
+                    $update["address_actual_balance"] = 0;
+                    Tbl_member_address::where("member_address", $params["tx"]->addresses[0])->update($update);
+                }
             }
             
         }

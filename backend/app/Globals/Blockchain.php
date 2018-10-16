@@ -835,12 +835,6 @@ class Blockchain
         if($json_feed)
         {
             $return["message"] = "success";
-            $balance = Self::get_blockchain_ethereum_balance($params["tx"]->addresses[0]);
-            if($balance->balance <= 0)
-            {
-                $update["address_actual_balance"] = 0;
-                Tbl_member_address::where("member_address", $params["tx"]->addresses[0])->update($update);
-            }
             return $return;
         }
     }
@@ -848,10 +842,9 @@ class Blockchain
     public static function calculateETHFee($amount = 0, $usd)
     {
         $gaslimit = 21000;
-        $tx_fee = ($gaslimit * (5/$gaslimit))*1000000000000000000;
-
+        $tx_fee = ($gaslimit * (5/$gaslimit));
         
-        return $tx_fee/1000000000000000000;
+        return $tx_fee;
     }
 
 }

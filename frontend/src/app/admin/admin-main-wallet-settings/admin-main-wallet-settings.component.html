@@ -164,17 +164,17 @@
 									</tbody>
 									<tbody *ngIf="release_data">
 										<tr>
-											<th class="p-2">Total to be released: </th>
+											<th class="p-2">Estimated to be released: </th>
 											<td class="p-2 text-right" *ngIf="wallet == 'BTC'"> {{ wallet }} {{ release_data.to_be_released | number:'1.8'}} ($ {{ release_data.to_be_released * rest._exchange_rate.BTC.USD  | number:'1.2'}})</td>
 											<td class="p-2 text-right" *ngIf="wallet == 'ETH'"> {{ wallet }} {{ release_data.to_be_released | number:'1.8'}} ($ {{ release_data.to_be_released * rest._exchange_rate.ETH.USD  | number:'1.2'}})</td>
 										</tr>
 										<tr>
-											<th class="p-2">Total fee to be deducted: </th>
+											<th class="p-2">Estimated fee to be deducted: </th>
 											<td class="p-2 text-right text-danger" *ngIf="wallet == 'BTC'"> {{ wallet }} {{ release_data.estimated_fee | number:'1.8'}} ($ {{ release_data.estimated_fee * rest._exchange_rate.BTC.USD  | number:'1.2'}})</td>
 											<td class="p-2 text-right text-danger" *ngIf="wallet == 'ETH'"> {{ wallet }} {{ release_data.estimated_fee | number:'1.8'}} ($ {{ release_data.estimated_fee * rest._exchange_rate.ETH.USD  | number:'1.2'}})</td>
 										</tr>
 										<tr>
-											<th class="p-2">Total to be received: </th>
+											<th class="p-2">Estimated to be received: </th>
 											<td class="p-2 text-right font-weight-bold" *ngIf="wallet == 'BTC'"> {{ wallet }} {{ release_data.to_be_released - release_data.estimated_fee | number:'1.8'}}
 											($ {{ (release_data.to_be_released - release_data.estimated_fee) * rest._exchange_rate.BTC.USD  | number:'1.2'}})</td>
 											<td class="p-2 text-right font-weight-bold" *ngIf="wallet == 'ETH'"> {{ wallet }} {{ release_data.to_be_released - release_data.estimated_fee | number:'1.8'}}
@@ -230,19 +230,19 @@
 			</div> -->
 			<div class="row my-1" *ngIf="released_data">
 				<div class="col-md-6 col-xs-6 text-left">
-					<small>Total to be released:</small>
+					<small>Estimated to be released:</small>
 				</div>
 				<div class="col-md-6 col-xs-6 text-right">
 					<small>{{ wallet }} {{ release_data.to_be_released | number:'1.8'}} ($ {{ release_data.to_be_released * rest._exchange_rate.BTC.USD  | number:'1.2-2'}})</small>
 				</div>
 				<div class="col-md-6 col-xs-6 text-left">
-					<small>Total fee to be deducted:</small>
+					<small>Estimated fee to be deducted:</small>
 				</div>
 				<div class="col-md-6 col-xs-6 text-right text-danger">
 					<small>{{ wallet }} {{ release_data.estimated_fee | number:'1.8'}} ($ {{ release_data.estimated_fee * rest._exchange_rate.BTC.USD  | number:'1.2-2'}})</small>
 				</div>
 				<div class="col-md-6 col-xs-6 text-left">
-					<small>Total to be received:</small>
+					<small>Estimated to be received:</small>
 				</div>
 				<div class="col-md-6 col-xs-6 text-right">
 					<small class="font-weight-bold">{{ wallet }} {{ release_data.to_be_released - release_data.estimated_fee | number:'1.8'}} ($ {{ (release_data.to_be_released - release_data.estimated_fee) * rest._exchange_rate.BTC.USD  | number:'1.2-2'}})</small>
