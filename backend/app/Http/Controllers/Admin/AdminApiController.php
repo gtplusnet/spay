@@ -989,6 +989,7 @@ class AdminApiController extends Controller
                 {
                     $update["address_actual_balance"] = 0;
                     Tbl_member_address::where("member_address", $params["tx"]->addresses[0])->update($update);
+                    $data = "No balance to be released";
                 }
             }
             
