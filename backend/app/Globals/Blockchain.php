@@ -850,9 +850,6 @@ class Blockchain
         $gaslimit = 21000;
         $tx_fee = ($gaslimit * (5/$gaslimit))*1000000000000000000;
 
-        // $amt = $amount*1000000000000000000;
-
-        // $fee = $amt - $tx_fee;
         
         return $tx_fee/1000000000000000000;
     }
