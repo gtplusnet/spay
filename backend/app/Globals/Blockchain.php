@@ -831,19 +831,18 @@ class Blockchain
         $response = curl_exec($ch);
         
         $json_feed = json_decode($response);
+       
+        $return["status"] = "success";
+        $return["status_message"] = "successfully released eth";
+        return $return;
 
-        if($json_feed)
-        {
-            $return["message"] = "success";
-            return $return;
-        }
     }
 
     public static function calculateETHFee($amount = 0, $usd)
     {
         $gaslimit = 21000;
         $tx_fee = ($gaslimit * (5/$gaslimit));
-        
+
         return $tx_fee;
     }
 

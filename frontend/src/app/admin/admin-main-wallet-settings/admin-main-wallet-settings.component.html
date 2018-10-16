@@ -168,17 +168,22 @@
 											<td class="p-2 text-right" *ngIf="wallet == 'BTC'"> {{ wallet }} {{ release_data.to_be_released | number:'1.8'}} ($ {{ release_data.to_be_released * rest._exchange_rate.BTC.USD  | number:'1.2'}})</td>
 											<td class="p-2 text-right" *ngIf="wallet == 'ETH'"> {{ wallet }} {{ release_data.to_be_released | number:'1.8'}} ($ {{ release_data.to_be_released * rest._exchange_rate.ETH.USD  | number:'1.2'}})</td>
 										</tr>
-										<tr>
+										<tr *ngIf="wallet == 'BTC'">
 											<th class="p-2">Estimated fee to be deducted: </th>
 											<td class="p-2 text-right text-danger" *ngIf="wallet == 'BTC'"> {{ wallet }} {{ release_data.estimated_fee | number:'1.8'}} ($ {{ release_data.estimated_fee * rest._exchange_rate.BTC.USD  | number:'1.2'}})</td>
-											<td class="p-2 text-right text-danger" *ngIf="wallet == 'ETH'"> {{ wallet }} {{ release_data.estimated_fee | number:'1.8'}} ($ {{ release_data.estimated_fee * rest._exchange_rate.ETH.USD  | number:'1.2'}})</td>
+											<!-- <td class="p-2 text-right text-danger" *ngIf="wallet == 'ETH'"> {{ wallet }} {{ release_data.estimated_fee | number:'1.8'}} ($ {{ release_data.estimated_fee * rest._exchange_rate.ETH.USD  | number:'1.2'}})</td> -->
 										</tr>
-										<tr>
+										<tr *ngIf="wallet == 'BTC'">
 											<th class="p-2">Estimated to be received: </th>
 											<td class="p-2 text-right font-weight-bold" *ngIf="wallet == 'BTC'"> {{ wallet }} {{ release_data.to_be_released - release_data.estimated_fee | number:'1.8'}}
 											($ {{ (release_data.to_be_released - release_data.estimated_fee) * rest._exchange_rate.BTC.USD  | number:'1.2'}})</td>
-											<td class="p-2 text-right font-weight-bold" *ngIf="wallet == 'ETH'"> {{ wallet }} {{ release_data.to_be_released - release_data.estimated_fee | number:'1.8'}}
-											($ {{ (release_data.to_be_released - release_data.estimated_fee) * rest._exchange_rate.ETH.USD  | number:'1.2'}})</td>
+											<!-- <td class="p-2 text-right font-weight-bold" *ngIf="wallet == 'ETH'"> {{ wallet }} {{ release_data.to_be_released - release_data.estimated_fee | number:'1.8'}} -->
+											<!-- ($ {{ (release_data.to_be_released - release_data.estimated_fee) * rest._exchange_rate.ETH.USD  | number:'1.2'}})</td> -->
+										</tr>
+										<tr *ngIf="wallet == 'ETH'">
+											<td class="font-weight-bold text-muted" colspan="2">
+												Please take note that the receivable ethereum would vary depending on the fees that will be deducted to the sent amount upon releasing this wallet.
+											</td>
 										</tr>
 									</tbody>
 								</table>
@@ -235,17 +240,22 @@
 				<div class="col-md-6 col-xs-6 text-right">
 					<small>{{ wallet }} {{ release_data.to_be_released | number:'1.8'}} ($ {{ release_data.to_be_released * rest._exchange_rate.BTC.USD  | number:'1.2-2'}})</small>
 				</div>
-				<div class="col-md-6 col-xs-6 text-left">
+				<div class="col-md-6 col-xs-6 text-left" *ngIf="wallet == 'BTC'">
 					<small>Estimated fee to be deducted:</small>
 				</div>
-				<div class="col-md-6 col-xs-6 text-right text-danger">
+				<div class="col-md-6 col-xs-6 text-right text-danger" *ngIf="wallet == 'BTC'">
 					<small>{{ wallet }} {{ release_data.estimated_fee | number:'1.8'}} ($ {{ release_data.estimated_fee * rest._exchange_rate.BTC.USD  | number:'1.2-2'}})</small>
 				</div>
-				<div class="col-md-6 col-xs-6 text-left">
+				<div class="col-md-6 col-xs-6 text-left" *ngIf="wallet == 'BTC'">
 					<small>Estimated to be received:</small>
 				</div>
-				<div class="col-md-6 col-xs-6 text-right">
+				<div class="col-md-6 col-xs-6 text-right" *ngIf="wallet == 'BTC'">
 					<small class="font-weight-bold">{{ wallet }} {{ release_data.to_be_released - release_data.estimated_fee | number:'1.8'}} ($ {{ (release_data.to_be_released - release_data.estimated_fee) * rest._exchange_rate.BTC.USD  | number:'1.2-2'}})</small>
+				</div>
+				<div class="col-md-12 col-xs-12 text-right" *ngIf="wallet == 'ETH'">
+					<small class="font-weight-bold">
+						Please take note that the receivable ethereum would vary depending on the fees that will be deducted to the sent amount upon releasing this wallet.
+					</small>
 				</div>
 			</div>
 			<h5 class="mb-1">Select Wallet Receiver</h5>

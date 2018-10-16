@@ -977,8 +977,6 @@ class AdminApiController extends Controller
         {
             foreach ($list as $key => $value) 
             {
-                // $balance = $value->address_actual_balance * 100000000;
-                // $data = Blockchain::sendActualBTCWalletToCentralWallet($value->member_address_id, $balance, $request->wallet_receiver, $request->usd);
                 $release_amt = $value->address_actual_balance * 1000000000000000000;
                 $balance = Blockchain::get_blockchain_ethereum_balance($value->member_address);
                 if($balance->balance > 0)
@@ -989,7 +987,8 @@ class AdminApiController extends Controller
                 {
                     $update["address_actual_balance"] = 0;
                     Tbl_member_address::where("member_address", $value->member_address)->update($update);
-                    $data = "No balance to be released";
+                    $data["status_message"] = "No balance to be released";
+                    $data["status"] = "success";
                 }
             }
             
