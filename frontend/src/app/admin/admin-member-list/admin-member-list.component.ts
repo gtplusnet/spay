@@ -99,6 +99,9 @@ export class AdminMemberListComponent implements OnInit {
   id_referral_table                : number;
   referral_table_loader            : boolean;
 
+  update_focus : any;
+  updating : boolean = false;
+
   constructor(public rest : MemberInfoService, private http : HttpClient, private modalService: NgbModal) { }
 
   ngOnInit() {
@@ -158,6 +161,27 @@ export class AdminMemberListComponent implements OnInit {
         console.log(error);
       });
 	}
+
+  updateAccountDetails(id, selector)
+  {
+    this.update_focus = this.rest.findObjectByKey(this._table, 'id', id);
+    this.openLg(selector)
+  }
+
+  updateProfile(id)
+  {
+    this.error_message = "no-message";
+    this.updating = true;
+    this.update_focus.login_token = this.rest.login_token;
+    this.http.post(this.rest.api_url + "/api/admin/update_user_information", this.update_focus).subscribe(response=>
+    {
+      if(response["status"] == "success")
+      {
+        this.updating = false
+        this.error_message = response["status_message"];
+      }
+    })
+  }
 
   loadMemberTableBtc(id)
   {

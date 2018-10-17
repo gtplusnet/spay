@@ -158,6 +158,7 @@ Route::post('/api/admin/add_new_file','Admin\AdminApiController@add_new_file');
 Route::post('/api/admin/setup_wallet_address','Admin\AdminApiController@setup_wallet_address');
 Route::post('/api/admin/get_estimated_tx','Admin\AdminApiController@get_estimated_tx');
 Route::post('/api/admin/get_total_crypto','Admin\AdminApiController@get_total_crypto');
+Route::post('/api/admin/update_user_information','Admin\AdminApiController@update_user_information');
 
 //member referral API
 Route::post('/api/member/get_referrals','Member\MemberApiController@get_referrals');

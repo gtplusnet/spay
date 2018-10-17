@@ -227,6 +227,9 @@
 					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.first_time_login == 0" (click)="viewAccountDetails(data.id, view_account_details)">Account Details</a>
 					    </li>
 					    <li role="menuitem">
+					    	<a href="javascript:void(0)" class="dropdown-item" (click)="updateAccountDetails(data.id, update_account_details)">Update Account Details</a>
+					    </li>
+					    <li role="menuitem">
 					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.status_account == 0" (click)="activeDeactiveUser(data.id, 1)">Activate User</a>
 					    </li>
 					    <li role="menuitem">
@@ -745,6 +748,53 @@
 
 </div>
 </div>
+</ng-template>
+
+<ng-template #update_account_details let-c="close" let-d="dismiss">
+	<div class="change_password">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Update Account Details for {{ update_focus.first_name }} {{ update_focus.last_name }}</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left">
+			<div class="row">
+				<div class="col-md-12 col-xs-12" *ngIf="error_message != 'no-message'">
+					<div class="alert alert-success text-center">
+					{{ error_message }}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-xs-12">
+					<small class="d-block font-weight-bold">First Name</small>
+					<input type="text" class="form-control input-lokal-x mb-2" [(ngModel)]="update_focus.first_name">
+				</div>
+				<div class="col-md-6 col-xs-12">
+					<small class="d-block font-weight-bold">Last Name</small>
+					<input type="text" class="form-control input-lokal-x mb-2" [(ngModel)]="update_focus.last_name">
+				</div>	
+				<div class="col-md-6 col-xs-12">
+					<small class="d-block font-weight-bold">Date of Birth</small>
+					<input type="date" class="form-control input-lokal-x mb-2" [ngModel]="update_focus.birth_date | date:'yyyy-MM-dd'" (ngModelChange)="update_focus.birth_date = $event">
+				</div>
+				<div class="col-md-6 col-xs-12">
+					<small class="d-block font-weight-bold">Email Address</small>
+					<input type="email" class="form-control input-lokal-x mb-2" [(ngModel)]="update_focus.email">
+				</div>	
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-md-6 col-xs-12">
+				</div>
+				<div class="col-md-6 col-xs-12">
+					<button class="btn button-lokal-x btn-block" disabled="{{updating ? 'disabled' : ''}}" (click)="updateProfile(update_focus.id)"><i class="fas fa-save mr-2"></i>Save Changes</button>		
+				</div>	
+			</div>
+				
+		</div>
+	</div>
 </ng-template>
 
 <ng-template #change_password let-c="close" let-d="dismiss">

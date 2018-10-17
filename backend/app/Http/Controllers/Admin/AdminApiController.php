@@ -1033,5 +1033,17 @@ class AdminApiController extends Controller
         return json_encode($return);
     }
 
+    function update_user_information(Request $request)
+    {
+        $update["first_name"] = $request->first_name;
+        $update["last_name"] = $request->last_name;
+        $update["email"] = $request->email;
+        $update["birth_date"] = $request->birth_date;
 
+        $data = Tbl_User::where("id", $request->id)->update($update);
+        $_data["status"] = "success";
+        $_data["status_message"] = "Successfully updated user information!";
+
+        return json_encode($_data);
+    }
 }
