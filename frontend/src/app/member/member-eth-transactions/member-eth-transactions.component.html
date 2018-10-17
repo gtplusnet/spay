@@ -203,7 +203,7 @@
 					<small class="font-weight-bold mb-5">Requested By</small>   -->
 					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.amount_requested }} XSAL</h4>
 					<small class="font-weight-bold mb-5">Requested Token</small>  
-					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_status == 'accepted' ? data_focus.log_amount + " LOKAL" : 'No data' }}</h4>
+					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_status == 'accepted' ? data_focus.log_amount + " XS" : 'No data' }}</h4>
 					<small class="font-weight-bold mb-5">Received Token</small>  
 					<h4 class="mb-0 font-weight-light mt-2">{{ (data_focus.amount_requested*data_focus.exchange_rate) - (data_focus.amount_requested * (data_focus.exchange_rate*(data_focus.sale_stage_discount/100))) | number:'1.2-8'  }} ETH</h4>
 					<small class="font-weight-bold mb-5">Expected Payment</small>   

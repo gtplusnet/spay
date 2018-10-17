@@ -168,6 +168,7 @@ class Wallet
         $automatic_cashin = Tbl_automatic_cash_in::insertGetId($insert);
 
         $data["member"] = Tbl_User::where("id", $member_id)->first();
+        $data["address"] = $member_address;
         $data["amount"] = $token_amount;
         $data["method"] = $log_method;
         $data["record"] = Tbl_automatic_cash_in::where("automatic_cash_in_id", $automatic_cashin)->first();
