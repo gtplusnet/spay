@@ -235,11 +235,13 @@ export class AdminMemberListComponent implements OnInit {
 
   open(content)
   {
+    this.error_message = "no-message"
     this.modal_ref = this.modalService.open(content);
   }
 
   openLg(content)
   {
+    this.error_message = "no-message"
     this.modal_ref = this.modalService.open(content, {'size': 'lg'});
   }
 
