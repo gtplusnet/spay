@@ -170,12 +170,12 @@ class Wallet
         $crypto_coin = $log_method == 'Bitcoin' ? 3 : 2;
 		$crypto_address = Tbl_member_address::where("member_id", $member_id)->where("coin_id", $crypto_coin)->first();
 
-
         $data["member"] = Tbl_User::where("id", $member_id)->first();
         $data["address"] = $crypto_address;
         $data["amount"] = $token_amount;
         $data["method"] = $log_method;
         $data["record"] = Tbl_automatic_cash_in::where("automatic_cash_in_id", $automatic_cashin)->first();
+		// dd($data);
 
         if($log_method == 'Bitcoin' || $log_method == 'Ethereum')
         {
