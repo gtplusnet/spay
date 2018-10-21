@@ -111,6 +111,36 @@
 	}
 }
 
+.py-3
+{
+	width: 100%;
+
+	.lokal-forms 
+	{
+		width: 675px;
+		text-align: left !important;
+		input, button 
+		{
+			width: 100% !important;
+		}
+		input[type="file"]
+		{
+			padding: 5px !important;
+			margin: 0px !important;
+		}
+		.btn-upload
+		{
+			padding: 5px;
+			background: #118adb !important;
+			border: #118adb !important;
+			&:hover
+			{
+				background: #059aff !important;
+				border: #118adb !important;
+			}
+		}
+	}
+}
 
 /* Media Query */
 
@@ -137,6 +167,7 @@
 
 			.lokal-forms 
 			{
+				text-align: center !important;
 				width: 100%;
 
 				input, button 
