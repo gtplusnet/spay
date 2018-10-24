@@ -11,18 +11,14 @@
 			<div class="py-3">
 				<div class="lokal-forms">
 					<div class="row">
-						<div class="col-md-12 col-xs-12 row mb-2 lokal-alerts" *ngIf="error_message != 'no-message'">
-							<div class="col-xs-12 col-lg-12 p-0">
-								<div class="d-flex justify-content-center px-2 py-3 align-items-center text-center error-message">
-									<span class="lokal-text">{{ error_message }}</span>
-								</div>
+						<div class="col-md-12 col-xs-12 mb-2 lokal-alerts" *ngIf="error_message != 'no-message'">
+							<div class="py-3 text-center error-message">
+								<span class="lokal-text text-uppercase">{{ error_message }}</span>
 							</div>
 						</div>
-						<div class="col-md-12 col-xs-12 row lokal-alerts" *ngIf="submitted">
-							<div class="col-xs-12 col-lg-12 p-0">
-								<div class="d-flex justify-content-center px-2 py-0 align-items-center text-center validating lokal-text">
-									<div class="circle mr-2 lokal-text"></div><span>Validating</span>
-								</div>
+						<div class="col-md-12 col-xs-12 mb-2 lokal-alerts" *ngIf="submitted">
+							<div class="d-flex justify-content-center px-2 py-0 align-items-center text-center validating lokal-text">
+								<div class="circle mr-2 lokal-text"></div><span>Validating</span>
 							</div>
 						</div>
 
@@ -68,6 +64,14 @@
 							<small class="font-weight-bold d-block text-muted">Contact Number</small>
 							<input class="" type="phone" name="phone_number" id="phone_number" [(ngModel)]="system_register.phone_number" placeholder="Contact Number">
 						</div>
+						<div class="col-md-12 col-xs-12">
+							<small class="font-weight-bold d-block text-muted">Address Line 1</small>
+							<textarea name="address_line_1" id="" cols="30" rows="10" [(ngModel)]="system_register.address_line1"></textarea>
+						</div>
+						<div class="col-md-12 col-xs-12">
+							<small class="font-weight-bold d-block text-muted">Address Line 2 (Optional)</small>
+							<textarea name="address_line_2" id="" cols="30" rows="10" [(ngModel)]="system_register.address_line2"></textarea>
+						</div>
 						
 						
 						<!-- Proof of Identity -->
@@ -76,14 +80,14 @@
 							<hr class="my-1 border border-secondary">
 						</div>
 						<div class="col-md-12 col-xs-12">
-							<small class="font-weight-bold d-block text-muted">Primary ID</small>
+							<small class="font-weight-bold d-block text-dark">Primary ID</small>
 							<small class="text-muted">
 								Passport or Government-Issued Photo ID or Driver's License. Please HIDE your unique identification numbers using "POST-it" notes or using your fingers. Photoshopped or Paint editing is also permiited (Updated).
 							</small>
 							<div class="row">
 								<div class="col-md-6 col-xs-12">
 									<small class="font-weight-bold d-block text-muted mt-2">Choose Primary ID Type:</small>
-									<select name="country" id="">
+									<select name="country" id="" [(ngModel)]="primary_id1">
 										<option value="Passport">Passport</option>
 										<option value="Driver’s License">Driver’s License</option>
 										<option value="SSS UMID Card">SSS UMID Card</option>
@@ -98,77 +102,110 @@
 										<option value="OWWA ID (Overseas Worker’s Welfare Administration)">OWWA ID (Overseas Worker’s Welfare Administration)</option>
 										<option value="GOCC and Government ID">GOCC and Government ID</option>
 									</select>
-									<input type="file" id="primary_id" class="my-1" style="display: none;">
-									<button class="mt-1 spay-login-button {{ uploading ? 'disabled-btn' : '' }} btn-sm btn-upload" (click)="uploadPrimary()" disabled="{{ uploading ? 'disabled' : '' }}">Upload Primary ID</button>
+									<div class="alert alert-light p-1 m-0 border border-dark" *ngIf="primary_1">
+										<small>
+											<a href="{{ this.primary_1 }}" target="blank" class="nav-link d-inline">Primary ID Attachment</a>
+											<a href="{{ this.primary_1 }}" target="blank" class="nav-link d-inline p-0">
+												<i class="fas fa-eye mx-2"></i>
+											</a>
+											<a href="javascript:void(0)" (click)="primary_1 = null" class="nav-link d-inline p-0 text-danger">
+												<i class="fas fa-times mx-2"></i>
+											</a>
+										</small>
+									</div>
+									<input type="file" id="primary_id" class="my-1"  (change)="onFileChange($event, 'primary_1')" style="display: none">
+									<button class="mt-1 spay-login-button {{ uploading ? 'disabled-btn' : '' }} btn-sm btn-upload" disabled="{{ uploading || secondary_1 ? 'disabled' : '' }}" (click)="uploadProof('primary_id')" *ngIf="!primary_1">Upload Primary ID</button>
 								</div>
 							</div>
 						</div>
 						<div class="col-md-12 col-xs-12 mt-2">
-							<small class="font-weight-bold d-block text-muted">Secondary ID <em class="font-weight-light">(If Primary ID is not available)</em></small>
+							<small class="font-weight-bold d-block text-dark">Secondary ID <em class="font-weight-light">(If Primary ID is not available)</em></small>
 							<small class="text-muted">
 								These are the supporting documents that you can use to prove your identity in the absence of primary IDs. Kindly submit at least 2 of this Secondary ID.
 							</small>
 							<div class="row">
 								<div class="col-md-6 col-xs-12">
 									<small class="font-weight-bold d-block text-muted mt-2">Choose Secondary ID Type (1):</small>
-									<select name="country" id="">
-										<option value="NBI Clearance">NBI Clearance</option>
-										<option value="Police Clearance">Police Clearance</option>
-										<option value="Barangay Clearance">Barangay Clearance</option>
-										<option value="Cedula or Community Tax Certificate">Cedula or Community Tax Certificate</option>
-										<option value="Voter’s Certification">Voter’s Certification</option>
-										<option value="Government Service Record">Government Service Record</option>
-										<option value="School ID (For Recent students)">School ID (For Recent students)</option>
-										<option value="Seaman’s Book">Seaman’s Book</option>
-										<option value="Philhealth Card">Philhealth Card</option>
-										<option value="PWD ID">PWD ID</option>
-										<option value="TIN Card">TIN Card</option>
-										<option value="Firearm’s License Card">Firearm’s License Card</option>
-										<option value="PLRA ID">PLRA ID</option>
-										<option value="Company ID">Company ID</option>
-										<option value="Alumni ID">Alumni ID</option>
+									<select name="country" id="" [(ngModel)]="secondary_id1" (change)="changeSecondary()">
+										<option *ngFor="let data of secondary_ids" value="{{data}}">{{data}}</option>
 									</select>
-									<input type="file" id="secondary_id1" class="my-1" style="display: none;">
-									<button class="mt-1 spay-login-button {{ uploading ? 'disabled-btn' : '' }} btn-sm btn-upload" (click)="uploadPrimary()" disabled="{{ uploading ? 'disabled' : '' }}">Upload Secondary ID (1)</button>
+									<input type="file" id="secondary_id1" class="my-1" style="display: none;" (change)="onFileChange($event, 'secondary_1')">
+									<div class="alert alert-light p-1 m-0 border border-dark" *ngIf="secondary_1">
+										<small>
+											<a href="{{ this.secondary_1 }}" target="blank" class="nav-link d-inline">Secondary ID (1) Attachment</a>
+											<a href="{{ this.secondary_1 }}" target="blank" class="nav-link d-inline p-0">
+												<i class="fas fa-eye mx-2"></i>
+											</a>
+											<a href="javascript:void(0)" (click)="secondary_1 = null && secondary_2 = null" class="nav-link d-inline p-0 text-danger">
+												<i class="fas fa-times mx-2"></i>
+											</a>
+										</small>
+									</div>
+									<button class="mt-1 spay-login-button {{ uploading ? 'disabled-btn' : '' }} btn-sm btn-upload" disabled="{{ uploading || primary_1 ? 'disabled' : '' }}" (click)="uploadProof('secondary_id1')" *ngIf="!secondary_1">Upload Secondary ID (1)</button>
 								</div>
 								<div class="col-md-6 col-xs-12">
 									<small class="font-weight-bold d-block text-muted mt-2">Choose Secondary ID Type (2):</small>
-									<select name="country" id="">
-										<option value="NBI Clearance">NBI Clearance</option>
-										<option value="Police Clearance">Police Clearance</option>
-										<option value="Barangay Clearance">Barangay Clearance</option>
-										<option value="Cedula or Community Tax Certificate">Cedula or Community Tax Certificate</option>
-										<option value="Voter’s Certification">Voter’s Certification</option>
-										<option value="Government Service Record">Government Service Record</option>
-										<option value="School ID (For Recent students)">School ID (For Recent students)</option>
-										<option value="Seaman’s Book">Seaman’s Book</option>
-										<option value="Philhealth Card">Philhealth Card</option>
-										<option value="PWD ID">PWD ID</option>
-										<option value="TIN Card">TIN Card</option>
-										<option value="Firearm’s License Card">Firearm’s License Card</option>
-										<option value="PLRA ID">PLRA ID</option>
-										<option value="Company ID">Company ID</option>
-										<option value="Alumni ID">Alumni ID</option>
+									<select name="country" id="" [(ngModel)]="secondary_id2">
+										<option *ngFor="let data of secondary_ids2" value="{{data}}">{{data}}</option>
 									</select>
-									<input type="file" id="secondary_id2" class="my-1" style="display: none;">
-									<button class="mt-1 spay-login-button {{ uploading ? 'disabled-btn' : '' }} btn-sm btn-upload" (click)="uploadPrimary()" disabled="{{ uploading ? 'disabled' : '' }}">Upload Secondary ID (2)</button>
+									<input type="file" id="secondary_id2" class="my-1" style="display: none;" (change)="onFileChange($event, 'secondary_2')">
+									<div class="alert alert-light p-1 m-0 border border-dark" *ngIf="secondary_1 && secondary_2">
+										<small>
+											<a href="{{ this.secondary_2 }}" target="blank" class="nav-link d-inline">Secondary ID (2) Attachment</a>
+											<a href="{{ this.secondary_2 }}" target="blank" class="nav-link d-inline p-0">
+												<i class="fas fa-eye mx-2"></i>
+											</a>
+											<a href="javascript:void(0)" (click)="secondary_2 = null" class="nav-link d-inline p-0 text-danger">
+												<i class="fas fa-times mx-2"></i>
+											</a>
+										</small>
+									</div>
+									<button class="mt-1 spay-login-button {{ uploading ? 'disabled-btn' : '' }} btn-sm btn-upload" disabled="{{ uploading || primary_1 ? 'disabled' : '' }}" (click)="uploadProof('secondary_id2')" *ngIf="secondary_1 && !secondary_2">Upload Secondary ID (2)</button>
 								</div>
 							</div>
-							
-							
 						</div>
-						
-						<div class="col-md-6 col-xs-12 mt-3">
+						<div class="col-md-12 col-xs-12 mt-2">
+							<small class="font-weight-bold d-block text-dark">Selfie Verification</small>
+							<small class="text-muted">
+								To ensure that the document you are submitting is actually yours, we require you to submit a ‘selfie,’ or a
+								photo of yourself holding the ID document. See the example image in the box below.
+							</small>
+							<div class="row">
+								<div class="col-md-12 col-xs-12 text-center">
+									<img src="/assets/img/selfie.png" class="img-fluid mb-2" width="180" height="180" alt="">
+									<input type="file" id="selfie_id" class="my-1" style="display: none;" (change)="onFileChange($event, 'selfie_id')">
+									<div class="alert alert-light p-1 m-0 border border-dark" *ngIf="selfie_id">
+										<small>
+											<a href="{{ this.selfie_id }}" target="blank" class="nav-link d-inline">Selfie Attachment</a>
+											<a href="{{ this.selfie_id }}" target="blank" class="nav-link d-inline p-0">
+												<i class="fas fa-eye mx-2"></i>
+											</a>
+											<a href="javascript:void(0)" (click)="selfie_id = null" class="nav-link d-inline p-0 text-danger">
+												<i class="fas fa-times mx-2"></i>
+											</a>
+										</small>
+									</div>
+									<button class="mt-1 spay-login-button {{ uploading ? 'disabled-btn' : '' }} btn-sm btn-upload" disabled="{{ uploading ? 'disabled' : '' }}" (click)="uploadProof('selfie_id')" *ngIf="!selfie_id">Upload Selfie</button>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-12 col-xs-12 mt-4 d-flex flex-column justify-content-center align-items-center">
+							<small class="font-weight-bold d-block text-dark">Verify You're A Human</small>
+							<div class="recaptcha">
+								<re-captcha (resolved)="resolved($event)" siteKey="6Leas2sUAAAAAOCewGhpmMFP1yRb7vJ_bSNlh0oN"></re-captcha>
+							</div>
+						</div>
+
+						<div class="col-md-6 col-xs-12 mt-4">
 							<button class=" spay-login-button {{ registering ? 'disabled-btn' : '' }}" (click)="newRegister()" disabled="{{ registering ? 'disabled' : '' }}">Sign Up</button>
 						</div>
-						<div class="col-md-6 col-xs-12 mt-3">
+						<div class="col-md-6 col-xs-12 mt-4">
 							<button class="spay-register-button {{ registering ? 'disabled-btn' : '' }}" [routerLink]="['/login']" disabled="{{ registering ? 'disabled' : '' }}">Login</button>
 						</div>
 						
 					</div>
-					<div class="recaptcha">
-						<re-captcha (resolved)="resolved($event)" siteKey="6Leas2sUAAAAAOCewGhpmMFP1yRb7vJ_bSNlh0oN"></re-captcha>
-					</div>
+					
 					
 				</div>
 

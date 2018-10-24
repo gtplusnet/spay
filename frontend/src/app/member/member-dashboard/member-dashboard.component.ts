@@ -70,7 +70,7 @@ export class MemberDashboardComponent implements OnInit {
   ngOnInit() 
   {
     // console.log(this.rest._stages);
-    this.sale_stage_name = this.rest._stages.sale_stage_type.replace("_"," ");
+    this.sale_stage_name = this.rest._stages.sale_stage_type ? this.rest._stages.sale_stage_type.replace("_"," ") : null;
   	this.dashboard_data();
     this.error_message = "no-message"; 
     this.check_toa_1 = false;
@@ -95,11 +95,19 @@ export class MemberDashboardComponent implements OnInit {
 
   strReplace(text)
   {
-    if(text == 'private_pre_sales')
+    if(text)
     {
-      text = 'private_sale'
+      if(text == 'private_pre_sales')
+      {
+        text = 'private_sale'
+      }
+      return text.replace(/_/g, ' ').toUpperCase()
     }
-    return text.replace(/_/g, ' ').toUpperCase()
+    else
+    {
+      return "NO SALE STAGE"
+    }
+    
   }
 
   dashboard_data()

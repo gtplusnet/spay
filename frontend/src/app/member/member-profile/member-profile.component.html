@@ -14,7 +14,7 @@
 				<div class="d-flex flex-column tab">
 					<button class="btn button-lokal-l {{ profile_page == 'basic-information' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/basic-information']"><i class="fas fa-user mr-2"></i>Basic Information</button>
 					<button class="btn button-lokal-l {{ profile_page == 'google-auth' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/google-auth']"><i class="fab fa-google mr-2"></i>Google Authenticator</button>
-					<button class="btn button-lokal-l {{ profile_page == 'limits-and-verification' ? 'active-lokal' : kyc_page == 'id' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/limits-and-verification']"><i class="far fa-check-square mr-2"></i>Verification</button>
+					<!-- <button class="btn button-lokal-l {{ profile_page == 'limits-and-verification' ? 'active-lokal' : kyc_page == 'id' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/limits-and-verification']"><i class="far fa-check-square mr-2"></i>Verification</button> -->
 					<button class="btn button-lokal-l {{ profile_page == 'change-password' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/change-password']"><i class="fas fa-edit mr-2" ></i>Change Password</button>
 					<!-- <button class="btn button-lokal-l {{ profile_page == 'my-referral' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/my-referral']"><i class="far fa-handshake mr-2"></i>My Referral</button> -->
 				</div>
@@ -187,7 +187,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="limits-and-verification" *ngIf="profile_page == 'limits-and-verification'">
+					<!-- <div class="limits-and-verification" *ngIf="profile_page == 'limits-and-verification'">
 						<div class="top-container">
 							<div class="container  color-lokal">
 								<span class="d-inline-block align-middle">
@@ -296,7 +296,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<div class="change-password" *ngIf="profile_page == 'change-password'">
 						<div class="top-container">
 							<div class="container"> 

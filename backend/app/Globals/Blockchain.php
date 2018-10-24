@@ -14,6 +14,7 @@ use App\Tbl_referral_bonus_log;
 use App\Tbl_main_wallet_addresses;
 use App\Tbl_User;
 use App\Tbl_position_requirements;
+use App\Tbl_release_logs;
 use App\Globals\Wallet;
 use App\Globals\Member_log;
 use Illuminate\Support\Facades\Crypt;
@@ -339,7 +340,7 @@ class Blockchain
                 {
                     $member_info = Tbl_other_info::where("user_id", $member_id)->update(["first_buy"=>1]);
                 }
-                Mails::order_accepted($accepted);
+                // Mails::order_accepted($accepted);
             }
         }
         Wallet::recomputeWallet($btc_ma_id);
@@ -620,20 +621,32 @@ class Blockchain
         // dd($post, $url, $myvars, $ch, $response, $json_feed);
         // dd($json_feed, $response, $ch, $myvars, $post, $url, $address_from, $guid, $passkey, $address_info);
         /* STORE BTC VALUE */
-        $return = new stdClass();
         $balance = @($json_feed->balance);
         // dd($post, $response, $json_feed, $return, $balance, $amount);
         if($json_feed)
         {
+            $return["data"] = $json_feed;
+            $return["status"]    = "success";
+            $return["status_message"]    = "Bitcoin has been sent";
+
+            $insert["release_type"] = "BTC";
+            $insert["release_amount"] = $json_feed->amounts[0] != 0 ? $json_feed->amounts[0]/100000000 : 0;
+            $insert["release_fee"] =  $json_feed->fee != 0 ? $json_feed->fee/100000000 : 0;
+            $insert["released_tx_hash"] = $json_feed->tx_hash;
+            $insert["released_from"] = $json_feed->from[0];
+            $insert["released_to"] = $json_feed->to[0];
+            $insert["date_released"] = Carbon::now();
+
             Tbl_member_address::where("member_address_id", $member_address_id)->update(["address_actual_balance" => 0]);
-            $msg_response    = "Bitcoin has been sent";
+            Tbl_release_logs::insert($insert);
         }
         else
         {
-            $msg_response   = "Unexpected error, Please try again.";
+            $return["status"]   = "error";
+            $return["status_message"]   = "Unexpected error, Please try again.";
         }
 
-        return $msg_response;
+        return $return;
     }
 
     /*Send all member wallet btc to cental wallet*/
@@ -679,17 +692,33 @@ class Blockchain
 
     public static function calculateBTCFee($amount = 0, $usd)
     {
+        $churl = curl_init("https://bitcoinfees.earn.com/api/v1/fees/recommended");
+
+        // Get cURL resource
+        $curl = curl_init();
+        // Set some options - we are passing in a useragent too here
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => 'https://bitcoinfees.earn.com/api/v1/fees/recommended',
+        ));
+        // Send the request & save response to $resp
+        $resp = curl_exec($curl);
+        // Close request to clear up some resources
+        $resp = json_decode($resp);
+        
         // $amount = $amount * 100000000;
         $amt = $amount * $usd;
 
-        $rate = $amt*1400;
+        $median = 225 * $resp->halfHourFee;
 
+        $rate = $amt*$median;
         // $original = $amount * 100000000;
         
         // $total = $original - $rate;
-
+        curl_close($curl);
         // dd($amt, $rate, $original, $total);
         return $rate/100000000;
+
     }
 
     public static function sendActualETHWalletToCentralWallet($member_address_id, $amount, $receiver = null, $usd = null)
@@ -751,7 +780,6 @@ class Blockchain
             $pvkey = Crypt::decryptString($funds->address_api_password);
             // dd($json_feed, $pvkey, $response, $curl, $amt, $url, $api_code, $sender, $receiver, $amt);
             $sign_transaction = Self::eth_sign_transaction($json_feed, $pvkey);
-
         }
 
         return $sign_transaction;
@@ -801,12 +829,9 @@ class Blockchain
             $_data["signatures"] = [$line];
             if($line)
             {
-
                 $send_transaction = Self::eth_send_transaction($_data);
             }
         });
-
-
     }
 
     public static function eth_send_transaction($params)
@@ -829,11 +854,21 @@ class Blockchain
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
 
         $response = curl_exec($ch);
-        
         $json_feed = json_decode($response);
-       
+        $return["data"] = $json_feed;
         $return["status"] = "success";
         $return["status_message"] = "successfully released eth";
+
+        $insert["release_type"] = "ETH";
+        $insert["release_amount"] = $json_feed->tx->total != 0 ? $json_feed->tx->total/1000000000000000000 : 0;
+        $insert["release_fee"] =  $json_feed->tx->fees != 0 ? $json_feed->tx->fees/1000000000000000000 : 0;
+        $insert["released_tx_hash"] = $json_feed->tx->hash;
+        $insert["released_from"] = "0x".$json_feed->tx->inputs[0]->addresses[0];
+        $insert["released_to"] = "0x".$json_feed->tx->outputs[0]->addresses[0];
+        $insert["date_released"] = Carbon::now();
+
+        Tbl_member_address::where("member_address", $insert["released_from"])->update(["address_actual_balance" => 0]);
+        Tbl_release_logs::insert($insert);
         return $return;
 
     }

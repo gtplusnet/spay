@@ -101,6 +101,7 @@ export class AdminMemberListComponent implements OnInit {
 
   update_focus : any;
   updating : boolean = false;
+  kyc_table : any;
 
   constructor(public rest : MemberInfoService, private http : HttpClient, private modalService: NgbModal) { }
 
@@ -181,6 +182,25 @@ export class AdminMemberListComponent implements OnInit {
         this.error_message = response["status_message"];
       }
     })
+  }
+
+  viewKYC(id, selector)
+  {
+    this.update_focus = this.rest.findObjectByKey(this._table, 'id', id);
+    var kyc_params : any = {}
+    kyc_params.login_token = this.rest.login_token
+    kyc_params.user_id = id
+      this.openLg(selector);
+
+    this.http.post(this.rest.api_url + "/api/admin/get_kyc_proof", kyc_params).subscribe(response=>
+    {
+      this.kyc_table = response;
+    })
+  }
+
+  strReplace(text)
+  {
+    return text.replace(/_/g, ' ').toUpperCase()
   }
 
   loadMemberTableBtc(id)

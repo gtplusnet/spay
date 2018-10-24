@@ -6,6 +6,7 @@ use App\Tbl_User;
 use App\Tbl_login;
 use App\Tbl_member_address;
 use App\Tbl_cash_in_proof;
+use App\Tbl_kyc_proof_v2;
 use App\Tbl_member_log;
 use App\Globals\Mails;
 use App\Tbl_email_verification;
@@ -147,6 +148,45 @@ class User
         return "success"; //kyc
         
 
+    }
+
+
+    public static function submit_kyc_proof($data)
+    {
+    	$insert["user_id"] = $data["user_id"];
+    	$insert["submitted_at"] = Carbon::now();
+
+    	if(isset($data["primary_id"]) && $data["primary_id"])
+    	{
+    		$insert["category"] = "primary_id";
+    		$insert["id_type"] = $data["primary_id1"];
+    		$insert["id_link"] = $data["primary_id"];
+    		Tbl_kyc_proof_v2::insert($insert);
+    	}
+
+    	if(isset($data["secondary_id_1"]) && $data["secondary_id_1"])
+    	{
+    		$insert["category"] = "secondary_id_1";
+    		$insert["id_type"] = $data["secondary_id1"];
+    		$insert["id_link"] = $data["secondary_id_1"];
+    		Tbl_kyc_proof_v2::insert($insert);
+    	}
+
+    	if(isset($data["secondary_id_2"]) && $data["secondary_id_2"])
+    	{
+    		$insert["category"] = "secondary_id_2";
+    		$insert["id_type"] = $data["secondary_id2"];
+    		$insert["id_link"] = $data["secondary_id_2"];
+    		Tbl_kyc_proof_v2::insert($insert);
+    	}
+    	
+    	if(isset($data["selfie_verification"]) && $data["selfie_verification"])
+    	{
+    		$insert["category"] = "selfie_verification";
+    		$insert["id_type"] = "Selfie with ID";
+    		$insert["id_link"] = $data["selfie_verification"];
+    		Tbl_kyc_proof_v2::insert($insert);
+    	}
     }
 
 }

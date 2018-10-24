@@ -27,6 +27,7 @@ use App\Tbl_automatic_cash_in;
 use App\Tbl_btc_transaction;
 use App\Tbl_member_address;
 use App\Tbl_member_position;
+use App\Tbl_kyc_proof_v2;
 use App\Tbl_other_info;
 use App\Tbl_referral;
 use App\Tbl_knowyourcustomer;
@@ -39,9 +40,11 @@ use App\Tbl_referral_bonus_log;
 use App\Tbl_central_wallet;
 use App\Tbl_faqs;
 use App\Tbl_files;
+use App\Tbl_release_logs;
 use PragmaRX\Google2FA\Google2FA;
 use stdClass;
 use Crypt;
+use Storage;
 
 class AdminApiController extends Controller
 {
@@ -878,16 +881,21 @@ class AdminApiController extends Controller
         if($request->member_address_id)
         {
             $first = Tbl_member_address::where("member_address_id", $request->member_address_id)->where("coin_id", $request->coin_id)->where("address_actual_balance", ">", 0)->first();
-            $data["to_be_released"] += $first->address_actual_balance;
 
-            if($request->coin_id == 3)
+            if($first)
             {
-                $data["estimated_fee"]  += Blockchain::calculateBTCFee($first->address_actual_balance, $request->usd);
+                $data["to_be_released"] += $first->address_actual_balance;
+
+                if($request->coin_id == 3)
+                {
+                    $data["estimated_fee"]  += Blockchain::calculateBTCFee($first->address_actual_balance, $request->usd);
+                }
+                else
+                {
+                    $data["estimated_fee"]  += Blockchain::calculateETHFee($first->address_actual_balance, $request->usd);
+                }
             }
-            else
-            {
-                $data["estimated_fee"]  += Blockchain::calculateETHFee($first->address_actual_balance, $request->usd);
-            }
+            
         }
         else
         {
@@ -909,7 +917,6 @@ class AdminApiController extends Controller
             }
             
         }
-
         
         return json_encode($data);
     }
@@ -993,7 +1000,6 @@ class AdminApiController extends Controller
             }
             
         }
-
         return $data;
     }
 
@@ -1046,4 +1052,36 @@ class AdminApiController extends Controller
 
         return json_encode($_data);
     }
+
+    function get_release_logs(Request $request)
+    {
+        $data = Tbl_release_logs::joinMember();
+
+        if(isset($request->release_type) && $request->release_type != "all")
+        {
+            $data = $data->where("release_type", $request->release_type);
+        }
+
+        if(isset($request->date_from) && $request->date_from)
+        {
+            $data = $data->whereDate("date_released", ">=", $request->date_from);
+        }
+
+        if(isset($request->date_to) && $request->date_to)
+        {
+            $data = $data->whereDate("date_released", "<=", $request->date_to);
+        }
+
+        $data = $data->get();
+
+        return $data;
+    }
+
+    function get_kyc_proof(Request $request)
+    {
+        $data = Tbl_kyc_proof_v2::where("user_id", $request->user_id)->get();
+        return $data;
+    }
+
+    
 }
