@@ -74,6 +74,15 @@ export class AdminConversionSettingsComponent implements OnInit
       });
   }
 
+  strReplace(text)
+  {
+    if(text == 'private_pre_sales')
+    {
+      text = 'private_sale'
+    }
+    return text.replace(/_/g, ' ').toUpperCase()
+  }
+
   changeSaleStage()
   {
 

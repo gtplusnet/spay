@@ -40,11 +40,11 @@
                             <div class="nav-alignment-x"><i class="far fa-handshake"></i></div> <small>Business Application <small class="notif-counter-{{admin_notif.new_business_application == 0 ? 'inactive' : 'active'}}">{{ admin_notif.new_business_application }}</small></small>
                         </a>
                     </li> -->
-                    <li class="dropdown-item py-1">
+                   <!--  <li class="dropdown-item py-1">
                         <a href="javascript:void(0)" [routerLink]="['/admin/kyc-verification']" class="nav-items-lokal" (click)="adminViewedNotif('new_kyc')">
                             <div class="nav-alignment-x"><i class="fas fa-id-card"></i></div> <small>Verification Request <small class="notif-counter-{{admin_notif.new_kyc == 0 ? 'inactive' : 'active'}}">{{ admin_notif.new_kyc }}</small></small>
                         </a>
-                    </li>
+                    </li> -->
 
                     <li class="dropdown-item nav-label-lokal p-0 m-0 mt-2 text-center">
                         Account
@@ -105,11 +105,11 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a [routerLink]="['/admin/kyc-verification']" class="nav-link py-1 px-4" (click)="adminViewedNotif('new_kyc')">
                             <div class="nav-alignment-x"><i class="far fa-check-square"></i></div><small>Profile/KYC Verification</small>
                         </a>
-                    </li>
+                    </li> -->
                      <!-- <li class="nav-item">
                         <a [routerLink]="['/admin/business-application']" class="nav-link py-1 px-4" (click)="adminViewedNotif('new_business_application')">
                             <div class="nav-alignment-x"><i class="fas fa-briefcase"></i></div><small>Business Application</small>

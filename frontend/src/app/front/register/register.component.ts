@@ -67,6 +67,53 @@ export class RegisterComponent implements OnInit {
   password_approve : boolean = false;
   confirm_password_approve : boolean = false;
   register_approve : boolean = false;
+
+  form_data = null;
+  uploading : boolean = false;
+  primary_1 = null;
+  secondary_1 = null;
+  secondary_2 = null;
+
+  primary_id1 = null;
+  secondary_id1 = null;
+  secondary_id2 = null;
+  selfie_id = null;
+
+  secondary_ids = [
+  "NBI Clearance",
+  "Police Clearance",
+  "Barangay Clearance",
+  "Cedula or Community Tax Certificate",
+  "Voter’s Certification",
+  "Government Service Record",
+  "School ID (For Recent students)",
+  "Seaman’s Book",
+  "Philhealth Card",
+  "PWD ID",
+  "TIN Card",
+  "Firearm’s",
+  "PLRA ID",
+  "Company ID",
+  "Alumni ID"]
+
+  secondary_ids2 = [
+  "NBI Clearance",
+  "Police Clearance",
+  "Barangay Clearance",
+  "Cedula or Community Tax Certificate",
+  "Voter’s Certification",
+  "Government Service Record",
+  "School ID (For Recent students)",
+  "Seaman’s Book",
+  "Philhealth Card",
+  "PWD ID",
+  "TIN Card",
+  "Firearm’s",
+  "PLRA ID",
+  "Company ID",
+  "Alumni ID"]
+
+
   public captchaResp = null;
 
   country_loading : boolean;
@@ -111,16 +158,50 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
     this.login_url = this.rest.api_url + "/api/new_login";
     this.register_url = this.rest.api_url + "/api/new_register";
-    this.country_loading = false;
+    this.country_loading = true;
     this.country_code = 0;
     this.entity = 0;
     $("#reset_captcha").trigger('click');
-  	// this.http.get(this.rest.api_url + "/api/get_country_codes").subscribe(response=>
-  	// {
-   //    this.country_codes = response;
-   //    this.country_loading = false;
-  	// });
+  	this.http.get(this.rest.api_url + "/api/get_country_codes").subscribe(response=>
+  	{
+      this.country_codes = response;
+      this.system_register.country_code_id = this.country_codes[0].country_code_id;
+      this.system_register.gender          = "Male";
+      this.country_loading = false;
+  	});
+    this.primary_id1 = "Passport";
+    this.secondary_id1 = this.secondary_ids[0];
+    this.secondary_id2 = this.secondary_ids2[0];
+    this.changeSecondary();
+  }
 
+  changeSecondary()
+  {
+    this.secondary_ids2 = [
+    "NBI Clearance",
+    "Police Clearance",
+    "Barangay Clearance",
+    "Cedula or Community Tax Certificate",
+    "Voter’s Certification",
+    "Government Service Record",
+    "School ID (For Recent students)",
+    "Seaman’s Book",
+    "Philhealth Card",
+    "PWD ID",
+    "TIN Card",
+    "Firearm’s",
+    "PLRA ID",
+    "Company ID",
+    "Alumni ID"]
+
+    for(var i = 0; i <= this.secondary_ids2.length; i++)
+    {
+      if(this.secondary_id1 == this.secondary_ids2[i])
+      {
+        this.secondary_ids2.splice(i, 1);
+      }
+    }
+  this.secondary_id2 = this.secondary_ids2[0];
   }
 
   resolved(captchaResponse: string) 
@@ -271,7 +352,18 @@ export class RegisterComponent implements OnInit {
   {
     this.error_message = "no-message";
     this.submitted = true;
-    // console.log(this.recaptcha_v2_token, 123, "abc");
+    
+    this.system_register.primary_id1 = this.primary_id1
+    this.system_register.secondary_id1 = this.secondary_id1
+    this.system_register.secondary_id2 = this.secondary_id2
+
+    this.system_register.primary_id = this.primary_1
+    this.system_register.secondary_id_1 = this.secondary_1
+    this.system_register.secondary_id_2 = this.secondary_2
+
+    this.system_register.selfie_verification = this.selfie_id
+
+
     this.onRegister(this.system_register, 'system');  
   }
 
@@ -355,4 +447,71 @@ export class RegisterComponent implements OnInit {
     this.modal_ref = this.modalService.open(content, {'backdrop': 'static', 'keyboard':false, 'centered' : true});
   }
 
+
+
+  onFileChange(event, type)
+  {
+    if(type == 'secondary_2')
+    {
+      this.primary_1 = null;
+    }
+    else if(type == 'primary_1')
+    {
+      this.primary_1 = null;
+      this.secondary_1 = null;
+      this.secondary_2 = null;
+    }
+
+    this.form_data = new FormData();
+
+    if(event.target.files.length > 0)
+    {
+      this.form_data.append('upload', event.target.files[0]);
+      this.form_data.append('folder', 'kyc_proof');
+
+      this.uploading         = true;
+
+      this.rest.uploadProof(this.form_data).subscribe(response =>
+      {
+        if(response)
+        {
+          if(type == 'primary_1')
+          {
+            this.primary_1 = response;
+          }
+          else if(type == 'secondary_1')
+          {
+            this.secondary_1 = response;
+          }
+          else if(type == 'secondary_2')
+          {
+            this.secondary_2 = response;
+          }
+          else if(type == 'selfie_id')
+          {
+            this.selfie_id = response;
+          }
+          console.log(this.primary_1, this.secondary_1, this.secondary_2)
+          this.uploading       = false;
+        }
+      });
+    }
+  }
+
+  uploadProof(id)
+  {
+    if(!this.primary_1 && !this.secondary_1)
+    {
+      $("#"+id).trigger('click');
+    }
+    else if(this.secondary_1 && !this.primary_1 && !this.secondary_2)
+    {
+      $("#"+id).trigger('click');
+    }
+
+    if(id == "selfie_id" && !this.selfie_id)
+    {
+      $("#"+id).trigger('click');
+    }
+  }
 }

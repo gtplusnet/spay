@@ -227,6 +227,12 @@
 					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.first_time_login == 0" (click)="viewAccountDetails(data.id, view_account_details)">Account Details</a>
 					    </li>
 					    <li role="menuitem">
+					    	<a href="javascript:void(0)" class="dropdown-item" (click)="updateAccountDetails(data.id, update_account_details)">Update Account Details</a>
+					    </li>
+					    <li role="menuitem">
+					    	<a href="javascript:void(0)" class="dropdown-item" (click)="viewKYC(data.id, view_kyc_details)">View KYC</a>
+					    </li>
+					    <li role="menuitem">
 					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.status_account == 0" (click)="activeDeactiveUser(data.id, 1)">Activate User</a>
 					    </li>
 					    <li role="menuitem">
@@ -292,7 +298,7 @@
 								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.company_name == null ? 'N/A': data_focus.company_name }}</h4>
 								<small class="font-weight-bold mb-5">Company</small>
 								<h5 class="mb-0 font-weight-light mt-2">{{ data_focus['Successmall'].member_address != null ? data_focus['Successmall'].member_address : 'N/A' }}</h5>
-								<small class="font-weight-bold mb-5">Lokal Wallet Address</small>
+								<small class="font-weight-bold mb-5">XS Wallet Address</small>
 							</div>
 							<div class="col-lg-6 col-xs-12">
 								<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.is_admin == 1 ? 'Administrator' : 'Member'}}</h4>
@@ -747,6 +753,53 @@
 </div>
 </ng-template>
 
+<ng-template #update_account_details let-c="close" let-d="dismiss">
+	<div class="change_password">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Update Account Details for {{ update_focus.first_name }} {{ update_focus.last_name }}</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left">
+			<div class="row">
+				<div class="col-md-12 col-xs-12" *ngIf="error_message != 'no-message'">
+					<div class="alert alert-success text-center">
+					{{ error_message }}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-xs-12">
+					<small class="d-block font-weight-bold">First Name</small>
+					<input type="text" class="form-control input-lokal-x mb-2" [(ngModel)]="update_focus.first_name">
+				</div>
+				<div class="col-md-6 col-xs-12">
+					<small class="d-block font-weight-bold">Last Name</small>
+					<input type="text" class="form-control input-lokal-x mb-2" [(ngModel)]="update_focus.last_name">
+				</div>	
+				<div class="col-md-6 col-xs-12">
+					<small class="d-block font-weight-bold">Date of Birth</small>
+					<input type="date" class="form-control input-lokal-x mb-2" [ngModel]="update_focus.birth_date | date:'yyyy-MM-dd'" (ngModelChange)="update_focus.birth_date = $event">
+				</div>
+				<div class="col-md-6 col-xs-12">
+					<small class="d-block font-weight-bold">Email Address</small>
+					<input type="email" class="form-control input-lokal-x mb-2" [(ngModel)]="update_focus.email">
+				</div>	
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-md-6 col-xs-12">
+				</div>
+				<div class="col-md-6 col-xs-12">
+					<button class="btn button-lokal-x btn-block" disabled="{{updating ? 'disabled' : ''}}" (click)="updateProfile(update_focus.id)"><i class="fas fa-save mr-2"></i>Save Changes</button>		
+				</div>	
+			</div>
+				
+		</div>
+	</div>
+</ng-template>
+
 <ng-template #change_password let-c="close" let-d="dismiss">
 	<div class="change_password">
 		<div class="modal-header">
@@ -1098,6 +1151,54 @@
 					</tbody>
 				</table>
 			</div>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #view_kyc_details let-c="close" let-d="dismiss">
+	<div class="view_kyc_details">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Viewing KYC Details of {{ update_focus.first_name }} {{ update_focus.last_name }}</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left" *ngIf="kyc_table">
+			<ul class="nav nav-tabs" id="myTab" role="tablist">
+			  <li class="nav-item" *ngFor="let data of kyc_table; let i = index">
+			    <a class="nav-link {{ i == 0 ? 'active' : '' }}" id="home-tab" data-toggle="tab" href="#{{data.category}}" role="tab" aria-controls="home" aria-selected="true">
+			  		{{ strReplace(data.category) }}
+			    </a>
+			  </li>
+			</ul>
+			<div class="tab-content" id="myTabContent">
+			  <div *ngFor="let content of kyc_table; let ia = index" class="tab-pane fade {{ ia == 0 ? 'show active' : '' }} p-3 text-center" id="{{content.category}}" role="tabpanel" aria-labelledby="home-tab">
+			  	<h5 class="mb-0">
+			  		{{ content.id_type }}
+			  	</h5>
+			  	<hr class="my-0">
+			  	<img src="{{ content.id_link }}" alt="" class="img-fluid">
+			  </div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button (click)="activeDeactiveUser(update_focus.id, 1) && modal_ref.close()" class="btn button-lokal-x btn-block my-1" disabled="{{update_loading ? 'disabled' : ''}}" *ngIf="update_focus.status_account == 0">
+				<small>
+					Activate User
+				</small>
+			</button>
+			<button (click)="activeDeactiveUser(update_focus.id, 0) && modal_ref.close()" class="btn button-lokal-x btn-block my-1" disabled="{{update_loading ? 'disabled' : ''}}" *ngIf="update_focus.status_account == 1">
+				<small>
+					Activate User
+				</small>
+			</button><!-- 
+
+			<li role="menuitem">
+		    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.status_account == 0" (click)="activeDeactiveUser(data.id, 1)">Activate User</a>
+		    </li>
+		    <li role="menuitem">
+		    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.status_account == 1" (click)="activeDeactiveUser(data.id, 0)">Deactivate User</a>
+		    </li> -->
 		</div>
 	</div>
 </ng-template>

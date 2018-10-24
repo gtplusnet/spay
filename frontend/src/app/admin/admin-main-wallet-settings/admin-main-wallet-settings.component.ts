@@ -44,6 +44,10 @@ export class AdminMainWalletSettingsComponent implements OnInit {
   wallet_receiver : any;
   totals  : any;
 
+  release_logs : any;
+  release_log_filter : any = {};
+  release_log_focus : any;
+
   constructor(public rest:MemberInfoService, private http:HttpClient, private modalService:NgbModal) { }
 
   ngOnInit() {
@@ -53,6 +57,7 @@ export class AdminMainWalletSettingsComponent implements OnInit {
     this.loadTable();
     this.coin_id = 0;
     this.step = 1;
+    this.release_log_filter.release_type = "all";
   }
 
   getTotals()
@@ -79,8 +84,14 @@ export class AdminMainWalletSettingsComponent implements OnInit {
     this.saving_output.message = "no-message";
     this.step = 1;
     this.wallet = null;
-    this.getEstimation();
+    
    	this.modal_ref = this.modalService.open(content, {'size': 'lg'});
+   }
+
+   viewReleaseDetail(id)
+   {
+     this.release_log_focus = this.rest.findObjectByKey(this.release_logs, 'release_log_id', id)
+     console.log(this.release_log_focus)
    }
 
    loadTable()
@@ -96,8 +107,38 @@ export class AdminMainWalletSettingsComponent implements OnInit {
        this.table = response;
        this.table_loader = false;
        this.getTotals();
-       
+       this.loadReleaseLogs();
      })
+   }
+
+   loadReleaseLogs()
+   {
+     this.release_log_filter.login_token = this.rest.login_token
+     this.http.post(this.rest.api_url + "/api/admin/get_release_logs", this.release_log_filter).subscribe(response=>
+     {
+       this.release_logs = response
+       console.log(this.release_logs)
+     })
+   }
+
+   getExternalDomain(type)
+   {
+     var domain = null;
+     if(type == "BTC")
+     {
+       domain = "https://www.blockchain.com/btc/tx/"
+     }
+     else
+     {
+       domain = "https://etherscan.io/tx/0x"
+     }
+
+     return domain
+   }
+
+   wrapWalletAddress(address)
+   {
+     return address.substr(0, 4) + '....' + address.substr(address.length-4, address.length);
    }
 
    openRelease(id, selector)
@@ -180,9 +221,11 @@ export class AdminMainWalletSettingsComponent implements OnInit {
 
    goToStep(param = null, step)
    {
+
     this.step = step; 
     this.setup_wallet.mwallet_type = param;
     this.wallet = param;
+    this.getEstimation();
    }
 
    editWallet(id)
@@ -222,10 +265,11 @@ export class AdminMainWalletSettingsComponent implements OnInit {
 
    getEstimation(id = null)
    {
+     console.log(this.wallet);
      this.http.post(this.rest.api_url + "/api/admin/get_estimated_tx",
      {
-       coin_id : 3,
-       usd : this.rest._exchange_rate.BTC.USD,
+       coin_id : this.wallet == 'BTC' ? 3 : 2,
+       usd : this.wallet == 'BTC' ? this.rest._exchange_rate.BTC.USD : this.rest._exchange_rate.ETH.USD,
        login_token : this.rest.login_token,
        member_address_id : id
      }).subscribe(response=>

@@ -8,7 +8,7 @@
 
 .register-page 
 {
-	height: 100vh;
+	min-height: 100vh;
 	background-color: $base-color;
 	color: white;
 	background-image: url('../../../assets/spay_assets/img/back_light2.png');
@@ -111,6 +111,42 @@
 	}
 }
 
+.py-3
+{
+	width: 100%;
+
+	.lokal-forms 
+	{
+		width: 675px;
+		text-align: left !important;
+		input, button, textarea 
+		{
+			width: 100% !important;
+		}
+		input[type="file"]
+		{
+			padding: 5px !important;
+			margin: 0px !important;
+		}
+		.btn-upload
+		{
+			padding: 5px;
+			background: #118adb !important;
+			border: #118adb !important;
+			&:hover
+			{
+				background: #059aff !important;
+				border: #118adb !important;
+			}
+			&:disabled
+			{
+				background: #5b7e96 !important;
+				border: #5b7e96 !important;
+				cursor: not-allowed;
+			}
+		}
+	}
+}
 
 /* Media Query */
 
@@ -137,9 +173,10 @@
 
 			.lokal-forms 
 			{
+				text-align: center !important;
 				width: 100%;
 
-				input, button 
+				input, button, textarea 
 				{
 					width: 100% !important;
 				}

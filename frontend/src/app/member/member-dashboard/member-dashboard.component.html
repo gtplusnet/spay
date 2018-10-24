@@ -41,7 +41,7 @@
 				     
 				</div>
 				<div class="col-lg-4 col-xs-12 dashboard-timer text-center d-flex flex-column align-items-center" *ngIf="rest._stages.sale_stage_type != 'no_sale_stage'">
-						<h5 class="mb-0" style="text-transform: uppercase;">ONGOING {{ sale_stage_name }}</h5>
+						<h5 class="mb-0" style="text-transform: uppercase;">ONGOING {{ strReplace(rest._stages.sale_stage_type) }}</h5>
 						<hr class="my-1">
 						<span class="d-flex justify-content-center align-items-center">
 							<div>

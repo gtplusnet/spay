@@ -99,6 +99,10 @@ export class AdminMemberListComponent implements OnInit {
   id_referral_table                : number;
   referral_table_loader            : boolean;
 
+  update_focus : any;
+  updating : boolean = false;
+  kyc_table : any;
+
   constructor(public rest : MemberInfoService, private http : HttpClient, private modalService: NgbModal) { }
 
   ngOnInit() {
@@ -159,6 +163,46 @@ export class AdminMemberListComponent implements OnInit {
       });
 	}
 
+  updateAccountDetails(id, selector)
+  {
+    this.update_focus = this.rest.findObjectByKey(this._table, 'id', id);
+    this.openLg(selector)
+  }
+
+  updateProfile(id)
+  {
+    this.error_message = "no-message";
+    this.updating = true;
+    this.update_focus.login_token = this.rest.login_token;
+    this.http.post(this.rest.api_url + "/api/admin/update_user_information", this.update_focus).subscribe(response=>
+    {
+      if(response["status"] == "success")
+      {
+        this.updating = false
+        this.error_message = response["status_message"];
+      }
+    })
+  }
+
+  viewKYC(id, selector)
+  {
+    this.update_focus = this.rest.findObjectByKey(this._table, 'id', id);
+    var kyc_params : any = {}
+    kyc_params.login_token = this.rest.login_token
+    kyc_params.user_id = id
+      this.openLg(selector);
+
+    this.http.post(this.rest.api_url + "/api/admin/get_kyc_proof", kyc_params).subscribe(response=>
+    {
+      this.kyc_table = response;
+    })
+  }
+
+  strReplace(text)
+  {
+    return text.replace(/_/g, ' ').toUpperCase()
+  }
+
   loadMemberTableBtc(id)
   {
     this.modal_table_loader = true;
@@ -211,11 +255,13 @@ export class AdminMemberListComponent implements OnInit {
 
   open(content)
   {
+    this.error_message = "no-message"
     this.modal_ref = this.modalService.open(content);
   }
 
   openLg(content)
   {
+    this.error_message = "no-message"
     this.modal_ref = this.modalService.open(content, {'size': 'lg'});
   }
 

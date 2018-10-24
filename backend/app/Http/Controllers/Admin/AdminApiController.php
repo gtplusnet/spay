@@ -27,6 +27,7 @@ use App\Tbl_automatic_cash_in;
 use App\Tbl_btc_transaction;
 use App\Tbl_member_address;
 use App\Tbl_member_position;
+use App\Tbl_kyc_proof_v2;
 use App\Tbl_other_info;
 use App\Tbl_referral;
 use App\Tbl_knowyourcustomer;
@@ -39,9 +40,11 @@ use App\Tbl_referral_bonus_log;
 use App\Tbl_central_wallet;
 use App\Tbl_faqs;
 use App\Tbl_files;
+use App\Tbl_release_logs;
 use PragmaRX\Google2FA\Google2FA;
 use stdClass;
 use Crypt;
+use Storage;
 
 class AdminApiController extends Controller
 {
@@ -878,20 +881,42 @@ class AdminApiController extends Controller
         if($request->member_address_id)
         {
             $first = Tbl_member_address::where("member_address_id", $request->member_address_id)->where("coin_id", $request->coin_id)->where("address_actual_balance", ">", 0)->first();
-            $data["to_be_released"] += $first->address_actual_balance;
-            $data["estimated_fee"]  += Blockchain::calculateBTCFee($first->address_actual_balance, $request->usd);
+
+            if($first)
+            {
+                $data["to_be_released"] += $first->address_actual_balance;
+
+                if($request->coin_id == 3)
+                {
+                    $data["estimated_fee"]  += Blockchain::calculateBTCFee($first->address_actual_balance, $request->usd);
+                }
+                else
+                {
+                    $data["estimated_fee"]  += Blockchain::calculateETHFee($first->address_actual_balance, $request->usd);
+                }
+            }
+            
         }
         else
         {
             $list = Tbl_member_address::where("coin_id", $request->coin_id)->where("address_actual_balance", ">", 0)->get();
-        
-            foreach ($list as $key => $value) 
+            if($list)
             {
-                $data["to_be_released"] += $value->address_actual_balance;
-                $data["estimated_fee"]  += Blockchain::calculateBTCFee($value->address_actual_balance, $request->usd);
+                foreach ($list as $key => $value) 
+                {
+                    $data["to_be_released"] += $value->address_actual_balance;
+                    if($request->coin_id == 3)
+                    {
+                        $data["estimated_fee"]  += Blockchain::calculateBTCFee($value->address_actual_balance, $request->usd);
+                    }
+                    else
+                    {
+                        $data["estimated_fee"]  += Blockchain::calculateETHFee($value->address_actual_balance, $request->usd);
+                    }
+                }
             }
+            
         }
-
         
         return json_encode($data);
     }
@@ -945,12 +970,36 @@ class AdminApiController extends Controller
 
         $list = Tbl_member_address::where("coin_id", $coin)->where("address_actual_balance", ">", 0)->get();
 
-        foreach ($list as $key => $value) 
-        {
-            $balance = $value->address_actual_balance * 100000000;
-            $data = Blockchain::sendActualBTCWalletToCentralWallet($value->member_address_id, $balance, $request->wallet_receiver, $request->usd);
-        }
+        
 
+        if($request->wallet == "BTC")
+        {
+            foreach ($list as $key => $value) 
+            {
+                $balance = $value->address_actual_balance * 100000000;
+                $data = Blockchain::sendActualBTCWalletToCentralWallet($value->member_address_id, $balance, $request->wallet_receiver, $request->usd);
+            }
+        }
+        else
+        {
+            foreach ($list as $key => $value) 
+            {
+                $release_amt = $value->address_actual_balance * 1000000000000000000;
+                $balance = Blockchain::get_blockchain_ethereum_balance($value->member_address);
+                if($balance->balance > 0)
+                {
+                    $data = Blockchain::sendActualETHWalletToCentralWallet($value->member_address_id, $release_amt, $request->wallet_receiver, $request->usd);
+                }
+                else
+                {
+                    $update["address_actual_balance"] = 0;
+                    Tbl_member_address::where("member_address", $value->member_address)->update($update);
+                    $data["status_message"] = "No balance to be released";
+                    $data["status"] = "success";
+                }
+            }
+            
+        }
         return $data;
     }
 
@@ -990,5 +1039,49 @@ class AdminApiController extends Controller
         return json_encode($return);
     }
 
+    function update_user_information(Request $request)
+    {
+        $update["first_name"] = $request->first_name;
+        $update["last_name"] = $request->last_name;
+        $update["email"] = $request->email;
+        $update["birth_date"] = $request->birth_date;
 
+        $data = Tbl_User::where("id", $request->id)->update($update);
+        $_data["status"] = "success";
+        $_data["status_message"] = "Successfully updated user information!";
+
+        return json_encode($_data);
+    }
+
+    function get_release_logs(Request $request)
+    {
+        $data = Tbl_release_logs::joinMember();
+
+        if(isset($request->release_type) && $request->release_type != "all")
+        {
+            $data = $data->where("release_type", $request->release_type);
+        }
+
+        if(isset($request->date_from) && $request->date_from)
+        {
+            $data = $data->whereDate("date_released", ">=", $request->date_from);
+        }
+
+        if(isset($request->date_to) && $request->date_to)
+        {
+            $data = $data->whereDate("date_released", "<=", $request->date_to);
+        }
+
+        $data = $data->get();
+
+        return $data;
+    }
+
+    function get_kyc_proof(Request $request)
+    {
+        $data = Tbl_kyc_proof_v2::where("user_id", $request->user_id)->get();
+        return $data;
+    }
+
+    
 }

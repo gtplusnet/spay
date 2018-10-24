@@ -27,7 +27,7 @@
 						Select Stage
 					</small>
 					<select name="sale_stage_id" (change)="changeSaleStage()" [(ngModel)]="sale_stage_index" class="form-control input-lokal-x">
-						<option *ngFor="let sale_stage of _sale_stage; let i = index" value="{{i}}">{{sale_stage.sale_stage_type}}</option>
+						<option *ngFor="let sale_stage of _sale_stage; let i = index" value="{{i}}">{{ strReplace(sale_stage.sale_stage_type) }}</option>
 					</select>
 				</div>
 				<div class="col-lg-6 col-xs-12 mb-2">

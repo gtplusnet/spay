@@ -43,6 +43,7 @@ Route::get('/api/google_analytics_data', 'ApiController@google_analytics_data');
 Route::post('/api/submit_business_registration','ApiController@submit_business_registration');
 Route::post('/api/upload_file_business','ApiController@upload_file_business_application');
 Route::post('/api/upload_system_files_documents','ApiController@upload_system_files_documents');
+Route::post('/api/upload_proof','ApiController@upload_proof');
 
 //Forget password front end
 Route::any('/api/forgot_password','ApiController@forget_account_request');
@@ -158,6 +159,9 @@ Route::post('/api/admin/add_new_file','Admin\AdminApiController@add_new_file');
 Route::post('/api/admin/setup_wallet_address','Admin\AdminApiController@setup_wallet_address');
 Route::post('/api/admin/get_estimated_tx','Admin\AdminApiController@get_estimated_tx');
 Route::post('/api/admin/get_total_crypto','Admin\AdminApiController@get_total_crypto');
+Route::post('/api/admin/update_user_information','Admin\AdminApiController@update_user_information');
+Route::post('/api/admin/get_release_logs','Admin\AdminApiController@get_release_logs');
+Route::post('/api/admin/get_kyc_proof','Admin\AdminApiController@get_kyc_proof');
 
 //member referral API
 Route::post('/api/member/get_referrals','Member\MemberApiController@get_referrals');

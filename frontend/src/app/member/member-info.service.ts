@@ -207,6 +207,14 @@ export class MemberInfoService
 		return app.http.post(sync_url, form_data);
 	}
 
+	uploadProof(form_data) : Observable<object>
+    {
+        var app                 = this;
+        var sync_url            = app.api_url + "/api/upload_proof";
+        form_data["login_token"] = app.login_token;
+        return app.http.post(sync_url, form_data);
+    }
+
 	submitPaymentProof(param) : Observable<object>
 	{
 		var app 				= this;

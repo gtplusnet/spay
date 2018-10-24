@@ -223,17 +223,23 @@
 	flex-direction: column;
 	border-top: 5px solid $base-color;
 	border-bottom: 5px solid $base-color;
-	input
+	input, select, textarea
 	{
 		width: 301px;
 		height: 38px;
 		margin: 5px 0px;
 		font-size: 13px;
-		padding: 13px;
+		padding: 10px;
 		border: 1px solid rgba(147, 104, 1, 0.2);
 		color: $base-color-dark;
 		font-family: 'Roboto Condensed', sans-serif !important;
 	}
+
+	textarea
+	{
+		height: 50px !important;
+	}
+
 	button
 	{
 		width: 301px !important;
@@ -446,3 +452,4 @@ body {
 	font-size: 5px;
 	padding: 2px;
 }
+

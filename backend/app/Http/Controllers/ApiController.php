@@ -38,6 +38,7 @@ use League\Flysystem\AwsS3v3\AwsS3Adapter;
 use League\Flysystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
 use PragmaRX\Google2FA\Google2FA;
+use Illuminate\Http\Request as Request2;
 
 use Crypt;
 use SSH;
@@ -592,10 +593,24 @@ class ApiController extends Controller
     {
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-        // dd(request()->all());
+
+
         /* INITIALIZE RULES */
         $rules["first_name"]              = array("required", "alpha_spaces", "min:2");
         $rules["last_name"]               = array("required", "alpha_spaces", "min:2");
+        $rules["selfie_verification"]     = array("required");
+
+
+        if($request->primary_id)
+        {   
+            $rules["primary_id"]               = array("required");
+        }
+        else
+        {
+            $rules["secondary_id_1"]               = array("required");
+            $rules["secondary_id_2"]               = array("required");
+        }
+
 
         // dd(Hash::make($request->first_name));
 
@@ -621,9 +636,14 @@ class ApiController extends Controller
             $insert["last_name"]            = $request->last_name;
             if($request->platform == "system")
             {
-                $insert["email"]                = $request->email;
+                $insert["email"]                        = $request->email;
+                $insert["country_code_id"]              = $request->country_code_id;
+                $insert["phone_number"]                 = $request->phone_number;
+                $insert["gender"]                       = $request->gender;
+                $insert["nationality"]                  = $request->nationality;
+                $insert["address_line1"]                = $request->address_line1;
+                $insert["address_line2"]                = $request->address_line2;
             }
-
 
             $insert["facebook_id"]          = $request->id;
             $insert["create_ip_address"]    = $_SERVER['REMOTE_ADDR'];
@@ -637,7 +657,7 @@ class ApiController extends Controller
 
             $member_id                      = Tbl_User::insertGetId($insert);
 
-            $ref_insert["referral_link"] = substr(md5(Carbon::now()."LOKALIZEICO"), 0, 7);
+            $ref_insert["referral_link"] = substr(md5(Carbon::now()."XSTOKEN"), 0, 7);
             $ref_insert["referral_user_id"]       = $member_id;
             $referral_id = Tbl_referral::insertGetId($ref_insert);
 
@@ -702,15 +722,21 @@ class ApiController extends Controller
                 // $data["member"] = Tbl_User::where("email",$data["email"]->verification_email)->first();
                 
                 // Mails::send_register_verification($data);
-
+                $kyc_insert["user_id"]                  = $member_id;
+                $kyc_insert["primary_id"]               = $request->primary_id;
+                $kyc_insert["secondary_id_1"]           = $request->secondary_id_1;
+                $kyc_insert["secondary_id_2"]           = $request->secondary_id_2;
+                $kyc_insert["primary_id1"]              = $request->primary_id1;
+                $kyc_insert["secondary_id1"]            = $request->secondary_id1;
+                $kyc_insert["secondary_id2"]            = $request->secondary_id2;
+                $kyc_insert["selfie_verification"]      = $request->selfie_verification;
+                User::submit_kyc_proof($kyc_insert);
                 User::send_email_verification_link($request->email, $member_id);
             }
         }
 
         return json_encode($return);
     }
-
-    
 
     function faqs_list_homepage(Request $request)
     {
@@ -932,7 +958,7 @@ class ApiController extends Controller
 
                     $update_email_verification["is_used"] = 1;
                     $update_user["verified_mail"]   = 1;
-                    $update_user["status_account"]  = $position->member_position_id == 1 ? 1 : 0;
+                    // $update_user["status_account"]  = $position->member_position_id == 1 ? 1 : 0;
                     if($data["member"]->password == null) // remove platform ($data["member"]->platform == system)
                     {
                         $update_user["password"]        = Hash::make($passkey);
@@ -1303,5 +1329,25 @@ class ApiController extends Controller
         }
 
         return json_encode($return);
+    }
+
+    public function upload_proof(Request $request)
+    {
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+
+        $file = $request->file('upload');
+
+        $path_prefix = 'https://aeolus-storage.sgp1.digitaloceanspaces.com/';
+        $path = "successpay/".$request->input('folder');
+        $storage_path = storage_path();
+
+        if ($file->isValid())
+        {
+            $full_path = Storage::disk('s3')->putFile($path, $file, "public");
+            $url = Storage::disk('s3')->url($full_path);
+            return json_encode($url);
+        }
     }
 }
