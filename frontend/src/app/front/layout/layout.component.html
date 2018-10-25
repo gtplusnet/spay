@@ -18,9 +18,9 @@
 				<li class="nav-item">
 					<a class="nav-link nav-link-text navigation__link" href="#about">About Us</a>
 				</li>
-				<li class="nav-item">
+				<!-- <li class="nav-item">
 					<a class="nav-link nav-link-text navigation__link" href="#how_it_works">How It Works</a>
-				</li>
+				</li> -->
 				<li class="nav-item mob-show">
 					<a class="nav-link" href="/login" *ngIf="!globalConfigService.isLoggedIn()">Login</a>
 					<a class="nav-link" href="/member" *ngIf="globalConfigService.isLoggedIn()">{{ rest.first_name }} {{ rest.last_name }}</a>
