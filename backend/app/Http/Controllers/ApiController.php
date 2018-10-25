@@ -161,7 +161,7 @@ class ApiController extends Controller
                 /*Check if account was verified*/
                 if($check_member['status_account'] == 0) 
                 {
-                    $return["message"]  = "Your account is not activated yet.";
+                    $return["message"]  = "Your account is not activated yet. We will notify you through Email once your account activation is already approved.";
                     $return["status"]   = "fail";  
                 }
                 else if (Hash::check($request->password, $check_member->password))
