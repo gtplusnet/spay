@@ -637,7 +637,13 @@ class Blockchain
             $insert["released_to"] = $json_feed->to[0];
             $insert["date_released"] = Carbon::now();
 
-            Tbl_member_address::where("member_address_id", $member_address_id)->update(["address_actual_balance" => 0]);
+            $btc_actual_balance = Self::get_blockchain_bitcoin_balance($address_info['guid'], $address_info['address_api_password']);
+        
+            // crypto conversion
+            $cc = 100000000;
+            $btc_value = $btc_actual_balance > 0 ? $btc_actual_balance/$cc : 0;
+
+            Tbl_member_address::where("member_address_id", $member_address_id)->update(["address_actual_balance" => $btc_value]);
             Tbl_release_logs::insert($insert);
         }
         else
