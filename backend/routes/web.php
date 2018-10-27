@@ -54,6 +54,7 @@ Route::any('/api/balance/{address}', 'ApiController@checkBalance');
 
 //Member API
 Route::post('/api/member/dashboard', 'Member\MemberApiController@dashboard');
+Route::post('/api/member/place_sponsor', 'Member\MemberApiController@place_sponsor');
 Route::post('/api/member/member_info', 'Member\MemberApiController@member_info');
 Route::post('/api/member/other_info', 'ApiController@other_info');
 Route::post('/api/member/sale_stages', 'ApiController@get_sale_stages');

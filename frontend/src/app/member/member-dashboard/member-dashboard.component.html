@@ -514,5 +514,43 @@
 	</div>
 </ng-template>
 
+<!-- sponsor placement Pop up -->
+<ng-template #notify_sponsor let-c="close" let-d="dismiss">
+	<div class="view_account_details">
+		<div class="modal-header">
+			<h5 class="modal-title"><i class="fas fa-calendar-alt mr-2"></i>Sponsor</h5>
+			<button type="button" class="close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body color-lokal-x">
+			<div class="row mb-2" *ngIf="sponsor_error_message">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center error-message">
+						<span>{{ sponsor_error_message }}</span>
+					</div>
+				</div>
+			</div>
+			<div class="row mb-2" *ngIf="sponsor_success_message">
+				<div class="col-xs-12 col-lg-12">
+					<div class="d-flex justify-content-center align-items-center p-2 text-center success-message">
+						<span>Success</span>
+					</div>
+				</div>
+			</div>
+    		<div class="col-md-12">
+    			<div class="col-md-12">
+    				<label>Sponsor Email</label>
+ 					<input type="text" class="form-control" [(ngModel)]="sponsor_target">
+    			</div>
+        	</div>
+    		<div class="col-md-12">
+    			<div class="col-md-3 pull-right">
+    				<button class="btn-primary p-2 w-100 my-1" (click)="submit_sponsor()">Place</button>
+    			</div>
+        	</div>
+		</div>
+	</div>
+</ng-template>
 
 

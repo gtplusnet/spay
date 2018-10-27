@@ -28,7 +28,17 @@ class Seed
         /* Get Bonus Coin per Sale Stage List */
 		$data["_sale_stage_bonus"] = Coin::getBonusSaleStageList();
 		
-		Self::dev_account_seed();
+		$check_dev = DB::table("users")->where("username","developer")->first();
+		if(!$check_dev)
+		{
+			Self::dev_account_seed();
+		}
+
+		$check_company_head = DB::table("users")->where("email","companyhead@successmall.com")->first();
+		if(!$check_company_head)
+		{
+			Self::companyhead_account_seed();
+		}
         
 	}
 
@@ -153,6 +163,69 @@ class Seed
 		$insert["platform"]          	= "system";
 		$insert["first_time_login"]     = 0;
 		$insert["crypto_purchaser"]     = null;
+
+		$member_id                      = DB::table("users")->insertGetId($insert);
+
+		$ref_insert["referral_link"] 		  = substr(md5(Carbon::now()."XSTOKEN"), 0, 7);
+		$ref_insert["referral_user_id"]       = $member_id;
+		$referral_id = DB::table("tbl_referral")->insertGetId($ref_insert);
+
+		$google2fa = new Google2FA();
+        $secret_key = $google2fa->generateSecretKey();
+		
+		$info_insert["referrer_id"] = null;
+		$info_insert["member_position_id"]    = 1;
+		$info_insert["registration_stage_id"] = 1;
+		$info_insert["user_id"] = $member_id;
+		$info_insert["google2fa_secret_key"] = $secret_key;
+
+		$other_info = DB::table("tbl_other_info")->insert($info_insert);
+
+		$career = DB::table("tbl_member_position")->where("member_position_id", 1)->first();
+
+		$career_insert["member_id"] = $member_id;
+		$career_insert["token_release"] = $career->token_release;
+		$career_insert["initial_release_percentage"] = $career->initial_release_percentage;
+		$career_insert["commission"] = $career->commission;
+		$career_insert["after_purchase_commission"] = $career->commission;
+		$career_insert["needed_member"] = $career->needed_member;
+		$career_insert["needed_ambassador"] = $career->needed_ambassador;
+		$career_insert["needed_advisor"] = $career->needed_advisor;
+		$career_insert["needed_marketing_director"] = $career->needed_marketing_director;
+		$career_insert["needed_community_manager"] = $career->needed_community_manager;
+		$career_insert["date_created"] = Carbon::now();
+
+		$careerInsert = DB::table("tbl_position_requirements")->insert($career_insert);
+
+		$member_position_log_insert["member_position_id"] = 1;
+		$member_position_log_insert["member_id"] = $member_id;
+		$member_position_log_insert["created_at"] = Carbon::now();
+		$member_position_log = DB::table("tbl_member_position_logs")->insert($member_position_log_insert);
+	}
+
+	public static function companyhead_account_seed()
+	{
+		$insert["first_name"]           = "Company";
+		$insert["last_name"]            = "Head";
+		$insert["email"]                = "companyhead@successmall.com";
+		$insert["country_code_id"]      = 1;
+		$insert["phone_number"]         = "9112234456";
+		$insert["username"]             = "companyhead";   
+		$insert["password"]             = Hash::make("companyheadsuccess");
+		$insert["sponsor"]              = 1;
+		$insert["create_ip_address"]    = $_SERVER['REMOTE_ADDR'];
+		$insert["email_token"]          = base64_encode('companyhead@successmall.com');
+		$insert["created_at"]           = Carbon::now();
+		$insert["verified_mail"]        = 1;
+		$insert["status_account"]       = 1;
+		$insert["is_admin"]             = 0;
+		$insert["entity"]               = "Individual";
+		$insert["birth_date"]           = Carbon::now();
+		$insert["company_name"]         = "SUCCESSMALL";
+		$insert["platform"]          	= "system";
+		$insert["first_time_login"]     = 0;
+		$insert["crypto_purchaser"]     = null;
+		$insert["top_slot"]     		= 1;
 
 		$member_id                      = DB::table("users")->insertGetId($insert);
 

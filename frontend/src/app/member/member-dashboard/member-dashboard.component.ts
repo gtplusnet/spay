@@ -3,16 +3,20 @@ import { HttpClient, HttpHeaders } 	from '@angular/common/http';
 import { Observable } 				from "rxjs/Observable";
 import { MemberInfoService } 	from '../../member/member-info.service';
 import { GlobalConfigService }  from '../../global-config.service';
-import { NgbModal }  from '@ng-bootstrap/ng-bootstrap';
-
+import { NgbModal, ModalDismissReasons }  from '@ng-bootstrap/ng-bootstrap';
+import { ViewChild, TemplateRef } from '@angular/core';
 @Component({
   selector: 'app-member-dashboard',
   templateUrl: './member-dashboard.component.html',
   styleUrls: ['./member-dashboard.component.scss']
 })
 export class MemberDashboardComponent implements OnInit {
-  modal_ref : any;
 
+  closeResult: string;
+  @ViewChild("notify_sponsor") modalContent: TemplateRef<any>;
+
+  modal_ref : any;
+  sponsor_target : any;
   buy_step : any;
   payment_type : number;
   token_amount : any;
@@ -26,6 +30,8 @@ export class MemberDashboardComponent implements OnInit {
   exchange_rate : any = 0.00;
   buy_token_url : any;
   error_message : any;
+  sponsor_error_message : any;
+  sponsor_success_message : any;
   buy_loading : boolean;
   upcoming_event : any;
   upcoming_event_list : any;
@@ -65,6 +71,17 @@ export class MemberDashboardComponent implements OnInit {
 
   constructor(private modalService: NgbModal, public rest : MemberInfoService, private globalConfigService:GlobalConfigService, private http : HttpClient ) 
   { 
+  }
+
+  private getDismissReason(reason: any): string 
+  {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
   }
 
   ngOnInit() 
@@ -123,12 +140,37 @@ export class MemberDashboardComponent implements OnInit {
   	this.http.post(_url, _param).subscribe(
   		data =>
   		{
-
+        if(data["top_slot"] != 1 && data["user_sponsor_id"] == 0)
+        {
+          this.modal_ref = this.open(this.modalContent);
+        }
   		},
       error=>
       {
         console.log(error);
       });
+  }
+
+  submit_sponsor()
+  {  
+    var sponsor_dt = {};
+        sponsor_dt["sponsor_target"] = this.sponsor_target;
+        sponsor_dt["login_token"]    = this.rest.login_token;
+    var target_url_sponsor = this.rest.api_url + "/api/member/place_sponsor";
+
+    this.http.post(target_url_sponsor, sponsor_dt).subscribe(response=>
+    {
+        if(response["status"] == "fail")
+        {
+          this.sponsor_error_message = response["message"];
+        }
+        else
+        {
+          this.sponsor_error_message = null;
+          this.sponsor_success_message = 1;
+          location.reload();
+        }
+    }); 
   }
 
   buy_step_1(id, selector, buy_step = null)

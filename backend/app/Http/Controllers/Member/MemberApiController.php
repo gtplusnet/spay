@@ -11,6 +11,8 @@ use App\Globals\Transactions;
 use App\Globals\Blockchain;
 use App\Globals\User;
 use App\Globals\Google;
+use App\Globals\Tree;
+use App\Globals\Unilevel;
 use Illuminate\Support\Facades\Crypt;
 use App\Tbl_User;
 use App\Tbl_coin;
@@ -27,6 +29,8 @@ use App\Tbl_communication_board;
 use App\Tbl_referral;
 use App\Tbl_member_address;
 use App\Tbl_referral_bonus_log;
+use App\Tbl_tree_sponsor;
+use App\Tbl_unilevel_settings;
 use App\Globals\Member_log;
 use Validator;
 use Aws\S3\S3Client;
@@ -87,8 +91,56 @@ class MemberApiController extends Controller
 
     function dashboard(Request $req)
     {
-
         return json_encode($this->member);
+    }
+
+    function place_sponsor(Request $req)
+    {
+        $owner_info = Tbl_User::where("id",$this->member->id)->first();
+        $sponsor    = $req->sponsor_target;
+        $user_info  = Tbl_User::where("email",$sponsor)->first();
+        if($user_info)
+        {
+            if($user_info->id == $this->member->id)
+            {
+                $response["status"]  = "fail";
+                $response["message"] = "You cannot sponsor your own user...";                
+            }
+            else
+            {
+                if($user_info->user_sponsor_id == 0  && $user_info->top_slot == 0)
+                {
+                    $response["status"]  = "fail";
+                    $response["message"] = "Your target sponsor should pick a sponsor first...";     
+                }
+                else
+                {
+                    if($owner_info->top_slot == 0 &&  $owner_info->user_sponsor_id == 0)
+                    {
+                        $update["user_sponsor_id"] = $user_info->id;
+                        Tbl_User::where("id",$owner_info->id)->update($update);
+                        
+                        $owner_info          = Tbl_User::where("id",$this->member->id)->first();
+                        Tree::insert_tree_sponsor($owner_info, $owner_info, 1);
+                        $response["status"]  = "success";
+                        $response["message"] = "Success";    
+                    }
+                    else
+                    {
+                        $response["status"]  = "fail";
+                        $response["message"] = "You already have a sponsor...";    
+                    }
+                }
+            }
+        }
+        else
+        {
+            $response["status"]  = "fail";
+            $response["message"] = "Sponsor not found...";
+        }
+
+        // dd($req,$this->member);
+        return json_encode($response);
     }
 
     function member_info(Request $req)
