@@ -17,6 +17,7 @@ use App\Tbl_position_requirements;
 use App\Tbl_release_logs;
 use App\Globals\Wallet;
 use App\Globals\Member_log;
+use App\Globals\Unilevel;
 use Illuminate\Support\Facades\Crypt;
 use SSH;
 class Blockchain
@@ -322,7 +323,7 @@ class Blockchain
                 if($token_wallet_info['referrer_id'])
                 {
                     // dd($token_wallet_info);
-                    Self::recordReferralBonus($token_wallet_info['member_id'], $token_addition, $transaction['member_log_id'], "Bitcoin");
+                    // Self::recordReferralBonus($token_wallet_info['member_id'], $token_addition, $transaction['member_log_id'], "Bitcoin");
                 }
 
                 /*insert log for btc wallet*/
@@ -340,6 +341,7 @@ class Blockchain
                 {
                     $member_info = Tbl_other_info::where("user_id", $member_id)->update(["first_buy"=>1]);
                 }
+
                 Mails::order_accepted($accepted);
             }
         }
@@ -438,10 +440,11 @@ class Blockchain
                     }
                 }
 
-                if($token_wallet_info['referrer_id'])
-                {
-                    Self::recordReferralBonus($token_wallet_info['member_id'], $token_addition, $transaction['member_log_id'], "Ethereum");
-                }
+
+                // if($token_wallet_info['referrer_id'])
+                // {
+                //     // Self::recordReferralBonus($token_wallet_info['member_id'], $token_addition, $transaction['member_log_id'], "Ethereum");
+                // }
 
                 /*insert log for eth wallet*/
                 $data["payment_coin"]   = $eth_addition;
@@ -458,6 +461,8 @@ class Blockchain
                 {
                     $member_info = Tbl_other_info::where("user_id", $member_id)->update(["first_buy"=>1]);
                 }
+
+
                 Mails::order_accepted($accepted);
             }
         }
@@ -503,35 +508,36 @@ class Blockchain
 
     public static function recordReferralBonus($user_id, $lok_amount, $member_log_id, $payment_type)
     {
-        $invitee = Tbl_other_info::joinDetails()->where("user_id", $user_id)->first();
+        // $invitee = Tbl_other_info::joinDetails()->where("user_id", $user_id)->first();
+        $invitee = Tbl_User::where("id", $user_id)->first();
 
-        $_referral = Tbl_referral::where("referral_id", $invitee->referrer_id)->value('referral_user_id');
+        // $_referral = Tbl_referral::where("referral_id", $invitee->referrer_id)->value('referral_user_id');
 
         // $referrer = Tbl_other_info::joinDetails()->where("user_id", $_referral)->first();
-        $referrer = Tbl_position_requirements::joinMember()->where("member_id", $_referral)->first();
+        // $referrer = Tbl_position_requirements::joinMember()->where("member_id", $_referral)->first();
 
-        $referrer_info = Tbl_other_info::where("user_id", $_referral)->first();
+        // $referrer_info = Tbl_other_info::where("user_id", $_referral)->first();
 
-        $lok_address_id = Tbl_member_address::where("member_id", $_referral)->where("coin_id", 4)->value("member_address_id");
+        $lok_address_id = Tbl_member_address::where("member_id", $invitee->id)->where("coin_id", 4)->value("member_address_id");
 
         // dd($invitee, $_referral, $referrer);
         // $_referrer = Tbl_User::where("id", $_referral)->first();
-        if($referrer)
+        if($invitee)
         {
             // dd($user_id, $lok_amount, $member_log_id, $payment_type, $invitee, $_referral, $referrer, $referrer_info, $lok_address_id);
-            $after_purchase = $referrer->after_purchase_commission <= 0 ? 0 : $referrer->after_purchase_commission/100;
-            $before_purchase = $referrer->commission <= 0 ? 0 : $referrer->commission/100;
-            $referrer_bonus_percentage = $referrer_info->first_buy ? $after_purchase : $before_purchase;
-            $referral_bonus_token = $lok_amount * $referrer_bonus_percentage;
+            // $after_purchase = $referrer->after_purchase_commission <= 0 ? 0 : $referrer->after_purchase_commission/100;
+            // $before_purchase = $referrer->commission <= 0 ? 0 : $referrer->commission/100;
+            // $referrer_bonus_percentage = $referrer_info->first_buy ? $after_purchase : $before_purchase;
+            // $referral_bonus_token = $lok_amount * $referrer_bonus_percentage;
             // dd($referrer, $after_purchase, $before_purchase, $referrer_bonus_percentage, $referral_bonus_token);
-            $insert_referral_bonus["log_amount"]         = $referral_bonus_token;
-            $insert_referral_bonus["log_net_amount"]     = $referral_bonus_token;
+            $insert_referral_bonus["log_amount"]         = $lok_amount;
+            $insert_referral_bonus["log_net_amount"]     = $lok_amount;
             $insert_referral_bonus["log_status"]         = "automatic";
             $insert_referral_bonus["member_address_id"]  = $lok_address_id;
             $insert_referral_bonus["log_type"]           = "transfer";
             $insert_referral_bonus["log_mode"]           = "referral bonus";
-            $insert_referral_bonus["log_method"]         = $payment_type. " - Referral Bonus";
-            $insert_referral_bonus["log_message"]        = "Referral Bonus Token from ".$payment_type." Transaction #".$member_log_id;
+            $insert_referral_bonus["log_method"]         = $payment_type. " - Sponsor Bonus";
+            $insert_referral_bonus["log_message"]        = "Sponsor Bonus Token from ".$payment_type." Transaction #".$member_log_id;
             $insert_referral_bonus["log_time"]           = Carbon::now('Asia/Manila');
             $insert_referral_bonus["log_transaction_fee"] = 0;
 

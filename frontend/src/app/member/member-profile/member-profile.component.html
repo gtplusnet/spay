@@ -16,7 +16,7 @@
 					<button class="btn button-lokal-l {{ profile_page == 'google-auth' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/google-auth']"><i class="fab fa-google mr-2"></i>Google Authenticator</button>
 					<!-- <button class="btn button-lokal-l {{ profile_page == 'limits-and-verification' ? 'active-lokal' : kyc_page == 'id' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/limits-and-verification']"><i class="far fa-check-square mr-2"></i>Verification</button> -->
 					<button class="btn button-lokal-l {{ profile_page == 'change-password' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/change-password']"><i class="fas fa-edit mr-2" ></i>Change Password</button>
-					<!-- <button class="btn button-lokal-l {{ profile_page == 'my-referral' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/my-referral']"><i class="far fa-handshake mr-2"></i>My Referral</button> -->
+					<button class="btn button-lokal-l {{ profile_page == 'my-referral' ? 'active-lokal' : '' }} mb-2" [routerLink]="['/member/profile/my-referral']"><i class="far fa-handshake mr-2"></i>My Unilevel</button>
 				</div>
 			</div>
 			<div class="col-md-7">
@@ -350,7 +350,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="my-referral" *ngIf="profile_page == 'my-referraldeleted'">
+					<div class="my-referral" *ngIf="profile_page == 'my-referral'">
 						<div class="top-container">
 							<div class="container"> 
 								<div class="row">
@@ -359,7 +359,7 @@
 											<i class="far fa-handshake mr-2"></i>
 										</span>
 										<span class="d-inline-block align-middle">
-											<h5 class="font-weight-light mb-1">My Referral</h5>
+											<h5 class="font-weight-light mb-1">My Unilevel</h5>
 										</span> 
 									</div>
 									<hr>
@@ -378,7 +378,7 @@
 										<div class="d-flex my-border-light alert alert-light flex-row justify-content-center align-items-center h6 mb-0 text-center color-lokal-x ">
 											<small class="mx-2">
 												<h4 class="text-center mb-0">{{referral_count}}</h4>
-												Total Referral
+												Total Unilevel
 											</small>
 										</div>
 									</div>
@@ -396,7 +396,7 @@
 											<tr>
 												<th>Full Name</th>
 												<th>Email</th>
-												<th>Career</th>
+												<th>Level</th>
 												<th></th>
 											</tr>
 										</thead>
@@ -425,7 +425,7 @@
 											<tr *ngFor="let data of _table | paginate: { itemsPerPage:5, currentPage: referral_member_page, id : 'referral_member_page' }">
 												<td>{{data.first_name}} {{data.last_name}}</td>
 												<td>{{data.email}}</td>
-												<td>{{data.member_position_name}}</td>
+												<td>{{data.sponsor_level}}</td>
 												<td class="text-center">
 													<!-- <div ngbDropdown placement="bottom-right">
 														<button class="btn btn-outline-dark btn-sm" id="dropdownBasic1" ngbDropdownToggle>
@@ -678,7 +678,7 @@
 		</div>
 		<div class="modal-body text-left color-lokal-x">
 			<ngb-tabset>
-				<ngb-tab title="Affiliate Bonus History">
+				<ngb-tab title="Unilevel Bonus History">
 					<ng-template ngbTabContent>
 				<div class="row p-3 mb-2">
 					<div class="col-lg-6 col-xs-12 px-2">
@@ -730,8 +730,8 @@
 									</td>
 								</tr>
 								<tr *ngFor="let item of referral_bonus_info | paginate: { itemsPerPage:5, currentPage: referral_page, id : 'referral_page' }">
-									<td>{{ item["from"][0].log_amount + " LOK" }}</td>
-									<td>{{ item["to"][0].log_amount + " LOK"}}</td>
+									<td>{{ item["from"][0].log_amount | number:'1.2-8'}} XS</td>
+									<td>{{ item["to"][0].log_amount | number:'1.2-8'}} XS</td>
 									<td>{{ item["to"][0].log_time | date: 'MM/dd/yyyy hh:mm:ss a '}}</td>
 								</tr>
 							</tbody>

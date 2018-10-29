@@ -667,22 +667,24 @@ class MemberApiController extends Controller
     public function get_referrals(Request $request)
     {
         $id = $request->id;
-        if($request->career != null)
-        {
-            if($request->career != "all")
-            {
-                $data["list"] = Tbl_other_info::where("referral_user_id",$id)->where("member_position_name",$request->career)->joinDetails()->get();
-            }
-            else
-            {
-                $data["list"] = Tbl_other_info::where("referral_user_id",$id)->joinDetails()->get();
-            }
-        }
-        else
-        {
-            $data["list"] = Tbl_other_info::where("referral_user_id",$id)->joinDetails()->get();
-            $data["count"] = $data["list"]->count();
-        }
+        // if($request->career != null)
+        // {
+        //     if($request->career != "all")
+        //     {
+        //         $data["list"] = Tbl_other_info::where("referral_user_id",$id)->where("member_position_name",$request->career)->joinDetails()->get();
+        //     }
+        //     else
+        //     {
+        //         $data["list"] = Tbl_other_info::where("referral_user_id",$id)->joinDetails()->get();
+        //     }
+        // }
+        // else
+        // {
+        //     $data["list"] = Tbl_other_info::where("referral_user_id",$id)->joinDetails()->get();
+        //     $data["count"] = $data["list"]->count();
+        // }
+        $data["list"] = Tbl_tree_sponsor::where("sponsor_parent_id", $id)->child()->get();
+        $data["count"] = count($data["list"]);
 
         return $data;
     }

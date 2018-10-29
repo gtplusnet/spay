@@ -85,7 +85,10 @@ class AdminApiController extends Controller
 
     function active_deactive_user(Request $request)
     {
-        Tbl_User::where("id", $request->id)->update(["status_account" => $request->active]);
+        Tbl_User::where("id", $request->id)->update([
+            "status_account" => $request->active,
+            "first_time_login" => 0
+        ]);
         $data['member'] = Tbl_User::where("id",$request->id)->get()->first();
         Mails::send_mail_activate($data);
     }

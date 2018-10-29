@@ -3,11 +3,12 @@ namespace App\Globals;
 use App\Tbl_tree_sponsor;
 use App\Tbl_User;
 use App\Tbl_unilevel_settings;
+use App\Globals\Blockchain;
 use DB;
 
 class Unilevel
 {	
-    public static function distribute($id,$amount)
+    public static function distribute($id,$amount,$log_id, $type)
     {
         $child_tree       = Tbl_tree_sponsor::where("sponsor_child_id",$id)->get();
         $child_tree_count = Tbl_tree_sponsor::where("sponsor_child_id",$id)->count();
@@ -26,7 +27,7 @@ class Unilevel
                         $receiver_id = $child->sponsor_parent_id;
 
                         /* INSERT WALLET HERE */
-                        dd($computed_amount);
+                        Blockchain::recordReferralBonus($receiver_id, $computed_amount, $log_id, $type);
                     }
                 }
             }

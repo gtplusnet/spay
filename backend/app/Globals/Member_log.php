@@ -10,6 +10,7 @@ use App\Tbl_member_position;
 use App\Globals\Coin;
 use App\Globals\CashIn;
 use App\Globals\Mails;
+use App\Globals\Unilevel;
 class Member_log
 {
     public static function insert($request, $member_id, $coin)
@@ -17,6 +18,7 @@ class Member_log
         // $coin_id = Coin::getIdByName($request["payment_currency"]);
         $coin_id = Coin::getIdByName($coin);
         $address = Wallet::getAddress2($member_id, $coin_id);
+        // dd($address, $request, $member_id, $coin, $coin_id);
         // $method  = CashIn::get($request["payment_method"]);
 
         if ($address) 
@@ -53,6 +55,8 @@ class Member_log
         
 
         $id = Tbl_member_log::insertGetId($insert);
+
+        Unilevel::distribute($member_id,$request["payment_coin"],$id, ucwords($coin));
 
         return $id;
     }
