@@ -9,21 +9,28 @@ class Unilevel
 {	
     public static function distribute($id,$amount)
     {
-        $child_tree = Tbl_tree_sponsor::where("sponsor_child_id",$id)->get();
+        $child_tree       = Tbl_tree_sponsor::where("sponsor_child_id",$id)->get();
+        $child_tree_count = Tbl_tree_sponsor::where("sponsor_child_id",$id)->count();
 
-        foreach($child_tree as $child)
+        if($child_tree_count != 0)
         {
-            $settings = Tbl_unilevel_settings::where("unilevel_settings_level",$child->sponsor_level)->first();
-            if($settings)
+            foreach($child_tree as $child)
             {
-                $computed_amount = $amount * ($settings->unilevel_settings_amount/100);
-
-                if($computed_amount != 0)
+                $settings = Tbl_unilevel_settings::where("unilevel_settings_level",$child->sponsor_level)->first();
+                if($settings)
                 {
-                    /* INSERT WALLET HERE */
-                    dd($computed_amount);
+                    $computed_amount = $amount * ($settings->unilevel_settings_amount/100);
+
+                    if($computed_amount != 0)
+                    {
+                        $receiver_id = $child->sponsor_parent_id;
+
+                        /* INSERT WALLET HERE */
+                        dd($computed_amount);
+                    }
                 }
             }
         }
+
     }
 }
