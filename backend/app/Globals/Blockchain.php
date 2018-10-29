@@ -715,7 +715,7 @@ class Blockchain
         // $amount = $amount * 100000000;
         $amt = $amount * $usd;
 
-        $median = 225 * $resp->halfHourFee;
+        $median = 230 * $resp->halfHourFee;
 
         $rate = $amt*$median;
         // $original = $amount * 100000000;
