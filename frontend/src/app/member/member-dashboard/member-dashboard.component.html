@@ -107,7 +107,7 @@
 			      <h2 class="mb-0 font-weight-bold mr-2">{{ w_balance.overall | number : '1.2-8'}} </h2>
 			      <img src="/assets/spay_assets/img/spay-coin.png" class="img-fluid mini-coin" width="30" height="30" alt="">
 			    </div>
-			    <h4>Bought Tokens</h4>
+			    <h4>Total Tokens</h4>
 			    <hr class="my-0">
 			    <div class="row">
 			    	<div class="col-md-4 col-xs-12 text-center">
@@ -201,8 +201,8 @@
 								</div>
 							</td>
 						</tr>
-						<tr *ngFor="let data of _table_recent_transaction | paginate: { itemsPerPage:15, currentPage: recent_transaction, id: 'recent_transaction'}">
-							<td>{{data.member_log_id}}</td>
+						<tr *ngFor="let data of _table_recent_transaction | paginate: { itemsPerPage:15, currentPage: recent_transaction, id: 'recent_transaction'}; let i = index">
+							<td>{{ _table_recent_transaction.length - i }}</td>
 							<td>{{data.log_amount}}</td>
 							<td>{{data.log_method == "Bitcoin Total" || data.log_method == "Bitcoin" ? "Bitcoin" : "Ethereum"}} </td>
 							<td>
@@ -216,6 +216,87 @@
 									Canceled
 								</span>
 							</td>
+							<td>
+								<!-- {{data.log_time | date: 'MM/dd/yyyy'}} -->
+								{{ rest.formatDate(data.log_time) }}
+							</td>
+							<td>
+								<!-- {{data.log_time | date: 'hh:mm a'}} -->
+								{{ rest.formatTime(data.log_time) }}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- <div class="col-lg-4 col-xs-12 p-0 dashboard-card">
+		<div class="p-3 dashboard-card-header">
+			<i class="far fa-calendar-alt mr-1"></i> Events
+		</div>
+		<div class="p-4 dashboard-card-body no-min-height">
+			<span *ngFor="let data of upcoming_event_list" class="d-block">
+				<a href="javascript:void(0)" (click)="viewEventDetails(data.communication_board_id, view_upcoming_event)" class="row table table-hovered" *ngIf="events">
+					<div class="col-md-2 p-1 px-0 text-dark"><img src="https://aeolus-storage.sgp1.digitaloceanspaces.com/{{data.communication_board_thumbnail}}" width="30" alt=""></div>
+					<div class="col-md-7 d-flex flex-column justify-content-center p-1 text-left text-dark">{{ data.communication_board_subtitle }}</div>
+					<div class="col-md-3 d-flex flex-column justify-content-center p-1 text-center text-dark">{{ data.insert_date | date:'mm/dd' }}</div>
+				</a>
+				<a  class="row table table-hovered" *ngIf="!events">
+					<div class="col-md-12 p-1 text-center text-dark">No events for you at this moment.</div>
+				</a>
+			</span>
+		</div>
+	</div> -->
+</div>
+
+<div class="row">
+	<div class="col-lg-12 col-xs-12 p-0 dashboard-card">
+		<div class="p-3 dashboard-card-header">
+			<i class="fas fa-columns mr-1"></i> Recent Unilevel Bonus
+			<hr class="my-2">
+		</div>
+		<div class="p-3 dashboard-card-body no-min-height d-flex flex-column justify-content-center align-items-center">
+			<div class="table-responsive">
+				<table class="table">
+					<caption class="bg-light m-0 p-0 py-2 px-1">
+						<pagination-controls class="my-pagination" (pageChange)="recent_transaction = $event" id="recent_transaction"></pagination-controls>
+					</caption>
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Token Amount Received</th>
+							<th>Received Bonus From</th>
+							<th>Date</th>
+							<th>Time</th>
+						</tr>
+					</thead>
+					<tbody *ngIf="_table_recent_transaction_loader">
+						<tr>
+							<td colspan="8">
+								<div class="row" >
+									<div class="col-lg-12 col-xs-12">
+										<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+											<div class="circle"></div>
+											<small class="text">LOADING TABLE...</small>
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+					<tbody *ngIf="!_table_recent_transaction_loader">
+						<tr *ngIf="_table_recent_unilevel_bonus == ''">
+							<td colspan="8">
+								<div class="text-center">
+									<small class="font-weight-bold">No data found.</small>
+								</div>
+							</td>
+						</tr>
+						<tr *ngFor="let data of _table_recent_unilevel_bonus | paginate: { itemsPerPage:15, currentPage: recent_transaction, id: 'recent_transaction'}; let i = index">
+							<td>{{_table_recent_unilevel_bonus.length - i}}</td>
+							<td>{{data.log_amount | number:'1.2-8'}}</td>
+							<td>{{data.first_name }} {{data.last_name }} </td>
 							<td>
 								<!-- {{data.log_time | date: 'MM/dd/yyyy'}} -->
 								{{ rest.formatDate(data.log_time) }}

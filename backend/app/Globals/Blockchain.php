@@ -506,7 +506,7 @@ class Blockchain
         $buy_bonus = Tbl_member_log::insert($insert_role_bonus);  
     }
 
-    public static function recordReferralBonus($user_id, $lok_amount, $member_log_id, $payment_type)
+    public static function recordReferralBonus($user_id, $lok_amount, $member_log_id, $payment_type, $sender = null)
     {
         // $invitee = Tbl_other_info::joinDetails()->where("user_id", $user_id)->first();
         $invitee = Tbl_User::where("id", $user_id)->first();
@@ -545,6 +545,8 @@ class Blockchain
 
             $insert_bonus_log["member_log_from"]         = $member_log_id;
             $insert_bonus_log["member_log_to"]           = $referral_bonus;
+            $insert_bonus_log["member_from"]             = $sender ? $sender : 0;
+            $insert_bonus_log["member_to"]               = $invitee->id;
             $insert_bonus_log["referral_bonus_log_date"] = Carbon::now('Asia/Manila');
 
             $referral_bonus_log = Tbl_referral_bonus_log::insert($insert_bonus_log);

@@ -67,6 +67,7 @@ export class MemberDashboardComponent implements OnInit {
 
   _table_recent_transaction : any;
   _table_recent_transaction_loader : boolean;
+  _table_recent_unilevel_bonus : any;
   text_to_copy : string;
 
   constructor(private modalService: NgbModal, public rest : MemberInfoService, private globalConfigService:GlobalConfigService, private http : HttpClient ) 
@@ -514,6 +515,19 @@ export class MemberDashboardComponent implements OnInit {
     this.http.post(config_url,_param).subscribe(data=>
     {
       this._table_recent_transaction = data;
+      this.getRecentUnilevelBonus();
+    });
+  }
+
+  getRecentUnilevelBonus()
+  {
+    var _param = {}
+    _param["login_token"] = this.rest.login_token;
+    _param["id"] = this.rest.member_id;
+
+    this.http.post(this.rest.api_url + "/api/member/get_recent_unilevel_bonuses",_param).subscribe(data=>
+    {
+      this._table_recent_unilevel_bonus = data;
       this._table_recent_transaction_loader = false;
     });
   }

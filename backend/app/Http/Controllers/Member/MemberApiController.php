@@ -724,15 +724,15 @@ class MemberApiController extends Controller
         }
         else
         {
-            if($member_position->member_position_id != 1)
-            {
+            // if($member_position->member_position_id != 1)
+            // {
                 $data["list"] = Tbl_referral::where("referral_user_id",$id)->first();
                 $data["refer"] = 1;
-            }
-            else
-            {
-                $data["refer"] = 0;
-            }
+            // }
+            // else
+            // {
+            //     $data["refer"] = 0;
+            // }
         }
         
 
@@ -847,6 +847,13 @@ class MemberApiController extends Controller
         }
         //$member_log = $member_log_details->where("log_method","Bitcoin")->orWhere("log_method","Ethereum");
         //$data["list"] = $member_log->where("log_status","accepted")->get();
+        return $data;
+    }
+
+    public function get_recent_unilevel_bonuses(Request $request)
+    {
+        $id = $request->id;
+        $data = Tbl_referral_bonus_log::where("member_to", $id)->memberFrom()->logTo()->get();
         return $data;
     }
 

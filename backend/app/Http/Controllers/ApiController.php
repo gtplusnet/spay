@@ -20,6 +20,7 @@ use App\Globals\Mails;
 use App\Globals\Wallet;
 use App\Globals\Helper;
 Use App\Globals\Google;
+Use App\Globals\Tree;
 use Jenssegers\Agent\Agent;
 use Mail;
 use App\Tbl_User;
@@ -663,11 +664,18 @@ class ApiController extends Controller
 
             if($request->referral_link != null)
             {
+                $user_info = Tbl_User::where("id", $member_id)->first();
+                $sponsor_target = Tbl_referral::where("referral_link", $request->referral_link)->member()->first();
+                if($user_info)
+                {
+                    Tree::place_sponsor($user_info, $sponsor_target);
+                }
 
-                $info_ref = Tbl_referral::where("referral_link", $request->referral_link);
-                $count = $info_ref->get();
-                $info_r = $info_ref->first();
-                $info_insert["referrer_id"] = count($count) != 0 ? $info_r->referral_id : null;
+                // $info_ref = Tbl_referral::where("referral_link", $request->referral_link);
+                // $count = $info_ref->get();
+                // $info_r = $info_ref->first();
+                // $info_insert["referrer_id"] = count($count) != 0 ? $info_r->referral_id : null;
+                
             }
             else
             {

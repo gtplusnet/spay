@@ -119,7 +119,9 @@ export class RegisterComponent implements OnInit {
   country_loading : boolean;
 
   constructor(private http : HttpClient, private rest : MemberInfoService, private route: ActivatedRoute, private socialAuthService: AuthService, private globalConfigService:GlobalConfigService, private modalService: NgbModal) {  
+    
     this.referral_link = this.route.snapshot.queryParams["referral"] ? this.route.snapshot.queryParams["referral"] : null;
+
     switch(this.route.snapshot.queryParams["career"])
     {
       case "community_manager":
@@ -173,6 +175,7 @@ export class RegisterComponent implements OnInit {
     this.secondary_id1 = this.secondary_ids[0];
     this.secondary_id2 = this.secondary_ids2[0];
     this.changeSecondary();
+    console.log(this.referral_link);
   }
 
   changeSecondary()
@@ -299,7 +302,7 @@ export class RegisterComponent implements OnInit {
 
     params.login_key        = this.globalConfigService.apiConfig()["login_key"];
     params.platform         = platform;
-    // params.referral_link    = this.referral_link;
+    params.referral_link    = this.referral_link;
     params.career_id        = this.career;
     if(this.rest._stages)
     {
@@ -384,7 +387,7 @@ export class RegisterComponent implements OnInit {
     this._params["company_name"]                     = this.company_name;
     this._params["desired_btc"]                      = this.desired_btc;
     this._params["desired_eth"]                      = this.desired_eth;
-    // this._params["referral_link"]                    = this.referral_link;
+    this._params["referral_link"]                    = this.referral_link;
     this._params["career_id"]                        = this.career;
     this._params["sale_stage_id"]                    = this.rest._stages.sale_stage_id;
     // this._params["career"] = this.has_career ? this.career : 1;

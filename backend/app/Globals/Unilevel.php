@@ -27,7 +27,7 @@ class Unilevel
                         $receiver_id = $child->sponsor_parent_id;
 
                         /* INSERT WALLET HERE */
-                        Blockchain::recordReferralBonus($receiver_id, $computed_amount, $log_id, $type);
+                        Blockchain::recordReferralBonus($receiver_id, $computed_amount, $log_id, $type, $child->sponsor_child_id);
                     }
                 }
             }

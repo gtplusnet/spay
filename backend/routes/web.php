@@ -78,6 +78,7 @@ Route::post('/api/member/reset_notifications', 'Member\MemberApiController@reset
 Route::post('/api/member/first_update_information', 'Member\MemberApiController@first_update_information');
 Route::post('/api/member/check_pending_order_method', 'Member\MemberApiController@check_pending_order_method');
 Route::post('/api/member/get_buy_bonus', 'Member\MemberApiController@get_buy_bonus');
+Route::post('/api/member/get_recent_unilevel_bonuses', 'Member\MemberApiController@get_recent_unilevel_bonuses');
 
 //kyc member
 Route::post('/api/member/upload_file', 'Member\MemberApiController@upload_file');
