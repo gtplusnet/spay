@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MemberInfoService }    	from '../../member/member-info.service';
 import { HttpClient, HttpHeaders } 	from '@angular/common/http';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { GlobalConfigService }  from '../../global-config.service';
 
 @Component({
   selector: 'app-admin-member-list',
@@ -103,7 +104,56 @@ export class AdminMemberListComponent implements OnInit {
   updating : boolean = false;
   kyc_table : any;
 
-  constructor(public rest : MemberInfoService, private http : HttpClient, private modalService: NgbModal) { }
+  //system registration
+  system_register : any = {};
+  country_codes : any;
+
+  secondary_ids = [
+  "NBI Clearance",
+  "Police Clearance",
+  "Barangay Clearance",
+  "Cedula or Community Tax Certificate",
+  "Voter’s Certification",
+  "Government Service Record",
+  "School ID (For Recent students)",
+  "Seaman’s Book",
+  "Philhealth Card",
+  "PWD ID",
+  "TIN Card",
+  "Firearm’s",
+  "PLRA ID",
+  "Company ID",
+  "Alumni ID"]
+
+  secondary_ids2 = [
+  "NBI Clearance",
+  "Police Clearance",
+  "Barangay Clearance",
+  "Cedula or Community Tax Certificate",
+  "Voter’s Certification",
+  "Government Service Record",
+  "School ID (For Recent students)",
+  "Seaman’s Book",
+  "Philhealth Card",
+  "PWD ID",
+  "TIN Card",
+  "Firearm’s",
+  "PLRA ID",
+  "Company ID",
+  "Alumni ID"]
+
+  form_data = null;
+  uploading : boolean = false;
+  primary_1 = null;
+  secondary_1 = null;
+  secondary_2 = null;
+
+  primary_id1 = null;
+  secondary_id1 = null;
+  secondary_id2 = null;
+  selfie_id = null;
+
+  constructor(public rest : MemberInfoService, private http : HttpClient, private modalService: NgbModal, private globalConfigService:GlobalConfigService) { }
 
   ngOnInit() {
     this._param = {};
@@ -132,12 +182,56 @@ export class AdminMemberListComponent implements OnInit {
     this.error_message = "no-message";
     this.total_members = 0;
     this.countUnactivated();
+    this.loadCountries();
 	  this.loadTable();
+    this.primary_id1 = "Passport";
+    this.secondary_id1 = this.secondary_ids[0];
+    this.secondary_id2 = this.secondary_ids2[0];
+    this.changeSecondary();
     this.mem_transaction_status = "all";
     this.mem_transaction_date_from = "";
     this.mem_transaction_date_to = "";
     this.loading_token_wallet = false;
     this.search_by_career = "all";
+  }
+
+  loadCountries()
+  {
+    this.http.get(this.rest.api_url + "/api/get_country_codes").subscribe(response=>
+    {
+      this.country_codes = response;
+      this.system_register.country_code_id = this.country_codes[0].country_code_id;
+      this.system_register.gender          = "Male";
+    });
+  }
+
+  changeSecondary()
+  {
+    this.secondary_ids2 = [
+    "NBI Clearance",
+    "Police Clearance",
+    "Barangay Clearance",
+    "Cedula or Community Tax Certificate",
+    "Voter’s Certification",
+    "Government Service Record",
+    "School ID (For Recent students)",
+    "Seaman’s Book",
+    "Philhealth Card",
+    "PWD ID",
+    "TIN Card",
+    "Firearm’s",
+    "PLRA ID",
+    "Company ID",
+    "Alumni ID"]
+
+    for(var i = 0; i <= this.secondary_ids2.length; i++)
+    {
+      if(this.secondary_id1 == this.secondary_ids2[i])
+      {
+        this.secondary_ids2.splice(i, 1);
+      }
+    }
+    this.secondary_id2 = this.secondary_ids2[0];
   }
 
   loadTable()
@@ -593,4 +687,131 @@ referralLoadTable() : void
         console.log(error);
       });
 }
+
+  onFileChange(event, type)
+  {
+    if(type == 'secondary_2')
+    {
+      this.primary_1 = null;
+    }
+    else if(type == 'primary_1')
+    {
+      this.primary_1 = null;
+      this.secondary_1 = null;
+      this.secondary_2 = null;
+    }
+
+    this.form_data = new FormData();
+
+    if(event.target.files.length > 0)
+    {
+      this.form_data.append('upload', event.target.files[0]);
+      this.form_data.append('folder', 'kyc_proof');
+
+      this.uploading         = true;
+
+      this.rest.uploadProof(this.form_data).subscribe(response =>
+      {
+        if(response)
+        {
+          if(type == 'primary_1')
+          {
+            this.primary_1 = response;
+          }
+          else if(type == 'secondary_1')
+          {
+            this.secondary_1 = response;
+          }
+          else if(type == 'secondary_2')
+          {
+            this.secondary_2 = response;
+          }
+          else if(type == 'selfie_id')
+          {
+            this.selfie_id = response;
+          }
+          console.log(this.primary_1, this.secondary_1, this.secondary_2)
+          this.uploading       = false;
+        }
+      });
+    }
+  }
+
+  uploadProof(id)
+  {
+    if(!this.primary_1 && !this.secondary_1)
+    {
+      $("#"+id).trigger('click');
+    }
+    else if(this.secondary_1 && !this.primary_1 && !this.secondary_2)
+    {
+      $("#"+id).trigger('click');
+    }
+
+    if(id == "selfie_id" && !this.selfie_id)
+    {
+      $("#"+id).trigger('click');
+    }
+  }
+
+  onRegister(params, platform) : void
+  {
+
+    params.login_key        = this.globalConfigService.apiConfig()["login_key"];
+    params.platform         = platform;
+    params.referral_link    = null;
+    params.career_id        = 1;
+    if(this.rest._stages)
+    {
+      params.sale_stage_id    = this.rest._stages.sale_stage_id;
+    }
+    else
+    {
+      params.sale_stage_id    = null;
+    }
+    
+
+    this.http.post(this.rest.api_url + "/api/new_register", params).subscribe(
+      data =>
+      {
+
+        if(data['status'] == 'success')
+        {
+          this.error_message = "success";
+        }
+        else
+        {
+          this.error_message   = data['message'];
+          this.submitted     = false;
+        }
+
+      },
+      error =>
+      {
+        this.error_message = JSON.stringify(error.message);
+        this.submitted = false;
+      }
+
+      );
+  }
+
+  newRegister() 
+  {
+    this.error_message = "no-message";
+    this.submitted = true;
+    
+    this.system_register.primary_id1 = this.primary_id1
+    this.system_register.secondary_id1 = this.secondary_id1
+    this.system_register.secondary_id2 = this.secondary_id2
+
+    this.system_register.primary_id = this.primary_1
+    this.system_register.secondary_id_1 = this.secondary_1
+    this.system_register.secondary_id_2 = this.secondary_2
+
+    this.system_register.selfie_verification = this.selfie_id
+
+
+    this.onRegister(this.system_register, 'system');  
+  }
+
 }

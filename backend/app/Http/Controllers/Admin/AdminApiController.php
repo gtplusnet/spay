@@ -1086,5 +1086,151 @@ class AdminApiController extends Controller
         return $data;
     }
 
+    function admin_registration(Request $request)
+    {
+        $rules["first_name"]              = array("required", "alpha_spaces", "min:2");
+        $rules["last_name"]               = array("required", "alpha_spaces", "min:2");
+        $rules["selfie_verification"]     = array("required");
+
+
+        if($request->primary_id)
+        {   
+            $rules["primary_id"]               = array("required");
+        }
+        else
+        {
+            $rules["secondary_id_1"]               = array("required");
+            $rules["secondary_id_2"]               = array("required");
+        }
+
+
+        // dd(Hash::make($request->first_name));
+
+        if($request->platform == "system")
+        {
+            $rules["email"]                   = array("required", "email", "unique:users");
+            // $rules["captcha"]                 = array("required");
+        }
+
+
+        $validator = Validator::make($request->all(), $rules);
+
+        /* VALIDATE REGISTRATION */
+        if($validator->fails())
+        {
+            $return["message"]  = $validator->errors()->first();
+            $return["status"]   = "fail";
+        }
+        else
+        {
+            /* INSERT ACCOUNT TO DATABASE */
+            $insert["first_name"]           = $request->first_name;
+            $insert["last_name"]            = $request->last_name;
+            if($request->platform == "system")
+            {
+                $insert["email"]                        = $request->email;
+                $insert["country_code_id"]              = $request->country_code_id;
+                $insert["phone_number"]                 = $request->phone_number;
+                $insert["gender"]                       = $request->gender;
+                $insert["nationality"]                  = $request->nationality;
+                $insert["address_line1"]                = $request->address_line1;
+                $insert["address_line2"]                = $request->address_line2;
+                $insert["first_time_login"]             = 0;
+            }
+
+            $insert["facebook_id"]          = $request->id;
+            $insert["create_ip_address"]    = $_SERVER['REMOTE_ADDR'];
+            $insert["email_token"]          = base64_encode($request->email);
+            $insert["created_at"]           = Carbon::now();
+            $insert["platform"]             = $request->platform;
+            $insert["verified_mail"]        = 0;
+            $insert["status_account"]       = 1;
+            $insert["is_admin"]             = 0;
+            $insert["password"]             = null;
+
+            $member_id                      = Tbl_User::insertGetId($insert);
+
+            $ref_insert["referral_link"] = substr(md5(Carbon::now()."XSTOKEN"), 0, 7);
+            $ref_insert["referral_user_id"]       = $member_id;
+            $referral_id = Tbl_referral::insertGetId($ref_insert);
+
+            // if($request->referral_link != null)
+            // {
+            //     $user_info = Tbl_User::where("id", $member_id)->first();
+            //     $sponsor_target = Tbl_referral::where("referral_link", $request->referral_link)->member()->first();
+            //     if($user_info)
+            //     {
+            //         Tree::place_sponsor($user_info, $sponsor_target);
+            //     }
+            // }
+            // else
+            // {
+            //     $info_insert["referrer_id"] = null;
+            // }
+
+            $google2fa = new Google2FA();
+            $secret_key = $google2fa->generateSecretKey();
+
+            $info_insert["member_position_id"]    = $request->career_id;
+            $info_insert["registration_stage_id"] = 1;
+            $info_insert["user_id"] = $member_id;
+            $info_insert["google2fa_secret_key"] = $secret_key;
+
+
+            $other_info = Tbl_other_info::insert($info_insert);
+
+            $career = Tbl_member_position::where("member_position_id", $request->career_id)->first();
+
+            $career_insert["member_id"] = $member_id;
+            $career_insert["token_release"] = $career->token_release;
+            $career_insert["initial_release_percentage"] = $career->initial_release_percentage;
+            $career_insert["commission"] = $career->commission;
+            $career_insert["after_purchase_commission"] = $career->commission;
+            $career_insert["needed_member"] = $career->needed_member;
+            $career_insert["needed_ambassador"] = $career->needed_ambassador;
+            $career_insert["needed_advisor"] = $career->needed_advisor;
+            $career_insert["needed_marketing_director"] = $career->needed_marketing_director;
+            $career_insert["needed_community_manager"] = $career->needed_community_manager;
+            $career_insert["date_created"] = Carbon::now();
+
+            $careerInsert = Tbl_position_requirements::insert($career_insert);
+            
+            $member_position_log_insert["member_position_id"]   = $request->career_id;
+            $member_position_log_insert["member_id"]            = $member_id;
+            $member_position_log_insert["created_at"]           = Carbon::now();
+            $member_position_log                                = Tbl_member_position_log::insert($member_position_log_insert);
+
+            $return["message"]  = "no-message";
+            $return["status"]   = "success";
+
+            if($request->platform == "system")
+            {
+                // $email_verification["verification_email"]     = $request->email;
+                // $email_verification["verification_user_id"]   = $member_id;
+                // $email_verification["expiration_date"]        = Carbon::now()->addHours(12);
+                // $email_verification["date_generated"]         = Carbon::Now();
+                // $email_verification["verification_code"]      = md5(Carbon::now());
+
+                // $id = Tbl_email_verification::insertGetId($email_verification);
+                // $data["email"] = Tbl_email_verification::where("verification_id",$id)->first();
+                // $data["member"] = Tbl_User::where("email",$data["email"]->verification_email)->first();
+                
+                // Mails::send_register_verification($data);
+                $kyc_insert["user_id"]                  = $member_id;
+                $kyc_insert["primary_id"]               = $request->primary_id;
+                $kyc_insert["secondary_id_1"]           = $request->secondary_id_1;
+                $kyc_insert["secondary_id_2"]           = $request->secondary_id_2;
+                $kyc_insert["primary_id1"]              = $request->primary_id1;
+                $kyc_insert["secondary_id1"]            = $request->secondary_id1;
+                $kyc_insert["secondary_id2"]            = $request->secondary_id2;
+                $kyc_insert["selfie_verification"]      = $request->selfie_verification;
+                User::submit_kyc_proof($kyc_insert);
+                User::send_email_verification_link($request->email, $member_id);
+            }
+        }
+
+        return json_encode($return);
+    }
+
     
 }

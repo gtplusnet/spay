@@ -644,6 +644,7 @@ class ApiController extends Controller
                 $insert["nationality"]                  = $request->nationality;
                 $insert["address_line1"]                = $request->address_line1;
                 $insert["address_line2"]                = $request->address_line2;
+                $insert["first_time_login"]             = 0;
             }
 
             $insert["facebook_id"]          = $request->id;

@@ -1,3 +1,6 @@
+@import '../../../assets/scss/app';
+@import "../../../assets/spay_assets/scss/custom";
+
 .validating
 {
 	color: rgba(0,0,0,0.3);
@@ -25,4 +28,20 @@
 	background: rgba(10,255,50,0.3);
 	color: #333;
 	font-size: 13px;
+}
+
+.spay-login-button
+{
+	border: 1px solid $secondary-color !important;
+	background: $secondary-color !important;
+	color: #fff !important;
+	transition: 500ms;
+}
+
+.spay-register-button
+{
+	border: 1px solid $secondary-color !important;
+	background: #fff !important;
+	color: $secondary-color !important;
+	transition: 500ms;
 }

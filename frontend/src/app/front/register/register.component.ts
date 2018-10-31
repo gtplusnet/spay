@@ -175,7 +175,6 @@ export class RegisterComponent implements OnInit {
     this.secondary_id1 = this.secondary_ids[0];
     this.secondary_id2 = this.secondary_ids2[0];
     this.changeSecondary();
-    console.log(this.referral_link);
   }
 
   changeSecondary()
