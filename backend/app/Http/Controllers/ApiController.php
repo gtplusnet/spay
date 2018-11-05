@@ -1195,10 +1195,10 @@ class ApiController extends Controller
         //     $line = str_replace("\n", "", $line);
         //     dd($line);
         // });
-        dd(Hash::make('water123'));
-        $string = "eyJpdiI6IjlwUms4a09YVUxqUkFUYW94Q0ErWWc9PSIsInZhbHVlIjoiWEUxaSs2Qlg3bXBrWFdyVkRabTNFQVBMUjVFZmg0V2kxTnZTeVRWRXBKcE9VdUVsc1FEZHg5N2lcLzhvZXNwUWNkR0pPZXl4RG5JWW9Zcjhmak4xN0ZYK2ZjYmJ3RDlOXC9jRFNERks3dnBXMD0iLCJtYWMiOiI2YzdiYWFlM2M1MDViYTkwZmQxZTRhNzdkNWZjYzUyYzk4MTgxOGNkNjZlOTAyM2U2NWJjMjFlZmJmM2ZkNTNjIn0=";
+        // dd(Hash::make('water123'));
+        $string = "eyJpdiI6IjZuTDVib3lJSEpKdEo5VlJNYkt4VkE9PSIsInZhbHVlIjoieWpiTXBQckNlMGN5U1VkNDRpVFczQT09IiwibWFjIjoiMjA4OGJiOTQwMDlkOTY1ZTJjZThiMGVkOTQzNDkwODkxMGFjYjg4MTlkODM3YWE4OWU3MzhlOTYxZGM4NDM5YSJ9";
         $data = Crypt::decryptString($string);
-        dd($data);
+        dd($data, 123);
         $__btc = [];
 
         $btc = Tbl_member_address::where("coin_id", 3)->get();

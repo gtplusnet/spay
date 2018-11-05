@@ -111,7 +111,7 @@
 			<tr *ngFor="let data of _table | paginate: { itemsPerPage:15, currentPage: page }">
 				<td>{{ data.member_log_id }}</td>
 				<td>{{ data.first_name }} {{ data.last_name }}</td>
-				<td>{{ data.log_amount | number:'1.2-8' }} LOKAL</td>
+				<td>{{ data.log_amount | number:'1.2-8' }} XS</td>
 				<td>{{ data.log_message }}</td>
 				<td>{{ data.log_method }}</td>
 				<td>
