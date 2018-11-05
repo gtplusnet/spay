@@ -129,12 +129,12 @@
 				<td>{{ data.first_name }} {{ data.last_name }}</td>
 				<td>{{ data.exchange_rate | number:'1.2-8' }}</td>
 				<td>
-					{{ data.amount_requested }} SPAY
+					{{ data.amount_requested }} XS
 					<small class="d-block">({{ (data.amount_requested*data.exchange_rate) - (data.amount_requested * (data.exchange_rate*(data.sale_stage_discount/100))) | number:'1.2-8'  }} ETH)</small>
 				</td>
 				<td *ngIf="data.log_status != 'accepted'">No data</td>
 				<td *ngIf="data.log_status == 'accepted'">
-					{{ data.log_amount | number:'1.2-8' }} SPAY
+					{{ data.log_amount | number:'1.2-8' }} XS
 					<small class="d-block">({{ data.amount_paid | number:'1.2-8'  }} ETH)</small>
 				</td>
 				<td>
@@ -200,7 +200,7 @@
 				<div class=" col-lg-6 col-xs-12">
 					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.first_name }} {{ data_focus.last_name }}</h4>
 					<small class="font-weight-bold mb-5">Requested By</small>  
-					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.amount_requested }} SPAY</h4>
+					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.amount_requested }} XS</h4>
 					<small class="font-weight-bold mb-5">Requested Token</small>  
 					<h4 class="mb-0 font-weight-light mt-2">{{ data_focus.log_status == 'accepted' ? data_focus.log_amount + " XS" : 'No data' }}</h4>
 					<small class="font-weight-bold mb-5">Received Token</small>  
