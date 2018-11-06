@@ -635,6 +635,7 @@ class Blockchain
         // dd($post, $response, $json_feed, $return, $balance, $amount);
         if($json_feed)
         {
+            dd($json_feed, $response);
             $return["data"] = $json_feed;
             $return["status"]    = "success";
             $return["status_message"]    = "Bitcoin has been sent";
