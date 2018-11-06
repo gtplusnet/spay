@@ -220,7 +220,7 @@ class Member_log
         return $member["list"];
     }
 
-    public static function transferToken($params = null)
+    public static function transferToken($params = null, $enable_commission = false)
     {
         if(isset($params))
         {
@@ -237,13 +237,21 @@ class Member_log
             $insert["log_method"]          = "manual transfer";
             $insert["ip_address"]          = $_SERVER['REMOTE_ADDR'];
 
-            $data                          = Tbl_member_log::insert($insert);
+            $member_log_id                 = Tbl_member_log::insertGetId($insert);
             $member["info"]                = Self::transferTokenInfo($insert["member_address_id"]);
             $member["log_amount"]          = $insert["log_amount"];
             $member["remarks"]             = $insert["log_message"];
+            
+            $mem = Tbl_member_address::where("member_address_id", $params["address_id"])->first();
+
+            if($enable_commission)
+            {
+                Unilevel::distribute($mem->member_id, $params["amount"], $member_log_id, "Manually Transferred");
+            }
 
             Mails::send_transfer_token($member);
-            if($data)
+
+            if($member_log_id)
             {
                 $return = "success";
             }

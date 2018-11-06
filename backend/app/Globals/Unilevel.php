@@ -12,6 +12,7 @@ class Unilevel
     {
         $child_tree       = Tbl_tree_sponsor::where("sponsor_child_id",$id)->get();
         $child_tree_count = Tbl_tree_sponsor::where("sponsor_child_id",$id)->count();
+        // dd($id, $amount, $log_id, $type, $child_tree, $child_tree_count);
 
         if($child_tree_count != 0)
         {

@@ -610,7 +610,8 @@ class AdminApiController extends Controller
         }
         else
         {
-             $data["status"] = Member_log::transferToken(request()->all());
+            $commission = $request->enabled_commission;
+            $data["status"] = Member_log::transferToken(request()->all(), $commission);
         }   
 
         return json_encode($data);

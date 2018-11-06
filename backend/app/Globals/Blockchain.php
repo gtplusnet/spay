@@ -343,7 +343,7 @@ class Blockchain
                     $member_info = Tbl_other_info::where("user_id", $member_id)->update(["first_buy"=>1]);
                 }
 
-                // Mails::order_accepted($accepted);
+                Mails::order_accepted($accepted);
             }
         }
         Wallet::recomputeWallet($btc_ma_id);

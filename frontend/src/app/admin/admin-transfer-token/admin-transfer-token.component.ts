@@ -29,6 +29,7 @@ export class AdminTransferTokenComponent implements OnInit {
   details                      : any;
   error_message   : any;
   alert_msg : boolean;
+  enabled_commission : boolean = true;
   constructor(public rest: MemberInfoService, private http: HttpClient, private modalService: NgbModal) {  }
 
   ngOnInit() 
@@ -89,6 +90,7 @@ export class AdminTransferTokenComponent implements OnInit {
       _param["amount"] = this.amount_to_send;
       _param["remarks"] = this.remarks;
       _param["address_id"] = address_id;
+      _param["enabled_commission"] = this.enabled_commission;
   
       this.http.post(this.transfer_token_url, _param).subscribe(response=>
       {
