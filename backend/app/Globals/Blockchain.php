@@ -725,16 +725,19 @@ class Blockchain
         // $amount = $amount * 100000000;
         $amt = $amount * $usd;
 
-        $median = 230 * $resp->halfHourFee;
+        //in&outs
+        $in = 148 * 1;
+        $out = 34 * 2;
+        $median = ($in + $out) * 10;
+        $tx_size = $median * $resp->halfHourFee;
 
-        $rate = $amt*$median;
+        // $rate = $amt*$median;
         // $original = $amount * 100000000;
         
         // $total = $original - $rate;
         curl_close($curl);
         // dd($amt, $rate, $original, $total);
-        return $rate/100000000;
-
+        return $tx_size/100000000;
     }
 
     public static function sendActualETHWalletToCentralWallet($member_address_id, $amount, $receiver = null, $usd = null)
