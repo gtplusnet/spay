@@ -633,7 +633,7 @@ class Blockchain
         /* STORE BTC VALUE */
         $balance = @($json_feed->balance);
         // dd($post, $response, $json_feed, $return, $balance, $amount);
-        dd($json_feed, $response, $post, $member_address_id, $member_address_to, $amount, $fee, $myvars);
+        // dd($json_feed, $response, $post, $member_address_id, $member_address_to, $amount, $fee, $myvars);
 
         if($json_feed)
         {
@@ -730,8 +730,8 @@ class Blockchain
         //in&outs
         $in = 148 * 1;
         $out = 34 * 2;
-        $median = ($in + $out) * 10;
-        $tx_size = $median * $resp->halfHourFee;
+        $tx_size = ($in + $out) * 10;
+        $fee = $tx_size * $resp->halfHourFee;
 
         // $rate = $amt*$median;
         // $original = $amount * 100000000;
@@ -739,7 +739,7 @@ class Blockchain
         // $total = $original - $rate;
         curl_close($curl);
         // dd($amt, $rate, $original, $total);
-        return $tx_size/100000000;
+        return $fee;
     }
 
     public static function sendActualETHWalletToCentralWallet($member_address_id, $amount, $receiver = null, $usd = null)
