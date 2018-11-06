@@ -730,7 +730,7 @@ class Blockchain
         //in&outs
         $in = 148 * 1;
         $out = 34 * 2;
-        $tx_size = ($in + $out) * 10;
+        $tx_size = $in + $out + 10;
         $fee = $tx_size * $resp->halfHourFee;
 
         // $rate = $amt*$median;
