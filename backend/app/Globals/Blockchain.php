@@ -282,6 +282,8 @@ class Blockchain
                 $update_transaction['log_time']             = Carbon::now('Asia/Manila');
                 $update_transaction['log_status']           = 'accepted';
                 Tbl_member_log::where('member_log_id', $transaction['member_log_id'])->update($update_transaction);
+                Unilevel::distribute($member_id,$token_addition,$transaction['member_log_id'], "Bitcoin");
+
 
                 // compute sale stage bonus
                 if($sale_stage_id)

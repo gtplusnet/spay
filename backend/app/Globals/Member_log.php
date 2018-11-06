@@ -56,7 +56,6 @@ class Member_log
 
         $id = Tbl_member_log::insertGetId($insert);
 
-        Unilevel::distribute($member_id,$request["payment_coin"],$id, ucwords($coin));
 
         return $id;
     }
