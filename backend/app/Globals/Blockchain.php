@@ -633,9 +633,10 @@ class Blockchain
         /* STORE BTC VALUE */
         $balance = @($json_feed->balance);
         // dd($post, $response, $json_feed, $return, $balance, $amount);
+        dd($json_feed, $response, $post, $member_address_id, $member_address_to, $amount, $fee, $myvars);
+
         if($json_feed)
         {
-            dd($json_feed, $response);
             $return["data"] = $json_feed;
             $return["status"]    = "success";
             $return["status_message"]    = "Bitcoin has been sent";
