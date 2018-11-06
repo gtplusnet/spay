@@ -633,7 +633,7 @@ class Blockchain
         /* STORE BTC VALUE */
         $balance = @($json_feed->balance);
         // dd($post, $response, $json_feed, $return, $balance, $amount);
-        dd($json_feed, $response, $post, $member_address_id, $member_address_to, $amount, $fee, $myvars);
+        // dd($json_feed, $response, $post, $member_address_id, $member_address_to, $amount, $fee, $myvars);
 
         if($json_feed)
         {
