@@ -284,7 +284,6 @@ class Blockchain
                 Tbl_member_log::where('member_log_id', $transaction['member_log_id'])->update($update_transaction);
                 Unilevel::distribute($member_id,$token_addition,$transaction['member_log_id'], "Bitcoin");
 
-
                 // compute sale stage bonus
                 if($sale_stage_id)
                 {
@@ -344,7 +343,7 @@ class Blockchain
                     $member_info = Tbl_other_info::where("user_id", $member_id)->update(["first_buy"=>1]);
                 }
 
-                Mails::order_accepted($accepted);
+                // Mails::order_accepted($accepted);
             }
         }
         Wallet::recomputeWallet($btc_ma_id);
@@ -405,6 +404,8 @@ class Blockchain
                 $update_transaction['log_time']             = Carbon::now('Asia/Manila');
                 $update_transaction['log_status']           = 'accepted';
                 Tbl_member_log::where('member_log_id', $transaction['member_log_id'])->update($update_transaction);
+                Unilevel::distribute($member_id,$token_addition,$transaction['member_log_id'], "Ethereum");
+
 
                 // compute sale stage bonus
                 if($sale_stage_id)
@@ -539,7 +540,7 @@ class Blockchain
             $insert_referral_bonus["log_type"]           = "transfer";
             $insert_referral_bonus["log_mode"]           = "referral bonus";
             $insert_referral_bonus["log_method"]         = $payment_type. " - Sponsor Bonus";
-            $insert_referral_bonus["log_message"]        = "Sponsor Bonus Token from ".$payment_type." Transaction #".$member_log_id;
+            $insert_referral_bonus["log_message"]        = "Ambassador Bonus Token from ".$payment_type." Transaction #".$member_log_id;
             $insert_referral_bonus["log_time"]           = Carbon::now('Asia/Manila');
             $insert_referral_bonus["log_transaction_fee"] = 0;
 
