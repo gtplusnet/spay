@@ -220,7 +220,14 @@ export class RegisterComponent implements OnInit {
     params.platform         = platform;
     // params.referral_link    = this.referral_link;
     params.career_id        = this.career;
-    params.sale_stage_id    = this.rest._stages.sale_stage_id;
+    if (this.rest._stages)
+    {
+      params.sale_stage_id    = this.rest._stages.sale_stage_id;
+    }
+    else
+    {
+      params.sale_stage_id    = null;
+    }
 
     this.http.post(this.register_url, params).subscribe(
       data =>
