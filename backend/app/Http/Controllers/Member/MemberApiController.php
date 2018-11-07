@@ -317,7 +317,6 @@ class MemberApiController extends Controller
 
     public function record_transaction(Request $request)
     {
-        // dd($request);
         if($request->token_amount > 0)
         {
             $member_id                          = $request->member_id;
@@ -331,6 +330,7 @@ class MemberApiController extends Controller
             $cash_in_proof_img                  = $request->cash_in_proof_img;
             $cash_in_proof_tx                   = $request->cash_in_proof_tx;
             $log                                = "Buy <b>". $request->token_amount ." AHM Tokens</b> via <b>" . ucfirst($request->payment_method) . ".</b>";
+            
             $member_log_id                      = Wallet::recordTransaction($member_id, $coin_id, $sale_stage_id, $conversion_rate, $amount, $token_amount, $log_method, $log, "pending" ,$cash_in_method, $cash_in_proof_img, $cash_in_proof_tx);        
 
             $return["type"] = "success";

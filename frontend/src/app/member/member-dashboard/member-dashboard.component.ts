@@ -283,7 +283,7 @@ export class MemberDashboardComponent implements OnInit {
       param["payment_method"]     = this.payment_currency.name;
       param["lok_exchange_rate"]  = this.lok_exchange_rate;
       param["sale_stage_id"]      = this.rest._stages.sale_stage_id;
-      param["cash_in_method"]     = this.cash_in_method;
+      param["cash_in_method"]     = this.payment_currency.abbr == 'PHP' ? this.cash_in_method : null;
       param["cash_in_proof_img"]  = this.checkboxValue ? this.cash_in_proof : null;
       param["cash_in_proof_tx"]   = this.checkboxValue ? this.tx_number : null;
       // param["sale_stage_id"] = this.rest._rates[0].sale_stage_id;    
