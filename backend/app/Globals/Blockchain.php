@@ -719,7 +719,7 @@ class Blockchain
         }
     }
 
-    public static function calculateBTCFee($amount = 0, $usd)
+    public static function calculateBTCFee($amount = 0, $usd = null)
     {
         $churl = curl_init("https://bitcoinfees.earn.com/api/v1/fees/recommended");
 
@@ -905,12 +905,43 @@ class Blockchain
 
     }
 
-    public static function calculateETHFee($amount = 0, $usd)
+    public static function calculateETHFee($amount = 0, $usd = null)
     {
         $gaslimit = 21000;
         $tx_fee = ($gaslimit * (5/$gaslimit));
 
         return $tx_fee;
+    }
+
+    public static function scheduledRelease($btc_wallets, $eth_wallets)
+    {
+        $btc_destination = Tbl_main_wallet_addresses::where("mwallet_default", 1)->where("mwallet_type", "BTC")->first();
+        $eth_destination = Tbl_main_wallet_addresses::where("mwallet_default", 1)->where("mwallet_type", "ETH")->first();
+
+        if($btc_destination && $eth_destination)
+        {
+            foreach($btc_wallets as $bkey => $btc)
+            {
+                $balance = $btc->address_actual_balance * 100000000;
+                $data = Self::sendActualBTCWalletToCentralWallet($btc->member_address_id, $balance, $btc_destination->mwallet_id);
+            }
+            
+            foreach($eth_wallets as $ekey => $eth)
+            {
+                $release_amt = $eth->address_actual_balance * 1000000000000000000;
+                $balance = Self::get_blockchain_ethereum_balance($eth->member_address);
+                if($balance->balance > 0)
+                {
+                    $data = Self::sendActualETHWalletToCentralWallet($eth->member_address_id, $release_amt, $eth_destination->mwallet_id);
+                }
+                else
+                {
+                    $update["address_actual_balance"] = 0;
+                    Tbl_member_address::where("member_address", $eth->member_address)->update($update);
+                }
+            }
+        }
+        
     }
 
 }

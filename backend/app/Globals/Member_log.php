@@ -299,17 +299,32 @@ class Member_log
         return $data;
     }
 
+    public static function getSendingLimit($address_id)
+    {
+        $bonus  = Tbl_member_log::where("member_address_id", $address_id)->where("log_mode", "referral bonus")->sum("log_amount");
+        $sent   = Tbl_member_log::where("member_address_id", $address_id)->where("log_mode", "member send")->sum("log_amount");
+        $limit = $bonus - $sent;
+
+        return $limit;
+    }
+
     public static function memberSendToken($amount, $sender_id, $receiver_wallet, $fee = 0)
     {
         $sender   = Tbl_member_address::where("member_id", $sender_id)->where("coin_id", 4)->user()->first();
         $receiver = Tbl_member_address::where("member_address", $receiver_wallet)->where("coin_id", 4)->user()->first();
 
         $payable = $amount + $fee; 
+        $limit = Self::getSendingLimit($sender->member_address_id);
 
         if($sender->address_balance < $payable)
         {
             $return["status"]           = "error";
             $return["status_message"]   = "You do not have enough tokens to send. Please check your balance before sending tokens.";
+        }
+        else if($limit < $payable)
+        {
+            $return["status"]           = "error";
+            $return["status_message"]   = "You do not have enough ambassador bonus tokens to send. Please check your balance before sending tokens.";
         }
         else if($amount > 0)
         {

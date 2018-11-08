@@ -130,6 +130,14 @@
 					</small>
 				</div>
 
+				<!-- note -->
+				<div class="col-md-12 mb-1" *ngIf="receiver_data">
+					<div class="alert alert-warning p-1 text-center">
+						<small class="d-block">Note: You can only send tokens that you earned from Ambassador Bonus.</small>
+						<small class="d-block"><span class="font-weight-bold">Available Ambassador Bonus Token: </span> {{ receiver_data.sending_limit }} XS</small>
+					</div>
+				</div>
+
 				<div class="col-md-12 mb-2" *ngIf="receiver_data">
 						<button class="btn btn-sm btn-outline-secondary pull-right" type="button" (click)="sendTokens()" disabled="{{loading ? 'disabled' : ''}}"><i class="fas fa-location-arrow mr-2"></i> Send Tokens</button>
 				</div>

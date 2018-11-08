@@ -107,9 +107,10 @@
 			      <h2 class="mb-0 font-weight-bold mr-2">{{ w_balance.overall | number : '1.2-8'}} </h2>
 			      <img src="/assets/spay_assets/img/spay-coin.png" class="img-fluid mini-coin" width="30" height="30" alt="">
 			    </div>
-			    <h4>Total Tokens</h4>
+				<h4>Total Tokens</h4>
+				<a href="javascript:void(0)" class="p-2 my-2 text-primary" (click)="open(token_summary)">View Summary</a>
 			    <hr class="my-0">
-			    <div class="row">
+			    <!-- <div class="row">
 			    	<div class="col-md-4 col-xs-12 text-center">
 			    		<div class="media-body mx-2 d-flex flex-row align-items-center justify-content-center">
 					      <h4 class="mb-0 font-weight-bold mr-1">{{ w_balance.affiliated | number : '1.2-8'}} </h4>
@@ -131,7 +132,7 @@
 					    </div>
 					    <h6>Manually Transferred</h6>
 			    	</div>
-			    </div>
+			    </div> -->
 			</div>
 		</div>
 	</div>
@@ -634,4 +635,57 @@
 	</div>
 </ng-template>
 
+<!-- token_summary Pop up -->
+<ng-template #token_summary let-c="close" let-d="dismiss">
+		<div class="token_summary">
+			<div class="modal-header">
+				<h5 class="modal-title"><i class="fas fa-wallet mr-2"></i>Token Summary</h5>
+			</div>
+			<div class="modal-body color-lokal-x">
+				<div class="row">
+					<div class="col-md-6 col-xs-6">
+						<h6>Bought Tokens</h6>
+					</div>
+					<div class="col-md-6 col-xs-6 text-right"><h6 class="green bold-text">+ {{ w_balance.bought | number : '1.2-8' }} XS</h6></div>
+
+					<div class="col-md-6 col-xs-6">
+						<h6>Purchase Bonus</h6>
+					</div>
+					<div class="col-md-6 col-xs-6 text-right"><h6 class="green bold-text">+ {{ w_balance.purchased | number : '1.2-8' }} XS</h6></div>
+
+					<div class="col-md-6 col-xs-6">
+						<h6>Ambassador Bonus</h6>
+					</div>
+					<div class="col-md-6 col-xs-6 text-right"><h6 class="green bold-text">+ {{ w_balance.affiliated | number : '1.2-8' }} XS</h6></div>
+
+					<div class="col-md-6 col-xs-6">
+						<h6>Manually Transferred</h6>
+					</div>
+					<div class="col-md-6 col-xs-6 text-right"><h6 class="green bold-text">+ {{ w_balance.manual | number : '1.2-8' }} XS</h6></div>
+
+					<div class="col-md-6 col-xs-6">
+						<h6>Received from other members</h6>
+					</div>
+					<div class="col-md-6 col-xs-6 text-right"><h6 class="green bold-text">+ {{ w_balance.received | number : '1.2-8' }} XS</h6></div>
+
+					<div class="col-md-6 col-xs-6">
+						<h6>Sent to other members</h6>
+					</div>
+					<div class="col-md-6 col-xs-6 text-right"><h6 class="red bold-text">- {{ w_balance.sent | number : '1.2-8' }} XS</h6></div>
+
+					<div class="col-md-12">
+						<hr class="m-0 py-1 border-dark text-dark">
+					</div>
+
+					<div class="col-md-6 col-xs-6">
+						<h5>Total XS Tokens</h5>
+					</div>
+					<div class="col-md-6 col-xs-6 text-right"><h5 class="text-primary bold-text">{{ w_balance.overall | number : '1.2-8' }} XS</h5></div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-outline-dark pull-right" (click)="d('Cross click')">Close</button>
+			</div>
+		</div>
+	</ng-template>
 

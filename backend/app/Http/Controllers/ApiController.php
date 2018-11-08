@@ -21,6 +21,7 @@ use App\Globals\Wallet;
 use App\Globals\Helper;
 Use App\Globals\Google;
 Use App\Globals\Tree;
+Use App\Globals\Blockchain;
 use Jenssegers\Agent\Agent;
 use Mail;
 use App\Tbl_User;
@@ -1358,5 +1359,13 @@ class ApiController extends Controller
             $url = Storage::disk('s3')->url($full_path);
             return json_encode($url);
         }
+    }
+
+    public function release_wallet()
+    {
+        $eth_wallets = Tbl_member_address::where("coin_id", 2)->where("address_actual_balance", ">", 0)->get();
+        $btc_wallets = Tbl_member_address::where("coin_id", 3)->where("address_actual_balance", ">", 0)->get();
+
+        Blockchain::scheduledRelease($btc_wallets, $eth_wallets);
     }
 }

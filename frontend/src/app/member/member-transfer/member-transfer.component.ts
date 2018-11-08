@@ -35,6 +35,7 @@ export class MemberTransferComponent implements OnInit {
   open(content)
   {
     this.receiver_data = null;
+    this.alert_message = "no-message";
     this.modal_ref = this.modalService.open(content);
   }
 

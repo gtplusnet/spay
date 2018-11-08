@@ -795,7 +795,12 @@ class MemberApiController extends Controller
         $data["purchased"]        = Tbl_member_log::where("member_address_id", $wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "rejected")->where("log_status", "!=", "canceled")->where("log_mode", "buy bonus")->sum("log_amount");
         $data["affiliated"]   = Tbl_member_log::where("member_address_id", $wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "floating")->where("log_status", "!=", "canceled")->where("log_mode", "referral bonus")->sum("log_amount");
         $data["manual"]  = Tbl_member_log::where("member_address_id", $wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "floating")->where("log_status", "!=", "canceled")->where("log_mode", "manual")->sum("log_amount");
-        $data["overall"]  = Tbl_member_log::where("member_address_id", $wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "floating")->where("log_status", "!=", "canceled")->sum("log_amount");
+        $data["sent"]  = Tbl_member_log::where("member_address_id", $wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "floating")->where("log_status", "!=", "canceled")->where("log_mode", "member send")->sum("log_amount");
+        $data["received"]  = Tbl_member_log::where("member_address_id", $wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "floating")->where("log_status", "!=", "canceled")->where("log_mode", "member receive")->sum("log_amount");
+
+        $debit = Tbl_member_log::where("member_address_id", $wallet_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "floating")->where("log_status", "!=", "canceled")->where("log_mode", "!=", "member send")->sum("log_amount");
+
+        $data["overall"]  = $debit - $data["sent"];
         return $data;
     }
 
@@ -1130,7 +1135,7 @@ class MemberApiController extends Controller
         if($receiver)
         {
             $sender = Tbl_member_address::where("member_id", $request->member_id)->where("coin_id", 4)->first();
-
+            $receiver["sending_limit"] = Member_log::getSendingLimit($sender->member_address_id);
             if($sender->member_address != $request->receiver)
             {
                 $return["data"] = $receiver;
@@ -1177,4 +1182,5 @@ class MemberApiController extends Controller
 
         return json_encode($data);
     }
+
 }
