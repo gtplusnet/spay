@@ -275,6 +275,8 @@ class Blockchain
                     $token_addition = $btc_addition / $transaction['exchange_rate'];
                 }
 
+                $token_addition = Wallet::formatCrypto($token_addition, 8);
+
                 // update transaction
                 $update_transaction['log_amount']           = $token_addition;
                 $update_transaction['log_net_amount']       = $token_addition;
@@ -397,6 +399,8 @@ class Blockchain
                     $token_addition = $eth_addition / $transaction['exchange_rate'];
                 }
 
+                $token_addition = Wallet::formatCrypto($token_addition, 8);
+
                 // update transaction
                 $update_transaction['log_amount']           = $token_addition;
                 $update_transaction['log_net_amount']       = $token_addition;
@@ -477,6 +481,8 @@ class Blockchain
     {
         $buy_bonus_token = $lok_amount * $bonus_percentage;
 
+        $buy_bonus_token = Wallet::formatCrypto($buy_bonus_token, 8);
+
         $insert_buy_bonus["log_amount"]         = $buy_bonus_token;
         $insert_buy_bonus["log_net_amount"]     = $buy_bonus_token;
         $insert_buy_bonus["log_status"]         = "accepted";
@@ -494,6 +500,8 @@ class Blockchain
     public static function recordRoleBonus($lok_amount, $bonus_percentage, $lok_address_id, $payment_type)
     {
         $role_bonus_token = $lok_amount * $bonus_percentage;
+
+        $role_bonus_token = Wallet::formatCrypto($role_bonus_token, 8);
 
         $insert_role_bonus["log_amount"]         = $role_bonus_token;
         $insert_role_bonus["log_net_amount"]     = $role_bonus_token;
@@ -533,6 +541,8 @@ class Blockchain
             // $referrer_bonus_percentage = $referrer_info->first_buy ? $after_purchase : $before_purchase;
             // $referral_bonus_token = $lok_amount * $referrer_bonus_percentage;
             // dd($referrer, $after_purchase, $before_purchase, $referrer_bonus_percentage, $referral_bonus_token);
+            $lok_amount = Wallet::formatCrypto($lok_amount, 8);
+
             $insert_referral_bonus["log_amount"]         = $lok_amount;
             $insert_referral_bonus["log_net_amount"]     = $lok_amount;
             $insert_referral_bonus["log_status"]         = "automatic";

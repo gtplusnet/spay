@@ -79,6 +79,9 @@ Route::post('/api/member/first_update_information', 'Member\MemberApiController@
 Route::post('/api/member/check_pending_order_method', 'Member\MemberApiController@check_pending_order_method');
 Route::post('/api/member/get_buy_bonus', 'Member\MemberApiController@get_buy_bonus');
 Route::post('/api/member/get_recent_unilevel_bonuses', 'Member\MemberApiController@get_recent_unilevel_bonuses');
+Route::post('/api/member/check_member_transfer', 'Member\MemberApiController@check_member_transfer');
+Route::post('/api/member/record_member_transfer', 'Member\MemberApiController@record_member_transfer');
+Route::post('/api/member/get_transfer_logs', 'Member\MemberApiController@get_transfer_logs');
 
 //kyc member
 Route::post('/api/member/upload_file', 'Member\MemberApiController@upload_file');

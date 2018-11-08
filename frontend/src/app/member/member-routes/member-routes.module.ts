@@ -9,6 +9,7 @@ import { MemberBtcTransactionsComponent } from '../member-btc-transactions/membe
 import { MemberEthTransactionsComponent } from '../member-eth-transactions/member-eth-transactions.component';
 import { MemberAccountSettingsComponent } from '../member-account-settings/member-account-settings.component';
 import { MemberManualTransfersComponent } from '../member-manual-transfers/member-manual-transfers.component';
+import { MemberTransferComponent } from '../member-transfer/member-transfer.component';
 const routes: Routes = 
 [
   { path: '', component: MemberLayoutComponent, 
@@ -21,7 +22,8 @@ const routes: Routes =
 	  { path: 'member/btc-transactions', component: MemberBtcTransactionsComponent },
 	  { path: 'member/eth-transactions', component: MemberEthTransactionsComponent },
 	  { path: 'member/account-settings', component: MemberAccountSettingsComponent },
-	  { path: 'member/manual-transfer', component: MemberManualTransfersComponent }
+		{ path: 'member/manual-transfer', component: MemberManualTransfersComponent },
+	  { path: 'member/member-transfer', component: MemberTransferComponent }
   ]},
 ];
 

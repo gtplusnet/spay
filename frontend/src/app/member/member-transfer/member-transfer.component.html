@@ -1,0 +1,165 @@
+<h4 class="font-weight-light page-title">
+	<i class="fas fa-exchange-alt mr-2"></i>Member Transfer Transaction
+	<em><small></small></em>
+</h4>
+<div class="main-container">
+  <div class="row mb-3">
+    <div class="col-lg-3 col-xs-12">
+      <small class="d-block font-weight-bold color-lokal">
+        Transaction Date<em class="font-weight-light"> -From</em>
+      </small>
+      <input class="form-control form-control-sm input-lokal mb-1" type="date" [(ngModel)]="request.date_from" (change)="getTransferLogs()">
+    </div>
+    <div class="col-lg-3 col-xs-12">
+      <small class="d-block font-weight-bold color-lokal">
+          Transaction Date<em class="font-weight-light"> -To</em>
+      </small>
+    	<input class="form-control form-control-sm input-lokal mb-1" type="date" [(ngModel)]="request.date_to" (change)="getTransferLogs()">
+		</div>
+		<div class="col-lg-3 col-xs-12">
+			<button class="btn btn-block button-lokal mb-2 mt-3" (click)="open(my_wallet)">
+					<i class="fas fa-qrcode mr-2"></i>My Wallet
+			</button>
+		</div>
+		<div class="col-lg-3 col-xs-12">
+			<button class="btn btn-block button-lokal mb-2 mt-3" (click)="open(send_token)">
+					<i class="fas fa-share mr-2"></i>Transfer Token
+			</button>
+		</div>
+  </div>
+	<div class="table-responsive px-0"  style="min-height: 300px;">
+		<table class="table member-table admin-db table-hover px-2">
+				<caption class="bg-light m-0 p-0 py-2 px-1" *ngIf="!table_loader">
+					<pagination-controls class="my-pagination" (pageChange)="page = $event"></pagination-controls>
+				</caption>
+			<thead>
+				<tr>
+					<th>#</th>
+					<th class="text-center">Transaction Log</th>
+					<th class="text-right">Amount</th>
+					<th class="text-center">Type</th>
+					<th class="text-center">Date</th>
+				</tr>
+			</thead>
+			<tbody *ngIf="tbl_loading">
+				<tr>
+					<td colspan="8">
+						<div class="row" >
+							<div class="col-lg-12 col-xs-12">
+								<div class="load-table py-4 d-flex flex-column justify-content-center align-items-center">
+									<div class="circle"></div>
+									<small class="text">LOADING TABLE...</small>
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+			<tbody *ngIf="!tbl_loading">
+				<tr *ngIf="table && table.length == 0">
+					<td colspan="8">
+						<div class="text-center">
+							<small class="font-weight-light">No data found.</small>
+						</div>
+					</td>
+				</tr>	
+				 <tr *ngFor="let data of table | paginate: { itemsPerPage:15, currentPage: page }; let i = index"> 
+					<td>{{ table.length - i }}</td>
+					<td class="text-center">
+						<div [innerHTML]="data.log_message"></div>
+					</td>
+					<td class="text-right">
+						<span class="{{ data.log_mode == 'member send' ? 'text-danger' : 'text-success' }}">
+							{{ data.log_mode == 'member send' ? '-' : '+' }} {{ data.log_amount }} XS
+						</span>
+					</td>
+					<td class="text-center">{{ data.log_method == 'Member Send' ? 'Sent Token' : 'Received Token' }}</td>
+					<td class="text-center">{{ rest.formatDate(data.log_time) }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<ng-template #send_token let-c="close" let-d="dismiss">
+	<div class="send_token">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-share mr-2"></i> Transfer Token</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left color-lokal-x">
+			<div class="row">
+				<div class="col-md-12 mb-2">
+					<small class="d-block font-weight-bold">
+						Enter Recipient Wallet Address
+					</small>
+					<div class="input-group input-group-sm">
+						<input [(ngModel)]="recipient_address" [disabled]="loading" type="text" class="form-control input-lokal" placeholder="Recipient's wallet address" (change)="validateCheckRequest()">
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" type="button" [disabled]="loading" (click)="validateCheckRequest()">Check Address</button>
+						</div>
+					</div>
+				</div>
+				
+				<!-- checking -->
+				<div class="col-md-12 mb-2 text-center" *ngIf="loading">
+					<i class="fas fa-spinner button-loader mr-1"></i> {{ loading_msg }}
+				</div>
+
+				<!-- error -->
+				<div class="col-md-12 mb-2" *ngIf="alert_message != 'no-message'">
+					<div class="alert {{ alert_status == 'success' ? 'alert-success' : 'alert-danger'}} p-1 text-center">
+						<small>{{ alert_message }}</small>
+					</div>
+				</div>
+
+				<!-- data -->
+				<div class="col-md-12 mb-2" *ngIf="receiver_data">
+					<small class="d-block mb-1">
+						<i class="fas fa-user mr-2"></i>	 
+						<strong>Recipient: </strong>
+						<span class="d-block">{{ receiver_data.first_name }} {{ receiver_data.last_name }}</span>
+						<!-- ({{ receiver_data.email }}) -->
+					</small>
+					<small class="d-block mb-1">
+							<i class="fas fa-coins mr-2"></i>	 
+							<strong>Amount: </strong>
+							<input type="text" [(ngModel)]="token_amount" [disabled]="loading" class="form-control form-control-sm input-lokal d-inline" placeholder="0">
+					</small>
+				</div>
+
+				<div class="col-md-12 mb-2" *ngIf="receiver_data">
+						<button class="btn btn-sm btn-outline-secondary pull-right" type="button" (click)="sendTokens()" disabled="{{loading ? 'disabled' : ''}}"><i class="fas fa-location-arrow mr-2"></i> Send Tokens</button>
+				</div>
+			</div>
+		</div> 
+	</div>
+</ng-template>
+
+<ng-template #my_wallet let-c="close" let-d="dismiss">
+	<div class="my_wallet">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-qrcode mr-2"></i> My Wallet</h5>
+			<button type="button" class="close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body text-left color-lokal-x">
+			<div class="row">
+				<div class="col-md-12 mb-2">
+					<div class="input-group mb-3">
+						<input class="form-control text-center" type="text" readonly value="{{rest._wallet[4].member_address}}">
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" type="button" (click)="copyText(rest._wallet[4].member_address)"><i class="fas fa-copy"></i></button>
+						</div>
+					</div>
+					<span class="mb-3 d-flex justify-content-center align-items-center py-2">
+						<qrcode [qrdata]="rest._wallet[4].member_address" [size]="150" [level]="'M'"></qrcode>
+					</span>
+				</div>
+			</div>
+		</div> 
+	</div>
+</ng-template>

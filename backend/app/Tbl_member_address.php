@@ -45,4 +45,9 @@ class Tbl_member_address extends Model
 	{
 		$query->join('tbl_other_info', 'tbl_other_info.user_id', '=', 'tbl_member_address.member_id');
 	}
+
+	public function scopeUser($query)
+	{
+		$query->join('users', 'users.id', '=', 'tbl_member_address.member_id');
+	}
 }

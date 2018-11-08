@@ -1122,4 +1122,59 @@ class MemberApiController extends Controller
             });
         })->export('xlsx');
     }
+
+    public function check_member_transfer(Request $request)
+    {
+        $receiver = Tbl_member_address::where("member_address", $request->receiver)->where("coin_id", 4)->user()->first();
+
+        if($receiver)
+        {
+            $sender = Tbl_member_address::where("member_id", $request->member_id)->where("coin_id", 4)->first();
+
+            if($sender->member_address != $request->receiver)
+            {
+                $return["data"] = $receiver;
+                $return["status"] = "success";
+            }
+            else
+            {
+                $return["status"] = "error";
+                $return["status_message"] = "You cannot send tokens to yourself. Please re-check and try again.";
+            }
+        }
+        else
+        {
+            $return["status"] = "error";
+            $return["status_message"] = "This wallet address doesn't exist in our system. Please re-check and try again.";
+        }
+
+        return json_encode($return);
+    }
+
+    public function record_member_transfer(Request $request)
+    {
+        if($request->amount > 0)
+        {
+            $transfer = Member_log::memberSendToken($request->amount, $request->sender, $request->receiver);
+
+            $return["status"]           = $transfer["status"];
+            $return["status_message"]   = $transfer["status_message"];
+        }
+        else
+        {
+            $return["status"]           = "error";
+            $return["status_message"]   = "XS Token amount cannot be less than or equals to 0";
+        }
+
+        return json_encode($return);
+    }
+
+    public function get_transfer_logs(Request $request)
+    {
+        $sender   = Tbl_member_address::where("member_id", $request->member_id)->where("coin_id", 4)->user()->first();
+        
+        $data = Member_log::memberTransferLog($sender->member_address_id, request()->all());
+
+        return json_encode($data);
+    }
 }

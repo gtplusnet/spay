@@ -116,9 +116,16 @@ class Wallet
 		return $suffix . " " . number_format($amount, $decimal);
 	}
 
+	public static function formatCrypto($amount, $decimal = 2)
+	{
+		return number_format($amount, $decimal);
+	}
+
 	public static function recordTransaction($member_id, $coin_id, $sale_stage_id, $conversion_rate, $amount, $token_amount, $log_method = null, $log, $status = "pending")
 	{
 		$member_address = Tbl_member_address::where("member_id", $member_id)->where("coin_id", $coin_id)->first();
+
+		$token_amount = Self::formatCrypto($token_amount, 8);
 
 		$insert["member_address_id"] 		= $member_address->member_address_id;
 		$insert["log_type"] 				= "transfer";
@@ -196,8 +203,10 @@ class Wallet
 		$total_referral_bonus 	= Tbl_member_log::where("member_address_id", $member_address_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "floating")->where("log_status", "!=", "canceled")->where("log_mode", "referral bonus")->sum("log_amount");
 		$total_manual_transfer 	= Tbl_member_log::where("member_address_id", $member_address_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "floating")->where("log_status", "!=", "canceled")->where("log_mode", "manual")->sum("log_amount");
 		$total_role_bonus 		= 0; //Tbl_member_log::where("member_address_id", $member_address_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "rejected")->where("log_mode", "role bonus")->sum("log_amount");
-		
-		$wallet 			= ($total_receive - $total_send) + ($total_buy_bonus + $total_referral_bonus + $total_role_bonus) + ($total_manual_transfer);
+		$total_sent_tokens 	= Tbl_member_log::where("member_address_id", $member_address_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "floating")->where("log_status", "!=", "canceled")->where("log_mode", "member send")->sum("log_amount");
+		$total_received_tokens 	= Tbl_member_log::where("member_address_id", $member_address_id)->where("log_status", "!=", "pending")->where("log_status", "!=", "floating")->where("log_status", "!=", "canceled")->where("log_mode", "member receive")->sum("log_amount");
+
+		$wallet 			= ($total_receive - $total_send) + ($total_buy_bonus + $total_referral_bonus + $total_role_bonus) + ($total_manual_transfer + $total_received_tokens) - $total_sent_tokens;
 
 		$update["address_balance"] = $wallet;
 

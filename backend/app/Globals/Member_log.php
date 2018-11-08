@@ -11,6 +11,7 @@ use App\Globals\Coin;
 use App\Globals\CashIn;
 use App\Globals\Mails;
 use App\Globals\Unilevel;
+use App\Globals\Wallet;
 class Member_log
 {
     public static function insert($request, $member_id, $coin)
@@ -295,6 +296,75 @@ class Member_log
         $data = $data->select("tbl_member_log.*", "users.first_name", "users.last_name", "tbl_member_address.member_address", "tbl_other_info.member_position_id", "tbl_member_position.member_position_name");
         $data = $data->orderBy('log_time','ACS')->get();
         
+        return $data;
+    }
+
+    public static function memberSendToken($amount, $sender_id, $receiver_wallet, $fee = 0)
+    {
+        $sender   = Tbl_member_address::where("member_id", $sender_id)->where("coin_id", 4)->user()->first();
+        $receiver = Tbl_member_address::where("member_address", $receiver_wallet)->where("coin_id", 4)->user()->first();
+
+        $payable = $amount + $fee; 
+
+        if($sender->address_balance < $payable)
+        {
+            $return["status"]           = "error";
+            $return["status_message"]   = "You do not have enough tokens to send. Please check your balance before sending tokens.";
+        }
+        else if($amount > 0)
+        {
+            $insert["member_address_id"] 		= $sender->member_address_id;
+            $insert["log_type"] 				= "transfer";
+            $insert["log_mode"] 				= "member send";
+            $insert["log_amount"] 				= $amount;
+            $insert["log_transaction_fee"] 		= 0;
+            $insert["log_net_amount"] 			= $amount;
+            $insert["log_time"] 				= Carbon::now();
+            $insert["log_message"] 				= "Sent XS Token to <b>". $receiver->first_name . " " . $receiver->last_name . "</b>";
+            $insert["log_status"] 				= "automatic";
+            $insert["log_method"] 				= "Member Send";
+            
+            Tbl_member_log::insert($insert);
+            Wallet::recomputeWallet($sender->member_address_id);
+            $sender_name = $sender->first_name . " " . $sender->last_name;
+            Self::memberReceiveToken($amount, $receiver->member_address_id, $sender_name);
+
+            $return["status"]           = "success";
+            $return["status_message"]   = "Successfully sent ".$amount." XS Tokens";
+        }
+        else
+        {
+            $return["status"]           = "error";
+            $return["status_message"]   = "XS Token amount cannot be less than or equals to 0";
+        }
+        
+        return $return;
+    }
+
+    public static function memberReceiveToken($amount, $receiver_id, $name)
+    {
+        $insert["member_address_id"] 		= $receiver_id;
+		$insert["log_type"] 				= "transfer";
+		$insert["log_mode"] 				= "member receive";
+		$insert["log_amount"] 				= $amount;
+		$insert["log_transaction_fee"] 		= 0;
+		$insert["log_net_amount"] 			= $amount;
+		$insert["log_time"] 				= Carbon::now();
+		$insert["log_message"] 				= "Received XS Token from <b>". $name ."</b>";
+		$insert["log_status"] 				= "automatic";
+        $insert["log_method"] 				= "Member Receive";
+        Wallet::recomputeWallet($receiver_id);
+        Tbl_member_log::insert($insert);
+
+    }
+
+    public static function memberTransferLog($address_id, $filters = null)
+    {
+        $data = Tbl_member_log::where("member_address_id", $address_id)->where(function($query)
+        {
+            $query->where("log_method", "Member Send")->orWhere("log_method", "Member Receive");
+        })->orderBy("log_time", "desc")->get();
+
         return $data;
     }
     

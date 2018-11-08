@@ -85,6 +85,7 @@ import { AdminFaqsSettingsComponent } from './admin/admin-faqs-settings/admin-fa
 import { FaqComponent } from './front/faq/faq.component';
 import { LayoutComponent } from './front/layout/layout.component';
 import { AdminFilesComponent } from './admin/admin-files/admin-files.component';
+import { MemberTransferComponent } from './member/member-transfer/member-transfer.component';
 
 export function getAuthServiceConfigs() {
 
@@ -151,7 +152,8 @@ export function getAuthServiceConfigs() {
     AdminFaqsSettingsComponent,
     FaqComponent,
     LayoutComponent,
-    AdminFilesComponent
+    AdminFilesComponent,
+    MemberTransferComponent
   ],
   exports: [  ],
   imports: [
