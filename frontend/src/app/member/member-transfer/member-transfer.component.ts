@@ -23,6 +23,8 @@ export class MemberTransferComponent implements OnInit {
   request : any = {};
   table : any;
 
+  page : any;
+
   constructor(private rest : MemberInfoService, private http: HttpClient, private modalService: NgbModal) { }
 
   ngOnInit() 
