@@ -29,7 +29,7 @@
   </div>
 	<div class="table-responsive px-0"  style="min-height: 300px;">
 		<table class="table member-table admin-db table-hover px-2">
-				<caption class="bg-light m-0 p-0 py-2 px-1" *ngIf="!table_loader">
+				<caption class="bg-light m-0 p-0 py-2 px-1" *ngIf="!table_loading">
 					<pagination-controls class="my-pagination" (pageChange)="page = $event"></pagination-controls>
 				</caption>
 			<thead>
