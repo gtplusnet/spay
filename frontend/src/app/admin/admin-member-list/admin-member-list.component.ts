@@ -814,4 +814,17 @@ referralLoadTable() : void
     this.onRegister(this.system_register, 'system');  
   }
 
+  rejectUser(user)
+  {
+    this.http.post(this.rest.api_url + "/api/admin/reject_user_registration", 
+    {
+      login_token : this.rest.login_token,
+      id : user,
+    }).subscribe(response=>
+    {
+      console.log(response);
+      this.loadTable()
+    })
+  }
+
 }

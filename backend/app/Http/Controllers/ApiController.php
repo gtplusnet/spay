@@ -835,7 +835,7 @@ class ApiController extends Controller
                         {
                             $update_status = Tbl_email_verification::where("verification_id", $data->verification_id)->update(["status" => 0]);
 
-                            $update_status = Tbl_User::where("id", $data->member_id)->update(["verified_mail" => 0]);
+                            $update_status = Tbl_User::where("id", $data->member_id)->update(["verified_mail" => 1]);
 
                             $_data["message"] = "success";
                             return json_encode($_data);
@@ -966,7 +966,6 @@ class ApiController extends Controller
                     $data["member"] = Tbl_User::where('email', $email_data->verification_email)->first();
                     $data["passkey"] = $passkey;
 
-                    $update_email_verification["is_used"] = 1;
                     $update_user["verified_mail"]   = 1;
                     // $update_user["status_account"]  = $position->member_position_id == 1 ? 1 : 0;
                     if($data["member"]->password == null) // remove platform ($data["member"]->platform == system)
@@ -976,6 +975,7 @@ class ApiController extends Controller
                     }
                     Tbl_email_verification::where('verification_code', $email_data->verification_code)->update($update_email_verification);
                     Tbl_User::where('email', $email_data->verification_email)->update($update_user);
+                    $update_email_verification["is_used"] = 1;
 
                     $return["message"] = $data["member"]->password == null ? "Your email address have been activated. Check your email address for the temporary password we generated for you!" : "Your email address have been activated you can now enjoy our website!";
                     $return["status"]  = "success";

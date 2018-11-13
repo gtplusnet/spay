@@ -1233,5 +1233,23 @@ class AdminApiController extends Controller
         return json_encode($return);
     }
 
+    public function reject_user_registration(Request $request)
+    {
+        $user = Tbl_User::find($request->id);
+        $user = $user->delete();
+        
+        if($user)
+        {
+            $return["status"]           = "success";
+            $return["status_message"]   = "Successfully rejected user's application!";
+        }
+        else
+        {
+            $return["status"]           = "error";
+            $return["status_message"]   = "Something went wrong! Please try again.";
+        }
+
+        return json_encode($return);
+    } 
     
 }

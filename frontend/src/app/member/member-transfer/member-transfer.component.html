@@ -74,7 +74,7 @@
 						</span>
 					</td>
 					<td class="text-center">{{ data.log_method == 'Member Send' ? 'Sent Token' : 'Received Token' }}</td>
-					<td class="text-center">{{ rest.formatDate(data.log_time) }}</td>
+					<td class="text-center">{{ rest.formatDate(data.log_time) }} {{ rest.formatTime(data.log_time) }}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -142,7 +142,7 @@
 						<button class="btn btn-sm btn-outline-secondary pull-right" type="button" (click)="sendTokens()" disabled="{{loading ? 'disabled' : ''}}"><i class="fas fa-location-arrow mr-2"></i> Send Tokens</button>
 				</div>
 			</div>
-		</div> 
+		</div>
 	</div>
 </ng-template>
 

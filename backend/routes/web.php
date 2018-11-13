@@ -168,6 +168,7 @@ Route::post('/api/admin/get_total_crypto','Admin\AdminApiController@get_total_cr
 Route::post('/api/admin/update_user_information','Admin\AdminApiController@update_user_information');
 Route::post('/api/admin/get_release_logs','Admin\AdminApiController@get_release_logs');
 Route::post('/api/admin/get_kyc_proof','Admin\AdminApiController@get_kyc_proof');
+Route::post('/api/admin/reject_user_registration','Admin\AdminApiController@reject_user_registration');
 
 //member referral API
 Route::post('/api/member/get_referrals','Member\MemberApiController@get_referrals');

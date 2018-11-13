@@ -239,6 +239,9 @@
 					    </li>
 					    <li role="menuitem">
 					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.status_account == 0" (click)="activeDeactiveUser(data.id, 1)">Activate User</a>
+						</li>
+						<li role="menuitem">
+					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.status_account == 0" (click)="rejectUser(data.id)">Reject User</a>
 					    </li>
 					    <li role="menuitem">
 					    	<a href="javascript:void(0)" class="dropdown-item" *ngIf="data.status_account == 1" (click)="activeDeactiveUser(data.id, 0)">Deactivate User</a>
