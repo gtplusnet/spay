@@ -973,9 +973,10 @@ class ApiController extends Controller
                         $update_user["password"]        = Hash::make($passkey);
                         Mails::send_temp_pass($data);
                     }
-                    Tbl_email_verification::where('verification_code', $email_data->verification_code)->update($update_email_verification);
                     Tbl_User::where('email', $email_data->verification_email)->update($update_user);
+                    
                     $update_email_verification["is_used"] = 1;
+                    Tbl_email_verification::where('verification_code', $email_data->verification_code)->update($update_email_verification);
 
                     $return["message"] = $data["member"]->password == null ? "Your email address have been activated. Check your email address for the temporary password we generated for you!" : "Your email address have been activated you can now enjoy our website!";
                     $return["status"]  = "success";
