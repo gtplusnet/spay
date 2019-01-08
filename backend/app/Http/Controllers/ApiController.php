@@ -618,7 +618,7 @@ class ApiController extends Controller
 
         if($request->platform == "system")
         {
-            $rules["email"]                   = array("required", "email", "unique:users");
+            $rules["email"]                   = array(  );
             // $rules["captcha"]                 = array("required");
         }
 
